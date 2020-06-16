@@ -14,7 +14,7 @@ export default class MyDocument extends Document {
                         rel="stylesheet"
                         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
                     />
-                    <link rel="icon" href="/logo_header.png" />
+                    <link rel="icon" href="/images/logo_header.png" />
                 </Head>
                 <body>
                 <Main />

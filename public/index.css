@@ -9,7 +9,7 @@
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #8e1c1c;
+    background: #3d3a3a;
 }
 /* Width */
 ::-webkit-scrollbar {

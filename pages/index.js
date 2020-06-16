@@ -11,8 +11,6 @@ export default function Home() {
 
       <main>
           <NavigationBar/>
-
-          Home
       </main>
     </React.Fragment>
   )
