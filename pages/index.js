@@ -1,17 +1,28 @@
 import React from "react";
 import Head from 'next/head'
 import NavigationBar from "../components/NavigationBar";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import HomeBanner from "../components/HomeBanner";
 
-export default function Home() {
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Home | Alta Online Learning</title>
-      </Head>
+class Home extends React.Component {
+    render() {
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>Home | Alta Online Learning</title>
+                </Head>
 
-      <main>
-          <NavigationBar/>
-      </main>
-    </React.Fragment>
-  )
+                <main>
+                    <NavigationBar/>
+
+                    <HomeBanner/>
+
+                </main>
+            </React.Fragment>
+        )
+    }
 }
+
+
+export default Home;
