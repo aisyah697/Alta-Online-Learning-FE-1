@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import ScrollTop from "../utils/ScrollTop";
+import ScrollTop from "../../utils/ScrollTop";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -73,10 +73,10 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         display: 'flex',
         backgroundColor: theme.palette.secondary.secondary
-}
+    }
 }));
 
-export default function NavigationBar(props) {
+export default function NavigationBarAdmin(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -102,23 +102,23 @@ export default function NavigationBar(props) {
     };
 
     const NavBarLogo = (
-            <>
-                <Card elevation={0} className={classes.navLogo}>
-                    <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
-                </Card>
-            </>
+        <>
+            <Card elevation={0} className={classes.navLogo}>
+                <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+            </Card>
+        </>
     )
 
     const MenuBar = (
         <>
             <Typography className={classes.menu} variant="h6" noWrap>
-                Courses
+                Academic
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
-                Certification
+                Mentees
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
-                All Courses
+                Admin
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help
