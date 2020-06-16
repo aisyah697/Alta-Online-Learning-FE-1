@@ -18,7 +18,7 @@ import GTranslateIcon from "@material-ui/icons/GTranslate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 500,
+    maxWidth: 700,
     marginTop: 50,
     alignContent: "center",
     minHeight: 300,
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   loginImage: {
     background: "#000065",
     padding: 20,
+    paddingTop: "30%",
     minHeight: "100%",
   },
   button: {
@@ -54,7 +55,7 @@ export default function Home() {
   return (
     <React.Fragment>
       <Head>
-        <title>Home | Alta Online Learning</title>
+        <title>Login | Alta Online Learning</title>
       </Head>
       <main>
         <NavigationBar />
@@ -64,7 +65,7 @@ export default function Home() {
               <Grid item xs={5}>
                 <Card className={classes.loginImage}>
                   <img
-                    width="100px"
+                    width="90%"
                     src="/images/logo-alterra-academy-white.png"
                     alt="login-picture"
                   />
@@ -78,7 +79,7 @@ export default function Home() {
                     variant="h5"
                     gutterBottom
                   >
-                    Log In
+                    Sign In
                   </Typography>
                   <ThemeProvider theme={theme}>
                     <TextField
@@ -102,8 +103,10 @@ export default function Home() {
                 <CardActions>
                   <Grid
                     container
-                    justify="center"
-                    style={{ paddingBottom: "30px" }}
+                    direction="column"
+                    justify="flex-start"
+                    alignItems="center"
+                    style={{ padding: "40px 0 40px 0" }}
                   >
                     <Button
                       className={classes.button}
