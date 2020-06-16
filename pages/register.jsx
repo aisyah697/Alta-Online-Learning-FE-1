@@ -1,20 +1,14 @@
 import React from "react";
 import Head from "next/head";
 import NavigationBar from "../components/NavigationBar";
-import {
-  makeStyles,
-  ThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { orange } from "@material-ui/core/colors";
-import GTranslateIcon from "@material-ui/icons/GTranslate";
 import FormControl from "@material-ui/core/FormControl";
 import clsx from "clsx";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -26,41 +20,33 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 700,
-    marginTop: 50,
-    alignContent: "center",
-    minHeight: 300,
+    minWidth: "80%",
+    marginTop: "50px",
   },
-  margin: {
-    margin: theme.spacing(1),
-    width: "100%",
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
-  textLogin: {
-    fontWeight: "bold",
-    paddingBottom: "20px",
+  title: {
+    fontSize: 14,
   },
-  loginImage: {
-    background: "#000065",
-    padding: 20,
-    paddingTop: "30%",
-    minHeight: "100%",
+  pos: {
+    marginBottom: 12,
   },
-  button: {
-    textTransform: "none",
-    background: "mediumblue",
-    color: "white",
+  textInput: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "80%",
+      fontSize: "16px",
+    },
   },
   textField: {
-    width: "100%",
+    width: "80%",
   },
 }));
-const theme = createMuiTheme({
-  palette: {
-    secondary: orange,
-  },
-});
 
-export default function Home() {
+export default function SimpleCard() {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     amount: "",
@@ -80,50 +66,71 @@ export default function Home() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <React.Fragment>
       <Head>
-        <title>Login | Alta Online Learning</title>
+        <title>Register | Alta Online Learning</title>
       </Head>
       <main>
         <NavigationBar />
         <Grid container justify="center">
-          <Card className={classes.root} variant="outlined">
-            <Grid container>
-              <Grid item xs={5}>
-                <Card className={classes.loginImage}>
-                  <img
-                    width="90%"
-                    src="/images/logo-alterra-academy-white.png"
-                    alt="login-picture"
-                  />
-                </Card>
-              </Grid>
-              <Grid item xs={7}>
-                <CardContent>
-                  <Typography
-                    className={classes.textLogin}
-                    align="center"
-                    variant="h5"
-                    gutterBottom
+          <Card className={classes.root}>
+            <CardContent>
+              <Typography
+                style={{ marginBottom: "30px" }}
+                align="center"
+                variant="h6"
+              >
+                Sign Up
+              </Typography>
+              <div className={classes.textInput}>
+                <Grid container>
+                  <Grid
+                    item
+                    xs={6}
+                    container
+                    direction="column"
+                    justify="flex-start"
+                    alignItems="center"
                   >
-                    Sign In
-                  </Typography>
-                  <ThemeProvider theme={theme}>
                     <TextField
-                      className={classes.margin}
-                      label="User Name"
-                      size="small"
                       variant="outlined"
                       color="secondary"
-                      id="mui-theme-provider-outlined-input"
+                      id="outlined-textarea"
+                      label="Full Name"
+                      placeholder="Ahmad Aji P"
+                      multiline
+                      size="medium"
+                      variant="outlined"
+                    />
+                    <TextField
+                      variant="outlined"
+                      color="secondary"
+                      id="outlined-textarea"
+                      label="Email"
+                      type="email"
+                      placeholder="example@alterra.id"
+                      multiline
+                      size="medium"
+                      variant="outlined"
+                    />
+                    <TextField
+                      variant="outlined"
+                      color="secondary"
+                      id="outlined-textarea"
+                      label="User Name"
+                      type="username"
+                      placeholder="Ahmad Aji P"
+                      multiline
+                      size="medium"
+                      variant="outlined"
                     />
                     <FormControl
                       className={clsx(classes.margin, classes.textField)}
                       variant="outlined"
                       color="secondary"
-                      size="small"
                     >
                       <InputLabel htmlFor="outlined-adornment-password">
                         Password
@@ -153,45 +160,30 @@ export default function Home() {
                         labelWidth={70}
                       />
                     </FormControl>
-                  </ThemeProvider>
-                </CardContent>
-                <CardActions>
+                  </Grid>
                   <Grid
+                    item
+                    xs={6}
                     container
                     direction="column"
                     justify="flex-start"
                     alignItems="center"
-                    style={{ padding: "40px 0 40px 0" }}
                   >
-                    <Button
-                      className={classes.button}
-                      variant="contained"
+                    <TextField
+                      variant="outlined"
+                      color="secondary"
+                      id="outlined-textarea"
+                      label="Full Name"
+                      placeholder="Ahmad Aji P"
+                      multiline
                       size="medium"
-                    >
-                      Log In
-                    </Button>
-                    <Typography
-                      style={{ color: "blue", padding: "10px 0 30px 0" }}
-                      align="center"
-                      gutterBottom
-                      variant="body2"
-                    >
-                      Don't have an account? Register!
-                    </Typography>
-
-                    <Button
-                      className={classes.button}
-                      variant="contained"
-                      size="large"
-                      className={classes.button}
-                      startIcon={<GTranslateIcon />}
-                    >
-                      Log in using google account
-                    </Button>
+                      variant="outlined"
+                    />
                   </Grid>
-                </CardActions>
-              </Grid>
-            </Grid>
+                </Grid>
+              </div>
+            </CardContent>
+            <CardActions></CardActions>
           </Card>
         </Grid>
       </main>
