@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import NavigationBar from "../components/NavigationBar";
+import Footer from "../components/Footer";
 import {
   makeStyles,
   ThemeProvider,
@@ -23,6 +24,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,24 +36,26 @@ const useStyles = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(1),
     width: "90%",
+    background: "white",
   },
   textLogin: {
     fontWeight: "bold",
     paddingBottom: "20px",
   },
   loginImage: {
-    background: "#000065",
+    background: "#19345E",
     padding: 20,
     paddingTop: "30%",
     minHeight: "100%",
   },
   button: {
     textTransform: "none",
-    background: "mediumblue",
+    background: "#6868F5",
     color: "white",
   },
   textField: {
     width: "90%",
+    background: "white",
   },
 }));
 const theme = createMuiTheme({
@@ -100,7 +104,7 @@ export default function Home() {
                   />
                 </Card>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={7} style={{ background: "#F4F7FC" }}>
                 <CardContent>
                   <Typography
                     className={classes.textLogin}
@@ -176,7 +180,9 @@ export default function Home() {
                       gutterBottom
                       variant="body2"
                     >
-                      Don't have an account? Register!
+                      <Link href="/register">
+                        Don't have an account? Register!
+                      </Link>
                     </Typography>
 
                     <Button
@@ -194,6 +200,7 @@ export default function Home() {
             </Grid>
           </Card>
         </Grid>
+        <Footer />
       </main>
     </React.Fragment>
   );
