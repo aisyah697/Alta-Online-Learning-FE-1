@@ -1,6 +1,7 @@
 import React from "react";
-import Head from 'next/head'
+import Head from "next/head";
 import NavigationBar from "../components/NavigationBar";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (
@@ -10,8 +11,9 @@ export default function Home() {
       </Head>
 
       <main>
-          <NavigationBar/>
+        <NavigationBar />
+        <Footer />
       </main>
     </React.Fragment>
-  )
+  );
 }
