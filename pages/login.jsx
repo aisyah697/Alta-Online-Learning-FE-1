@@ -15,6 +15,14 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { orange } from "@material-ui/core/colors";
 import GTranslateIcon from "@material-ui/icons/GTranslate";
+import FormControl from "@material-ui/core/FormControl";
+import clsx from "clsx";
+import InputLabel from "@material-ui/core/InputLabel";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     background: "mediumblue",
     color: "white",
   },
+  textField: {
+    width: "100%",
+  },
 }));
 const theme = createMuiTheme({
   palette: {
@@ -51,6 +62,24 @@ const theme = createMuiTheme({
 
 export default function Home() {
   const classes = useStyles();
+  const [values, setValues] = React.useState({
+    amount: "",
+    password: "",
+    weight: "",
+    weightRange: "",
+    showPassword: false,
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <React.Fragment>
@@ -90,14 +119,40 @@ export default function Home() {
                       color="secondary"
                       id="mui-theme-provider-outlined-input"
                     />
-                    <TextField
-                      className={classes.margin}
-                      label="Password"
-                      size="small"
-                      color="secondary"
+                    <FormControl
+                      className={clsx(classes.margin, classes.textField)}
                       variant="outlined"
-                      id="mui-theme-provider-outlined-input"
-                    />
+                      color="secondary"
+                      size="small"
+                    >
+                      <InputLabel htmlFor="outlined-adornment-password">
+                        Password
+                      </InputLabel>
+                      <OutlinedInput
+                        color="secondary"
+                        id="outlined-adornment-password"
+                        type={values.showPassword ? "text" : "password"}
+                        value={values.password}
+                        onChange={handleChange("password")}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                              edge="end"
+                            >
+                              {values.showPassword ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        labelWidth={70}
+                      />
+                    </FormControl>
                   </ThemeProvider>
                 </CardContent>
                 <CardActions>
