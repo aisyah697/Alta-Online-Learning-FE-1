@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   margin: {
     margin: theme.spacing(1),
-    width: "100%",
+    width: "90%",
   },
   textLogin: {
     fontWeight: "bold",
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   textField: {
-    width: "100%",
+    width: "90%",
   },
 }));
 const theme = createMuiTheme({
@@ -114,7 +114,7 @@ export default function Home() {
                     <TextField
                       className={classes.margin}
                       label="User Name"
-                      size="small"
+                      size="medium"
                       variant="outlined"
                       color="secondary"
                       id="mui-theme-provider-outlined-input"
@@ -123,7 +123,7 @@ export default function Home() {
                       className={clsx(classes.margin, classes.textField)}
                       variant="outlined"
                       color="secondary"
-                      size="small"
+                      size="medium"
                     >
                       <InputLabel htmlFor="outlined-adornment-password">
                         Password
@@ -166,7 +166,7 @@ export default function Home() {
                     <Button
                       className={classes.button}
                       variant="contained"
-                      size="medium"
+                      size="large"
                     >
                       Log In
                     </Button>
