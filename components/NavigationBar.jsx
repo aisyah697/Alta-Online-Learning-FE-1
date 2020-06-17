@@ -21,6 +21,7 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Link from "../utils/Link";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,27 +32,40 @@ const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
     },
+    toolbar : {
+        [theme.breakpoints.up('lg')]: {
+            paddingLeft: theme.spacing(8),
+            paddingRight: theme.spacing(8),
+        },
+    },
     navLogo: {
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1)
     },
     menu: {
-        color: theme.palette.primary.secondary,
+        color: theme.palette.secondary.secondary,
         fontSize: '16px',
         display: 'flex',
         alignItems: 'center',
-        marginRight: '10px',
-        marginLeft: '10px',
-        cursor: 'pointer'
+        marginRight: theme.spacing(3),
+        cursor: 'pointer',
+        '&:hover': {
+            color: theme.palette.secondary.main
+        }
     },
     button : {
-        backgroundColor: '#6868F5',
+        backgroundColor: theme.palette.secondary.main,
+        borderColor: theme.palette.secondary.main,
         color: theme.palette.common.white,
-        margin: '0 10px',
+        padding: '7px 20px',
+        textTransform: 'none',
+        borderRadius: theme.spacing(10),
+        minWidth: theme.spacing(12),
         '&:hover' : {
-            backgroundColor: '#6868F5',
-            color: theme.palette.common.white,
-            textDecoration: 'none'
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.secondary.main,
+            textDecoration: 'none',
+            borderColor: theme.palette.secondary.main,
         }
     },
     sectionDesktop: {
@@ -104,7 +118,9 @@ export default function NavigationBar(props) {
     const NavBarLogo = (
             <>
                 <Card elevation={0} className={classes.navLogo}>
-                    <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+                    <Link href="/">
+                        <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+                    </Link>
                 </Card>
             </>
     )
@@ -191,16 +207,19 @@ export default function NavigationBar(props) {
         <React.Fragment>
             <CssBaseline />
             <AppBar>
-                <Toolbar>
+                <Toolbar classes={{gutters:classes.toolbar}}>
                     {NavBarLogo}
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         {MenuBar}
                         <div className={'menuButton'}>
-                            <Button aria-label="login" className={classes.button}>
+                            <Button variant="outlined" aria-label="login"
+                                    className={classes.button}
+                                    style={{ marginRight: '15px' }}>
                                 Login
                             </Button>
-                            <Button aria-label="signUp" className={classes.button} >
+                            <Button variant="outlined" aria-label="signUp"
+                                    className={classes.button} >
                                 SignUp
                             </Button>
                             <IconButton
