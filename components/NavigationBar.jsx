@@ -81,13 +81,32 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     menuLogo: {
-        padding: theme.spacing(1),
-        paddingTop: theme.spacing(2),
+        padding: theme.spacing(3),
+        paddingTop: theme.spacing(3),
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
         backgroundColor: theme.palette.secondary.secondary
-}
+    },
+    paper: {
+        minWidth: '20vw'
+    },
+    infoUser: {
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(2),
+        display: 'flex'
+    },
+    infoName: {
+        paddingLeft: theme.spacing(2),
+        paddingTop: theme.spacing(1)
+    },
+    avatarPop: {
+        paddingTop: theme.spacing(0)
+    },
+    popMenu: {
+        paddingTop: 0,
+        paddingBottom: 0
+    }
 }));
 
 export default function NavigationBar(props) {
@@ -144,27 +163,47 @@ export default function NavigationBar(props) {
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
-        <Popper open={isMenuOpen} anchorEl={anchorEl} role={undefined} transition disablePortal
-                style={{zIndex: '1'}}
+        <Popper open={isMenuOpen}
+                anchorEl={anchorEl}
+                role={undefined}
+                transition
+                disablePortal
+                style={{zIndex: '1 !important'}}
         >
             {({ TransitionProps, placement }) => (
                 <Grow
                     {...TransitionProps}
                     style={{ transformOrigin: placement === 'bottom' ? 'left top' : 'center bottom' }}
                 >
-                    <Paper>
+                    <Paper className={classes.paper}>
                         <div className={classes.menuLogo}>
                             <img height="60" src="/images/logo_popper.png" alt="Logo Navbar"/>
                         </div>
+                        <div className={classes.infoUser}>
+                            <div className={classes.avatarPop}>
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-haspopup="true"
+                                    color="primary"
+                                >
+                                    <Avatar> A </Avatar>
+                                </IconButton>
+                            </div>
+                            <div className={classes.infoName}>
+                                <Typography style={{fontSize: '18px'}}> Agus Dwi Sasongko</Typography>
+                                <Typography style={{fontSize: '14px'}}> agusdwi@alterra.id </Typography>
+                            </div>
+                        </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <MenuItem onClick={handleMenuClose}>
+                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <SettingsIcon/>
                                     </IconButton>
                                     <p>Manage Your Account</p>
                                 </MenuItem>
-                                <MenuItem onClick={handleMenuClose}>
+                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <ExitToAppIcon/>
                                     </IconButton>
