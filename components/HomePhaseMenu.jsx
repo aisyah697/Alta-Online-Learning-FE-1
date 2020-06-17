@@ -87,16 +87,26 @@ export default function HomePhaseMenu () {
                         <CustomCard
                             classes={classes}
                             title={'Phase ' + (index + 1)}
-                            status={true}
+                            status={false}
                         />
                     </Grid>
                 ))}
                     <Grid item xs={12} lg={3}>
-                        <CustomCard
-                            classes={classes}
-                            title={'Phase 3'}
-                            status={false}
-                        />
+                        <Card className={classes.card}>
+                            <CardHeader
+                                title="Phase 3"
+                                className={classes.title}
+                            />
+                            <CardContent className={classes.content}>
+                            </CardContent>
+                            <CardActions className={classes.action}>
+                                <Button size="small" color="primary" className={classes.button}
+                                        endIcon={<Done/>}
+                                        style={{backgroundColor: 'orange'}}>
+                                    Done
+                                </Button>
+                            </CardActions>
+                        </Card>
                     </Grid>
             </Grid>
         </React.Fragment>
