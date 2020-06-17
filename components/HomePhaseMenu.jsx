@@ -4,11 +4,13 @@ import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
-import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import {Done} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
+import LockIcon from '@material-ui/icons/Lock';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.common.white,
         padding: '5px 20px',
         textTransform: 'none',
-        borderRadius: theme.spacing(10),
+        borderRadius: theme.spacing(1),
         minWidth: theme.spacing(12),
         '&:hover' : {
             backgroundColor: theme.palette.primary.main,
@@ -63,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.common.white,
         padding: '5px 20px',
         textTransform: 'none',
-        borderRadius: theme.spacing(10),
+        borderRadius: theme.spacing(1),
         minWidth: theme.spacing(12),
         '&:hover' : {
             backgroundColor: theme.palette.primary.main,
@@ -73,9 +75,20 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     content: {
-        backgroundColor: '#d7d5d5',
-        height: 300
+        backgroundColor: '#33dcdc',
+        height: 300,
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex'
     },
+    content2: {
+        backgroundColor: '#DFE6ED',
+        height: 300,
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex'
+    }
+
 }))
 
 const CustomCard = ({ classes, title, status}) => {
@@ -83,6 +96,10 @@ const CustomCard = ({ classes, title, status}) => {
         <Card className={classes.card}>
             <Typography className={classes.title}> {title} </Typography>
             <CardContent className={classes.content}>
+                {status?
+                    <AssignmentTurnedInIcon style={{fontSize: '40px'}}/>:
+                    <PlayCircleFilledWhiteIcon style={{fontSize: '40px'}}/>
+                }
             </CardContent>
             <CardActions className={classes.action}>
                 {status ?
@@ -120,12 +137,14 @@ export default function HomePhaseMenu () {
                     <Grid item xs={12} lg={3}>
                         <Card className={classes.card}>
                             <Typography className={classes.title}> {'Phase 3'} </Typography>
-                            <CardContent className={classes.content}>
+                            <CardContent className={classes.content2}>
+                                <LockIcon style={{fontSize: '40px'}}/>
                             </CardContent>
                             <CardActions className={classes.action}>
                                 <Button size="small" className={classes.button}
-                                        startIcon={<PlayCircleOutlineIcon/>}
                                         variant={'outlined'}
+                                        disabled
+                                        style={{backgroundColor: '#788896', color: '#fff'}}
                                         >
                                     Offline Class
                                 </Button>
