@@ -8,65 +8,91 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import {Done} from "@material-ui/icons";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        marginTop: theme.spacing(3),
+        minHeight: '80vh',
+        justifyContent: 'center',
+        alignItems: 'center',
+        [theme.breakpoints.up("lg")]: {
+            display: 'flex'
+        },
+        fontFamily: 'Muli, sans-serif'
+    },
     card: {
         width: 250,
-        height: 420,
+        minHeight: 400,
         margin: theme.spacing(3),
         [theme.breakpoints.down("sm")]: {
             width: 310,
             height: 510,
         }
     },
-    root: {
-        marginTop: theme.spacing(3),
-        justifyContent: 'center',
-        [theme.breakpoints.up("lg")]: {
-            display: 'flex'
-        }
+    title: {
+        textAlign: 'center',
+        fontSize: `calc(1rem + 0.5vw)`,
+        padding: theme.spacing(1),
+        fontFamily: 'Muli, sans-serif',
+        color: theme.palette.secondary.secondary
     },
     action: {
         justifyContent: 'center',
+        alignItems: "center",
+        padding: theme.spacing(1)
     },
     button: {
-        backgroundColor: '#6f84e0',
-        '&:hover': {
-            backgroundColor: '#8c9be0',
-            color: '#fff'
-        },
+        backgroundColor: theme.palette.secondary.main,
+        borderColor: theme.palette.secondary.main,
+        color: theme.palette.common.white,
+        padding: '5px 20px',
         textTransform: 'none',
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
+        borderRadius: theme.spacing(10),
+        minWidth: theme.spacing(12),
+        '&:hover' : {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.secondary.main,
+            textDecoration: 'none',
+            borderColor: theme.palette.secondary.main,
+        }
+    },
+    button2: {
+        backgroundColor: theme.palette.secondary.secondary,
+        borderColor: theme.palette.secondary.secondary,
+        color: theme.palette.common.white,
+        padding: '5px 20px',
+        textTransform: 'none',
+        borderRadius: theme.spacing(10),
+        minWidth: theme.spacing(12),
+        '&:hover' : {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.secondary.secondary,
+            textDecoration: 'none',
+            borderColor: theme.palette.secondary.secondary,
+        }
     },
     content: {
         backgroundColor: '#d7d5d5',
         height: 300
-    },
-    title: {
-        textAlign: 'center',
-        fontSize: `calc(0.5rem + 1vw)`
     },
 }))
 
 const CustomCard = ({ classes, title, status}) => {
     return (
         <Card className={classes.card}>
-            <CardHeader
-                title={title}
-                className={classes.title}
-            />
+            <Typography className={classes.title}> {title} </Typography>
             <CardContent className={classes.content}>
             </CardContent>
             <CardActions className={classes.action}>
                 {status ?
-                    <Button size="small" color="primary" className={classes.button}
+                    <Button size="small" variant={'outlined'} className={classes.button}
                             endIcon={<Done/>}
-                            style={{backgroundColor: 'orange'}}>
+                            >
                         Done
                     </Button>
                     :
-                    <Button size="small" color="primary" className={classes.button}
+                    <Button size="small" variant={'outlined'} className={classes.button2}
                             startIcon={<PlayCircleOutlineIcon/>}>
                         Start
                     </Button>
@@ -87,23 +113,21 @@ export default function HomePhaseMenu () {
                         <CustomCard
                             classes={classes}
                             title={'Phase ' + (index + 1)}
-                            status={false}
+                            status={!index}
                         />
                     </Grid>
                 ))}
                     <Grid item xs={12} lg={3}>
                         <Card className={classes.card}>
-                            <CardHeader
-                                title="Phase 3"
-                                className={classes.title}
-                            />
+                            <Typography className={classes.title}> {'Phase 3'} </Typography>
                             <CardContent className={classes.content}>
                             </CardContent>
                             <CardActions className={classes.action}>
-                                <Button size="small" color="primary" className={classes.button}
-                                        endIcon={<Done/>}
-                                        style={{backgroundColor: 'orange'}}>
-                                    Done
+                                <Button size="small" className={classes.button}
+                                        startIcon={<PlayCircleOutlineIcon/>}
+                                        variant={'outlined'}
+                                        >
+                                    Offline Class
                                 </Button>
                             </CardActions>
                         </Card>

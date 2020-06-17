@@ -17,9 +17,6 @@ class Home extends React.Component {
                     <NavigationBar/>
                     <HomeBanner/>
                     <HomePhaseMenu/>
-                    <div>
-
-                    </div>
                     <Footer/>
                 </main>
             </React.Fragment>
