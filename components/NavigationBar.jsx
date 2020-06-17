@@ -81,15 +81,15 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     menuLogo: {
+        backgroundColor: theme.palette.secondary.secondary,
         padding: theme.spacing(3),
         paddingTop: theme.spacing(3),
         justifyContent: 'center',
         alignItems: 'center',
-        display: 'flex',
-        backgroundColor: theme.palette.secondary.secondary
+        display: 'flex'
     },
     paper: {
-        minWidth: '20vw'
+        minWidth: '20vw',
     },
     infoUser: {
         paddingLeft: theme.spacing(1),
@@ -175,7 +175,7 @@ export default function NavigationBar(props) {
                     {...TransitionProps}
                     style={{ transformOrigin: placement === 'bottom' ? 'left top' : 'center bottom' }}
                 >
-                    <Paper className={classes.paper}>
+                    <Paper elevation={1} className={classes.paper}>
                         <div className={classes.menuLogo}>
                             <img height="60" src="/images/logo_popper.png" alt="Logo Navbar"/>
                         </div>
