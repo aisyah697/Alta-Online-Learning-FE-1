@@ -10,11 +10,12 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: '#F4F7FC'
+        backgroundColor: '#F4F7FC',
+        height: '550px',
     },
     bannerTitle: {
         position: 'absolute',
-        color: theme.palette.common.white,
+        color: theme.palette.secondary.secondary,
         fontSize: `calc(1rem + 1.5vw)`,
         padding: theme.spacing(3),
         fontFamily: 'Bellota, cursive',
@@ -23,39 +24,41 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    // bannerButton: {
-    //     marginTop: theme.spacing(2),
-    //     width: '100%',
-    //     height: theme.spacing(6),
-    //     borderRadius: theme.spacing(10),
-    //     borderColor: '#939292',
-    //     color: theme.palette.common.white,
-    //     [theme.breakpoints.up("lg")]: {
-    //         width: '100%',
-    //     },
-    //     '&:hover': {
-    //         backgroundColor: 'rgba(111,227,61,0.85)',
-    //         color: '#090101',
-    //         borderColor: 'rgba(47,34,30,0.62)',
-    //     }
-    // },
-    // bannerImage: {
-    //     display: 'block',
-    //     boxSizing: 'border-box',
-    //     width: '100%',
-    //     height: '500px',
-    //     objectFit: 'cover',
-    //     [theme.breakpoints.down("sm")]: {
-    //         height: 'auto',
-    //         minHeight: '63vh'
-    //     },
-    // },
-    // link: {
-    //     width: '20%',
-    //     [theme.breakpoints.down("sm")]: {
-    //         width: 'auto'
-    //     },
-    // }
+    bannerButton: {
+        marginTop: theme.spacing(2),
+        width: '100%',
+        height: theme.spacing(6),
+        borderRadius: theme.spacing(10),
+        borderColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.secondary.main,
+        color: theme.palette.common.white,
+        [theme.breakpoints.up("lg")]: {
+            width: '130%',
+        },
+        '&:hover': {
+            backgroundColor: theme.palette.common.white,
+            color: theme.palette.secondary.main,
+            borderColor: theme.palette.secondary.main,
+        }
+    },
+    bannerImage: {
+        display: 'block',
+        boxSizing: 'border-box',
+        width: '100%',
+        height: '500px',
+        objectFit: 'cover',
+        [theme.breakpoints.down("sm")]: {
+            height: 'auto',
+            minHeight: '63vh'
+        },
+    },
+    link: {
+        width: '20%',
+        textDecoration: 'none',
+        [theme.breakpoints.down("sm")]: {
+            width: 'auto'
+        },
+    }
 }));
 
 export default function HomeBanner () {
@@ -63,10 +66,6 @@ export default function HomeBanner () {
     return (
         <React.Fragment>
             <Box pt={5} mt={1} width={'100%'} padding={0} className={classes.bannerBox}>
-                <img src=""
-                     alt="Cover"
-                     className={classes.bannerImage}
-                />
                 <div className={classes.bannerTitle}>
                     ALTA ONLINE LEARNING
 

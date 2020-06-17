@@ -3,6 +3,7 @@ import Head from "next/head";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
 import HomeBanner from "../components/HomeBanner";
+import HomePhaseMenu from "../components/HomePhaseMenu";
 
 class Home extends React.Component {
     render() {
@@ -14,9 +15,11 @@ class Home extends React.Component {
 
                 <main>
                     <NavigationBar/>
-
                     <HomeBanner/>
+                    <HomePhaseMenu/>
+                    <div>
 
+                    </div>
                     <Footer/>
                 </main>
             </React.Fragment>
