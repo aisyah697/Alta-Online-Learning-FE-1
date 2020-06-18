@@ -42,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
             maxWidth: '95vw'
         }
     },
+    text: {
+        cursor: 'pointer',
+        color: theme.palette.secondary.secondary,
+        fontWeight: 600,
+        fontFamily: 'Muli, sans-serif'
+    },
     nested: {
         paddingLeft: theme.spacing(9),
         [theme.breakpoints.down('sm')]: {
@@ -61,16 +67,16 @@ const useStyles = makeStyles((theme) => ({
 const MyList = ({classes, open, title, content, handleClick}) => {
     return (
         <>
-            <ListItem button onClick={handleClick}>
-                <ListItemIcon>
+            <ListItem className={classes.text} onClick={handleClick}>
+                <ListItemIcon style={{color: '#19355f'}}>
                     {open ? <ExpandLess /> : <NavigateNextIcon />}
                 </ListItemIcon>
-                <ListItemText primary={title} />
+                <Typography>{title}</Typography>
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItem className={classes.nested}>
-                        <Typography>
+                        <Typography style={{color: '#19355f', textAlign: 'justify'}}>
                             {content}
                         </Typography>
                     </ListItem>
