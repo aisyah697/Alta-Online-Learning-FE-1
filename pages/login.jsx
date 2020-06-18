@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "center",
     minHeight: 300,
   },
+  page: {
+    paddingBottom: "70px",
+  },
   margin: {
     margin: theme.spacing(1),
     width: "90%",
@@ -41,21 +44,37 @@ const useStyles = makeStyles((theme) => ({
   textLogin: {
     fontWeight: "bold",
     paddingBottom: "20px",
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
   },
   loginImage: {
-    background: "#19345E",
+    background: theme.palette.secondary.secondary,
     padding: 20,
     paddingTop: "30%",
     minHeight: "100%",
   },
   button: {
+    fontFamily: "SFCompactDisplay-Regular, sans-serif",
+    backgroundColor: theme.palette.secondary.secondary,
+    borderColor: theme.palette.secondary.secondary,
+    color: theme.palette.common.white,
+    padding: "5px 20px",
     textTransform: "none",
-    background: "#6868F5",
-    color: "white",
+    borderRadius: theme.spacing(1),
+    minWidth: theme.spacing(12),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
   },
   textField: {
     width: "90%",
     background: "white",
+  },
+  textMuli: {
+    fontFamily: "Muli, sans-serif",
   },
 }));
 const theme = createMuiTheme({
@@ -92,7 +111,7 @@ export default function Home() {
       </Head>
       <main>
         <NavigationBar />
-        <Grid container justify="center">
+        <Grid className={classes.page} container justify="center">
           <Card className={classes.root} variant="outlined">
             <Grid container>
               <Grid item xs={5}>
@@ -117,8 +136,8 @@ export default function Home() {
                   <ThemeProvider theme={theme}>
                     <TextField
                       className={classes.margin}
-                      label="User Name"
-                      size="medium"
+                      label="Username"
+                      size="small"
                       variant="outlined"
                       color="secondary"
                       id="mui-theme-provider-outlined-input"
@@ -127,7 +146,7 @@ export default function Home() {
                       className={clsx(classes.margin, classes.textField)}
                       variant="outlined"
                       color="secondary"
-                      size="medium"
+                      size="small"
                     >
                       <InputLabel htmlFor="outlined-adornment-password">
                         Password
@@ -169,7 +188,7 @@ export default function Home() {
                   >
                     <Button
                       className={classes.button}
-                      variant="contained"
+                      variant={"outlined"}
                       size="large"
                     >
                       Log In
@@ -179,6 +198,7 @@ export default function Home() {
                       align="center"
                       gutterBottom
                       variant="body2"
+                      className={classes.textMuli}
                     >
                       <Link href="/register">
                         Don't have an account? Register!
@@ -187,7 +207,7 @@ export default function Home() {
 
                     <Button
                       className={classes.button}
-                      variant="contained"
+                      variant={"outlined"}
                       size="large"
                       className={classes.button}
                       startIcon={<GTranslateIcon />}
