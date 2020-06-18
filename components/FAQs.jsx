@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: theme.spacing(5),
+            paddingBottom: theme.spacing(5),
+        }
     },
     title: {
         color: theme.palette.secondary.secondary,
@@ -32,10 +36,23 @@ const useStyles = makeStyles((theme) => ({
     list: {
         width: '100%',
         maxWidth: '60vw',
-        fontFamily: 'Muli, sans-serif'
+        fontFamily: 'Muli, sans-serif',
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: '95vw'
+        }
     },
     nested: {
         paddingLeft: theme.spacing(9),
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: theme.spacing(2),
+        }
+    },
+    ornament: {
+        height: '50vh',
+        [theme.breakpoints.down("sm")]: {
+            paddingTop: '25px',
+        },
+        position: 'absolute',
     },
 }));
 
@@ -88,6 +105,7 @@ export default function FrequentQuestion () {
         <React.Fragment>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
+                    <img className={classes.ornament} src="/images/ornament_batik.png" alt="Ornament"/>
                     <Grid item xs={12} className={classes.container}>
                         <Typography variant={'h5'} className={classes.title}> FAQ </Typography>
                         <>

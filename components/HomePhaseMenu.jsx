@@ -14,7 +14,6 @@ import PlayCircleFilledWhiteIcon from '@material-ui/icons/PlayCircleFilledWhite'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginTop: theme.spacing(3),
         minHeight: '80vh',
         justifyContent: 'center',
         alignItems: 'center',
@@ -23,6 +22,13 @@ const useStyles = makeStyles((theme) => ({
             display: 'flex'
         },
         fontFamily: 'Muli, sans-serif'
+    },
+    phaseTitle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        marginTop: theme.spacing(5),
+        fontFamily: 'Muli, sans-serif',
     },
     card: {
         maxWidth: 320,
@@ -53,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.secondary.main,
             textDecoration: 'none',
             borderColor: theme.palette.secondary.main,
-        }
+        },
     },
     button2: {
         backgroundColor: theme.palette.secondary.secondary,
@@ -75,14 +81,25 @@ const useStyles = makeStyles((theme) => ({
         minHeight: 300,
         justifyContent: 'center',
         alignItems: 'center',
-        display: 'flex'
+        display: 'flex',
+        [theme.breakpoints.up('lg')]: {
+            minHeight: 400
+        }
     },
     content2: {
         backgroundColor: '#DFE6ED',
         minHeight: 300,
         justifyContent: 'center',
         alignItems: 'center',
-        display: 'flex'
+        display: 'flex',
+        [theme.breakpoints.up('lg')]: {
+            minHeight: 400
+        }
+    },
+    phaseFont: {
+        fontSize: `calc(2em + 0.5vw)`,
+        color: theme.palette.secondary.secondary,
+        fontWeight: 600
     }
 
 }))
@@ -120,9 +137,9 @@ export default function HomePhaseMenu () {
 
     return(
         <React.Fragment>
-            <Typography className={classes.phaseTitle}>
-                ff
-            </Typography>
+            <div className={classes.phaseTitle}>
+                <Typography className={classes.phaseFont}> Track Your Progress </Typography>
+            </div>
             <Grid container className={classes.root}>
                 {[1,2].map((item, index) => (
                     <Grid key={index} item xs={12} lg={3}>

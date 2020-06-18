@@ -18,8 +18,11 @@ const useStyles = makeStyles((theme) => ({
     bannerBox: {
         fontFamily: 'Muli, sans-serif',
         padding: theme.spacing(10),
-        paddingTop: theme.spacing(5),
-        paddingBottom: theme.spacing(5)
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(5),
+        [theme.breakpoints.down('sm')]: {
+            padding: theme.spacing(2),
+        }
     },
     container: {
         minHeight: '30vh',
@@ -28,25 +31,18 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    // title: {
-    //     color: theme.palette.secondary.secondary,
-    // },
-    // button : {
-    //     backgroundColor: theme.palette.secondary.main,
-    //     borderColor: theme.palette.secondary.main,
-    //     color: theme.palette.common.white,
-    //     padding: '7px 20px',
-    //     textTransform: 'none',
-    //     marginTop: theme.spacing(2),
-    //     borderRadius: theme.spacing(10),
-    //     minWidth: theme.spacing(12),
-    //     '&:hover' : {
-    //         backgroundColor: theme.palette.primary.main,
-    //         color: theme.palette.secondary.main,
-    //         textDecoration: 'none',
-    //         borderColor: theme.palette.secondary.main,
-    //     }
-    // },
+    phaseTitle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        marginTop: theme.spacing(5),
+        fontFamily: 'Muli, sans-serif',
+    },
+    phaseFont: {
+        fontSize: `calc(2em + 0.5vw)`,
+        color: theme.palette.secondary.secondary,
+        fontWeight: 600
+    },
     root: {
         width: '90%',
         padding: theme.spacing(2)
@@ -54,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         width: '100px',
         height: '100px',
+        [theme.breakpoints.down('sm')]: {
+            width: '60px',
+            height: '60px',
+        }
 
     },
     content: {
@@ -61,7 +61,14 @@ const useStyles = makeStyles((theme) => ({
     },
     text: {
         marginLeft: theme.spacing(5)
-    }
+    },
+    ornament: {
+        height: '50vh',
+        [theme.breakpoints.down("sm")]: {
+            paddingTop: '25px',
+        },
+        position: 'absolute',
+    },
 }));
 
 const CustomPaper = ({ classes}) => {
@@ -90,6 +97,10 @@ export default function HomeTestimony () {
     const classes = useStyles();
     return (
         <React.Fragment>
+            <div className={classes.phaseTitle}>
+                <Typography className={classes.phaseFont}> Meet The Mentors </Typography>
+            </div>
+            <img className={classes.ornament} src="/images/ornament_batik.png" alt="Ornament"/>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} className={classes.container}>
