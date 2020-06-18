@@ -10,7 +10,6 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import GTranslateIcon from "@material-ui/icons/GTranslate";
 import FormControl from "@material-ui/core/FormControl";
 import clsx from "clsx";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -21,15 +20,29 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Link from "../utils/Link";
 
+import SvgIcon from "@material-ui/core/SvgIcon";
+
+const wrapSvgPath = (path, viewBox = "0 0 50 50") => (props) => (
+  <SvgIcon {...props} viewBox={viewBox}>
+    {path}
+  </SvgIcon>
+);
+const GoogleIcon = wrapSvgPath(
+  <path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+);
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 700,
-    marginTop: 50,
+    margin: theme.spacing(1),
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(2),
     alignContent: "center",
     minHeight: 300,
-  },
-  page: {
-    paddingBottom: "70px",
+    [theme.breakpoints.up("lg")]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(4),
+    },
   },
   margin: {
     margin: theme.spacing(1),
@@ -56,7 +69,11 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     paddingTop: "30%",
     minHeight: "100%",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
+
   button: {
     fontFamily: "SFCompactDisplay-Regular, sans-serif",
     backgroundColor: theme.palette.secondary.secondary,
@@ -115,10 +132,10 @@ export default function Home() {
       </Head>
       <main>
         <NavigationBar />
-        <Grid className={classes.page} container justify="center">
+        <Grid container justify="center">
           <Card className={classes.root} variant="outlined">
             <Grid container>
-              <Grid item xs={5}>
+              <Grid item lg={5} xs={12}>
                 <Card className={classes.loginImage}>
                   <img
                     width="90%"
@@ -127,7 +144,7 @@ export default function Home() {
                   />
                 </Card>
               </Grid>
-              <Grid item xs={7} style={{ background: "#F4F7FC" }}>
+              <Grid item xs={12} lg={7} style={{ background: "#F4F7FC" }}>
                 <CardContent>
                   <Typography
                     className={classes.textLogin}
@@ -205,7 +222,7 @@ export default function Home() {
                       variant={"outlined"}
                       size="large"
                       className={classes.button}
-                      startIcon={<GTranslateIcon />}
+                      startIcon={<GoogleIcon />}
                     >
                       <Typography>Log in using google account</Typography>
                     </Button>
