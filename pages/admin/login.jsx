@@ -35,31 +35,51 @@ const useStyles = makeStyles((theme) => ({
     width: "90%",
     background: "white",
   },
+  formAll: {
+    margin: theme.spacing(1),
+    width: "90%",
+    background: "white",
+    "&:hover label.Mui-focused": {
+      color: "darkBlue",
+    },
+    "&: .MuiOutlinedInput-root": {
+      // "&:hover fieldset": {
+      borderColor: "darkBlue",
+      // },
+    },
+  },
   textLogin: {
     fontWeight: "bold",
     paddingBottom: "20px",
+    color: theme.palette.secondary.secondary,
   },
   loginImage: {
-    background: "#19345E",
+    background: theme.palette.secondary.secondary,
     padding: 20,
     paddingTop: "30%",
     minHeight: "100%",
   },
   button: {
+    fontFamily: "SFCompactDisplay-Regular, sans-serif",
+    backgroundColor: theme.palette.secondary.secondary,
+    borderColor: theme.palette.secondary.secondary,
+    color: theme.palette.common.white,
+    padding: "5px 20px",
     textTransform: "none",
-    background: "#6868F5",
-    color: "white",
+    borderRadius: theme.spacing(1),
+    minWidth: theme.spacing(12),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
   },
   textField: {
     width: "90%",
     background: "white",
   },
 }));
-const theme = createMuiTheme({
-  palette: {
-    secondary: orange,
-  },
-});
 
 export default function Home() {
   const classes = useStyles();
@@ -110,20 +130,24 @@ export default function Home() {
                   >
                     Sign In Admin
                   </Typography>
-                  <ThemeProvider theme={theme}>
+                  <ThemeProvider>
                     <TextField
-                      className={classes.margin}
+                      className={classes.formAll}
                       label="User Name"
-                      size="medium"
+                      size="small"
                       variant="outlined"
                       color="secondary"
                       id="mui-theme-provider-outlined-input"
                     />
                     <FormControl
-                      className={clsx(classes.margin, classes.textField)}
+                      className={clsx(
+                        classes.margin,
+                        classes.textField,
+                        classes.formAll
+                      )}
                       variant="outlined"
                       color="secondary"
-                      size="medium"
+                      size="small"
                     >
                       <InputLabel htmlFor="outlined-adornment-password">
                         Password
@@ -161,7 +185,7 @@ export default function Home() {
                     direction="column"
                     justify="flex-start"
                     alignItems="center"
-                    style={{ padding: "40px 0 10px 0" }}
+                    style={{ padding: "10px 0 10px 0" }}
                   >
                     <Button
                       className={classes.button}
