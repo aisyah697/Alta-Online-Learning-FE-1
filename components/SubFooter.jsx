@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         color: theme.palette.secondary.secondary,
+        fontSize: `calc(1rem + 1vw)`
     },
     button : {
         backgroundColor: theme.palette.secondary.main,
@@ -44,7 +45,9 @@ export default function SubFooter () {
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} className={classes.container}>
-                        <Typography variant={'h5'} className={classes.title}> You can now access the course! </Typography>
+                        <Typography variant={'h5'} className={classes.title}>
+                            You can now access the course!
+                        </Typography>
                         <Button variant={'outlined'} className={classes.button}>
                             View Course
                         </Button>
