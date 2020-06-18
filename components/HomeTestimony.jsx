@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     phaseTitle: {
         justifyContent: 'center',
@@ -45,7 +45,11 @@ const useStyles = makeStyles((theme) => ({
     },
     root: {
         width: '90%',
-        padding: theme.spacing(2)
+        padding: theme.spacing(2),
+        [theme.breakpoints.down('sm')]: {
+            width: '100%',
+            paddingTop: '5px'
+        }
     },
     avatar: {
         width: '100px',
@@ -57,10 +61,21 @@ const useStyles = makeStyles((theme) => ({
 
     },
     content: {
-        display: 'flex'
+        textAlign: 'justify',
+        [theme.breakpoints.up("lg")]: {
+            display: 'flex',
+            padding: theme.spacing(1),
+            paddingBottom: 0
+        },
     },
     text: {
-        marginLeft: theme.spacing(5)
+        marginLeft: theme.spacing(5),
+        paddingTop: theme.spacing(1),
+        fontFamily: 'SFCompactDisplay-Regular, sans-serif',
+        color: theme.palette.secondary.secondary,
+        [theme.breakpoints.down("sm")]: {
+            marginLeft: theme.spacing(0),
+        },
     },
     ornament: {
         height: '50vh',
@@ -77,10 +92,10 @@ const CustomPaper = ({ classes}) => {
             <CardContent className={classes.content}>
                 <Avatar className={classes.avatar}> A </Avatar>
                 <div className={classes.text}>
-                    <Typography>
+                    <Typography style={{fontWeight: 700}}>
                         The Kobars
                     </Typography>
-                    <Typography>
+                    <Typography style={{fontSize: '14px', fontStyle: 'italic'}}>
                         Back-End, Front-End, Deployment
                     </Typography>
                     <hr/>

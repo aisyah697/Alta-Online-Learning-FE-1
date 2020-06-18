@@ -30,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         color: theme.palette.secondary.secondary,
-        fontWeight: 700,
         paddingBottom: theme.spacing(2),
+        fontSize: `calc(2em + 0.5vw)`,
+        fontWeight: 600
     },
     list: {
         width: '100%',
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
     ornament: {
         height: '50vh',
+        paddingTop: theme.spacing(1),
         [theme.breakpoints.down("sm")]: {
             paddingTop: '25px',
         },

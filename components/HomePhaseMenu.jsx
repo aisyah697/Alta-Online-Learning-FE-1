@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     content: {
-        backgroundColor: '#c0e5e5',
+        backgroundColor: '#b5d5d5',
         minHeight: 300,
         justifyContent: 'center',
         alignItems: 'center',

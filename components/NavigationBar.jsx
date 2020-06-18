@@ -106,6 +106,12 @@ const useStyles = makeStyles((theme) => ({
     popMenu: {
         paddingTop: 0,
         paddingBottom: 0
+    },
+    scrollTop: {
+        backgroundColor: 'rgba(244,117,46,0.6)',
+        '&:hover': {
+            backgroundColor: theme.palette.secondary.main
+        }
     }
 }));
 
@@ -291,7 +297,7 @@ export default function NavigationBar(props) {
             {renderMobileMenu}
 
             <ScrollTop {...props}>
-                <Fab color="secondary" size="small" aria-label="scroll back to top">
+                <Fab className={classes.scrollTop} color="secondary" size="small" aria-label="scroll back to top">
                     <KeyboardArrowUpIcon color="primary" />
                 </Fab>
             </ScrollTop>
