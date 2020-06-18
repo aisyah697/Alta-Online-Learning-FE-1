@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import HomeBanner from "../components/HomeBanner";
 import HomePhaseMenu from "../components/HomePhaseMenu";
 import SubFooter from "../components/SubFooter";
+import FrequentQuestion from "../components/FAQs";
 
 class Home extends React.Component {
     render() {
@@ -18,6 +19,7 @@ class Home extends React.Component {
                     <NavigationBar/>
                     <HomeBanner/>
                     <HomePhaseMenu/>
+                    <FrequentQuestion/>
                     <SubFooter/>
                     <Footer/>
                 </main>
