@@ -71,14 +71,14 @@ const CustomPaper = ({ classes}) => {
                 <Avatar className={classes.avatar}> A </Avatar>
                 <div className={classes.text}>
                     <Typography>
-                        Mentor Name
+                        The Kobars
                     </Typography>
                     <Typography>
-                        Mentor Specialist
+                        Back-End, Front-End, Deployment
                     </Typography>
                     <hr/>
                     <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis expedita maxime minus nihil nisi perferendis similique? A, assumenda autem culpa cum cumque ex iste mollitia pariatur quae quibusdam quisquam, quod, sequi temporibus veritatis voluptas? Aliquid autem dolores eaque impedit officia reiciendis. Consectetur iusto omnis veritatis. Dolores ex iste placeat vero!
+                        Lorem ipsum dolor sit ametime minus nihil nisi perferendis similique? A, assumenda autem culpa cum cumque ex iste mollitia pariatur quae quibusdam quisquam, quod, sequi temporibus veritatis voluptas? Aliquid autem dolores eaque impedit officia reiciendis. Consectetur iusto omnis veritatis. Dolores ex iste placeat vero!
                     </Typography>
                 </div>
             </CardContent>

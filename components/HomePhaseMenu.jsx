@@ -120,6 +120,9 @@ export default function HomePhaseMenu () {
 
     return(
         <React.Fragment>
+            <Typography className={classes.phaseTitle}>
+                ff
+            </Typography>
             <Grid container className={classes.root}>
                 {[1,2].map((item, index) => (
                     <Grid key={index} item xs={12} lg={3}>
