@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     bannerImage: {
         width: theme.spacing(50)
     },
+    bannerImageSmall: {
+        width: theme.spacing(30)
+    },
     button : {
         backgroundColor: theme.palette.secondary.main,
         borderColor: theme.palette.secondary.main,
@@ -71,6 +74,7 @@ export default function HomeBanner () {
                     <Grid item xs={12} lg={6} className={classes.leftBanner}>
                         <img className={classes.ornament} src="/images/ornament_batik.png" alt="Ornament"/>
                         <div className={classes.leftText}>
+                            <img className={classes.bannerImageSmall} src="/images/banner_image_1.png" alt="Banner"/>
                             <Typography style={{fontSize: '35px', fontWeight: 'bold'}}> What is Alta </Typography>
                             <Typography style={{fontSize: '35px', fontWeight: 'bold'}}> Online Learning? </Typography>
                             <Typography> Alterra Online Learning is a online tech talent learning that gives everyone (even non-IT background) a chance to be a professional Tech Talent. </Typography>
