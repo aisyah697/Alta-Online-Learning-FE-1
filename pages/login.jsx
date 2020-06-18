@@ -207,7 +207,7 @@ export default function Home() {
                       className={classes.button}
                       startIcon={<GTranslateIcon />}
                     >
-                      Log in using google account
+                      <Typography>Log in using google account</Typography>
                     </Button>
                   </Grid>
                 </CardActions>
