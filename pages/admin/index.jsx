@@ -23,10 +23,20 @@ const useStyles = makeStyles((theme) => ({
     height: 390,
   },
   button: {
-    width: "180px",
+    fontFamily: "SFCompactDisplay-Regular, sans-serif",
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+    padding: "5px 20px",
     textTransform: "none",
-    background: "#3364ff",
-    color: "white",
+    borderRadius: theme.spacing(1),
+    minWidth: theme.spacing(12),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.main,
+    },
   },
 }));
 
@@ -58,10 +68,9 @@ export default function Home() {
             <CardActions>
               <Grid container justify="center">
                 <Button
-                  variant="contained"
-                  color="primary"
-                  size="medium"
                   className={classes.button}
+                  variant={"outlined"}
+                  size="medium"
                   startIcon={<GroupWorkSharpIcon />}
                 >
                   Our Mentee
