@@ -2,11 +2,7 @@ import React from "react";
 import Head from "next/head";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
-import {
-  makeStyles,
-  ThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,7 +10,6 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { orange } from "@material-ui/core/colors";
 import GTranslateIcon from "@material-ui/icons/GTranslate";
 import FormControl from "@material-ui/core/FormControl";
 import clsx from "clsx";
@@ -24,7 +19,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Link from "next/link";
+import Link from "../utils/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,36 +28,64 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "center",
     minHeight: 300,
   },
+  page: {
+    paddingBottom: "70px",
+  },
   margin: {
     margin: theme.spacing(1),
     width: "90%",
     background: "white",
+    "&:hover label.Mui-focused": {
+      color: "darkBlue",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "darkBlue",
+      },
+    },
   },
+
   textLogin: {
     fontWeight: "bold",
     paddingBottom: "20px",
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
   },
   loginImage: {
-    background: "#19345E",
+    background: theme.palette.secondary.secondary,
     padding: 20,
     paddingTop: "30%",
     minHeight: "100%",
   },
   button: {
+    fontFamily: "SFCompactDisplay-Regular, sans-serif",
+    backgroundColor: theme.palette.secondary.secondary,
+    borderColor: theme.palette.secondary.secondary,
+    color: theme.palette.common.white,
+    padding: "5px 20px",
     textTransform: "none",
-    background: "#6868F5",
-    color: "white",
+    borderRadius: theme.spacing(1),
+    minWidth: theme.spacing(12),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
   },
   textField: {
     width: "90%",
     background: "white",
   },
-}));
-const theme = createMuiTheme({
-  palette: {
-    secondary: orange,
+  textMuli: {
+    fontFamily: "Muli, sans-serif",
   },
-});
+  dontHaveAcoount: {
+    fontFamily: "Muli, sans-serif",
+    margin: "10px 0 40px",
+    color: theme.palette.secondary.secondary,
+  },
+}));
 
 export default function Home() {
   const classes = useStyles();
@@ -92,7 +115,7 @@ export default function Home() {
       </Head>
       <main>
         <NavigationBar />
-        <Grid container justify="center">
+        <Grid className={classes.page} container justify="center">
           <Card className={classes.root} variant="outlined">
             <Grid container>
               <Grid item xs={5}>
@@ -114,50 +137,48 @@ export default function Home() {
                   >
                     Sign In
                   </Typography>
-                  <ThemeProvider theme={theme}>
-                    <TextField
-                      className={classes.margin}
-                      label="User Name"
-                      size="medium"
-                      variant="outlined"
+                  <TextField
+                    className={classes.margin}
+                    label="Username"
+                    size="small"
+                    variant="outlined"
+                    color="secondary"
+                    id="mui-theme-provider-outlined-input"
+                  />
+                  <FormControl
+                    className={clsx(classes.margin, classes.textField)}
+                    variant="outlined"
+                    color="secondary"
+                    size="small"
+                  >
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
                       color="secondary"
-                      id="mui-theme-provider-outlined-input"
+                      id="outlined-adornment-password"
+                      type={values.showPassword ? "text" : "password"}
+                      value={values.password}
+                      onChange={handleChange("password")}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {values.showPassword ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      labelWidth={70}
                     />
-                    <FormControl
-                      className={clsx(classes.margin, classes.textField)}
-                      variant="outlined"
-                      color="secondary"
-                      size="medium"
-                    >
-                      <InputLabel htmlFor="outlined-adornment-password">
-                        Password
-                      </InputLabel>
-                      <OutlinedInput
-                        color="secondary"
-                        id="outlined-adornment-password"
-                        type={values.showPassword ? "text" : "password"}
-                        value={values.password}
-                        onChange={handleChange("password")}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {values.showPassword ? (
-                                <Visibility />
-                              ) : (
-                                <VisibilityOff />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        labelWidth={70}
-                      />
-                    </FormControl>
-                  </ThemeProvider>
+                  </FormControl>
                 </CardContent>
                 <CardActions>
                   <Grid
@@ -169,25 +190,19 @@ export default function Home() {
                   >
                     <Button
                       className={classes.button}
-                      variant="contained"
+                      variant={"outlined"}
                       size="large"
                     >
                       Log In
                     </Button>
-                    <Typography
-                      style={{ color: "blue", padding: "10px 0 30px 0" }}
-                      align="center"
-                      gutterBottom
-                      variant="body2"
-                    >
-                      <Link href="/register">
-                        Don't have an account? Register!
-                      </Link>
-                    </Typography>
+
+                    <Link className={classes.dontHaveAcoount} href="/register">
+                      Don't have an account? Register!
+                    </Link>
 
                     <Button
                       className={classes.button}
-                      variant="contained"
+                      variant={"outlined"}
                       size="large"
                       className={classes.button}
                       startIcon={<GTranslateIcon />}
