@@ -2,11 +2,7 @@ import React from "react";
 import Head from "next/head";
 import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
-import {
-  makeStyles,
-  ThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,8 +10,6 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { orange } from "@material-ui/core/colors";
-import GTranslateIcon from "@material-ui/icons/GTranslate";
 import FormControl from "@material-ui/core/FormControl";
 import clsx from "clsx";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -24,45 +18,91 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Link from "next/link";
+import Link from "../utils/Link";
+
+import SvgIcon from "@material-ui/core/SvgIcon";
+
+const wrapSvgPath = (path, viewBox = "0 0 50 50") => (props) => (
+  <SvgIcon {...props} viewBox={viewBox}>
+    {path}
+  </SvgIcon>
+);
+const GoogleIcon = wrapSvgPath(
+  <path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 700,
-    marginTop: 50,
+    margin: theme.spacing(1),
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(2),
     alignContent: "center",
     minHeight: 300,
+    [theme.breakpoints.up("lg")]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(4),
+    },
   },
   margin: {
     margin: theme.spacing(1),
     width: "90%",
     background: "white",
+    "&:hover label.Mui-focused": {
+      color: "darkBlue",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "darkBlue",
+      },
+    },
   },
+
   textLogin: {
     fontWeight: "bold",
     paddingBottom: "20px",
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
   },
   loginImage: {
-    background: "#19345E",
+    background: theme.palette.secondary.secondary,
     padding: 20,
     paddingTop: "30%",
     minHeight: "100%",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
+
   button: {
+    fontFamily: "SFCompactDisplay-Regular, sans-serif",
+    backgroundColor: theme.palette.secondary.secondary,
+    borderColor: theme.palette.secondary.secondary,
+    color: theme.palette.common.white,
+    padding: "5px 20px",
     textTransform: "none",
-    background: "#6868F5",
-    color: "white",
+    borderRadius: theme.spacing(1),
+    minWidth: theme.spacing(12),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
   },
   textField: {
     width: "90%",
     background: "white",
   },
-}));
-const theme = createMuiTheme({
-  palette: {
-    secondary: orange,
+  textMuli: {
+    fontFamily: "Muli, sans-serif",
   },
-});
+  dontHaveAcoount: {
+    fontFamily: "Muli, sans-serif",
+    margin: "10px 0 40px",
+    color: theme.palette.secondary.secondary,
+  },
+}));
 
 export default function Home() {
   const classes = useStyles();
@@ -95,7 +135,7 @@ export default function Home() {
         <Grid container justify="center">
           <Card className={classes.root} variant="outlined">
             <Grid container>
-              <Grid item xs={5}>
+              <Grid item lg={5} xs={12}>
                 <Card className={classes.loginImage}>
                   <img
                     width="90%"
@@ -104,7 +144,7 @@ export default function Home() {
                   />
                 </Card>
               </Grid>
-              <Grid item xs={7} style={{ background: "#F4F7FC" }}>
+              <Grid item xs={12} lg={7} style={{ background: "#F4F7FC" }}>
                 <CardContent>
                   <Typography
                     className={classes.textLogin}
@@ -114,50 +154,48 @@ export default function Home() {
                   >
                     Sign In
                   </Typography>
-                  <ThemeProvider theme={theme}>
-                    <TextField
-                      className={classes.margin}
-                      label="User Name"
-                      size="medium"
-                      variant="outlined"
+                  <TextField
+                    className={classes.margin}
+                    label="Username"
+                    size="small"
+                    variant="outlined"
+                    color="secondary"
+                    id="mui-theme-provider-outlined-input"
+                  />
+                  <FormControl
+                    className={clsx(classes.margin, classes.textField)}
+                    variant="outlined"
+                    color="secondary"
+                    size="small"
+                  >
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
                       color="secondary"
-                      id="mui-theme-provider-outlined-input"
+                      id="outlined-adornment-password"
+                      type={values.showPassword ? "text" : "password"}
+                      value={values.password}
+                      onChange={handleChange("password")}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {values.showPassword ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      labelWidth={70}
                     />
-                    <FormControl
-                      className={clsx(classes.margin, classes.textField)}
-                      variant="outlined"
-                      color="secondary"
-                      size="medium"
-                    >
-                      <InputLabel htmlFor="outlined-adornment-password">
-                        Password
-                      </InputLabel>
-                      <OutlinedInput
-                        color="secondary"
-                        id="outlined-adornment-password"
-                        type={values.showPassword ? "text" : "password"}
-                        value={values.password}
-                        onChange={handleChange("password")}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                              edge="end"
-                            >
-                              {values.showPassword ? (
-                                <Visibility />
-                              ) : (
-                                <VisibilityOff />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        }
-                        labelWidth={70}
-                      />
-                    </FormControl>
-                  </ThemeProvider>
+                  </FormControl>
                 </CardContent>
                 <CardActions>
                   <Grid
@@ -169,30 +207,24 @@ export default function Home() {
                   >
                     <Button
                       className={classes.button}
-                      variant="contained"
+                      variant={"outlined"}
                       size="large"
                     >
-                      Log In
+                      Login
                     </Button>
-                    <Typography
-                      style={{ color: "blue", padding: "10px 0 30px 0" }}
-                      align="center"
-                      gutterBottom
-                      variant="body2"
-                    >
-                      <Link href="/register">
-                        Don't have an account? Register!
-                      </Link>
-                    </Typography>
+
+                    <Link className={classes.dontHaveAcoount} href="/register">
+                      Don't have an account? Register!
+                    </Link>
 
                     <Button
                       className={classes.button}
-                      variant="contained"
+                      variant={"outlined"}
                       size="large"
                       className={classes.button}
-                      startIcon={<GTranslateIcon />}
+                      startIcon={<GoogleIcon />}
                     >
-                      Log in using google account
+                      <Typography>Login using google account</Typography>
                     </Button>
                   </Grid>
                 </CardActions>
