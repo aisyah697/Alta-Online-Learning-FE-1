@@ -43,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 2px",
     transform: "scale(0.8)",
   },
-  title: {
-    fontSize: 14,
-  },
   pos: {
     marginBottom: 12,
   },
@@ -73,10 +70,7 @@ const useStyles = makeStyles((theme) => ({
   titleregis: {
     width: "100%",
   },
-  button: {
-    textTransform: "none",
-    marginBottom: "20px",
-  },
+
   titleText: {
     fontFamily: "Muli, sans-serif",
     margin: "30px",
@@ -84,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   button: {
+    marginBottom: "20px",
     fontFamily: "SFCompactDisplay-Regular, sans-serif",
     backgroundColor: theme.palette.secondary.secondary,
     borderColor: theme.palette.secondary.secondary,
@@ -274,7 +269,7 @@ export default function SimpleCard() {
                         size="small"
                         className={classes.formAll}
                       />
-                      <Grid container alignItems="left">
+                      <Grid container alignItems="flex-start">
                         <input
                           accept="image/*"
                           className={classes.input}
@@ -305,7 +300,7 @@ export default function SimpleCard() {
                     className={classes.textAlreadyHaveAccount}
                     href="/login"
                   >
-                    Already have account? Login!
+                    <Typography>Already have account? Login!</Typography>
                   </Link>
                 </Grid>
               </CardActions>
