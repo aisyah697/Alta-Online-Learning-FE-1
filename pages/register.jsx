@@ -88,7 +88,6 @@ export default function SimpleCard() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <React.Fragment>
