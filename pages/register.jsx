@@ -18,22 +18,25 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import Divider from "@material-ui/core/Divider";
-import Link from "next/link";
+import Link from "../utils/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: "80%",
-    marginTop: "25px",
-    background: "#19345E",
-    borderRadius: "0 0 0 0",
-  },
-  secondRoot: {
-    minWidth: "99%",
     marginBottom: "10px",
     background: "#F4F7FC",
     borderRadius: "0 0 0 0",
+  },
+  formAll: {
+    "&:hover label.Mui-focused": {
+      color: "darkBlue",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "darkBlue",
+      },
+    },
   },
   bullet: {
     display: "inline-block",
@@ -58,6 +61,14 @@ const useStyles = makeStyles((theme) => ({
     width: "80%",
     margin: theme.spacing(3),
     background: "white",
+    "&:hover label.Mui-focused": {
+      color: "darkBlue",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "darkBlue",
+      },
+    },
   },
   titleregis: {
     width: "100%",
@@ -65,6 +76,42 @@ const useStyles = makeStyles((theme) => ({
   button: {
     textTransform: "none",
     marginBottom: "20px",
+  },
+  titleText: {
+    fontFamily: "Muli, sans-serif",
+    margin: "30px",
+    color: "#19345E",
+    fontWeight: "bold",
+  },
+  button: {
+    fontFamily: "SFCompactDisplay-Regular, sans-serif",
+    backgroundColor: theme.palette.secondary.secondary,
+    borderColor: theme.palette.secondary.secondary,
+    color: theme.palette.common.white,
+    padding: "5px 20px",
+    textTransform: "none",
+    borderRadius: theme.spacing(1),
+    minWidth: theme.spacing(12),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
+  },
+  page: {
+    padding: "70px 0 50px 0",
+  },
+  textAlreadyHaveAccount: {
+    fontFamily: "Muli, sans-serif",
+    margin: "10px 0 40px",
+    color: theme.palette.secondary.secondary,
+  },
+  input: {
+    padding: "30px",
+    marginLeft: "10px",
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
   },
 }));
 
@@ -97,174 +144,173 @@ export default function SimpleCard() {
       </Head>
       <main>
         <NavigationBar />
-        <Grid container justify="center">
-          <Card className={classes.root}>
-            <Grid container justify="center">
-              <Typography
-                style={{ margin: "30px", color: "white" }}
-                align="center"
-                variant="h5"
-              >
-                Sign Up
-              </Typography>
-              <Card className={classes.secondRoot}>
-                <CardContent>
-                  <div className={classes.textInput}>
-                    <Grid container>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={6}
-                        container
-                        direction="column"
-                        justify="flex-start"
-                        alignItems="center"
+        <Grid className={classes.page} container justify="center">
+          <Grid container justify="center">
+            <Card elevation={0} className={classes.root}>
+              <CardContent>
+                <Typography
+                  className={classes.titleText}
+                  align="center"
+                  variant="h5"
+                >
+                  Sign Up
+                </Typography>
+                <div className={classes.textInput}>
+                  <Grid container>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      container
+                      direction="column"
+                      justify="flex-start"
+                      alignItems="center"
+                    >
+                      <TextField
+                        className={classes.formAll}
+                        variant="outlined"
+                        color="secondary"
+                        label="Full Name"
+                        placeholder="Ahmad Aji P"
+                        size="small"
+                      />
+                      <TextField
+                        className={classes.formAll}
+                        variant="outlined"
+                        color="secondary"
+                        label="Email"
+                        type="email"
+                        placeholder="example@alterra.id"
+                        size="small"
+                      />
+                      <TextField
+                        className={classes.formAll}
+                        variant="outlined"
+                        color="secondary"
+                        label="User Name"
+                        type="username"
+                        placeholder="Ahmad Aji P"
+                        size="small"
+                      />
+                      <FormControl
+                        className={clsx(classes.margin, classes.textField)}
+                        variant="outlined"
+                        size="small"
+                        color="secondary"
                       >
-                        <TextField
-                          variant="outlined"
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Password
+                        </InputLabel>
+                        <OutlinedInput
                           color="secondary"
-                          label="Full Name"
-                          placeholder="Ahmad Aji P"
-                          size="medium"
-                          variant="outlined"
+                          id="outlined-adornment-password"
+                          type={values.showPassword ? "text" : "password"}
+                          value={values.password}
+                          onChange={handleChange("password")}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {values.showPassword ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          labelWidth={70}
                         />
-                        <TextField
-                          variant="outlined"
-                          color="secondary"
-                          label="Email"
-                          type="email"
-                          placeholder="example@alterra.id"
-                          size="medium"
-                          variant="outlined"
-                        />
-                        <TextField
-                          variant="outlined"
-                          color="secondary"
-                          label="User Name"
-                          type="username"
-                          placeholder="Ahmad Aji P"
-                          size="medium"
-                          variant="outlined"
-                        />
-                        <FormControl
-                          className={clsx(classes.margin, classes.textField)}
-                          variant="outlined"
-                          color="secondary"
-                        >
-                          <InputLabel htmlFor="outlined-adornment-password">
-                            Password
-                          </InputLabel>
-                          <OutlinedInput
-                            color="secondary"
-                            id="outlined-adornment-password"
-                            type={values.showPassword ? "text" : "password"}
-                            value={values.password}
-                            onChange={handleChange("password")}
-                            endAdornment={
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowPassword}
-                                  onMouseDown={handleMouseDownPassword}
-                                  edge="end"
-                                >
-                                  {values.showPassword ? (
-                                    <Visibility />
-                                  ) : (
-                                    <VisibilityOff />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            }
-                            labelWidth={70}
-                          />
-                        </FormControl>
-                      </Grid>
-                      <Divider orientation="vertical" flexItem />
-                      <Grid
-                        item
-                        xs={12}
-                        sm={5}
-                        container
-                        direction="column"
-                        justify="flex-start"
-                        alignItems="center"
-                      >
-                        <TextField
-                          variant="outlined"
-                          color="secondary"
-                          id="date"
-                          label="Birthday"
-                          type="date"
-                          defaultValue="2017-05-24"
-                          className={classes.textField}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                        />
-                        <TextField
-                          variant="outlined"
-                          color="secondary"
-                          label="Birth Place"
-                          placeholder="Malang"
-                          size="medium"
-                          variant="outlined"
-                        />
-                        <TextField
-                          variant="outlined"
-                          color="secondary"
-                          label="Phone Number"
-                          placeholder="08XXXXXXXXXX"
-                          size="medium"
-                          variant="outlined"
-                        />
-                        <TextField
-                          variant="outlined"
-                          color="secondary"
-                          label="GitHub Link"
-                          placeholder="https://github.com/.........."
-                          size="medium"
-                          variant="outlined"
-                        />
+                      </FormControl>
+                    </Grid>
+                    <Divider orientation="vertical" flexItem />
+                    <Grid
+                      item
+                      xs={12}
+                      sm={5}
+                      container
+                      direction="column"
+                      justify="flex-start"
+                      alignItems="center"
+                    >
+                      <TextField
+                        variant="outlined"
+                        color="secondary"
+                        id="date"
+                        label="Birthday"
+                        type="date"
+                        size="small"
+                        defaultValue="2017-05-24"
+                        className={classes.textField}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                      <TextField
+                        className={classes.formAll}
+                        variant="outlined"
+                        color="secondary"
+                        label="Birth Place"
+                        placeholder="Malang"
+                        size="small"
+                      />
+                      <TextField
+                        variant="outlined"
+                        color="secondary"
+                        label="Phone Number"
+                        placeholder="08XXXXXXXXXX"
+                        size="small"
+                        className={classes.formAll}
+                      />
+                      <TextField
+                        variant="outlined"
+                        color="secondary"
+                        label="GitHub Link"
+                        placeholder="https://github.com/.........."
+                        size="small"
+                        className={classes.formAll}
+                      />
+                      <Grid container alignItems="left">
                         <input
                           accept="image/*"
                           className={classes.input}
                           id="icon-button-file"
                           type="file"
+                          size="large"
                         />
-                        <label htmlFor="icon-button-file">
-                          <IconButton
-                            color="primary"
-                            aria-label="upload picture"
-                            component="span"
-                          >
-                            <PhotoCamera />
-                          </IconButton>
-                        </label>
                       </Grid>
                     </Grid>
-                  </div>
-                </CardContent>
-                <Typography
-                  style={{ color: "blue", padding: "10px 10px 0 0" }}
-                  align="right"
-                  gutterBottom
-                  variant="body2"
-                >
-                  <Link href="/login">Already have account?</Link>
-                </Typography>
-              </Card>
+                  </Grid>
+                </div>
+              </CardContent>
               <CardActions>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  size="medium"
+                <Grid
+                  container
+                  direction="column"
+                  justify="center"
+                  alignItems="center"
                 >
-                  Register
-                </Button>
+                  <Button
+                    className={classes.button}
+                    variant={"outlined"}
+                    size="large"
+                  >
+                    Register
+                  </Button>
+                  <Link
+                    className={classes.textAlreadyHaveAccount}
+                    href="/login"
+                  >
+                    Already have account? Login!
+                  </Link>
+                </Grid>
               </CardActions>
-            </Grid>
-          </Card>
+            </Card>
+          </Grid>
         </Grid>
         <Footer />
       </main>
