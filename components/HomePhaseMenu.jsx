@@ -25,8 +25,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Muli, sans-serif'
     },
     card: {
-        maxWidth: 300,
-        minWidth: 300,
+        maxWidth: 320,
         margin: theme.spacing(3),
     },
     title: {
