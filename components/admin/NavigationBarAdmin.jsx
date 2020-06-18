@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import ScrollTop from "../utils/ScrollTop";
+import ScrollTop from "../../utils/ScrollTop";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -21,7 +21,6 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Link from "../utils/Link";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,40 +31,27 @@ const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
     },
-    toolbar : {
-        [theme.breakpoints.up('lg')]: {
-            paddingLeft: theme.spacing(8),
-            paddingRight: theme.spacing(8),
-        },
-    },
     navLogo: {
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1)
     },
     menu: {
-        color: theme.palette.secondary.secondary,
+        color: theme.palette.primary.secondary,
         fontSize: '16px',
         display: 'flex',
         alignItems: 'center',
-        marginRight: theme.spacing(3),
-        cursor: 'pointer',
-        '&:hover': {
-            color: theme.palette.secondary.main
-        }
+        marginRight: '10px',
+        marginLeft: '10px',
+        cursor: 'pointer'
     },
     button : {
-        backgroundColor: theme.palette.secondary.main,
-        borderColor: theme.palette.secondary.main,
+        backgroundColor: '#6868F5',
         color: theme.palette.common.white,
-        padding: '7px 20px',
-        textTransform: 'none',
-        borderRadius: theme.spacing(10),
-        minWidth: theme.spacing(12),
+        margin: '0 10px',
         '&:hover' : {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.secondary.main,
-            textDecoration: 'none',
-            borderColor: theme.palette.secondary.main,
+            backgroundColor: '#6868F5',
+            color: theme.palette.common.white,
+            textDecoration: 'none'
         }
     },
     sectionDesktop: {
@@ -81,35 +67,16 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     menuLogo: {
-        backgroundColor: theme.palette.secondary.secondary,
-        padding: theme.spacing(3),
-        paddingTop: theme.spacing(3),
+        padding: theme.spacing(1),
+        paddingTop: theme.spacing(2),
         justifyContent: 'center',
         alignItems: 'center',
-        display: 'flex'
-    },
-    paper: {
-        minWidth: '20vw',
-    },
-    infoUser: {
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(2),
-        display: 'flex'
-    },
-    infoName: {
-        paddingLeft: theme.spacing(2),
-        paddingTop: theme.spacing(1)
-    },
-    avatarPop: {
-        paddingTop: theme.spacing(0)
-    },
-    popMenu: {
-        paddingTop: 0,
-        paddingBottom: 0
+        display: 'flex',
+        backgroundColor: theme.palette.secondary.secondary
     }
 }));
 
-export default function NavigationBar(props) {
+export default function NavigationBarAdmin(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -135,25 +102,23 @@ export default function NavigationBar(props) {
     };
 
     const NavBarLogo = (
-            <>
-                <Card elevation={0} className={classes.navLogo}>
-                    <Link href="/">
-                        <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
-                    </Link>
-                </Card>
-            </>
+        <>
+            <Card elevation={0} className={classes.navLogo}>
+                <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+            </Card>
+        </>
     )
 
     const MenuBar = (
         <>
             <Typography className={classes.menu} variant="h6" noWrap>
-                Courses
+                Academic
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
-                Certification
+                Mentees
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
-                All Courses
+                Admin
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help
@@ -163,47 +128,27 @@ export default function NavigationBar(props) {
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
-        <Popper open={isMenuOpen}
-                anchorEl={anchorEl}
-                role={undefined}
-                transition
-                disablePortal
-                style={{zIndex: '1 !important'}}
+        <Popper open={isMenuOpen} anchorEl={anchorEl} role={undefined} transition disablePortal
+                style={{zIndex: '1'}}
         >
             {({ TransitionProps, placement }) => (
                 <Grow
                     {...TransitionProps}
                     style={{ transformOrigin: placement === 'bottom' ? 'left top' : 'center bottom' }}
                 >
-                    <Paper elevation={1} className={classes.paper}>
+                    <Paper>
                         <div className={classes.menuLogo}>
                             <img height="60" src="/images/logo_popper.png" alt="Logo Navbar"/>
                         </div>
-                        <div className={classes.infoUser}>
-                            <div className={classes.avatarPop}>
-                                <IconButton
-                                    edge="end"
-                                    aria-label="account of current user"
-                                    aria-haspopup="true"
-                                    color="primary"
-                                >
-                                    <Avatar> A </Avatar>
-                                </IconButton>
-                            </div>
-                            <div className={classes.infoName}>
-                                <Typography style={{fontSize: '18px'}}> Agus Dwi Sasongko</Typography>
-                                <Typography style={{fontSize: '14px'}}> agusdwi@alterra.id </Typography>
-                            </div>
-                        </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
+                                <MenuItem onClick={handleMenuClose}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <SettingsIcon/>
                                     </IconButton>
                                     <p>Manage Your Account</p>
                                 </MenuItem>
-                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
+                                <MenuItem onClick={handleMenuClose}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <ExitToAppIcon/>
                                     </IconButton>
@@ -246,19 +191,16 @@ export default function NavigationBar(props) {
         <React.Fragment>
             <CssBaseline />
             <AppBar>
-                <Toolbar classes={{gutters:classes.toolbar}}>
+                <Toolbar>
                     {NavBarLogo}
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         {MenuBar}
                         <div className={'menuButton'}>
-                            <Button variant="outlined" aria-label="login"
-                                    className={classes.button}
-                                    style={{ marginRight: '15px' }}>
+                            <Button aria-label="login" className={classes.button}>
                                 Login
                             </Button>
-                            <Button variant="outlined" aria-label="signUp"
-                                    className={classes.button} >
+                            <Button aria-label="signUp" className={classes.button} >
                                 SignUp
                             </Button>
                             <IconButton
