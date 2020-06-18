@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     height: 390,
   },
   button: {
+<<<<<<< HEAD
     fontFamily: "SFCompactDisplay-Regular, sans-serif",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
@@ -37,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
       borderColor: theme.palette.secondary.main,
     },
+=======
+    width: "180px",
+    textTransform: "none",
+    background: "#3364ff",
+    color: "white",
+>>>>>>> master
   },
 }));
 
@@ -49,7 +56,10 @@ export default function Home() {
         <title>Admin | Alta Online Learning</title>
       </Head>
       <main>
+<<<<<<< HEAD
         {/* <img src="/images/quote.png" /> */}
+=======
+>>>>>>> master
         <Grid
           className={classes.cardMenu}
           container
@@ -68,9 +78,16 @@ export default function Home() {
             <CardActions>
               <Grid container justify="center">
                 <Button
+<<<<<<< HEAD
                   className={classes.button}
                   variant={"outlined"}
                   size="medium"
+=======
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  className={classes.button}
+>>>>>>> master
                   startIcon={<GroupWorkSharpIcon />}
                 >
                   Our Mentee
