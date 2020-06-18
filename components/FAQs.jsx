@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
     list: {
         width: '100%',
-        maxWidth: 500,
+        maxWidth: '60vw',
         fontFamily: 'Muli, sans-serif'
     },
     nested: {
@@ -65,19 +65,21 @@ export default function FrequentQuestion () {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
-    const [open2, setOpen2] = React.useState(false);
-    const [open3, setOpen3] = React.useState(false);
-    const [open4, setOpen4] = React.useState(false);
-
     const handleClick = () => {
         setOpen(!open);
     };
+
+    const [open2, setOpen2] = React.useState(false);
     const handleClick2 = () => {
         setOpen2(!open2);
     };
+
+    const [open3, setOpen3] = React.useState(false);
     const handleClick3 = () => {
         setOpen3(!open3);
     };
+
+    const [open4, setOpen4] = React.useState(false);
     const handleClick4 = () => {
         setOpen4(!open4);
     };
