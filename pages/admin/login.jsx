@@ -1,7 +1,5 @@
 import React from "react";
 import Head from "next/head";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -18,8 +16,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Link from "../utils/Link";
-
 import SvgIcon from "@material-ui/core/SvgIcon";
 
 const wrapSvgPath = (path, viewBox = "0 0 50 50") => (props) => (
@@ -79,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.secondary,
     borderColor: theme.palette.secondary.secondary,
     color: theme.palette.common.white,
+    margin: "20px",
     padding: "5px 20px",
     textTransform: "none",
     borderRadius: theme.spacing(1),
@@ -96,11 +93,6 @@ const useStyles = makeStyles((theme) => ({
   },
   textMuli: {
     fontFamily: "Muli, sans-serif",
-  },
-  dontHaveAcoount: {
-    fontFamily: "Muli, sans-serif",
-    margin: "10px 0 40px",
-    color: theme.palette.secondary.secondary,
   },
 }));
 
@@ -131,7 +123,6 @@ export default function Home() {
         <title>Login | Alta Online Learning</title>
       </Head>
       <main>
-        <NavigationBar />
         <Grid container justify="center">
           <Card className={classes.root} variant="outlined">
             <Grid container>
@@ -152,7 +143,7 @@ export default function Home() {
                     variant="h5"
                     gutterBottom
                   >
-                    Sign In
+                    Sign In Admin
                   </Typography>
                   <TextField
                     className={classes.margin}
@@ -212,11 +203,6 @@ export default function Home() {
                     >
                       Login
                     </Button>
-
-                    <Link className={classes.dontHaveAcoount} href="/register">
-                      Don't have an account? Register!
-                    </Link>
-
                     <Button
                       className={classes.button}
                       variant={"outlined"}
@@ -232,7 +218,6 @@ export default function Home() {
             </Grid>
           </Card>
         </Grid>
-        <Footer />
       </main>
     </React.Fragment>
   );
