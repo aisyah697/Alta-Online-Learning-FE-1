@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
   textAlreadyHaveAccount: {
     fontFamily: "Muli, sans-serif",
-    padding: "10px 0 40px",
+    margin: "10px 0 40px",
     color: theme.palette.secondary.secondary,
   },
   input: {
