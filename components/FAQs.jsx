@@ -23,35 +23,60 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: theme.spacing(5),
+            paddingBottom: theme.spacing(5),
+        }
     },
     title: {
         color: theme.palette.secondary.secondary,
-        fontWeight: 700,
         paddingBottom: theme.spacing(2),
+        fontSize: `calc(2em + 0.5vw)`,
+        fontWeight: 600
     },
     list: {
         width: '100%',
         maxWidth: '60vw',
+        fontFamily: 'Muli, sans-serif',
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: '95vw'
+        }
+    },
+    text: {
+        cursor: 'pointer',
+        color: theme.palette.secondary.secondary,
+        fontWeight: 600,
         fontFamily: 'Muli, sans-serif'
     },
     nested: {
         paddingLeft: theme.spacing(9),
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: theme.spacing(2),
+        }
+    },
+    ornament: {
+        height: '50vh',
+        paddingTop: theme.spacing(1),
+        [theme.breakpoints.down("sm")]: {
+            paddingTop: '25px',
+        },
+        position: 'absolute',
     },
 }));
 
 const MyList = ({classes, open, title, content, handleClick}) => {
     return (
         <>
-            <ListItem button onClick={handleClick}>
-                <ListItemIcon>
+            <ListItem className={classes.text} onClick={handleClick}>
+                <ListItemIcon style={{color: '#19355f'}}>
                     {open ? <ExpandLess /> : <NavigateNextIcon />}
                 </ListItemIcon>
-                <ListItemText primary={title} />
+                <Typography>{title}</Typography>
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItem className={classes.nested}>
-                        <Typography>
+                        <Typography style={{color: '#19355f', textAlign: 'justify'}}>
                             {content}
                         </Typography>
                     </ListItem>
@@ -88,6 +113,7 @@ export default function FrequentQuestion () {
         <React.Fragment>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
+                    <img className={classes.ornament} src="/images/ornament_batik.png" alt="Ornament"/>
                     <Grid item xs={12} className={classes.container}>
                         <Typography variant={'h5'} className={classes.title}> FAQ </Typography>
                         <>
