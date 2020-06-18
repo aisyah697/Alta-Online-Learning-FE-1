@@ -18,19 +18,15 @@ const useStyles = makeStyles((theme) => ({
         minHeight: '80vh',
         justifyContent: 'center',
         alignItems: 'center',
+        display: 'flex',
         [theme.breakpoints.up("lg")]: {
             display: 'flex'
         },
         fontFamily: 'Muli, sans-serif'
     },
     card: {
-        width: 250,
-        minHeight: 400,
+        maxWidth: 320,
         margin: theme.spacing(3),
-        [theme.breakpoints.down("sm")]: {
-            width: 310,
-            height: 510,
-        }
     },
     title: {
         textAlign: 'center',
@@ -75,15 +71,15 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     content: {
-        backgroundColor: '#33dcdc',
-        height: 300,
+        backgroundColor: '#c0e5e5',
+        minHeight: 300,
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex'
     },
     content2: {
         backgroundColor: '#DFE6ED',
-        height: 300,
+        minHeight: 300,
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex'
