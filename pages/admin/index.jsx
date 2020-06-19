@@ -10,40 +10,54 @@ import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import Grid from "@material-ui/core/Grid";
 import PeopleAltSharpIcon from "@material-ui/icons/PeopleAltSharp";
 import GroupWorkSharpIcon from "@material-ui/icons/GroupWorkSharp";
+import NavigationBarAdmin from "../../components/admin/NavigationBarAdmin";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 250,
     margin: theme.spacing(4),
+    borderColor: theme.palette.secondary.main,
+    borderStyle: "solid",
+    borderWidth: "5px",
+    "&:hover": {
+      borderColor: theme.palette.secondary.secondary,
+    },
   },
   cardMenu: {
     background: "#F4F7FC",
+    marginTop: theme.spacing(2),
+    paddingBottom: theme.spacing(10),
   },
   media: {
     height: 390,
   },
   button: {
-<<<<<<< HEAD
-    fontFamily: "SFCompactDisplay-Regular, sans-serif",
-    backgroundColor: theme.palette.secondary.main,
-    borderColor: theme.palette.secondary.main,
-    color: theme.palette.common.white,
-    padding: "5px 20px",
-    textTransform: "none",
-    borderRadius: theme.spacing(1),
-    minWidth: theme.spacing(12),
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.main,
-      textDecoration: "none",
-      borderColor: theme.palette.secondary.main,
-    },
-=======
     width: "180px",
     textTransform: "none",
     background: "#3364ff",
     color: "white",
->>>>>>> master
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+    padding: "7px 20px",
+    textTransform: "none",
+    borderRadius: theme.spacing(10),
+    minWidth: theme.spacing(12),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
+  },
+  monitoring: {
+    textAlign: "center",
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(2em + 0.5vw)`,
+    color: theme.palette.secondary.secondary,
+    fontWeight: 600,
+    paddingTop: theme.spacing(4),
   },
 }));
 
@@ -56,90 +70,77 @@ export default function Home() {
         <title>Admin | Alta Online Learning</title>
       </Head>
       <main>
-<<<<<<< HEAD
-        {/* <img src="/images/quote.png" /> */}
-=======
->>>>>>> master
-        <Grid
-          className={classes.cardMenu}
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-        >
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image="/images/mentee_pict.jpg"
-                title="Contemplative Reptile"
-              />
-            </CardActionArea>
-            <CardActions>
-              <Grid container justify="center">
-                <Button
-<<<<<<< HEAD
-                  className={classes.button}
-                  variant={"outlined"}
-                  size="medium"
-=======
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  className={classes.button}
->>>>>>> master
-                  startIcon={<GroupWorkSharpIcon />}
-                >
-                  Our Mentee
-                </Button>
-              </Grid>
-            </CardActions>
-          </Card>
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image="/images/module_ilustrations.jpg"
-                title="Contemplative Reptile"
-              />
-            </CardActionArea>
-            <CardActions>
-              <Grid container justify="center">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  className={classes.button}
-                  startIcon={<ViewModuleIcon />}
-                >
-                  Our Module
-                </Button>
-              </Grid>
-            </CardActions>
-          </Card>
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image="/images/profile_ilustration.png"
-                title="Contemplative Reptile"
-              />
-            </CardActionArea>
-            <CardActions>
-              <Grid container justify="center">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  className={classes.button}
-                  startIcon={<PeopleAltSharpIcon />}
-                >
-                  See Your Profile
-                </Button>
-              </Grid>
-            </CardActions>
-          </Card>
-        </Grid>
+        <NavigationBarAdmin />
+        <div className={classes.cardMenu}>
+          <Typography className={classes.monitoring}>Monitoring</Typography>
+          <Grid container direction="row" justify="center" alignItems="center">
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image="/images/mentee_pict.jpg"
+                  title="Contemplative Reptile"
+                />
+              </CardActionArea>
+              <CardActions>
+                <Grid container justify="center">
+                  <Button
+                    variant="outlined"
+                    size="medium"
+                    className={classes.button}
+                    startIcon={<GroupWorkSharpIcon />}
+                  >
+                    Our Mentee
+                  </Button>
+                </Grid>
+              </CardActions>
+            </Card>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image="/images/module_ilustrations.jpg"
+                  title="Contemplative Reptile"
+                />
+              </CardActionArea>
+              <CardActions>
+                <Grid container justify="center">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="medium"
+                    className={classes.button}
+                    startIcon={<ViewModuleIcon />}
+                  >
+                    Our Module
+                  </Button>
+                </Grid>
+              </CardActions>
+            </Card>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image="/images/profile_ilustration.png"
+                  title="Contemplative Reptile"
+                />
+              </CardActionArea>
+              <CardActions>
+                <Grid container justify="center">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="medium"
+                    className={classes.button}
+                    startIcon={<PeopleAltSharpIcon />}
+                  >
+                    See Your Profile
+                  </Button>
+                </Grid>
+              </CardActions>
+            </Card>
+          </Grid>
+        </div>
       </main>
     </React.Fragment>
   );
