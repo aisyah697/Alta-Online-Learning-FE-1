@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Muli, sans-serif',
         [theme.breakpoints.down('sm')]: {
             maxWidth: '95vw'
-        }
+        },
     },
     text: {
         cursor: 'pointer',
@@ -71,7 +71,7 @@ const MyList = ({classes, open, title, content, handleClick}) => {
                 <ListItemIcon style={{color: '#19355f'}}>
                     {open ? <ExpandLess /> : <NavigateNextIcon />}
                 </ListItemIcon>
-                <Typography>{title}</Typography>
+                <Typography style={{fontWeight: '600'}}>{title}</Typography>
             </ListItem>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>

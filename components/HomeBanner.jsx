@@ -45,7 +45,12 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(50)
     },
     bannerImageSmall: {
-        width: theme.spacing(30)
+        display: 'none',
+        [theme.breakpoints.down('sm')]: {
+            display: 'block',
+            width: theme.spacing(30),
+            paddingLeft: theme.spacing(5)
+        }
     },
     button : {
         backgroundColor: theme.palette.secondary.main,
