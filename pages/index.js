@@ -1,9 +1,12 @@
 import React from "react";
-import Head from 'next/head'
+import Head from "next/head";
 import NavigationBar from "../components/NavigationBar";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
+import Footer from "../components/Footer";
 import HomeBanner from "../components/HomeBanner";
+import HomePhaseMenu from "../components/HomePhaseMenu";
+import SubFooter from "../components/SubFooter";
+import FrequentQuestion from "../components/FAQs";
+import HomeTestimony from "../components/HomeTestimony";
 
 class Home extends React.Component {
     render() {
@@ -15,14 +18,16 @@ class Home extends React.Component {
 
                 <main>
                     <NavigationBar/>
-
                     <HomeBanner/>
-
+                    <HomePhaseMenu/>
+                    <HomeTestimony/>
+                    <FrequentQuestion/>
+                    <SubFooter/>
+                    <Footer/>
                 </main>
             </React.Fragment>
         )
     }
 }
-
 
 export default Home;

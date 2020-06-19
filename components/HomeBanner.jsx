@@ -1,84 +1,99 @@
 import React from 'react';
-import Link from '../utils/Link'
-import SearchIcon from "@material-ui/icons/Search";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
     bannerBox: {
-        justifyContent: 'center',
-        display: 'flex',
+        backgroundColor: '#F4F7FC',
+    },
+    leftBanner: {
+        height: '100vh',
         alignItems: 'center',
-        backgroundColor: '#F4F7FC'
-    },
-    bannerTitle: {
-        position: 'absolute',
-        color: theme.palette.common.white,
-        fontSize: `calc(1rem + 1.5vw)`,
-        padding: theme.spacing(3),
-        fontFamily: 'Bellota, cursive',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
+        position: 'relative',
     },
-    // bannerButton: {
-    //     marginTop: theme.spacing(2),
-    //     width: '100%',
-    //     height: theme.spacing(6),
-    //     borderRadius: theme.spacing(10),
-    //     borderColor: '#939292',
-    //     color: theme.palette.common.white,
-    //     [theme.breakpoints.up("lg")]: {
-    //         width: '100%',
-    //     },
-    //     '&:hover': {
-    //         backgroundColor: 'rgba(111,227,61,0.85)',
-    //         color: '#090101',
-    //         borderColor: 'rgba(47,34,30,0.62)',
-    //     }
-    // },
-    // bannerImage: {
-    //     display: 'block',
-    //     boxSizing: 'border-box',
-    //     width: '100%',
-    //     height: '500px',
-    //     objectFit: 'cover',
-    //     [theme.breakpoints.down("sm")]: {
-    //         height: 'auto',
-    //         minHeight: '63vh'
-    //     },
-    // },
-    // link: {
-    //     width: '20%',
-    //     [theme.breakpoints.down("sm")]: {
-    //         width: 'auto'
-    //     },
-    // }
+    rightBanner: {
+        height: '100vh',
+        alignItems: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        [theme.breakpoints.down("sm")]: {
+            display: 'none'
+        },
+    },
+    ornament: {
+        height: '50vh',
+        [theme.breakpoints.down("sm")]: {
+            paddingTop: '25px',
+        },
+        position: 'absolute'
+    },
+    leftText: {
+        padding: theme.spacing(5),
+        fontFamily: 'Muli, sans-serif',
+        color: theme.palette.secondary.secondary,
+        [theme.breakpoints.up("lg")]: {
+            paddingLeft: theme.spacing(17),
+            paddingRight: theme.spacing(15)
+        },
+        zIndex: 1
+    },
+    bannerImage: {
+        width: theme.spacing(50)
+    },
+    bannerImageSmall: {
+        display: 'none',
+        [theme.breakpoints.down('sm')]: {
+            display: 'block',
+            width: theme.spacing(30),
+            paddingLeft: theme.spacing(5)
+        }
+    },
+    button : {
+        backgroundColor: theme.palette.secondary.main,
+        borderColor: theme.palette.secondary.main,
+        color: theme.palette.common.white,
+        padding: '7px 20px',
+        marginTop: theme.spacing(3),
+        textTransform: 'none',
+        borderRadius: theme.spacing(10),
+        minWidth: theme.spacing(12),
+        '&:hover' : {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.secondary.main,
+            textDecoration: 'none',
+            borderColor: theme.palette.secondary.main,
+        }
+    },
 }));
 
 export default function HomeBanner () {
     const classes = useStyles();
     return (
         <React.Fragment>
-            <Box pt={5} mt={1} width={'100%'} padding={0} className={classes.bannerBox}>
-                <img src=""
-                     alt="Cover"
-                     className={classes.bannerImage}
-                />
-                <div className={classes.bannerTitle}>
-                    ALTA ONLINE LEARNING
-
-                    <Link href={"/about"} className={classes.link}>
-                        <Button className={classes.bannerButton}
-                                variant="outlined"
-                                startIcon={<SearchIcon/>}
-                        >
-                            BROWSE
-                        </Button>
-                    </Link>
-                </div>
+            <Box width={'100%'} padding={0} className={classes.bannerBox}>
+                <Grid container spacing={0}>
+                    <Grid item xs={12} lg={6} className={classes.leftBanner}>
+                        <img className={classes.ornament} src="/images/ornament_batik.png" alt="Ornament"/>
+                        <div className={classes.leftText}>
+                            <img className={classes.bannerImageSmall} src="/images/banner_image_1.png" alt="Banner"/>
+                            <Typography style={{fontSize: '35px', fontWeight: 'bold'}}> What is Alta </Typography>
+                            <Typography style={{fontSize: '35px', fontWeight: 'bold'}}> Online Learning? </Typography>
+                            <Typography> Alterra Online Learning is a online tech talent learning that gives everyone (even non-IT background) a chance to be a professional Tech Talent. </Typography>
+                            <>
+                            <Button variant={'outlined'} className={classes.button}>
+                                Register
+                            </Button>
+                            </>
+                        </div>
+                    </Grid>
+                    <Grid item xs={12} lg={6} className={classes.rightBanner}>
+                        <img className={classes.bannerImage} src="/images/banner_image_1.png" alt="Banner"/>
+                    </Grid>
+                </Grid>
             </Box>
         </React.Fragment>
     )
