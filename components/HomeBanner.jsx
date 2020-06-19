@@ -85,7 +85,7 @@ export default function HomeBanner () {
                             <Typography> Alterra Online Learning is a online tech talent learning that gives everyone (even non-IT background) a chance to be a professional Tech Talent. </Typography>
                             <>
                             <Button variant={'outlined'} className={classes.button}>
-                                Register
+                                View Course
                             </Button>
                             </>
                         </div>

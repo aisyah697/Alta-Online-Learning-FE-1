@@ -21,6 +21,7 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Link from "../../utils/Link";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,27 +32,40 @@ const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
     },
+    toolbar : {
+        [theme.breakpoints.up('lg')]: {
+            paddingLeft: theme.spacing(8),
+            paddingRight: theme.spacing(8),
+        },
+    },
     navLogo: {
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1)
     },
     menu: {
-        color: theme.palette.primary.secondary,
+        color: theme.palette.secondary.secondary,
         fontSize: '16px',
         display: 'flex',
         alignItems: 'center',
-        marginRight: '10px',
-        marginLeft: '10px',
-        cursor: 'pointer'
+        marginRight: theme.spacing(3),
+        cursor: 'pointer',
+        '&:hover': {
+            color: theme.palette.secondary.main
+        }
     },
     button : {
-        backgroundColor: '#6868F5',
+        backgroundColor: theme.palette.secondary.main,
+        borderColor: theme.palette.secondary.main,
         color: theme.palette.common.white,
-        margin: '0 10px',
+        padding: '7px 20px',
+        textTransform: 'none',
+        borderRadius: theme.spacing(10),
+        minWidth: theme.spacing(12),
         '&:hover' : {
-            backgroundColor: '#6868F5',
-            color: theme.palette.common.white,
-            textDecoration: 'none'
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.secondary.main,
+            textDecoration: 'none',
+            borderColor: theme.palette.secondary.main,
         }
     },
     sectionDesktop: {
@@ -67,16 +81,41 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     menuLogo: {
-        padding: theme.spacing(1),
-        paddingTop: theme.spacing(2),
+        backgroundColor: theme.palette.secondary.secondary,
+        padding: theme.spacing(3),
+        paddingTop: theme.spacing(3),
         justifyContent: 'center',
         alignItems: 'center',
-        display: 'flex',
-        backgroundColor: theme.palette.secondary.secondary
+        display: 'flex'
+    },
+    paper: {
+        minWidth: '20vw',
+    },
+    infoUser: {
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(2),
+        display: 'flex'
+    },
+    infoName: {
+        paddingLeft: theme.spacing(2),
+        paddingTop: theme.spacing(1)
+    },
+    avatarPop: {
+        paddingTop: theme.spacing(0)
+    },
+    popMenu: {
+        paddingTop: 0,
+        paddingBottom: 0
+    },
+    scrollTop: {
+        backgroundColor: 'rgba(244,117,46,0.6)',
+        '&:hover': {
+            backgroundColor: theme.palette.secondary.main
+        }
     }
 }));
 
-export default function NavigationBarAdmin(props) {
+export default function NavigationAdminBar(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -104,7 +143,9 @@ export default function NavigationBarAdmin(props) {
     const NavBarLogo = (
         <>
             <Card elevation={0} className={classes.navLogo}>
-                <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+                <Link href="/">
+                    <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+                </Link>
             </Card>
         </>
     )
@@ -118,7 +159,7 @@ export default function NavigationBarAdmin(props) {
                 Mentees
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
-                Admin
+                Admins
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help
@@ -128,27 +169,47 @@ export default function NavigationBarAdmin(props) {
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
-        <Popper open={isMenuOpen} anchorEl={anchorEl} role={undefined} transition disablePortal
-                style={{zIndex: '1'}}
+        <Popper open={isMenuOpen}
+                anchorEl={anchorEl}
+                role={undefined}
+                transition
+                disablePortal
+                style={{zIndex: '1 !important'}}
         >
             {({ TransitionProps, placement }) => (
                 <Grow
                     {...TransitionProps}
                     style={{ transformOrigin: placement === 'bottom' ? 'left top' : 'center bottom' }}
                 >
-                    <Paper>
+                    <Paper elevation={1} className={classes.paper}>
                         <div className={classes.menuLogo}>
                             <img height="60" src="/images/logo_popper.png" alt="Logo Navbar"/>
                         </div>
+                        <div className={classes.infoUser}>
+                            <div className={classes.avatarPop}>
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-haspopup="true"
+                                    color="primary"
+                                >
+                                    <Avatar> A </Avatar>
+                                </IconButton>
+                            </div>
+                            <div className={classes.infoName}>
+                                <Typography style={{fontSize: '18px'}}> Agus Dwi Sasongko</Typography>
+                                <Typography style={{fontSize: '14px'}}> agusdwi@alterra.id </Typography>
+                            </div>
+                        </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <MenuItem onClick={handleMenuClose}>
+                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <SettingsIcon/>
                                     </IconButton>
                                     <p>Manage Your Account</p>
                                 </MenuItem>
-                                <MenuItem onClick={handleMenuClose}>
+                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <ExitToAppIcon/>
                                     </IconButton>
@@ -191,18 +252,25 @@ export default function NavigationBarAdmin(props) {
         <React.Fragment>
             <CssBaseline />
             <AppBar>
-                <Toolbar>
+                <Toolbar classes={{gutters:classes.toolbar}}>
                     {NavBarLogo}
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         {MenuBar}
                         <div className={'menuButton'}>
-                            <Button aria-label="login" className={classes.button}>
-                                Login
-                            </Button>
-                            <Button aria-label="signUp" className={classes.button} >
-                                SignUp
-                            </Button>
+                            <Link href="/admin/login">
+                                <Button variant="outlined" aria-label="login"
+                                        className={classes.button}
+                                        style={{ marginRight: '15px' }}>
+                                    Login
+                                </Button>
+                            </Link>
+                            <Link href="/admin/register">
+                                <Button variant="outlined" aria-label="signUp"
+                                        className={classes.button} >
+                                    SignUp
+                                </Button>
+                            </Link>
                             <IconButton
                                 edge="end"
                                 aria-label="account of current user"
@@ -233,7 +301,7 @@ export default function NavigationBarAdmin(props) {
             {renderMobileMenu}
 
             <ScrollTop {...props}>
-                <Fab color="secondary" size="small" aria-label="scroll back to top">
+                <Fab className={classes.scrollTop} color="secondary" size="small" aria-label="scroll back to top">
                     <KeyboardArrowUpIcon color="primary" />
                 </Fab>
             </ScrollTop>
