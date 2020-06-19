@@ -258,15 +258,19 @@ export default function NavigationAdminBar(props) {
                     <div className={classes.sectionDesktop}>
                         {MenuBar}
                         <div className={'menuButton'}>
-                            <Button variant="outlined" aria-label="login"
-                                    className={classes.button}
-                                    style={{ marginRight: '15px' }}>
-                                Login
-                            </Button>
-                            <Button variant="outlined" aria-label="signUp"
-                                    className={classes.button} >
-                                SignUp
-                            </Button>
+                            <Link href="/admin/login">
+                                <Button variant="outlined" aria-label="login"
+                                        className={classes.button}
+                                        style={{ marginRight: '15px' }}>
+                                    Login
+                                </Button>
+                            </Link>
+                            <Link href="/admin/register">
+                                <Button variant="outlined" aria-label="signUp"
+                                        className={classes.button} >
+                                    SignUp
+                                </Button>
+                            </Link>
                             <IconButton
                                 edge="end"
                                 aria-label="account of current user"
