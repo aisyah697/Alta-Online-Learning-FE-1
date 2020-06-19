@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import Link from "../utils/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     justifyContent: "center",
+    cursor: 'pointer'
   },
   typography: {
     color: "white",
@@ -72,11 +74,13 @@ export default function Footer(props) {
         <Container className={classes.mainContainer}>
           <Grid container spacing={3}>
             <Grid item xs={4} style={{ margin: "auto" }}>
-              <img
-                className={classes.logo}
-                src="/logo_footer.png"
-                alt="logo-alta"
-              />
+              <Link href="/">
+                <img
+                  className={classes.logo}
+                  src="/logo_footer.png"
+                  alt="logo-alta"
+                />
+              </Link>
             </Grid>
             <Grid
               item
