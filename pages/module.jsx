@@ -5,8 +5,7 @@ import NavigationBar from "../components/NavigationBar";
 import Footer from "../components/Footer";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
+import SubFooter from "../components/SubFooter";
 
 const useStyles = makeStyles((theme) => ({
   bodyContent: {
@@ -33,36 +32,8 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(10),
     },
   },
-  access: {
-    fontFamily: "Muli, sans-serif",
-    fontSize: `calc(1em + 0.9vw)`,
-    textAlign: "center",
-    fontWeight: "bold",
-    color: theme.palette.secondary.secondary,
-    marginBottom: theme.spacing(4),
-  },
-  button: {
-    backgroundColor: theme.palette.secondary.main,
-    borderColor: theme.palette.secondary.main,
-    color: theme.palette.common.white,
-    padding: "7px 30px",
-    textTransform: "none",
-    borderRadius: theme.spacing(10),
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.main,
-      textDecoration: "none",
-      borderColor: theme.palette.secondary.main,
-    },
-  },
-  bottomBodyContent: {
-    padding: theme.spacing(1),
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(9),
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: theme.spacing(-4),
-      paddingTop: theme.spacing(3),
-    },
+  margin: {
+    margin: theme.spacing(4, 0),
   },
 }));
 
@@ -83,20 +54,8 @@ export default function Home() {
           <ModuleList />
           <ModuleList />
         </div>
-        <div className={classes.bottomBodyContent}>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
-            <Typography className={classes.access}>
-              You can now access the course!
-            </Typography>
-            <Button variant="outlined" size="medium" className={classes.button}>
-              SignUp
-            </Button>
-          </Grid>
+        <div className={classes.margin}>
+          <SubFooter />
         </div>
         <Footer />
       </main>
