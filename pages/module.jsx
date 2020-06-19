@@ -82,6 +82,8 @@ export default function Home() {
           </Typography>
           <ModuleList />
           <ModuleList />
+          <ModuleList />
+          <ModuleList />
         </div>
         <div className={classes.bottomBodyContent}>
           <Grid
