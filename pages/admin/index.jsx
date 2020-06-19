@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import Footer from "../../components/Footer";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   cardMenu: {
     background: "#F4F7FC",
     marginTop: theme.spacing(2),
-    paddingBottom: theme.spacing(10),
+    paddingBottom: theme.spacing(5),
   },
   media: {
     height: 390,
@@ -141,6 +142,7 @@ export default function Home() {
             </Card>
           </Grid>
         </div>
+        <Footer />
       </main>
     </React.Fragment>
   );
