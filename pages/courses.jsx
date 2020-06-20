@@ -114,6 +114,17 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 700,
     },
+    paperPast:{
+        minHeight: '10vh',
+        display: 'flex',
+        alignItems: 'center'
+    },
+    paperPastContent: {
+        padding: theme.spacing(2),
+        color: theme.palette.secondary.secondary,
+        display: 'flex',
+        alignItems: 'center'
+    },
 }))
 
 // Tab
@@ -329,6 +340,29 @@ function CustomizedTables() {
 }
 
 // Past Course
+const PastCourses = () =>{
+    const classes = useStyles();
+    return(
+        <React.Fragment>
+            <div className={classes.text}>
+                <Typography>
+                    Past Courses
+                </Typography>
+            </div>
+            <br/>
+            <div className={classes.currentContent}>
+                <Paper elevation={0} className={classes.paperPast}>
+                    <div className={classes.paperPastContent}>
+                        <div>
+                            <Typography> Modul 1: Python Basic </Typography>
+                        </div>
+                        <br/>
+                    </div>
+                </Paper>
+            </div>
+        </React.Fragment>
+    )
+}
 // Certificate
 
 export default function CoursePage() {
@@ -362,10 +396,10 @@ export default function CoursePage() {
                         <CurrentCourse/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        Item Two
+                        <PastCourses/>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        Item Three
+                        <CurrentCourse/>
                     </TabPanel>
                 </div>
                 <footer className={classes.footer}>
