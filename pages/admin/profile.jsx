@@ -94,7 +94,7 @@ export default function ProfileAdmin (){
                         <Grid item xs={12} className={classes.header}>
                             <Typography variant={'h6'} className={classes.title}> My Profile</Typography>
                             <div className={classes.grow} />
-                            <Button variant={'outlined'} className={classes.buttonEdit}>
+                            <Button className={classes.buttonEdit}>
                                 Edit My Profile
                             </Button>
                         </Grid>
