@@ -97,14 +97,14 @@ export default function AvailableSubject(props) {
               </CardContent>
             </Grid>
             <Grid item xs={12} sm={2} className={classes.button}>
-              <Button
-                className={classes.done}
-                variant="contained"
-                color="secondary"
-              >
-                <DoneAllIcon />
-                Done
-              </Button>
+              {/*<Button*/}
+              {/*  className={classes.done}*/}
+              {/*  variant="contained"*/}
+              {/*  color="secondary"*/}
+              {/*>*/}
+              {/*  <DoneAllIcon />*/}
+              {/*  Done*/}
+              {/*</Button>*/}
             </Grid>
           </Grid>
         </CardActionArea>

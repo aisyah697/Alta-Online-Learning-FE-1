@@ -81,13 +81,13 @@ export default function ModuleOverview(props) {
             <Typography variant="subtitle1" color="textSecondary" component="p">
               2 of 5 subjects completed
             </Typography>
-            <Button
-              className={classes.button}
-              variant="contained"
-              color="secondary"
-            >
-              Go to class
-            </Button>
+            {/*<Button*/}
+            {/*  className={classes.button}*/}
+            {/*  variant="contained"*/}
+            {/*  color="secondary"*/}
+            {/*>*/}
+            {/*  Go to class*/}
+            {/*</Button>*/}
           </CardContent>
         </Grid>
       </CardActionArea>
