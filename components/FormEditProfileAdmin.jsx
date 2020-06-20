@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormProfile(props) {
+export default function FormProfileAdmin(props) {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -110,7 +110,7 @@ export default function FormProfile(props) {
           <h1 className={classes.h1}>Edit Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/mentee/profile'}>
+          <Link href={'/admin/profile'}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
@@ -157,7 +157,6 @@ export default function FormProfile(props) {
               color="secondary"
               label="Full Name"
               size="medium"
-              variant="outlined"
             />
             <TextField
               className={classes.textField}
@@ -165,7 +164,6 @@ export default function FormProfile(props) {
               color="secondary"
               label="Email"
               size="medium"
-              variant="outlined"
             />
             <TextField
               className={classes.textField}
@@ -173,7 +171,6 @@ export default function FormProfile(props) {
               color="secondary"
               label="Birth Place"
               size="medium"
-              variant="outlined"
             />
             <TextField
               className={classes.textField}
@@ -182,7 +179,6 @@ export default function FormProfile(props) {
               label="Birth Date"
               placeholder="DD/MM/YYYY"
               size="medium"
-              variant="outlined"
             />
             <TextField
               className={classes.textField}
@@ -191,7 +187,6 @@ export default function FormProfile(props) {
               label="Phone Number"
               placeholder="08xxxxxxxxxx"
               size="medium"
-              variant="outlined"
             />
             <TextField
               className={classes.textField}
@@ -200,7 +195,6 @@ export default function FormProfile(props) {
               label="GitHub"
               placeholder="github.com/johndoe"
               size="medium"
-              variant="outlined"
             />
             <TextField
               className={classes.textField}
@@ -208,7 +202,6 @@ export default function FormProfile(props) {
               color="secondary"
               label="About Me"
               size="medium"
-              variant="outlined"
               multiline
               rows={3}
               rowsMax={4}

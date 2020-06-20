@@ -105,7 +105,8 @@ const useStyles = makeStyles((theme) => ({
     },
     popMenu: {
         paddingTop: 0,
-        paddingBottom: 0
+        paddingBottom: 0,
+        color: theme.palette.common.black
     },
     scrollTop: {
         backgroundColor: 'rgba(244,117,46,0.6)',
@@ -203,12 +204,14 @@ export default function NavigationBar(props) {
                         </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
-                                    <IconButton aria-label="show 4 new mails" color="inherit">
-                                        <SettingsIcon/>
-                                    </IconButton>
-                                    <p>Manage Your Account</p>
-                                </MenuItem>
+                                <Link href={'/mentee/profile'}>
+                                    <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
+                                        <IconButton aria-label="show 4 new mails" color="inherit">
+                                            <SettingsIcon/>
+                                        </IconButton>
+                                        <p>Manage Your Account</p>
+                                    </MenuItem>
+                                </Link>
                                 <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <ExitToAppIcon/>
