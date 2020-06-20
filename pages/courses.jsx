@@ -197,7 +197,7 @@ const CurrentCourse = () => {
             </div>
             <br/>
             <div className={classes.currentContent}>
-                <Paper elevation={0} className={classes.paper}>
+                <Paper elevation={1} className={classes.paper}>
                     <div className={classes.paperContent}>
                         <div>
                             <Typography> Modul 1 </Typography>
