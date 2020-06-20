@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         "url(/images/ornament_batik.png), url(/images/ornament_batik.png)",
       backgroundRepeat: "no-repeat, no-repeat",
       backgroundPosition: "left top, right bottom ",
-      backgroundSize: "23vw, 18vw",
+      backgroundSize: "18vw, 18vw",
     },
   },
   judulPage: {
@@ -51,6 +51,8 @@ export default function Home() {
           <Typography className={classes.judulPage}>
             Alta Learn Module
           </Typography>
+          <ModuleList />
+          <ModuleList />
           <ModuleList />
           <ModuleList />
         </div>
