@@ -174,7 +174,7 @@ export default function NavigationAdminBar(props) {
                 role={undefined}
                 transition
                 disablePortal
-                style={{zIndex: '1 !important'}}
+                // style={{zIndex: '1 !important'}}
         >
             {({ TransitionProps, placement }) => (
                 <Grow

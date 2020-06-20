@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "none",
     fontSize: "16px",
     padding: "6px 10px 10px 0px",
+    color: theme.palette.secondary.secondary
   },
   h1: {
     color: theme.palette.secondary.secondary,
