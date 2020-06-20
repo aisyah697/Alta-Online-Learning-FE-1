@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     bannerImage: {
         width: theme.spacing(50)
     },
+    bannerTitle: {
+        fontSize: `calc(2rem + 0.5vw)`
+    },
     bannerImageSmall: {
         display: 'none',
         [theme.breakpoints.down('sm')]: {
@@ -80,8 +83,8 @@ export default function HomeBanner () {
                         <img className={classes.ornament} src="/images/ornament_batik.png" alt="Ornament"/>
                         <div className={classes.leftText}>
                             <img className={classes.bannerImageSmall} src="/images/banner_image_1.png" alt="Banner"/>
-                            <Typography style={{fontSize: '35px', fontWeight: 'bold'}}> What is Alta </Typography>
-                            <Typography style={{fontSize: '35px', fontWeight: 'bold'}}> Online Learning? </Typography>
+                            <Typography className={classes.bannerTitle} style={{fontWeight: 'bold'}}> What is Alta </Typography>
+                            <Typography className={classes.bannerTitle} style={{fontWeight: 'bold'}}> Online Learning? </Typography>
                             <Typography> Alterra Online Learning is a online tech talent learning that gives everyone (even non-IT background) a chance to be a professional Tech Talent. </Typography>
                             <>
                             <Button variant={'outlined'} className={classes.button}>

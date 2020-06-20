@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         "url(/images/ornament_batik.png), url(/images/ornament_batik.png)",
       backgroundRepeat: "no-repeat, no-repeat",
       backgroundPosition: "left top, right bottom ",
-      backgroundSize: "23vw, 18vw",
+      backgroundSize: "18vw, 18vw",
     },
   },
   judulPage: {
