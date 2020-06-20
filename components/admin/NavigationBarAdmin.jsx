@@ -105,7 +105,8 @@ const useStyles = makeStyles((theme) => ({
     },
     popMenu: {
         paddingTop: 0,
-        paddingBottom: 0
+        paddingBottom: 0,
+        color: theme.palette.common.black
     },
     scrollTop: {
         backgroundColor: 'rgba(244,117,46,0.6)',
@@ -143,7 +144,7 @@ export default function NavigationAdminBar(props) {
     const NavBarLogo = (
         <>
             <Card elevation={0} className={classes.navLogo}>
-                <Link href="/">
+                <Link href="/admin">
                     <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
                 </Link>
             </Card>
@@ -159,7 +160,7 @@ export default function NavigationAdminBar(props) {
                 Mentees
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
-                Admins
+                Admin
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help
@@ -174,7 +175,6 @@ export default function NavigationAdminBar(props) {
                 role={undefined}
                 transition
                 disablePortal
-                // style={{zIndex: '1 !important'}}
         >
             {({ TransitionProps, placement }) => (
                 <Grow
@@ -203,12 +203,14 @@ export default function NavigationAdminBar(props) {
                         </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
-                                    <IconButton aria-label="show 4 new mails" color="inherit">
-                                        <SettingsIcon/>
-                                    </IconButton>
-                                    <p>Manage Your Account</p>
-                                </MenuItem>
+                                <Link href="/admin/profile">
+                                    <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
+                                        <IconButton aria-label="show 4 new mails" color="inherit">
+                                            <SettingsIcon/>
+                                        </IconButton>
+                                        <p>Manage Your Account</p>
+                                    </MenuItem>
+                                </Link>
                                 <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <ExitToAppIcon/>
