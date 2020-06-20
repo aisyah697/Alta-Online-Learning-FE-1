@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
+import Link from "../utils/Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,13 +112,15 @@ export default function FormProfile(props) {
             <h1 className={classes.h1}>Edit Profile</h1>
           </Grid>
           <Grid item xs={6} className={classes.viewProfile}>
-            <Button
-              className={classes.buttonProfile}
-              variant="contained"
-              color="primary"
-            >
-              View Profile
-            </Button>
+            <Link href={'/mentee/profile'}>
+              <Button
+                className={classes.buttonProfile}
+                variant="contained"
+                color="primary"
+              >
+                View Profile
+              </Button>
+            </Link>
           </Grid>
         </Grid>
         <div className={classes.avatar}>
