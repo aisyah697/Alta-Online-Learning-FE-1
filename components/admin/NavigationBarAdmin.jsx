@@ -160,7 +160,7 @@ export default function NavigationAdminBar(props) {
                 Mentees
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
-                Admins
+                Admin
             </Typography>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help

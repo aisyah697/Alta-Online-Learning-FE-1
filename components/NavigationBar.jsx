@@ -22,6 +22,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Link from "../utils/Link";
+import NextLink from 'next/link';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -153,15 +154,19 @@ export default function NavigationBar(props) {
 
     const MenuBar = (
         <>
-            <Typography className={classes.menu} variant="h6" noWrap>
-                Courses
-            </Typography>
+            <NextLink href={'/courses'}>
+                <Typography className={classes.menu} variant="h6" noWrap>
+                    Courses
+                </Typography>
+            </NextLink>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Certification
             </Typography>
-            <Typography className={classes.menu} variant="h6" noWrap>
-                All Courses
-            </Typography>
+            <NextLink href={'/module'}>
+                <Typography className={classes.menu} variant="h6" noWrap>
+                    All Courses
+                </Typography>
+            </NextLink>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help
             </Typography>
@@ -194,7 +199,7 @@ export default function NavigationBar(props) {
                                     aria-haspopup="true"
                                     color="primary"
                                 >
-                                    <Avatar> A </Avatar>
+                                    <Avatar src={'/images/avatar_example.jpg'}/>
                                 </IconButton>
                             </div>
                             <div className={classes.infoName}>
@@ -282,7 +287,7 @@ export default function NavigationBar(props) {
                                 onClick={handleProfileMenuOpen}
                                 color="secondary"
                             >
-                                <Avatar className={classes.avatar}> A </Avatar>
+                                <Avatar className={classes.avatar} src={'/images/avatar_example.jpg'}/>
                             </IconButton>
                         </div>
                     </div>
