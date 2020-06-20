@@ -91,7 +91,7 @@ const CustomPaper = ({ classes}) => {
     return (
         <Card elevation={0} className={classes.root}>
             <CardContent className={classes.content}>
-                <Avatar className={classes.avatar}> A </Avatar>
+                <Avatar className={classes.avatar} src={'/images/avatar_example.jpg'}/>
                 <div className={classes.text}>
                     <Typography style={{fontWeight: 700}}>
                         The Kobars
