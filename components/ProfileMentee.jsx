@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "none",
     fontSize: "16px",
     padding: "6px 10px 10px 0px",
+    color: theme.palette.secondary.secondary
   },
   h1: {
     color: theme.palette.secondary.secondary,
@@ -115,10 +116,10 @@ export default function ProfileMentee(props) {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4} style={{ margin: "auto" }}>
           <div className={classes.avatar}>
-            <Avatar className={classes.large}>Profile Picture</Avatar>
+            <Avatar className={classes.large} src={'/images/avatar_example.jpg'}/>
           </div>
         </Grid>
-        <Grid item xs={12} sm={8} ml-0>
+        <Grid item xs={12} sm={8}>
           <TableContainer>
             <Table className={classes.size} aria-label="a dense table">
               <TableBody>
