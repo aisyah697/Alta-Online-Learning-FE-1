@@ -77,14 +77,18 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     content: {
-        backgroundColor: '#b5d5d5',
+        // backgroundColor: '#b5d5d5',
         minHeight: 300,
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
         [theme.breakpoints.up('lg')]: {
             minHeight: 400
-        }
+        },
+        backgroundImage:"url(/images/ornament_batik.png)",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: 'center',
+        backgroundSize: "80%",
     },
     content2: {
         backgroundColor: '#DFE6ED',
