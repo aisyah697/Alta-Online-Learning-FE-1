@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormProfile() {
+export default function FormProfileAdmin(props) {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -110,7 +110,7 @@ export default function FormProfile() {
           <h1 className={classes.h1}>Edit Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/mentee/profile'}>
+          <Link href={'/admin/profile'}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
@@ -124,7 +124,7 @@ export default function FormProfile() {
       <div className={classes.avatar}>
         <Avatar
           alt="Profile Picture"
-          src={'/images/avatar_example.jpg'}
+          src="/static/images/avatar/1.jpg"
           className={classes.large}
         />
       </div>
