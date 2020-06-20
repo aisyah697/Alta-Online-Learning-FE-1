@@ -15,7 +15,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import {Done} from "@material-ui/icons";
+import {Done, ExpandLess, ExpandMore} from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
@@ -23,6 +23,13 @@ import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Collapse from "@material-ui/core/Collapse";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import StarBorder from "@material-ui/icons/StarBorder";
+import DraftsIcon from "@material-ui/icons/Drafts";
+import SendIcon from "@material-ui/icons/Send";
+import NestedList from "../components/NestedList";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -340,6 +347,33 @@ function CustomizedTables() {
 }
 
 // Past Course
+const lists = [
+    {
+        key: "inbox",
+        label: "Inbox",
+        icon: InboxIcon,
+        items: [
+            {
+                key: "starred",
+                label: "Starred",
+                icon: StarBorder
+            }
+        ]
+    },
+    {
+        key: "drafts",
+        label: "Drafts",
+        icon: DraftsIcon,
+        items: [
+            {
+                key: "send",
+                label: "Sent Items",
+                icon: SendIcon
+            }
+        ]
+    },
+]
+
 const PastCourses = () =>{
     const classes = useStyles();
     return(
@@ -351,18 +385,18 @@ const PastCourses = () =>{
             </div>
             <br/>
             <div className={classes.currentContent}>
-                <Paper elevation={0} className={classes.paperPast}>
-                    <div className={classes.paperPastContent}>
-                        <div>
-                            <Typography> Modul 1: Python Basic </Typography>
-                        </div>
-                        <br/>
-                    </div>
-                </Paper>
+                {/*<Paper elevation={0} className={classes.paperPast}>*/}
+                {/*    <div className={classes.paperPastContent}>*/}
+                {/*<div>*/}
+                <NestedList lists={lists}/>
+                {/*</div>*/}
+                {/*    </div>*/}
+                {/*</Paper>*/}
             </div>
         </React.Fragment>
     )
 }
+
 // Certificate
 
 export default function CoursePage() {
