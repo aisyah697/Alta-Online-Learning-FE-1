@@ -349,26 +349,36 @@ function CustomizedTables() {
 // Past Course
 const lists = [
     {
-        key: "inbox",
-        label: "Inbox",
+        key: 1,
+        label: "Module 01: Python",
         icon: InboxIcon,
         items: [
             {
-                key: "starred",
-                label: "Starred",
-                icon: StarBorder
-            }
+                key: "Basic MySQL",
+                label: "Subject",
+                icon: "Task"
+            },
+            {
+                key: "Basic MySQL",
+                label: "Subject",
+                icon: "Task"
+            },
+            {
+                key: "Basic MySQL",
+                label: "Subject",
+                icon: "Task"
+            },
         ]
     },
     {
-        key: "drafts",
-        label: "Drafts",
+        key: 2,
+        label: "Module 02: JavaScript",
         icon: DraftsIcon,
         items: [
             {
-                key: "send",
-                label: "Sent Items",
-                icon: SendIcon
+                key: "Basic MySQL",
+                label: "Subject",
+                icon: "Task"
             }
         ]
     },
