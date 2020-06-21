@@ -1,12 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     WebkitBoxShadow: "none",
     color: theme.palette.primary.main,
     border: "1px solid #F47522",
+    transition: "all 0.5s ease",
     "&:hover": {
       WebkitBoxShadow: "none",
       color: theme.palette.secondary.main,
@@ -43,10 +42,10 @@ export default function ModuleOverview(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
+    <React.Fragment>
+      <Paper elevation={0}>
         <Grid container spacing={3}>
-          <Grid item xs={6} sm={3}>
+          <Grid item xs={12} sm={3}>
             <CardMedia
               className={classes.media}
               component="img"
@@ -55,7 +54,7 @@ export default function ModuleOverview(props) {
               title="Contemplative Reptile"
             />
           </Grid>
-          <CardContent>
+          <Grid item xs={12} sm={9}>
             <Typography
               className={classes.module}
               gutterBottom
@@ -81,16 +80,16 @@ export default function ModuleOverview(props) {
             <Typography variant="subtitle1" color="textSecondary" component="p">
               2 of 5 subjects completed
             </Typography>
-            {/*<Button*/}
-            {/*  className={classes.button}*/}
-            {/*  variant="contained"*/}
-            {/*  color="secondary"*/}
-            {/*>*/}
-            {/*  Go to class*/}
-            {/*</Button>*/}
-          </CardContent>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
+            >
+              Go to class
+            </Button>
+          </Grid>
         </Grid>
-      </CardActionArea>
-    </Card>
+      </Paper>
+    </React.Fragment>
   );
 }

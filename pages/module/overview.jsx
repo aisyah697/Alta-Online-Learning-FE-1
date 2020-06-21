@@ -4,11 +4,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "../../components/NavigationBar";
 import Footer from "../../components/Footer";
 import ModuleOverview from "../../components/ModuleOverview";
-import AvailableSubject from "../../components/AvailableSubject";
+import AvailableSubjects from "../../components/AvailableSubject";
 
 const useStyles = makeStyles((theme) => ({
   main: {
     margin: theme.spacing(3, 8),
+    marginBottom: theme.spacing(20),
     [theme.breakpoints.down("xs")]: {
       margin: theme.spacing(2.5, 2),
       fontSize: "14px",
@@ -32,7 +33,7 @@ export default function ModuleDetailOverview() {
         <h1 className={classes.h1}>Course Overview</h1>
         <ModuleOverview />
         <h1 className={classes.h1}>Available Subjects</h1>
-        <AvailableSubject />
+        <AvailableSubjects />
       </main>
       <Footer />
     </React.Fragment>
