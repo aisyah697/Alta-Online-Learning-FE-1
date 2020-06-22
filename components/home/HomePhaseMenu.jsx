@@ -11,6 +11,8 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import { Done } from "@material-ui/icons";
+import dynamic from "next/dynamic";
+const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -120,16 +122,20 @@ const CustomCard = ({ classes, title, status}) => {
             </CardContent>
             <CardActions className={classes.action}>
                 {status ?
-                    <Button size="small" variant={'outlined'} className={classes.button}
-                            endIcon={<Done/>}
-                            >
-                        Done
-                    </Button>
+                    <Link href={'/courses/phase/[id]'} as={'/courses/phase/one}'}>
+                        <Button size="small" variant={'outlined'} className={classes.button}
+                                endIcon={<Done/>}
+                                >
+                            Done
+                        </Button>
+                    </Link>
                     :
-                    <Button size="small" variant={'outlined'} className={classes.button2}
-                            startIcon={<PlayCircleOutlineIcon/>}>
-                        Start
-                    </Button>
+                    <Link href={'/courses/phase/[id]'} as={'/courses/phase/two}'}>
+                        <Button size="small" variant={'outlined'} className={classes.button2}
+                                startIcon={<PlayCircleOutlineIcon/>}>
+                            Start
+                        </Button>
+                    </Link>
                 }
             </CardActions>
         </Card>

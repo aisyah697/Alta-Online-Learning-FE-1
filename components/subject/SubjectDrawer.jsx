@@ -89,7 +89,7 @@ const SubjectTest = (props) => {
           </div>
           <ListItem button onClick={handleClick}>
             <ListItemText
-              primary="Subject 01: Algorithm"
+              primary="Index 01: Algorithm"
               className={classes.subject}
             />
             {open ? <ExpandLess /> : <ExpandMore />}
@@ -115,7 +115,7 @@ const SubjectTest = (props) => {
           <Divider />
           <ListItem button onClick={handleClick}>
             <ListItemText
-              primary="Subject 02: Basic Python"
+              primary="Index 02: Basic Python"
               className={classes.subject}
             />
             {open ? <ExpandLess /> : <ExpandMore />}
