@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import Footer from "../../components/Footer";
+import FooterBar from "../../components/FooterBar";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -142,7 +142,7 @@ export default function Home() {
             </Card>
           </Grid>
         </div>
-        <Footer />
+        <FooterBar />
       </main>
     </React.Fragment>
   );

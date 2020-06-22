@@ -1,35 +1,28 @@
 import React from "react";
 import Head from "next/head";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
 import clsx from "clsx";
-import InputLabel from "@material-ui/core/InputLabel";
+import dynamic from "next/dynamic";
+
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import FormControl from "@material-ui/core/FormControl";
 import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Link from "../utils/Link";
-
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
 import SvgIcon from "@material-ui/core/SvgIcon";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
 
-const wrapSvgPath = (path, viewBox = "0 0 50 50") => (props) => (
-  <SvgIcon {...props} viewBox={viewBox}>
-    {path}
-  </SvgIcon>
-);
-const GoogleIcon = wrapSvgPath(
-  <path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
-);
+const NavigationBar = dynamic(() => import('../components/NavigationBar'))
+const Footer = dynamic(() => import('../components/FooterBar'))
+const Link = dynamic(() => import('../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-
   textLogin: {
     fontWeight: "bold",
     paddingBottom: "20px",
@@ -73,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-
   button: {
     fontFamily: "SFCompactDisplay-Regular, sans-serif",
     backgroundColor: theme.palette.secondary.secondary,
@@ -97,14 +88,22 @@ const useStyles = makeStyles((theme) => ({
   textMuli: {
     fontFamily: "Muli, sans-serif",
   },
-  dontHaveAcoount: {
+  dontHaveAccount: {
     fontFamily: "Muli, sans-serif",
     margin: "10px 0 40px",
     color: theme.palette.secondary.secondary,
   },
 }));
 
-export default function Home() {
+const wrapSvgPath = (path, viewBox = "0 0 50 50") => (props) => (
+    <SvgIcon {...props} viewBox={viewBox}>{path}</SvgIcon>
+);
+
+const GoogleIcon = wrapSvgPath(
+    <path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+);
+
+const Login = () => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     amount: "",
@@ -121,12 +120,13 @@ export default function Home() {
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
   return (
-    <React.Fragment>
+    <div>
       <Head>
         <title>Login | Alta Online Learning</title>
       </Head>
@@ -213,7 +213,7 @@ export default function Home() {
                       Login
                     </Button>
 
-                    <Link className={classes.dontHaveAcoount} href="/register">
+                    <Link className={classes.dontHaveAccount} href="/register">
                       Don't have an account? Register!
                     </Link>
 
@@ -221,7 +221,6 @@ export default function Home() {
                       className={classes.button}
                       variant={"outlined"}
                       size="large"
-                      className={classes.button}
                       startIcon={<GoogleIcon />}
                     >
                       <Typography>Login using google account</Typography>
@@ -235,6 +234,8 @@ export default function Home() {
         </Grid>
         <Footer />
       </main>
-    </React.Fragment>
+    </div>
   );
 }
+
+export default Login;

@@ -1,28 +1,30 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import ScrollTop from "../utils/ScrollTop";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Avatar from "@material-ui/core/Avatar";
-import MenuIcon from '@material-ui/icons/Menu';
-import Popper from "@material-ui/core/Popper";
-import Grow from "@material-ui/core/Grow";
-import MenuList from "@material-ui/core/MenuList";
-import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Link from "../utils/Link";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import SettingsIcon from '@material-ui/icons/Settings';
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from '@material-ui/core/styles';
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
+import Button from "@material-ui/core/Button";
+import AppBar from '@material-ui/core/AppBar';
+import Avatar from "@material-ui/core/Avatar";
+import Popper from "@material-ui/core/Popper";
+import Paper from "@material-ui/core/Paper";
+import Card from "@material-ui/core/Card";
+import Menu from "@material-ui/core/Menu";
+import Grow from "@material-ui/core/Grow";
+import Fab from '@material-ui/core/Fab';
+import dynamic from "next/dynamic";
 import NextLink from 'next/link';
+
+const ScrollTop = dynamic(() => import('../utils/scrollTop'));
+const Link = dynamic(() => import('../utils/link'));
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -117,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function NavigationBar(props) {
+const NavigationBar = (props) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -143,17 +145,17 @@ export default function NavigationBar(props) {
     };
 
     const NavBarLogo = (
-            <>
+            <React.Fragment>
                 <Card elevation={0} className={classes.navLogo}>
                     <Link href="/">
-                        <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+                        <img height="60" src="/images/logo_navbar.png" alt="Logo NavBar"/>
                     </Link>
                 </Card>
-            </>
+            </React.Fragment>
     )
 
     const MenuBar = (
-        <>
+        <React.Fragment>
             <NextLink href={'/courses'}>
                 <Typography className={classes.menu} variant="h6" noWrap>
                     Courses
@@ -170,7 +172,7 @@ export default function NavigationBar(props) {
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help
             </Typography>
-        </>
+        </React.Fragment>
     )
 
     const menuId = 'primary-search-account-menu';
@@ -180,16 +182,15 @@ export default function NavigationBar(props) {
                 role={undefined}
                 transition
                 disablePortal
-                style={{zIndex: '1 !important'}}
         >
-            {({ TransitionProps, placement }) => (
+            {({ TransitionProps, placement}) => (
                 <Grow
                     {...TransitionProps}
                     style={{ transformOrigin: placement === 'bottom' ? 'left top' : 'center bottom' }}
                 >
                     <Paper elevation={1} className={classes.paper}>
                         <div className={classes.menuLogo}>
-                            <img height="60" src="/images/logo_popper.png" alt="Logo Navbar"/>
+                            <img height="60" src="/images/logo_popper.png" alt="Logo NavBar"/>
                         </div>
                         <div className={classes.infoUser}>
                             <div className={classes.avatarPop}>
@@ -257,7 +258,7 @@ export default function NavigationBar(props) {
     );
 
     return (
-        <React.Fragment>
+        <div>
             <CssBaseline />
             <AppBar>
                 <Toolbar classes={{gutters:classes.toolbar}}>
@@ -313,6 +314,8 @@ export default function NavigationBar(props) {
                     <KeyboardArrowUpIcon color="primary" />
                 </Fab>
             </ScrollTop>
-        </React.Fragment>
+        </div>
     );
 }
+
+export default NavigationBar;

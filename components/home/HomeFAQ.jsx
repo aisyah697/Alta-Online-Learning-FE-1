@@ -1,15 +1,15 @@
 import React from 'react';
-import {makeStyles} from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import {ExpandLess} from "@material-ui/icons";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import ListItem from "@material-ui/core/ListItem";
 import Collapse from "@material-ui/core/Collapse";
+import { ExpandLess } from "@material-ui/icons";
+import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
     bannerBox: {
@@ -64,9 +64,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const MyList = ({classes, open, title, content, handleClick}) => {
+const FAQList = ({classes, open, title, content, handleClick}) => {
     return (
-        <>
+        <React.Fragment>
             <ListItem className={classes.text} onClick={handleClick}>
                 <ListItemIcon style={{color: '#19355f'}}>
                     {open ? <ExpandLess /> : <NavigateNextIcon />}
@@ -82,11 +82,11 @@ const MyList = ({classes, open, title, content, handleClick}) => {
                     </ListItem>
                 </List>
             </Collapse>
-        </>
+        </React.Fragment>
     )
 }
 
-export default function FrequentQuestion () {
+const FrequentQuestion = () => {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);
@@ -110,7 +110,7 @@ export default function FrequentQuestion () {
     };
 
     return (
-        <React.Fragment>
+        <div>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <img className={classes.ornament} src="/images/ornament_batik.png" alt="Ornament"/>
@@ -122,7 +122,7 @@ export default function FrequentQuestion () {
                                 aria-labelledby="nested-list-subheader"
                                 className={classes.list}
                             >
-                                    <MyList classes={classes}
+                                    <FAQList classes={classes}
                                             open={open}
                                             handleClick={handleClick}
                                             title={"Why do I need to take the course?"}
@@ -130,7 +130,7 @@ export default function FrequentQuestion () {
                                             "                            Ubuntu 14.04+ 64-bit, or Windows 8+ (64-bit) Web Browser: Firefox 39.0+ or\n" +
                                             "                            Chrome 43+ (Internet Explorer is currently not supported)."}
                                     />
-                                    <MyList classes={classes}
+                                    <FAQList classes={classes}
                                             open={open2}
                                             handleClick={handleClick2}
                                             title={"Why do I need to take the course?"}
@@ -138,7 +138,7 @@ export default function FrequentQuestion () {
                                             "                            Ubuntu 14.04+ 64-bit, or Windows 8+ (64-bit) Web Browser: Firefox 39.0+ or\n" +
                                             "                            Chrome 43+ (Internet Explorer is currently not supported)."}
                                     />
-                                    <MyList classes={classes}
+                                    <FAQList classes={classes}
                                             open={open3}
                                             handleClick={handleClick3}
                                             title={"Why do I need to take the course?"}
@@ -146,7 +146,7 @@ export default function FrequentQuestion () {
                                             "                            Ubuntu 14.04+ 64-bit, or Windows 8+ (64-bit) Web Browser: Firefox 39.0+ or\n" +
                                             "                            Chrome 43+ (Internet Explorer is currently not supported)."}
                                     />
-                                    <MyList classes={classes}
+                                    <FAQList classes={classes}
                                             open={open4}
                                             handleClick={handleClick4}
                                             title={"Why do I need to take the course?"}
@@ -160,6 +160,8 @@ export default function FrequentQuestion () {
                     </Grid>
                 </Grid>
             </Box>
-        </React.Fragment>
+        </div>
     )
 }
+
+export default FrequentQuestion;

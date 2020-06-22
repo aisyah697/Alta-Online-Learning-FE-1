@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
 import NavigationBar from "../../../components/NavigationBar";
-import Footer from "../../../components/Footer";
-import FormEditProfile from "../../../components/FormEditProfile";
+import FooterBar from "../../../components/FooterBar";
+import FormEditProfile from "../../../components/mentee/FormEditProfile";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +26,7 @@ export default function EditProfileAdmin() {
       <main className={classes.main}>
         <FormEditProfile />
       </main>
-      <Footer />
+      <FooterBar />
     </React.Fragment>
   );
 }

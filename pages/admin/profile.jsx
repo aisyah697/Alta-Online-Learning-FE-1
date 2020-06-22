@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
-import Footer from "../../components/Footer";
-import ProfileAdmin from "../../components/ProfileAdmin";
+import FooterBar from "../../components/FooterBar";
+import ProfileAdmin from "../../components/admin/ProfileAdmin";
 import NavigationAdminBar from "../../components/admin/NavigationBarAdmin";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +26,7 @@ export default function ProfileAdminPage() {
             <main className={classes.main}>
                 <ProfileAdmin/>
             </main>
-            <Footer />
+            <FooterBar />
         </React.Fragment>
     );
 }

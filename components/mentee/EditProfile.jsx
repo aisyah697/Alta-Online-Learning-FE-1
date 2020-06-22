@@ -4,7 +4,9 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import Link from "../utils/Link";
+import dynamic from "next/dynamic";
+
+const Link = dynamic(() => import('/../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,10 +103,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormProfile() {
+const FormProfile = () => {
   const classes = useStyles();
   return (
-    <React.Fragment>
+    <div>
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <h1 className={classes.h1}>Edit Profile</h1>
@@ -217,6 +219,8 @@ export default function FormProfile() {
         </Grid>
         <Grid item xs={1} md={2} />
       </Grid>
-    </React.Fragment>
+    </div>
   );
 }
+
+export default FormProfile;

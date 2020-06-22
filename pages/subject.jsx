@@ -1,14 +1,18 @@
 import React from "react";
 import Head from "next/head";
-import SubjectDrawer from "../components/SubjectDrawer";
+import dynamic from "next/dynamic";
 
-export default function Subject() {
+const SubjectDrawer = dynamic(() => import('../components/subject/SubjectDrawer'))
+
+const Subject = () => {
   return (
-    <React.Fragment>
+    <div>
       <Head>
-        <title>Admin | Edit Profile</title>
+        <title>Subject | Alta Online Learning</title>
       </Head>
       <SubjectDrawer />
-    </React.Fragment>
+    </div>
   );
 }
+
+export default Subject;

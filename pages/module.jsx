@@ -1,11 +1,13 @@
 import React from "react";
 import Head from "next/head";
-import ModuleList from "../components/ModuleList";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
+import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import SubFooter from "../components/SubFooter";
+
+const NavigationBar = dynamic(() => import('../components/NavigationBar'))
+const SubFooter = dynamic(() => import('../components/SubFooter'))
+const ModuleList = dynamic(() => import('../components/module/ModuleList'))
+const Footer = dynamic(() => import('../components/FooterBar'))
 
 const useStyles = makeStyles((theme) => ({
   bodyContent: {
@@ -37,11 +39,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+const Module = () => {
   const classes = useStyles();
-
   return (
-    <React.Fragment>
+    <div>
       <Head>
         <title>Module | Alta Online Learning</title>
       </Head>
@@ -61,6 +62,8 @@ export default function Home() {
         </div>
         <Footer />
       </main>
-    </React.Fragment>
+    </div>
   );
 }
+
+export default Module;

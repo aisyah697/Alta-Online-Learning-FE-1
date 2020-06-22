@@ -3,7 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import Link from "../utils/Link";
+import dynamic from "next/dynamic";
+
+const Link = dynamic(() => import('../../utils/link'))
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -49,10 +51,11 @@ const useStyle = makeStyles((theme) => ({
     marginBottom: theme.spacing(7),
   },
 }));
-export default function ModuleList() {
+
+const ModuleList = () => {
   const classes = useStyle();
   return (
-    <React.Fragment>
+    <div>
       <div className={classes.root}>
         <Grid container className={classes.betweenModule}>
           <Grid
@@ -64,7 +67,7 @@ export default function ModuleList() {
             justify="center"
             alignItems="center"
           >
-            <Link href="#">
+            <Link href="/module/detail">
               <img
                 className={classes.modulePicture}
                 src="/images/dummy.png"
@@ -78,7 +81,7 @@ export default function ModuleList() {
             className={classes.divider}
           />
           <Grid className={classes.textInPage} item sm={8} xs={12}>
-            <Link href="#">
+            <Link href="/module/detail">
               <Typography className={classes.judulModule}>
                 <strong>Module 01: </strong>Module 1
               </Typography>
@@ -98,6 +101,8 @@ export default function ModuleList() {
           </Grid>
         </Grid>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
+
+export default ModuleList;

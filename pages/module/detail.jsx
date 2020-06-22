@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
-import ModuleDetailIsiTabel from "../components/ModuleDetailIsiTabel";
+import NavigationBar from "../../components/NavigationBar";
+import FooterBar from "../../components/FooterBar";
+import ModuleDetailIsiTabel from "../../components/module/ModuleDetailTable";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -14,7 +14,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import SubFooter from "../components/SubFooter";
+import SubFooter from "../../components/SubFooter";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -125,7 +125,6 @@ const StyledTableCell = withStyles((theme) => ({
     fontFamily: "Muli, sans-serif",
   },
   body: {
-    fontSize: 14,
     backgroundColor: theme.palette.common.white,
     color: theme.palette.secondary.secondary,
     textAlign: "justify",
@@ -142,7 +141,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-export default function ModuleDetail() {
+export default function Detail() {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -282,7 +281,7 @@ export default function ModuleDetail() {
           <SubFooter />
         </div>
 
-        <Footer />
+        <FooterBar />
       </main>
     </React.Fragment>
   );

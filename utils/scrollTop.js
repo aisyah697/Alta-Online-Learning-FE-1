@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ScrollTop(props) {
+const ScrollTop = (props) => {
     const { children, window } = props;
     const classes = useStyles();
     const trigger = useScrollTrigger({
@@ -43,3 +43,5 @@ ScrollTop.propTypes = {
     children: PropTypes.element.isRequired,
     window: PropTypes.func,
 };
+
+export default ScrollTop;

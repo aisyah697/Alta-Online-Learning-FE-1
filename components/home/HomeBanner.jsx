@@ -73,10 +73,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function HomeBanner () {
+const HomeBanner = () => {
     const classes = useStyles();
     return (
-        <React.Fragment>
+        <div>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} lg={6} className={classes.leftBanner}>
@@ -86,11 +86,11 @@ export default function HomeBanner () {
                             <Typography className={classes.bannerTitle} style={{fontWeight: 'bold'}}> What is Alta </Typography>
                             <Typography className={classes.bannerTitle} style={{fontWeight: 'bold'}}> Online Learning? </Typography>
                             <Typography> Alterra Online Learning is a online tech talent learning that gives everyone (even non-IT background) a chance to be a professional Tech Talent. </Typography>
-                            <>
-                            <Button variant={'outlined'} className={classes.button}>
-                                View Course
-                            </Button>
-                            </>
+                            <React.Fragment>
+                                <Button variant={'outlined'} className={classes.button}>
+                                    View Course
+                                </Button>
+                            </React.Fragment>
                         </div>
                     </Grid>
                     <Grid item xs={12} lg={6} className={classes.rightBanner}>
@@ -98,6 +98,8 @@ export default function HomeBanner () {
                     </Grid>
                 </Grid>
             </Box>
-        </React.Fragment>
+        </div>
     )
 }
+
+export default HomeBanner;

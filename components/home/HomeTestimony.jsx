@@ -1,18 +1,18 @@
 import React from 'react';
+import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
+import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
-import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
-import CardActions from "@material-ui/core/CardActions";
-import {Done} from "@material-ui/icons";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Avatar from "@material-ui/core/Avatar";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import Box from "@material-ui/core/Box";
+import {Done} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     bannerBox: {
@@ -109,10 +109,10 @@ const CustomPaper = ({ classes}) => {
     );
 };
 
-export default function HomeTestimony () {
+const HomeTestimony = () => {
     const classes = useStyles();
     return (
-        <React.Fragment>
+        <div>
             <div className={classes.phaseTitle}>
                 <Typography className={classes.phaseFont}> Meet The Mentors </Typography>
             </div>
@@ -128,6 +128,8 @@ export default function HomeTestimony () {
                     </Grid>
                 </Grid>
             </Box>
-        </React.Fragment>
+        </div>
     )
 }
+
+export default HomeTestimony;

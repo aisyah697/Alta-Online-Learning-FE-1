@@ -4,7 +4,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Link from "../utils/Link";
+import dynamic from "next/dynamic";
+
+const Link = dynamic(() => import('../utils/link'));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Footer(props) {
+export default function FooterBar(props) {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -77,7 +79,7 @@ export default function Footer(props) {
               <Link href="/">
                 <img
                   className={classes.logo}
-                  src="/logo_footer.png"
+                  src="/images/logo_footer.png"
                   alt="logo-alta"
                 />
               </Link>
@@ -95,22 +97,22 @@ export default function Footer(props) {
                 <Container className={classes.container}>
                   <img
                     className={classes.img}
-                    src="/ic_fb.png"
+                    src="/images/ic_fb.png"
                     alt="facebook"
                   />
                   <img
                     className={classes.img}
-                    src="/ic_twitter.png"
+                    src="/images/ic_twitter.png"
                     alt="facebook"
                   />
                   <img
                     className={classes.img}
-                    src="/ic_ig.png"
+                    src="/images/ic_ig.png"
                     alt="facebook"
                   />
                   <img
                     className={classes.img}
-                    src="/ic_linkedin.png"
+                    src="/images/ic_linkedin.png"
                     alt="facebook"
                   />
                 </Container>
