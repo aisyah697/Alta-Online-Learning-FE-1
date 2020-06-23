@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavigationBar from "../components/NavigationBar";
 import SubjectDrawer from "../components/SubjectDrawer";
-import SubjectContent from "../components/SubjectContent";
+
+// const SubjectDrawer = () => import("../components/SubjectDrawer");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,19 +14,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Subject() {
+export default function Quiz() {
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <Head>
-        <title>Subject | Alta Online Learning</title>
+        <title>Exam | Alta Online Learning</title>
       </Head>
       <div className={classes.root}>
         <CssBaseline />
         <NavigationBar className={classes.appBar} />
         <SubjectDrawer />
-        <SubjectContent />
       </div>
     </React.Fragment>
   );
