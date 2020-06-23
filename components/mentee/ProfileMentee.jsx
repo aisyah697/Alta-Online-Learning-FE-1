@@ -1,14 +1,15 @@
 import React from "react";
 import Link from "next/link";
+import TableContainer from "@material-ui/core/TableContainer";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import Grid from "@material-ui/core/Grid";
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,8 +80,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProfileMentee(props) {
+const ProfileMentee = (props) => {
   const classes = useStyles();
+  const router = useRouter();
+  const { profile } = router.query;
 
   function createData(key, data) {
     return { key, data };
@@ -96,13 +99,13 @@ export default function ProfileMentee(props) {
   ];
 
   return (
-    <React.Fragment>
+    <div>
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <h1 className={classes.h1}>My Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href="/mentee/profile/edit">
+          <Link href="/mentee/[profile]/edit" as={`/mentee/${profile}/edit`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
@@ -138,6 +141,8 @@ export default function ProfileMentee(props) {
           </TableContainer>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </div>
   );
 }
+
+export default ProfileMentee;

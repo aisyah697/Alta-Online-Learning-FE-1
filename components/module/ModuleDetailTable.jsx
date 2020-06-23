@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ModuleDetailIsiTabel() {
+const ModuleDetail = () => {
   const classes = useStyles();
   return (
     <ListItem>
@@ -31,3 +31,5 @@ export default function ModuleDetailIsiTabel() {
     </ListItem>
   );
 }
+
+export default ModuleDetail;

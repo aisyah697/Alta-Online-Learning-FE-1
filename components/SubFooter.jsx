@@ -1,9 +1,9 @@
 import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
     bannerBox: {
@@ -38,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SubFooter () {
+const SubFooter = () => {
     const classes = useStyles();
     return (
-        <React.Fragment>
+        <div>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} className={classes.container}>
@@ -54,6 +54,8 @@ export default function SubFooter () {
                     </Grid>
                 </Grid>
             </Box>
-        </React.Fragment>
+        </div>
     )
 }
+
+export default SubFooter;

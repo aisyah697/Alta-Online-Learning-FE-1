@@ -4,7 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import Link from "../utils/Link";
+import dynamic from "next/dynamic";
+import {useRouter} from "next/router";
+
+const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,30 +104,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormProfileAdmin(props) {
+const FormProfile = () => {
   const classes = useStyles();
+  const router = useRouter();
+  const { profile } = router.query;
   return (
-    <React.Fragment>
+    <div>
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <h1 className={classes.h1}>Edit Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/admin/profile'}>
+          <Link href={'/mentee/[profile]'} as={`/mentee/${profile}`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
               color="primary"
             >
-              View Profile
+              My Profile
             </Button>
           </Link>
         </Grid>
       </Grid>
       <div className={classes.avatar}>
         <Avatar
-          alt="Profile Picture"
-          src="/static/images/avatar/1.jpg"
+          alt="Index Picture"
+          src={'/images/avatar_example.jpg'}
           className={classes.large}
         />
       </div>
@@ -217,6 +222,8 @@ export default function FormProfileAdmin(props) {
         </Grid>
         <Grid item xs={1} md={2} />
       </Grid>
-    </React.Fragment>
+    </div>
   );
 }
+
+export default FormProfile;

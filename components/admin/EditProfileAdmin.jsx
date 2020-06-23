@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import Link from "../utils/Link";
+import Link from "../../utils/link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,30 +101,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormProfile() {
+export default function FormProfileAdmin(props) {
   const classes = useStyles();
   return (
     <React.Fragment>
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <h1 className={classes.h1}>Edit Profile</h1>
+          <h1 className={classes.h1}>Edit Index</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/mentee/profile'}>
+          <Link href={'/admin/[profile]'}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
               color="primary"
             >
-              View Profile
+              View Index
             </Button>
           </Link>
         </Grid>
       </Grid>
       <div className={classes.avatar}>
         <Avatar
-          alt="Profile Picture"
-          src={'/images/avatar_example.jpg'}
+          alt="Index Picture"
+          src="/static/images/avatar/1.jpg"
           className={classes.large}
         />
       </div>

@@ -21,8 +21,6 @@ NextComposed.propTypes = {
     prefetch: PropTypes.bool,
 };
 
-// A styled version of the Next.js Link component:
-// https://nextjs.org/docs/#with-link
 function Link(props) {
     const {
         href,

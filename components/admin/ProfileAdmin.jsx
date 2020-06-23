@@ -8,7 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
-import Link from "../utils/Link";
+import Link from "../../utils/link";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({

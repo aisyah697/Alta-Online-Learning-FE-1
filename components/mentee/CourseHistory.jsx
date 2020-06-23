@@ -1,14 +1,14 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Button from "@material-ui/core/Button";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CourseHistory(props) {
+const CourseHistory = (props) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -93,7 +93,7 @@ export default function CourseHistory(props) {
     setExpanded(isExpanded ? panel : false);
   };
   return (
-    <React.Fragment>
+    <div>
       <h1 className={classes.h1}>My Course History</h1>
       <h2 className={classes.h2}>Phase 1</h2>
       <h3>Basic Programming Python</h3>
@@ -195,6 +195,8 @@ export default function CourseHistory(props) {
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
+
+export default CourseHistory;

@@ -1,21 +1,23 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import SlideshowIcon from "@material-ui/icons/Slideshow";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Toolbar from "@material-ui/core/Toolbar";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import { makeStyles } from "@material-ui/core/styles";
 import Collapse from "@material-ui/core/Collapse";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import NavigationBar from "./NavigationBar";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import SlideshowIcon from "@material-ui/icons/Slideshow";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import SubjectContent from "./SubjectContent";
+import Divider from "@material-ui/core/Divider";
+import Toolbar from "@material-ui/core/Toolbar";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import dynamic from "next/dynamic";
+
+const NavigationBar = dynamic(() => import('../NavigationBar'))
+const SubjectContent = dynamic(() => import('./SubjectContent'))
 
 const drawerWidth = 240;
 
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubjectTest(props) {
+const SubjectTest = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -87,7 +89,7 @@ export default function SubjectTest(props) {
           </div>
           <ListItem button onClick={handleClick}>
             <ListItemText
-              primary="Subject 01: Algorithm"
+              primary="Index 01: Algorithm"
               className={classes.subject}
             />
             {open ? <ExpandLess /> : <ExpandMore />}
@@ -113,14 +115,14 @@ export default function SubjectTest(props) {
           <Divider />
           <ListItem button onClick={handleClick}>
             <ListItemText
-              primary="Subject 02: Basic Python"
+              primary="Index 02: Basic Python"
               className={classes.subject}
             />
             {open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <div className={classes.title}></div>
+              <div className={classes.title}> </div>
               {["Video", "Presentation", "Quiz"].map((text, index) => (
                 <ListItem button key={text} className={classes.nested}>
                   <ListItemIcon>
@@ -144,3 +146,5 @@ export default function SubjectTest(props) {
     </div>
   );
 }
+
+export default SubjectTest;

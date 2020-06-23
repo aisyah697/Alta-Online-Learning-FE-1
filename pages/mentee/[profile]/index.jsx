@@ -1,10 +1,10 @@
 import React from "react";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
-import NavigationBar from "../../components/NavigationBar";
-import Footer from "../../components/Footer";
-import ProfileMentee from "../../components/ProfileMentee";
-import CourseHistory from "../../components/CourseHistory";
+import NavigationBar from "../../../components/NavigationBar";
+import FooterBar from "../../../components/FooterBar";
+import ProfileMentee from "../../../components/mentee/ProfileMentee";
+import CourseHistory from "../../../components/mentee/CourseHistory";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile() {
+export default function Index() {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -28,7 +28,7 @@ export default function Profile() {
         <ProfileMentee />
         <CourseHistory />
       </main>
-      <Footer />
+      <FooterBar />
     </React.Fragment>
   );
 }

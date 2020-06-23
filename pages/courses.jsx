@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
+import FooterBar from "../components/FooterBar";
 import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from 'prop-types';
 import Tabs from '@material-ui/core/Tabs';
@@ -339,7 +339,7 @@ export default function CoursePage() {
         setValue(newValue);
     };
     return(
-        <React.Fragment>
+        <div>
             <Head>
                 <title>Module | Alta Online Learning</title>
             </Head>
@@ -369,10 +369,9 @@ export default function CoursePage() {
                     </TabPanel>
                 </div>
                 <footer className={classes.footer}>
-                    <Footer/>
+                    <FooterBar/>
                 </footer>
             </main>
-        </React.Fragment>
+        </div>
     )
-
 }
