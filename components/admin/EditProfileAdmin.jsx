@@ -107,23 +107,23 @@ export default function FormProfileAdmin(props) {
     <React.Fragment>
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <h1 className={classes.h1}>Edit Profile</h1>
+          <h1 className={classes.h1}>Edit Index</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/admin/profile'}>
+          <Link href={'/admin/[profile]'}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
               color="primary"
             >
-              View Profile
+              View Index
             </Button>
           </Link>
         </Grid>
       </Grid>
       <div className={classes.avatar}>
         <Avatar
-          alt="Profile Picture"
+          alt="Index Picture"
           src="/static/images/avatar/1.jpg"
           className={classes.large}
         />

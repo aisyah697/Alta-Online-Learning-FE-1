@@ -5,8 +5,9 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import dynamic from "next/dynamic";
+import {useRouter} from "next/router";
 
-const Link = dynamic(() => import('/../utils/link'))
+const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,6 +106,8 @@ const useStyles = makeStyles((theme) => ({
 
 const FormProfile = () => {
   const classes = useStyles();
+  const router = useRouter();
+  const { profile } = router.query;
   return (
     <div>
       <Grid container spacing={3}>
@@ -112,20 +115,20 @@ const FormProfile = () => {
           <h1 className={classes.h1}>Edit Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/mentee/profile'}>
+          <Link href={'/mentee/[profile]'} as={`/mentee/${profile}`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
               color="primary"
             >
-              View Profile
+              My Profile
             </Button>
           </Link>
         </Grid>
       </Grid>
       <div className={classes.avatar}>
         <Avatar
-          alt="Profile Picture"
+          alt="Index Picture"
           src={'/images/avatar_example.jpg'}
           className={classes.large}
         />

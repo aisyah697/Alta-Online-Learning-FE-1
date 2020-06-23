@@ -164,7 +164,7 @@ const NavigationBar = (props) => {
             <Typography className={classes.menu} variant="h6" noWrap>
                 Certification
             </Typography>
-            <NextLink href={'/module'}>
+            <NextLink href={'/courses/phase/[id]'} as={`/courses/phase/${1}`}>
                 <Typography className={classes.menu} variant="h6" noWrap>
                     All Courses
                 </Typography>
@@ -176,6 +176,7 @@ const NavigationBar = (props) => {
     )
 
     const menuId = 'primary-search-account-menu';
+    const mentee = {username: 'agsdws'}
     const renderMenu = (
         <Popper open={isMenuOpen}
                 anchorEl={anchorEl}
@@ -210,7 +211,7 @@ const NavigationBar = (props) => {
                         </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <Link href={'/mentee/profile'}>
+                                <Link href={'/mentee/[profile]'} as={`/mentee/${mentee.username}`}>
                                     <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                         <IconButton aria-label="show 4 new mails" color="inherit">
                                             <SettingsIcon/>

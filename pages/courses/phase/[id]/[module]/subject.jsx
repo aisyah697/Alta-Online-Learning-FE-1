@@ -1,10 +1,13 @@
 import React from "react";
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/core/styles";
-import NavigationBar from "../../../../../components/NavigationBar";
-import Footer from "../../../../../components/FooterBar";
-import ModuleOverview from "../../../../../components/module/ModuleOverview";
-import AvailableSubjects from "../../../../../components/module/AvailableSubject";
+
+const AvailableSubjects = dynamic(() => import('../../../../../components/module/AvailableSubject'))
+const ModuleOverview = dynamic(() => import('../../../../../components/module/ModuleOverview'))
+const NavigationBar = dynamic(() => import('../../../../../components/NavigationBar'))
+const FooterBar = dynamic(() => import('../../../../../components/FooterBar'))
+
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -35,7 +38,7 @@ export default function ModuleDetailOverview() {
                 <h1 className={classes.h1}>Available Subjects</h1>
                 <AvailableSubjects />
             </main>
-            <Footer />
+            <FooterBar />
         </React.Fragment>
     );
 }

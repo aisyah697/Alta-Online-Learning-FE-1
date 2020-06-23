@@ -9,6 +9,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import Grid from "@material-ui/core/Grid";
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,6 +82,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileMentee = (props) => {
   const classes = useStyles();
+  const router = useRouter();
+  const { profile } = router.query;
 
   function createData(key, data) {
     return { key, data };
@@ -102,7 +105,7 @@ const ProfileMentee = (props) => {
           <h1 className={classes.h1}>My Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href="/mentee/profile/edit">
+          <Link href="/mentee/[profile]/edit" as={`/mentee/${profile}/edit`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"

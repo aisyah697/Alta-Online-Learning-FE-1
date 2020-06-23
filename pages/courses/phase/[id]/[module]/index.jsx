@@ -1,23 +1,24 @@
 import React from "react";
 import Head from "next/head";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import {useRouter} from "next/router";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import Table from "@material-ui/core/Table";
+import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
+import GitHubIcon from "@material-ui/icons/GitHub";
 import TableRow from "@material-ui/core/TableRow";
-import Link from "next/link";
+import { Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import Grid from "@material-ui/core/Grid";
 
-import SubFooter from "../../../../../components/SubFooter";
-import NavigationBar from "../../../../../components/NavigationBar";
-import FooterBar from "../../../../../components/FooterBar";
-import ModuleDetailIsiTabel from "../../../../../components/module/ModuleDetailTable";
-import {useRouter} from "next/router";
+const ModuleDetailTable = dynamic(() => import('../../../../../components/module/ModuleDetailTable'))
+const NavigationBar = dynamic(() => import('../../../../../components/NavigationBar'))
+const SubFooter = dynamic(() => import('../../../../../components/SubFooter'))
+const FooterBar = dynamic(() => import('../../../../../components/FooterBar'))
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -251,7 +252,7 @@ export default function Detail() {
                                                 <StyledTableCell>
                                                     <div className={classes.listItem2}>
                                                         {/* maping rules nanti mulai dari sini */}
-                                                        <ModuleDetailIsiTabel />
+                                                        <ModuleDetailTable />
                                                     </div>
                                                 </StyledTableCell>
                                             </TableRow>
@@ -272,11 +273,11 @@ export default function Detail() {
                                             <TableRow>
                                                 <StyledTableCell>
                                                     {/* maping subjek nanti mulai dari sini */}
-                                                    <ModuleDetailIsiTabel />
+                                                    <ModuleDetailTable />
                                                 </StyledTableCell>
                                                 <StyledTableCell>
                                                     {/* maping requirement nanti mulai dari sini */}
-                                                    <ModuleDetailIsiTabel />
+                                                    <ModuleDetailTable />
                                                 </StyledTableCell>
                                             </TableRow>
                                         </TableBody>

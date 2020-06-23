@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import NavigationBar from "../../../components/NavigationBar";
 import FooterBar from "../../../components/FooterBar";
-import FormEditProfile from "../../../components/mentee/FormEditProfile";
+import FormEditProfile from "../../../components/mentee/EditProfile";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({

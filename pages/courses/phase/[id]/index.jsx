@@ -3,10 +3,9 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-
+const ModuleList = dynamic(() => import('../../../../components/module/ModuleList'))
 const NavigationBar = dynamic(() => import('../../../../components/NavigationBar'))
 const SubFooter = dynamic(() => import('../../../../components/SubFooter'))
-const ModuleList = dynamic(() => import('../../../../components/module/ModuleList'))
 const Footer = dynamic(() => import('../../../../components/FooterBar'))
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
             backgroundSize: "18vw, 18vw",
         },
     },
-    judulPage: {
+    titlePage: {
         fontFamily: "Muli, sans-serif",
         fontSize: `calc(1.1em + 1.5vw)`,
         textAlign: "center",
@@ -49,7 +48,7 @@ const Module = () => {
             <main>
                 <NavigationBar />
                 <div className={classes.bodyContent}>
-                    <Typography className={classes.judulPage}>
+                    <Typography className={classes.titlePage}>
                         Alta Learn Module
                     </Typography>
                     <ModuleList />
