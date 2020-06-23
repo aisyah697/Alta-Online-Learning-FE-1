@@ -30,7 +30,7 @@ export default function Mentee() {
   return (
     <React.Fragment>
       <Head>
-        <title>Admin | Mentee</title>
+        <title>Admin | Data Admin</title>
       </Head>
       <NavigationAdminBar />
       <main className={classes.root}>
