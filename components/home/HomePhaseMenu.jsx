@@ -122,7 +122,7 @@ const CustomCard = ({ classes, title, status}) => {
             </CardContent>
             <CardActions className={classes.action}>
                 {status ?
-                    <Link href={'/courses/phase/[id]'} as={'/courses/phase/one}'}>
+                    <Link href={'/courses/phase/[id]'} as={'/courses/phase/one'}>
                         <Button size="small" variant={'outlined'} className={classes.button}
                                 endIcon={<Done/>}
                                 >
@@ -130,7 +130,7 @@ const CustomCard = ({ classes, title, status}) => {
                         </Button>
                     </Link>
                     :
-                    <Link href={'/courses/phase/[id]'} as={'/courses/phase/two}'}>
+                    <Link href={'/courses/phase/[id]'} as={'/courses/phase/two'}>
                         <Button size="small" variant={'outlined'} className={classes.button2}
                                 startIcon={<PlayCircleOutlineIcon/>}>
                             Start

@@ -4,6 +4,9 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import {useRouter} from "next/router";
+import dynamic from "next/dynamic";
+const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
     bannerBox: {
@@ -75,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeBanner = () => {
     const classes = useStyles();
+    const id = 'one'
     return (
         <div>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
@@ -87,9 +91,11 @@ const HomeBanner = () => {
                             <Typography className={classes.bannerTitle} style={{fontWeight: 'bold'}}> Online Learning? </Typography>
                             <Typography> Alterra Online Learning is a online tech talent learning that gives everyone (even non-IT background) a chance to be a professional Tech Talent. </Typography>
                             <React.Fragment>
-                                <Button variant={'outlined'} className={classes.button}>
-                                    View Course
-                                </Button>
+                                <Link href={'/courses/phase/[id]'} as={`/courses/phase/${id}`}>
+                                    <Button variant={'outlined'} className={classes.button}>
+                                        View Course
+                                    </Button>
+                                </Link>
                             </React.Fragment>
                         </div>
                     </Grid>

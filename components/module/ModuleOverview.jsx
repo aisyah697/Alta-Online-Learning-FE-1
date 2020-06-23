@@ -5,6 +5,9 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import dynamic from "next/dynamic";
+const Link = dynamic(() => import('../../utils/link'))
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ModuleOverview(props) {
     const classes = useStyles();
-
+    const router = useRouter();
+    const {id, module} = router.query;
     return (
         <React.Fragment>
             <Paper elevation={0}>
@@ -80,13 +84,15 @@ export default function ModuleOverview(props) {
                         <Typography variant="subtitle1" color="textSecondary" component="p">
                             2 of 5 subjects completed
                         </Typography>
-                        <Button
-                            className={classes.button}
-                            variant="contained"
-                            color="secondary"
-                        >
-                            Go to class
-                        </Button>
+                        <Link href={'/courses/phase/[id]/[module]/[subject_name]'} as={`/courses/phase/${id}/${module}/01-Introduction`}>
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                color="secondary"
+                            >
+                                Go to class
+                            </Button>
+                        </Link>
                     </Grid>
                 </Grid>
             </Paper>

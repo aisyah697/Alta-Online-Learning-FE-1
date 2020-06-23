@@ -4,6 +4,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import dynamic from "next/dynamic";
+const Link = dynamic(() => import('../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
     bannerBox: {
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SubFooter = () => {
     const classes = useStyles();
+    const id = 'one'
     return (
         <div>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
@@ -48,9 +51,11 @@ const SubFooter = () => {
                         <Typography variant={'h5'} className={classes.title}>
                             You can now access the course!
                         </Typography>
-                        <Button variant={'outlined'} className={classes.button}>
-                            View Course
-                        </Button>
+                        <Link href={'/courses/phase/[id]'} as={`/courses/phase/${id}`}>
+                            <Button variant={'outlined'} className={classes.button}>
+                                View Course
+                            </Button>
+                        </Link>
                     </Grid>
                 </Grid>
             </Box>
