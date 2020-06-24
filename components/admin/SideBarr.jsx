@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(0),
     },
   },
+  sideBarr: {
+    paddingBottom: theme.spacing(10),
+  },
   hide: {
     display: "none",
   },
@@ -99,10 +102,12 @@ export default function SideBarr() {
       >
         <MenuOpenIcon />
       </Button>
-      <ContentSide />
-      <ContentSide />
-      <ContentSide />
-      <ContentSide />
+      <div className={classes.sideBarr}>
+        <ContentSide />
+        <ContentSide />
+        <ContentSide />
+        <ContentSide />
+      </div>
     </Drawer>
   );
 }

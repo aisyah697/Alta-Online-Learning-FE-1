@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import dynamic from "next/dynamic";
 import Typography from "@material-ui/core/Typography";
 
+const AddModule = dynamic(() => import("../../../components/admin/AddModule"));
 const Footer = dynamic(() => import("../../../components/Footer"));
 const NavigationAdminBar = dynamic(() =>
   import("../../../components/admin/NavigationBarAdmin")
@@ -48,12 +49,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     margin: theme.spacing(2, 0, 2, 0),
   },
-  sidebarr: {
-    zIndex: -0,
-  },
   footer: {
-    // marginTop: "0",
-    zIndex: 1,
+    position: "relative",
   },
 }));
 
@@ -72,21 +69,28 @@ export default function Academy() {
           <AppBar className={classes.appBar}>
             <NavigationAdminBar />
           </AppBar>
-          <div className={classes.sidebarr}>
-            <SideBarr />
-          </div>
+          <SideBarr />
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Typography className={classes.titleInPage}>
               Module In Phase 1
             </Typography>
-            <ModuleAdmin />
-            <ModuleAdmin />
-            <ModuleAdmin />
-            <ModuleAdmin />
+            <AddModule />
+            <div>
+              <ModuleAdmin />
+              <ModuleAdmin />
+              <ModuleAdmin />
+              <ModuleAdmin />
+              <ModuleAdmin />
+              <ModuleAdmin />
+              <ModuleAdmin />
+              <ModuleAdmin />
+            </div>
           </main>
         </div>
-        <Footer />
+        <div className={classes.footer}>
+          <Footer />
+        </div>
       </body>
     </React.Fragment>
   );

@@ -10,6 +10,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
+import dynamic from "next/dynamic";
+
+const DeleteModule = dynamic(() => import("./DeleteModule"));
+const EditeModule = dynamic(() => import("./EditeModule"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,13 +64,14 @@ export default function ModuleAdmin() {
           <Typography className={classes.heading}>
             Basic Programing Python
           </Typography>
+          <EditeModule />
+          <DeleteModule />
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <List>
             <Typography className={classes.allText}>
               <strong>Mentor :</strong>
               <Typography className={classes.allText}>
-                {" "}
                 KobarSeptianus
               </Typography>
             </Typography>
