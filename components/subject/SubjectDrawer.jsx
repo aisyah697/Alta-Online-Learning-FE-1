@@ -1,31 +1,24 @@
 import React from "react";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import SlideshowIcon from "@material-ui/icons/Slideshow";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Toolbar from "@material-ui/core/Toolbar";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import Collapse from "@material-ui/core/Collapse";
 import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import Toolbar from "@material-ui/core/Toolbar";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import dynamic from "next/dynamic";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import SlideshowIcon from "@material-ui/icons/Slideshow";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
-const NavigationBar = dynamic(() => import('../NavigationBar'))
-const SubjectContent = dynamic(() => import('./SubjectContent'))
+import PropTypes from "prop-types";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    margin: "30px 24px",
-  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
@@ -63,88 +56,148 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SubjectTest = (props) => {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+function getItems() {
+  var json = {
+    list: [
+      {
+        items: [
+          {
+            id: 1,
+            name: "Subject 01: Algorithm",
+            subitems: [
+              {
+                id: 1,
+                name: "Video",
+              },
+              {
+                id: 2,
+                name: "Presentation",
+              },
+              {
+                id: 3,
+                name: "Exam (Quiz)",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        items: [
+          {
+            id: 2,
+            name: "Subject 02: Basic Python",
+            subitems: [
+              {
+                id: 1,
+                name: "Video",
+              },
+              {
+                id: 2,
+                name: "Presentation",
+              },
+              {
+                id: 3,
+                name: "Exam (Contest)",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+  return json;
+}
 
-  const handleClick = () => {
-    setOpen(!open);
+export default function SubjectDrawer(props) {
+  const classes = useStyles();
+  const items = getItems();
+
+  const [state, setState] = React.useState([]);
+  const handleClick = (e) => {
+    setState({ [e]: !state[e] });
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <NavigationBar className={classes.appBar} />
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
-          <div className={classes.title}>
-            <h1 className={classes.module}>Basic Programming</h1>
-          </div>
-          <ListItem button onClick={handleClick}>
-            <ListItemText
-              primary="Index 01: Algorithm"
-              className={classes.subject}
-            />
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {["Video", "Presentation", "Quiz"].map((text, index) => (
-                <ListItem button key={text} className={classes.nested}>
-                  <ListItemIcon>
-                    {index === 0 ? (
-                      <PlayCircleOutlineIcon />
-                    ) : index === 1 ? (
-                      <SlideshowIcon />
-                    ) : (
-                      <AssignmentIcon />
-                    )}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-          </Collapse>
-          <Divider />
-          <ListItem button onClick={handleClick}>
-            <ListItemText
-              primary="Index 02: Basic Python"
-              className={classes.subject}
-            />
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <div className={classes.title}> </div>
-              {["Video", "Presentation", "Quiz"].map((text, index) => (
-                <ListItem button key={text} className={classes.nested}>
-                  <ListItemIcon>
-                    {index === 0 ? (
-                      <PlayCircleOutlineIcon />
-                    ) : index === 1 ? (
-                      <SlideshowIcon />
-                    ) : (
-                      <AssignmentIcon />
-                    )}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-          </Collapse>
-          <Divider />
+    <Drawer
+      className={classes.drawer}
+      variant="permanent"
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+    >
+      <Toolbar />
+      <div className={classes.drawerContainer}>
+        <div className={classes.title}>
+          <h1 className={classes.module}>Basic Programming</h1>
         </div>
-      </Drawer>
-      <SubjectContent />
-    </div>
+        <div>
+          {items.list.map((list) => {
+            return (
+              <List
+                className={classes.root}
+                key={list.id}
+                subheader={<ListSubheader>{list.title}</ListSubheader>}
+              >
+                {list.items.map((item) => {
+                  return (
+                    <div key={item.id}>
+                      {item.subitems != null ? (
+                        <div key={item.id}>
+                          <ListItem
+                            button
+                            key={item.id}
+                            onClick={handleClick.bind(item.name)}
+                          >
+                            <ListItemText primary={item.name} />
+                            {state[item.name] ? <ExpandLess /> : <ExpandMore />}
+                          </ListItem>
+                          <Collapse
+                            key={list.items.id}
+                            component="li"
+                            in={state[item.name]}
+                            timeout="auto"
+                            unmountOnExit
+                          >
+                            <List disablePadding>
+                              {item.subitems.map((value) => {
+                                return (
+                                  <ListItem
+                                    button
+                                    key={value.id}
+                                    className={classes.nested}
+                                  >
+                                    <ListItemText
+                                      key={value.id}
+                                      primary={value.name}
+                                    />
+                                  </ListItem>
+                                );
+                              })}
+                            </List>
+                          </Collapse>{" "}
+                        </div>
+                      ) : (
+                        <ListItem
+                          button
+                          onClick={handleClick.bind(item.name)}
+                          key={item.id}
+                        >
+                          <ListItemText primary={item.name} />
+                        </ListItem>
+                      )}
+                    </div>
+                  );
+                })}
+                <Divider key={list.id} absolute />
+              </List>
+            );
+          })}
+        </div>
+      </div>
+    </Drawer>
   );
 }
 
-export default SubjectTest;
+SubjectDrawer.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
