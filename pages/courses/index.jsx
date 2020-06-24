@@ -9,10 +9,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import dynamic from "next/dynamic";
-const CurrentCourse = dynamic(() => import('../components/course/CurrentCourse'))
-const PastCourses = dynamic(() => import('../components/course/PastCourse'))
-const NavigationBar = dynamic(() => import('../components/NavigationBar'))
-const Footer = dynamic(() => import('../components/Footer'))
+const CurrentCourse = dynamic(() => import('../../components/course/CurrentCourse'))
+const PastCourses = dynamic(() => import('../../components/course/PastCourse'))
+const NavigationBar = dynamic(() => import('../../components/NavigationBar'))
+const FooterBar = dynamic(() => import('../../components/FooterBar'))
 
 
 const useStyles = makeStyles((theme) => ({
@@ -140,7 +140,6 @@ const CoursePage = () => {
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         Certificate
-
                     </TabPanel>
                 </div>
                 <footer className={classes.footer}>

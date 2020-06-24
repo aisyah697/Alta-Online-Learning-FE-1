@@ -121,7 +121,7 @@ export default function ProfileAdmin(props) {
                     <h1 className={classes.h1}>Admin Profile</h1>
                 </Grid>
                 <Grid item xs={6} className={classes.viewProfile}>
-                    <Link href="/admin/profile/edit">
+                    <Link href="/admin/profile/[admin_name]/edit" as={`/admin/profile/admin1/edit`}>
                         <Button
                             className={classes.buttonProfile}
                             variant="contained"

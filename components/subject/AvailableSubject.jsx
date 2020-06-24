@@ -8,6 +8,7 @@ import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import LockIcon from "@material-ui/icons/Lock";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import Paper from "@material-ui/core/Paper";
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AvailableSubjects(props) {
   const classes = useStyles();
+  const router = useRouter();
+  const {id, module} = router.query;
   return (
     <React.Fragment>
       <Paper elevation={0} className={classes.paper}>
@@ -115,14 +118,16 @@ export default function AvailableSubjects(props) {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={2} className={classes.button}>
-            <Button
-              className={classes.unfinish}
-              variant="contained"
-              color="primary"
-            >
-              <PlayCircleOutlineIcon />
-              Start
-            </Button>
+            <Link href={'/courses/phase/[id]/[module]/[subject_name]/'} as={`/courses/phase/${id}/${module}/01-Introduction`}>
+              <Button
+                className={classes.unfinish}
+                variant="contained"
+                color="primary"
+              >
+                <PlayCircleOutlineIcon />
+                Start
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Paper>

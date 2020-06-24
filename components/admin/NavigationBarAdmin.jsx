@@ -21,7 +21,7 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Link from "../../utils/link";
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -156,9 +156,11 @@ export default function NavigationAdminBar(props) {
             <Typography className={classes.menu} variant="h6" noWrap>
                 Academic
             </Typography>
-            <Typography className={classes.menu} variant="h6" noWrap>
-                Mentees
-            </Typography>
+            <Link href={'/admin/manage/mentee'}>
+                <Typography className={classes.menu} variant="h6" noWrap>
+                    Mentees
+                </Typography>
+            </Link>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Admin
             </Typography>
@@ -203,7 +205,7 @@ export default function NavigationAdminBar(props) {
                         </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <Link href="/admin/profile">
+                                <Link href="/admin/profile/[admin_name]" as={`/admin/profile/admin1`}>
                                     <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                         <IconButton aria-label="show 4 new mails" color="inherit">
                                             <SettingsIcon/>
@@ -265,12 +267,6 @@ export default function NavigationAdminBar(props) {
                                         className={classes.button}
                                         style={{ marginRight: '15px' }}>
                                     Login
-                                </Button>
-                            </Link>
-                            <Link href="/admin/register">
-                                <Button variant="outlined" aria-label="signUp"
-                                        className={classes.button} >
-                                    SignUp
                                 </Button>
                             </Link>
                             <IconButton

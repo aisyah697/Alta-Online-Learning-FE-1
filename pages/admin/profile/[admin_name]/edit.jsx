@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
-import FooterBar from "../../../components/FooterBar";
-import NavigationAdminBar from "../../../components/admin/NavigationBarAdmin";
-import FormEditProfileAdmin from "../../../components/admin/EditProfileAdmin";
+import FooterBar from "../../../../components/FooterBar";
+import NavigationAdminBar from "../../../../components/admin/NavigationBarAdmin";
+import FormEditProfileAdmin from "../../../../components/admin/EditProfileAdmin";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({

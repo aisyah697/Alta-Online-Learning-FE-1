@@ -1,9 +1,9 @@
 import React from "react";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
-import FooterBar from "../../components/FooterBar";
-import ProfileAdmin from "../../components/admin/ProfileAdmin";
-import NavigationAdminBar from "../../components/admin/NavigationBarAdmin";
+import FooterBar from "../../../../components/FooterBar";
+import ProfileAdmin from "../../../../components/admin/ProfileAdmin";
+import NavigationAdminBar from "../../../../components/admin/NavigationBarAdmin";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ProfileAdminPage() {
+const ProfileAdminPage = () => {
     const classes = useStyles();
     return (
         <React.Fragment>
@@ -30,3 +30,5 @@ export default function ProfileAdminPage() {
         </React.Fragment>
     );
 }
+
+export default ProfileAdminPage;

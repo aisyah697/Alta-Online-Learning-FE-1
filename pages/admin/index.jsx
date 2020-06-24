@@ -13,6 +13,7 @@ import PeopleAltSharpIcon from "@material-ui/icons/PeopleAltSharp";
 import GroupWorkSharpIcon from "@material-ui/icons/GroupWorkSharp";
 import NavigationBarAdmin from "../../components/admin/NavigationBarAdmin";
 import Typography from "@material-ui/core/Typography";
+import Link from 'next/link'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,14 +83,16 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Button
-                    variant="outlined"
-                    size="medium"
-                    className={classes.button}
-                    startIcon={<GroupWorkSharpIcon />}
-                  >
-                    Our Mentee
-                  </Button>
+                  <Link href="/admin/manage/mentee">
+                    <Button
+                      variant="outlined"
+                      size="medium"
+                      className={classes.button}
+                      startIcon={<GroupWorkSharpIcon />}
+                    >
+                      Our Mentee
+                    </Button>
+                  </Link>
                 </Grid>
               </CardActions>
             </Card>
@@ -125,15 +128,17 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="medium"
-                    className={classes.button}
-                    startIcon={<PeopleAltSharpIcon />}
-                  >
-                    See Your Profile
-                  </Button>
+                  <Link href="/admin/profile/[admin_name]" as={`/admin/profile/admin1`}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="medium"
+                      className={classes.button}
+                      startIcon={<PeopleAltSharpIcon />}
+                    >
+                      See Your Profile
+                    </Button>
+                  </Link>
                 </Grid>
               </CardActions>
             </Card>

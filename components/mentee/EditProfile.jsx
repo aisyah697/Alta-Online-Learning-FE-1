@@ -128,7 +128,7 @@ const FormProfile = () => {
       </Grid>
       <div className={classes.avatar}>
         <Avatar
-          alt="Index Picture"
+          alt="Mentee Picture"
           src={'/images/avatar_example.jpg'}
           className={classes.large}
         />

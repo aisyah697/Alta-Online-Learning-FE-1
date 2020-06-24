@@ -3,13 +3,10 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 
-const AddAdmin = dynamic(() => import("../../components/admin/AddAdmin"));
-const FilterAdmin = dynamic(() => import("../../components/admin/FilterAdmin"));
-const TableAdmin = dynamic(() => import("../../components/admin/TableAdmin"));
-const Footer = dynamic(() => import("../../components/Footer"));
-const NavigationAdminBar = dynamic(() =>
-  import("../../components/NavigationBar")
-);
+const FilterMentee = dynamic(() => import("../../../components/admin/FilterMentee"));
+const TableMentee = dynamic(() => import("../../../components/admin/TableMentee"));
+const Footer = dynamic(() => import("../../../components/FooterBar"));
+const NavigationAdminBar = dynamic(() => import("../../../components/admin/NavigationBarAdmin"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,14 +27,13 @@ export default function Mentee() {
   return (
     <React.Fragment>
       <Head>
-        <title>Admin | Data Admin</title>
+        <title>Admin | Mentee</title>
       </Head>
       <NavigationAdminBar />
       <main className={classes.root}>
         <div className={classes.main}>
-          <FilterAdmin />
-          <AddAdmin />
-          <TableAdmin />
+          <FilterMentee />
+          <TableMentee />
         </div>
       </main>
       <Footer />

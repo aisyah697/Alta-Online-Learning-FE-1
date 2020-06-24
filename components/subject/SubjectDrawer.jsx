@@ -4,8 +4,9 @@ import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { makeStyles } from "@material-ui/core/styles";
 import Collapse from "@material-ui/core/Collapse";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -118,83 +119,83 @@ export default function SubjectDrawer(props) {
   };
 
   return (
-    <Drawer
-      className={classes.drawer}
-      variant="permanent"
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-    >
-      <Toolbar />
-      <div className={classes.drawerContainer}>
-        <div className={classes.title}>
-          <h1 className={classes.module}>Basic Programming</h1>
-        </div>
-        <div>
-          {items.list.map((list) => {
-            return (
-              <List
-                className={classes.root}
-                key={list.id}
-                subheader={<ListSubheader>{list.title}</ListSubheader>}
-              >
-                {list.items.map((item) => {
-                  return (
-                    <div key={item.id}>
-                      {item.subitems != null ? (
-                        <div key={item.id}>
-                          <ListItem
-                            button
-                            key={item.id}
-                            onClick={handleClick.bind(item.name)}
-                          >
-                            <ListItemText primary={item.name} />
-                            {state[item.name] ? <ExpandLess /> : <ExpandMore />}
-                          </ListItem>
-                          <Collapse
-                            key={list.items.id}
-                            component="li"
-                            in={state[item.name]}
-                            timeout="auto"
-                            unmountOnExit
-                          >
-                            <List disablePadding>
-                              {item.subitems.map((value) => {
-                                return (
+      <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+      >
+        <Toolbar />
+        <div className={classes.drawerContainer}>
+          <div className={classes.title}>
+            <h1 className={classes.module}>Basic Programming</h1>
+          </div>
+          <div>
+            {items.list.map((list) => {
+              return (
+                  <List
+                      className={classes.root}
+                      key={list.id}
+                      subheader={<ListSubheader>{list.title}</ListSubheader>}
+                  >
+                    {list.items.map((item) => {
+                      return (
+                          <div key={item.id}>
+                            {item.subitems != null ? (
+                                <div key={item.id}>
                                   <ListItem
-                                    button
-                                    key={value.id}
-                                    className={classes.nested}
+                                      button
+                                      key={item.id}
+                                      onClick={handleClick.bind(item.name)}
                                   >
-                                    <ListItemText
-                                      key={value.id}
-                                      primary={value.name}
-                                    />
+                                    <ListItemText primary={item.name} />
+                                    {state[item.name] ? <ExpandLess /> : <ExpandMore />}
                                   </ListItem>
-                                );
-                              })}
-                            </List>
-                          </Collapse>{" "}
-                        </div>
-                      ) : (
-                        <ListItem
-                          button
-                          onClick={handleClick.bind(item.name)}
-                          key={item.id}
-                        >
-                          <ListItemText primary={item.name} />
-                        </ListItem>
-                      )}
-                    </div>
-                  );
-                })}
-                <Divider key={list.id} absolute />
-              </List>
-            );
-          })}
+                                  <Collapse
+                                      key={list.items.id}
+                                      component="li"
+                                      in={state[item.name]}
+                                      timeout="auto"
+                                      unmountOnExit
+                                  >
+                                    <List disablePadding>
+                                      {item.subitems.map((value) => {
+                                        return (
+                                            <ListItem
+                                                button
+                                                key={value.id}
+                                                className={classes.nested}
+                                            >
+                                              <ListItemText
+                                                  key={value.id}
+                                                  primary={value.name}
+                                              />
+                                            </ListItem>
+                                        );
+                                      })}
+                                    </List>
+                                  </Collapse>{" "}
+                                </div>
+                            ) : (
+                                <ListItem
+                                    button
+                                    onClick={handleClick.bind(item.name)}
+                                    key={item.id}
+                                >
+                                  <ListItemText primary={item.name} />
+                                </ListItem>
+                            )}
+                          </div>
+                      );
+                    })}
+                    <Divider key={list.id} absolute />
+                  </List>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </Drawer>
+      </Drawer>
   );
 }
 
