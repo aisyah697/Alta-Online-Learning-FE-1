@@ -1,33 +1,32 @@
 import React from "react";
 import Head from "next/head";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
-import HomeBanner from "../components/HomeBanner";
-import HomePhaseMenu from "../components/HomePhaseMenu";
-import SubFooter from "../components/SubFooter";
-import FrequentQuestion from "../components/FAQs";
-import HomeTestimony from "../components/HomeTestimony";
+import dynamic from 'next/dynamic'
 
-class Home extends React.Component {
-    render() {
-        return (
-            <React.Fragment>
-                <Head>
-                    <title>Home | Alta Online Learning</title>
-                </Head>
+const NavigationBar = dynamic(() => import('../components/NavigationBar'))
+const HomePhaseMenu = dynamic(() => import('../components/home/HomePhaseMenu'))
+const HomeTestimony = dynamic(() => import('../components/home/HomeTestimony'))
+const HomeBanner = dynamic(() => import('../components/home/HomeBanner'))
+const FrequentQuestion = dynamic(() => import('../components/home/HomeFAQ'))
+const SubFooter = dynamic(() => import('../components/SubFooter'))
+const Footer = dynamic(() => import('../components/FooterBar'))
 
-                <main>
-                    <NavigationBar/>
-                    <HomeBanner/>
-                    <HomePhaseMenu/>
-                    <HomeTestimony/>
-                    <FrequentQuestion/>
-                    <SubFooter/>
-                    <Footer/>
-                </main>
-            </React.Fragment>
-        )
-    }
+const Home = () => {
+    return (
+        <div>
+            <Head>
+                <title>Home | Alta Online Learning</title>
+            </Head>
+            <main>
+                <NavigationBar/>
+                <HomeBanner/>
+                <HomePhaseMenu/>
+                <HomeTestimony/>
+                <FrequentQuestion/>
+                <SubFooter/>
+                <Footer/>
+            </main>
+        </div>
+    )
 }
 
 export default Home;
