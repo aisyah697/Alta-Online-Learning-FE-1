@@ -73,7 +73,7 @@ export default function SubjectContent(props) {
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              Video Part 2: Algoritma dalam pemrograman
+              PPT Part 1: Algoritma dalam pemrograman
             </Typography>
           </CardContent>
         </CardActionArea>
