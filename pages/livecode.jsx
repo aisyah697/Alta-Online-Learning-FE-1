@@ -3,7 +3,7 @@ import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavigationBar from "../components/NavigationBar";
-import SubjectDrawer from "../components/SubjectDrawer";
+import SubjectDrawer from "../components/subject/SubjectDrawer";
 import LivecodeContent from "../components/LivecodeContent";
 
 const useStyles = makeStyles((theme) => ({
