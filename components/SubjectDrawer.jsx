@@ -20,6 +20,9 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    color: theme.palette.secondary.secondary,
+  },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
@@ -43,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     paddingRight: theme.spacing(2),
     paddingLeft: "18px",
+    color: theme.palette.secondary.secondary,
   },
   module: {
     textTransform: "uppercase",
