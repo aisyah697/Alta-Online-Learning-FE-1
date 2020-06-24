@@ -2,10 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,9 +18,16 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textAlign: "center",
+    color: theme.palette.secondary.secondary,
   },
   media: {
     height: theme.spacing(30),
+  },
+  link: {
+    color: theme.palette.primary.secondary,
+  },
+  p: {
+    color: theme.palette.secondary.secondary,
   },
 }));
 
@@ -34,9 +37,8 @@ export default function SubjectContent(props) {
   return (
     <main className={classes.content}>
       <Toolbar />
-      <h1 className={classes.title}>Algorithm</h1>
-      <h2>Introduction</h2>
-      <Typography paragraph>
+      <h1 className={classes.title}>Algorithm Live Code</h1>
+      <Typography paragraph className={classes.p}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
         non enim praesent elementum facilisis leo vel. Risus at ultrices mi
@@ -50,34 +52,12 @@ export default function SubjectContent(props) {
         varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
         Lorem donec massa sapien faucibus et molestie ac.
       </Typography>
-      <Card className={classes.root}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Video Part 1: Dasar-dasar algoritma
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      <Card className={classes.root}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              PPT Part 1: Algoritma dalam pemrograman
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <Typography paragraph className={classes.p}>
+        Go to HackerRank link below:{" "}
+        <Typography className={classes.link}>
+          https://hackerrank.com/algorithm/alta_livecode
+        </Typography>
+      </Typography>
     </main>
   );
 }
