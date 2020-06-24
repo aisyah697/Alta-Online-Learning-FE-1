@@ -34,16 +34,13 @@ const useStyles = makeStyles((theme) => ({
     height: 390,
   },
   button: {
-    width: "180px",
-    textTransform: "none",
     background: "#3364ff",
-    color: "white",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
     padding: "7px 20px",
     textTransform: "none",
-    borderRadius: theme.spacing(10),
     minWidth: theme.spacing(12),
     "&:hover": {
       backgroundColor: theme.palette.primary.main,

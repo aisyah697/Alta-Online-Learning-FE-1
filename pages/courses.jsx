@@ -1,19 +1,19 @@
 import React from "react";
 import Head from "next/head";
-
 import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from 'prop-types';
 import withStyles from "@material-ui/core/styles/withStyles";
+
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import dynamic from "next/dynamic";
-
 const CurrentCourse = dynamic(() => import('../components/course/CurrentCourse'))
 const PastCourses = dynamic(() => import('../components/course/PastCourse'))
 const NavigationBar = dynamic(() => import('../components/NavigationBar'))
 const Footer = dynamic(() => import('../components/Footer'))
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -105,6 +105,7 @@ const StyledTab = withStyles((theme) => ({
 }))((props) => <Tab disableRipple {...props} />);
 
 const CoursePage = () => {
+
     const classes = useStyles();
 
     const [value, setValue] = React.useState(0);
@@ -139,6 +140,7 @@ const CoursePage = () => {
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         Certificate
+
                     </TabPanel>
                 </div>
                 <footer className={classes.footer}>
@@ -150,3 +152,4 @@ const CoursePage = () => {
 }
 
 export default CoursePage;
+
