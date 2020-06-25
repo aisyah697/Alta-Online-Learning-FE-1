@@ -198,7 +198,3 @@ export default function SubjectDrawer(props) {
       </Drawer>
   );
 }
-
-SubjectDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
