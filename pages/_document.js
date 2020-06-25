@@ -17,8 +17,8 @@ export default class MyDocument extends Document {
                     <link rel="icon" href="/images/logo_header.png" />
                 </Head>
                 <body>
-                <Main />
-                <NextScript />
+                    <Main />
+                    <NextScript />
                 </body>
             </Html>
         );

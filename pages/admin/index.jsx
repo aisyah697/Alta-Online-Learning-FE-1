@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import Footer from "../../components/Footer";
+import FooterBar from "../../components/FooterBar";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -13,6 +13,7 @@ import PeopleAltSharpIcon from "@material-ui/icons/PeopleAltSharp";
 import GroupWorkSharpIcon from "@material-ui/icons/GroupWorkSharp";
 import NavigationBarAdmin from "../../components/admin/NavigationBarAdmin";
 import Typography from "@material-ui/core/Typography";
+import Link from 'next/link'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,16 +35,13 @@ const useStyles = makeStyles((theme) => ({
     height: 390,
   },
   button: {
-    width: "180px",
-    textTransform: "none",
     background: "#3364ff",
-    color: "white",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
     padding: "7px 20px",
     textTransform: "none",
-    borderRadius: theme.spacing(10),
     minWidth: theme.spacing(12),
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -85,14 +83,16 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Button
-                    variant="outlined"
-                    size="medium"
-                    className={classes.button}
-                    startIcon={<GroupWorkSharpIcon />}
-                  >
-                    Our Mentee
-                  </Button>
+                  <Link href="/admin/manage/mentee">
+                    <Button
+                      variant="outlined"
+                      size="medium"
+                      className={classes.button}
+                      startIcon={<GroupWorkSharpIcon />}
+                    >
+                      Our Mentee
+                    </Button>
+                  </Link>
                 </Grid>
               </CardActions>
             </Card>
@@ -128,21 +128,23 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="medium"
-                    className={classes.button}
-                    startIcon={<PeopleAltSharpIcon />}
-                  >
-                    See Your Profile
-                  </Button>
+                  <Link href="/admin/profile/[admin_name]" as={`/admin/profile/admin1`}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="medium"
+                      className={classes.button}
+                      startIcon={<PeopleAltSharpIcon />}
+                    >
+                      See Your Profile
+                    </Button>
+                  </Link>
                 </Grid>
               </CardActions>
             </Card>
           </Grid>
         </div>
-        <Footer />
+        <FooterBar />
       </main>
     </React.Fragment>
   );
