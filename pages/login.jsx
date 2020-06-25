@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Head from "next/head";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
@@ -21,6 +21,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import UserContext from "../store/userContext";
 
 const NavigationBar = dynamic(() => import('../components/NavigationBar'))
 const Footer = dynamic(() => import('../components/FooterBar'))
@@ -97,7 +98,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = (data) => {
   const classes = useStyles();
-  const [cookies, setCookie] = useCookies(['token']);
+  const { signIn } = useContext(UserContext);
+  const [message, setMessage] = React.useState('')
   const [values, setValues] = React.useState({
     username: "",
     password: "",
@@ -108,26 +110,11 @@ const Login = (data) => {
   const onLoginClick = async () => {
     const username = values.username
     const password = values.password
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/auth/mentee'
 
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: username, password: password })
-      });
-      if (response.ok) {
-        const { token } = await response.json();
-        setCookie('token', token)
-        Router.push('/')
-      } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        return Promise.reject(error);
-      }
-    } catch (error) {
-      console.error("Please Try Again!", error);
-      throw new Error(error);
+    if (username != '' || password != '') {
+      signIn(username, password);
+    } else {
+      setMessage('Please enter your username and password');
     }
   }
 

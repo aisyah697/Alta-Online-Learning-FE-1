@@ -15,7 +15,6 @@ export default class MyDocument extends Document {
                         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
                     />
                     <link rel="icon" href={"/images/logo_header.png"} />
-                    <title>Alta Online Learning</title>
                 </Head>
                 <body>
                     <Main />
