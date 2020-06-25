@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -22,6 +22,7 @@ import Grow from "@material-ui/core/Grow";
 import Fab from '@material-ui/core/Fab';
 import dynamic from "next/dynamic";
 import NextLink from 'next/link';
+import UserContext from "../store/userContext";
 
 const ScrollTop = dynamic(() => import('../utils/scrollTop'));
 const Link = dynamic(() => import('../utils/link'));
@@ -121,6 +122,8 @@ const useStyles = makeStyles((theme) => ({
 
 const NavigationBar = (props) => {
     const classes = useStyles();
+    const {login, signOut} = useContext(UserContext);
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -140,6 +143,11 @@ const NavigationBar = (props) => {
         handleMobileMenuClose();
     };
 
+    const doSignOut = () => {
+        signOut();
+        handleMenuClose()
+    }
+
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
@@ -148,7 +156,7 @@ const NavigationBar = (props) => {
             <React.Fragment>
                 <Card elevation={0} className={classes.navLogo}>
                     <Link href="/">
-                        <img height="60" src="/images/logo_navbar.png" alt="Logo NavBar"/>
+                        <img height="60" src={"/images/logo_navbar.png"} alt="Logo NavBar"/>
                     </Link>
                 </Card>
             </React.Fragment>
@@ -191,7 +199,7 @@ const NavigationBar = (props) => {
                 >
                     <Paper elevation={1} className={classes.paper}>
                         <div className={classes.menuLogo}>
-                            <img height="60" src="/images/logo_popper.png" alt="Logo NavBar"/>
+                            <img height="60" src={"/images/logo_popper.png"} alt="Logo NavBar"/>
                         </div>
                         <div className={classes.infoUser}>
                             <div className={classes.avatarPop}>
@@ -219,7 +227,7 @@ const NavigationBar = (props) => {
                                         <p>Manage Your Account</p>
                                     </MenuItem>
                                 </Link>
-                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
+                                <MenuItem onClick={doSignOut} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <ExitToAppIcon/>
                                     </IconButton>
@@ -268,29 +276,33 @@ const NavigationBar = (props) => {
                     <div className={classes.sectionDesktop}>
                         {MenuBar}
                         <div className={'menuButton'}>
-                            <Link href={'/login'}>
-                                <Button variant="outlined" aria-label="login"
-                                        className={classes.button}
-                                        style={{ marginRight: '15px' }}>
-                                    Login
-                                </Button>
-                            </Link>
-                            <Link href={'/register'}>
-                                <Button variant="outlined" aria-label="signUp"
-                                        className={classes.button} >
-                                    SignUp
-                                </Button>
-                            </Link>
-                            <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="secondary"
-                            >
-                                <Avatar className={classes.avatar} src={'/images/avatar_example.jpg'}/>
-                            </IconButton>
+                            {login ?
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    onClick={handleProfileMenuOpen}
+                                    color="secondary"
+                                >
+                                    <Avatar className={classes.avatar} src={'/images/avatar_example.jpg'}/>
+                                </IconButton> :
+                                <>
+                                    <Link href={'/login'}>
+                                        <Button variant="outlined" aria-label="login"
+                                                className={classes.button}
+                                                style={{marginRight: '15px'}}>
+                                            Login
+                                        </Button>
+                                    </Link>
+                                    <Link href={'/register'}>
+                                        <Button variant="outlined" aria-label="signUp"
+                                                className={classes.button}>
+                                            SignUp
+                                        </Button>
+                                    </Link>
+                                </>
+                            }
                         </div>
                     </div>
                     <div className={classes.sectionMobile}>
