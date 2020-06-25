@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import Typography from "@material-ui/core/Typography";
 
 const AddModule = dynamic(() => import("../../../components/admin/AddModule"));
-const Footer = dynamic(() => import("../../../components/Footer"));
+const Footer = dynamic(() => import("../../../components/FooterBar"));
 const NavigationAdminBar = dynamic(() =>
   import("../../../components/admin/NavigationBarAdmin")
 );
