@@ -111,7 +111,7 @@ export default function EditeModule() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Edit Module"}
+          {"Edit Subject"}
         </DialogTitle>
         <DialogContent>
           <Typography className={classes.isiQuestion}>
