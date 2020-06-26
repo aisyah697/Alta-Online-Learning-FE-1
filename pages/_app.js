@@ -11,11 +11,18 @@ import '../public/index.css'
 const cookies = new Cookies();
 
 export default function MyApp(props) {
-    const { Component, pageProps } = props;
+    const { Component, pageProps } = props
+    const url = process.env.NEXT_PUBLIC_BASE_URL
+
+    // Get Profile
+    React.useEffect(() => {
+        const profileUrl = url + 'mentee'
+    },[])
 
     //isLogin
     const[isLogin, setIsLogin] = React.useState(null)
     const[cookies, setCookies, removeCookie] = useCookies(['token'])
+    const[user, setUser] = React.useState('')
 
     React.useEffect(() => {
         const token = cookies.token
@@ -27,17 +34,19 @@ export default function MyApp(props) {
     },[])
 
     const signIn = async (username, password) => {
-        const url = process.env.NEXT_PUBLIC_BASE_URL + '/auth/mentee'
+        const signInUrl = url + '/auth/mentee'
         try {
-            const response = await fetch(url, {
+            const response = await fetch(signInUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username: username, password: password })
             });
             if (response.ok) {
-                const { token } = await response.json();
+                const data = await response.json();
+                setUser(data);
                 setIsLogin(true);
-                setCookies('token', token);
+                setCookies('token', data.token);
+                setCookies('user', data)
                 Router.replace('/')
             } else {
                 let error = new Error(response.statusText);
@@ -53,6 +62,7 @@ export default function MyApp(props) {
     const signOut = () => {
         setIsLogin(false);
         removeCookie('token');
+        removeCookie('user');
         Router.push('/login');
     };
 
@@ -64,6 +74,7 @@ export default function MyApp(props) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
     }, []);
+
     return (
         <React.Fragment>
             <Head>
@@ -74,7 +85,7 @@ export default function MyApp(props) {
                 {/* CssBaseline kick start an elegant, consistent, and simple baseline to build upon. */}
                 <CssBaseline />
                 <CookiesProvider>
-                    <UserContext.Provider value={{ login: isLogin, signIn: signIn, signOut: signOut}}>
+                    <UserContext.Provider value={{user: user, login: isLogin, signIn: signIn, signOut: signOut}}>
                         <Component {...pageProps} />
                     </UserContext.Provider>
                 </CookiesProvider>

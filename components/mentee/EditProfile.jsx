@@ -5,7 +5,9 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import dynamic from "next/dynamic";
-import {useRouter} from "next/router";
+import Router, {useRouter} from "next/router";
+import { useCookies } from 'react-cookie';
+import axios from 'axios';
 
 const Link = dynamic(() => import('../../utils/link'))
 
@@ -108,6 +110,53 @@ const FormProfile = () => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
+  const [cookies, setCookie] = useCookies(['user']);
+  const user = cookies.user
+
+  const [values, setValues] = React.useState({
+    fullName: "",
+    email: "",
+    birthPlace: "",
+    birthDate: "",
+    phoneNumber: "",
+    github: "",
+    about: ""
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const postEditProfile = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + user.id
+    try {
+      const response = await fetch(url, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: values.fullName,
+          email: values.email,
+          birth_place: values.birthPlace,
+          birth_date: values.birthDate,
+          phone_number: values.phoneNumber,
+          github: values.github,
+          description: values.about
+        }
+        )
+      });
+      if (response.ok) {
+        const data = await response.json();
+      } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        return Promise.reject(error);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  }
+
   return (
     <div>
       <Grid container spacing={3}>
@@ -162,6 +211,8 @@ const FormProfile = () => {
               color="secondary"
               label="Full Name"
               size="medium"
+              name="fullName"
+              onChange={handleChange('fullName')}
             />
             <TextField
               className={classes.textField}
@@ -169,6 +220,8 @@ const FormProfile = () => {
               color="secondary"
               label="Email"
               size="medium"
+              name="email"
+              onChange={handleChange('email')}
             />
             <TextField
               className={classes.textField}
@@ -176,6 +229,8 @@ const FormProfile = () => {
               color="secondary"
               label="Birth Place"
               size="medium"
+              name="birthPlace"
+              onChange={handleChange('birthPlace')}
             />
             <TextField
               className={classes.textField}
@@ -184,6 +239,8 @@ const FormProfile = () => {
               label="Birth Date"
               placeholder="DD/MM/YYYY"
               size="medium"
+              name="birthDate"
+              onChange={handleChange('birthDate')}
             />
             <TextField
               className={classes.textField}
@@ -192,6 +249,8 @@ const FormProfile = () => {
               label="Phone Number"
               placeholder="08xxxxxxxxxx"
               size="medium"
+              name="phoneNumber"
+              onChange={handleChange('phoneNumber')}
             />
             <TextField
               className={classes.textField}
@@ -200,6 +259,8 @@ const FormProfile = () => {
               label="GitHub"
               placeholder="github.com/johndoe"
               size="medium"
+              name="github"
+              onChange={handleChange('github')}
             />
             <TextField
               className={classes.textField}
@@ -210,12 +271,15 @@ const FormProfile = () => {
               multiline
               rows={3}
               rowsMax={4}
+              name="about"
+              onChange={handleChange('about')}
             />
           </form>
           <Button
             className={classes.buttonProfile}
             variant="contained"
             color="primary"
+            onClick={() => postEditProfile()}
           >
             Save Changes
           </Button>

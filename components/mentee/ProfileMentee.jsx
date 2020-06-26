@@ -10,6 +10,8 @@ import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import Grid from "@material-ui/core/Grid";
 import {useRouter} from "next/router";
+import {Cookies, useCookies } from 'react-cookie';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,23 +81,50 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "0px",
   },
 }));
+const cookies = new Cookies();
+const url = process.env.NEXT_PUBLIC_BASE_URL
 
 const ProfileMentee = (props) => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
+  const user = cookies.get('user')
+  const[data, setData] = React.useState(user)
+
+  // React.useEffect(() => {
+  //     const fetchData = async () => {
+  //       const profileURL = url + '/mentee/' + user.id
+  //       try {
+  //         const response = await axios(url, {
+  //           method: 'GET',
+  //           headers: 'Access-Control-Allow-Origin'
+  //         });
+  //         if (response.ok) {
+  //           const res = await response.json();
+  //           setData(res);
+  //         } else {
+  //           let error = new Error(response.statusText);
+  //           error.response = response;
+  //           return Promise.reject(error);
+  //         }
+  //       } catch (error) {
+  //         console.log(error)
+  //       }
+  //     };
+  //     fetchData();
+  // },[])
 
   function createData(key, data) {
     return { key, data };
   }
 
   const rows = [
-    createData("Full Name", ": Yopi Ragil Permana Putra"),
-    createData("Email", ": ragil@alterra.id"),
-    createData("Birthday", ": Jombang, 24 April 1994"),
-    createData("Telephone", ": 081556852960"),
-    createData("Background", ": Teacher"),
-    createData("GitHub", ": github.com/yopiragil"),
+    createData("Full Name", `: ${user.full_name}`),
+    createData("Email", `: ${user.email}`),
+    createData("Birthday", `: ${user.place_birth}, ${user.date_birth}`),
+    createData("Telephone", `: ${user.phone}`),
+    createData("Background", `: ${user.background_education}`),
+    createData("GitHub", `: github.com/${user.github}`),
   ];
 
   return (
@@ -105,7 +134,7 @@ const ProfileMentee = (props) => {
           <h1 className={classes.h1}>My Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href="/mentee/[profile]/edit" as={`/mentee/${profile}/edit`}>
+          <Link href={"/mentee/[profile]/edit"} as={`/mentee/${profile}/edit`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
