@@ -1,13 +1,12 @@
 import React from "react";
 import Head from "next/head";
+import { useContext } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "../../../components/NavigationBar";
 import FooterBar from "../../../components/FooterBar";
 import ProfileMentee from "../../../components/mentee/ProfileMentee";
 import CourseHistory from "../../../components/mentee/CourseHistory";
-import { useContext } from 'react';
 import UserContext from '../../../store/userContext';
-import useFetch from "../../../utils/useFetch";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -21,12 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Index() {
   const classes = useStyles();
-  const { login } = useContext(UserContext);
-  
-  React.useEffect(() => {
-      console.log('1')
-  },[])
-
+  const { user, login } = useContext(UserContext);
   return (
     <React.Fragment>
       <Head>

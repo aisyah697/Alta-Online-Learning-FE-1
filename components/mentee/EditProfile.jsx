@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import Router, {useRouter} from "next/router";
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import UserContext from "../../store/userContext";
 
 const Link = dynamic(() => import('../../utils/link'))
 
@@ -110,8 +111,10 @@ const FormProfile = () => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
+
   const [cookies, setCookie] = useCookies(['user']);
-  const user = cookies.user
+  const {users} = useContext(UserContext);
+  const[user, setUser] = React.useState(users)
 
   const [values, setValues] = React.useState({
     fullName: "",
@@ -128,29 +131,22 @@ const FormProfile = () => {
   };
 
   const postEditProfile = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + user.id
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + users.id
+    const formData = new FormData()
+    formData.append('full_name', values.fullName)
+    formData.append('email', values.email)
+    formData.append('birth_place', values.birthPlace)
+    formData.append('birth_date', values.birthDate)
+    formData.append('phone_number', values.phoneNumber)
+    formData.append('github', values.github)
+    formData.append('description', values.about)
+
     try {
-      const response = await fetch(url, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          full_name: values.fullName,
-          email: values.email,
-          birth_place: values.birthPlace,
-          birth_date: values.birthDate,
-          phone_number: values.phoneNumber,
-          github: values.github,
-          description: values.about
-        }
-        )
+      const response = await axios.patch(url, formData,{
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      if (response.ok) {
-        const data = await response.json();
-      } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        return Promise.reject(error);
-      }
+      setCookie('user', response.data);
+
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);

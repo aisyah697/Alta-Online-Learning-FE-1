@@ -23,7 +23,7 @@ import Fab from '@material-ui/core/Fab';
 import dynamic from "next/dynamic";
 import NextLink from 'next/link';
 import UserContext from "../store/userContext";
-import {Cookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 
 const ScrollTop = dynamic(() => import('../utils/scrollTop'));
 const Link = dynamic(() => import('../utils/link'));
@@ -121,11 +121,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const cookies = new Cookies();
 const NavigationBar = (props) => {
     const classes = useStyles();
-    const {login, signOut} = useContext(UserContext);
-    const user = cookies.get('user')
+    const {user, login, signOut} = useContext(UserContext);
+    if (!user){
+        const user = useCookies('user')
+    }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -141,14 +142,14 @@ const NavigationBar = (props) => {
         setMobileMoreAnchorEl(null);
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
+    const handleMenuClose = async () => {
+        await setAnchorEl(null);
         handleMobileMenuClose();
     };
 
-    const doSignOut = () => {
+    const doSignOut = async () => {
+        handleMenuClose();
         signOut();
-        handleMenuClose()
     }
 
     const handleMobileMenuOpen = (event) => {

@@ -8,19 +8,28 @@ import Router from 'next/router'
 import UserContext from '../store/userContext';
 import theme from '../utils/theme';
 import '../public/index.css'
+
 const cookies = new Cookies();
+const url = process.env.NEXT_PUBLIC_BASE_URL
 
 export default function MyApp(props) {
     const { Component, pageProps } = props
-    const url = process.env.NEXT_PUBLIC_BASE_URL
 
-    //isLogin
-    const[isLogin, setIsLogin] = React.useState(null)
+    // Is Login
     const[cookies, setCookies, removeCookie] = useCookies(['token'])
+    const[isLogin, setIsLogin] = React.useState(null)
     const[user, setUser] = React.useState(cookies.user)
+    const token = cookies.token
 
+    // Did Mount
     React.useEffect(() => {
-        const token = cookies.token
+        // Remove the server-side injected CSS.
+        const jssStyles = document.querySelector('#jss-server-side');
+        if (jssStyles) {
+            jssStyles.parentElement.removeChild(jssStyles);
+        }
+
+        // User Data
         setUser(cookies.user);
         if (token){
             setIsLogin(true)
@@ -35,41 +44,35 @@ export default function MyApp(props) {
             const response = await fetch(signInUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username: username, password: password })
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
             });
             if (response.ok) {
                 const data = await response.json();
                 setUser(data);
                 setIsLogin(true);
+                setCookies('user', data);
                 setCookies('token', data.token);
-                setCookies('user', data)
-                Router.replace('/')
+                Router.replace('/');
             } else {
                 let error = new Error(response.statusText);
                 error.response = response;
                 return Promise.reject(error);
             }
         } catch (error) {
-            console.error("Please Try Again!", error);
+            console.error("Something Wrong, Please Try Again!", error);
             throw new Error(error);
         }
     }
 
-    const signOut = () => {
+    const signOut = async () => {
         setIsLogin(false);
+        async () => Router.push('/login');
         removeCookie('token');
         removeCookie('user');
-        Router.push('/login');
     };
-
-    //Material-UI
-    React.useEffect(() => {
-        // Remove the server-side injected CSS.
-        const jssStyles = document.querySelector('#jss-server-side');
-        if (jssStyles) {
-            jssStyles.parentElement.removeChild(jssStyles);
-        }
-    }, []);
 
     return (
         <React.Fragment>
@@ -77,15 +80,15 @@ export default function MyApp(props) {
                 <title>Alta Online Learning</title>
                 <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
             </Head>
-            <UserContext.Provider value={{user: user, login: isLogin, signIn: signIn, signOut: signOut}}>
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kick start an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
-                    <CookiesProvider>
-                        <Component {...pageProps} />
-                    </CookiesProvider>
+                    <UserContext.Provider value={{user: user, login: isLogin, signIn: signIn, signOut: signOut}}>
+                        <CookiesProvider>
+                            <Component {...pageProps} />
+                        </CookiesProvider>
+                    </UserContext.Provider>
                 </ThemeProvider>
-            </UserContext.Provider>
         </React.Fragment>
     );
 }

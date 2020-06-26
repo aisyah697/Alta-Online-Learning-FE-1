@@ -85,16 +85,12 @@ const useStyles = makeStyles((theme) => ({
 // const cookies = new Cookies();
 // const url = process.env.NEXT_PUBLIC_BASE_URL
 
-const ProfileMentee = (props) => {
+const ProfileMentee = ({mentee}) => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
   const {user} = useContext(UserContext);
-  // const[data, setData] = React.useState(user)
-  
-  React.useEffect(() => {
-    console.log("2")
-  },[])
+  const[data, setData] = React.useState(user)
 
   // React.useEffect(() => {
   //     const fetchData = async () => {
@@ -123,7 +119,7 @@ const ProfileMentee = (props) => {
     return { key, data };
   }
 
-  const rows = [
+  const rows = [ 
     createData("Full Name", `: ${user.full_name}`),
     createData("Email", `: ${user.email}`),
     createData("Birthday", `: ${user.place_birth}, ${user.date_birth}`),
@@ -161,14 +157,14 @@ const ProfileMentee = (props) => {
             <Table className={classes.size} aria-label="a dense table">
               <TableBody>
                 {rows.map((row) => (
-                  <TableRow key={row.key}>
-                    <TableCell className={classes.tableBody} scope="row">
-                      {row.key}
-                    </TableCell>
-                    <TableCell className={classes.tableBody}>
-                      {row.data}
-                    </TableCell>
-                  </TableRow>
+                    <TableRow key={row.key}>
+                      <TableCell className={classes.tableBody} scope="row">
+                        {row.key}
+                      </TableCell>
+                      <TableCell className={classes.tableBody}>
+                        {row.data}
+                      </TableCell>
+                    </TableRow>
                 ))}
               </TableBody>
             </Table>
