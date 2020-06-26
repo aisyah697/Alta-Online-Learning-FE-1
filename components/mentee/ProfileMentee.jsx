@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "12px",
     },
   },
-  avatar: {
+  avatars: {
     display: "flex",
     justifyContent: "left",
     [theme.breakpoints.down("xs")]: {
@@ -148,8 +148,8 @@ const ProfileMentee = ({mentee}) => {
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4} style={{ margin: "auto" }}>
-          <div className={classes.avatar}>
-            <Avatar className={classes.large} src={'/images/avatar_example.jpg'}/>
+          <div className={classes.avatars}>
+            <Avatar className={classes.large} src={user.avatar}/>
           </div>
         </Grid>
         <Grid item xs={12} sm={8}>
