@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Index() {
   const classes = useStyles();
   const { login } = useContext(UserContext);
+  
+  React.useEffect(() => {
+      console.log('1')
+  },[])
 
   return (
     <React.Fragment>

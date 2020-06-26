@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Link from "next/link";
 import TableContainer from "@material-ui/core/TableContainer";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,6 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import {useRouter} from "next/router";
 import {Cookies, useCookies } from 'react-cookie';
 import axios from 'axios';
+import UserContext from "../../store/userContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,15 +82,19 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "0px",
   },
 }));
-const cookies = new Cookies();
-const url = process.env.NEXT_PUBLIC_BASE_URL
+// const cookies = new Cookies();
+// const url = process.env.NEXT_PUBLIC_BASE_URL
 
 const ProfileMentee = (props) => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
-  const user = cookies.get('user')
-  const[data, setData] = React.useState(user)
+  const {user} = useContext(UserContext);
+  // const[data, setData] = React.useState(user)
+  
+  React.useEffect(() => {
+    console.log("2")
+  },[])
 
   // React.useEffect(() => {
   //     const fetchData = async () => {

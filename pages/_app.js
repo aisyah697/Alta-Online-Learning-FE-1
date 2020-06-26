@@ -14,18 +14,14 @@ export default function MyApp(props) {
     const { Component, pageProps } = props
     const url = process.env.NEXT_PUBLIC_BASE_URL
 
-    // Get Profile
-    React.useEffect(() => {
-        const profileUrl = url + 'mentee'
-    },[])
-
     //isLogin
     const[isLogin, setIsLogin] = React.useState(null)
     const[cookies, setCookies, removeCookie] = useCookies(['token'])
-    const[user, setUser] = React.useState('')
+    const[user, setUser] = React.useState(cookies.user)
 
     React.useEffect(() => {
         const token = cookies.token
+        setUser(cookies.user);
         if (token){
             setIsLogin(true)
         } else {
@@ -81,15 +77,15 @@ export default function MyApp(props) {
                 <title>Alta Online Learning</title>
                 <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
             </Head>
-            <ThemeProvider theme={theme}>
-                {/* CssBaseline kick start an elegant, consistent, and simple baseline to build upon. */}
-                <CssBaseline />
-                <CookiesProvider>
-                    <UserContext.Provider value={{user: user, login: isLogin, signIn: signIn, signOut: signOut}}>
+            <UserContext.Provider value={{user: user, login: isLogin, signIn: signIn, signOut: signOut}}>
+                <ThemeProvider theme={theme}>
+                    {/* CssBaseline kick start an elegant, consistent, and simple baseline to build upon. */}
+                    <CssBaseline />
+                    <CookiesProvider>
                         <Component {...pageProps} />
-                    </UserContext.Provider>
-                </CookiesProvider>
-            </ThemeProvider>
+                    </CookiesProvider>
+                </ThemeProvider>
+            </UserContext.Provider>
         </React.Fragment>
     );
 }
