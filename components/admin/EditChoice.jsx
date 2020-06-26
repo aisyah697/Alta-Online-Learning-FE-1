@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
   textFieldQuestion: {
     width: "100%",
-    // marginTop: theme.spacing(5),
     width: "100%",
     background: "white",
     "&:hover label.Mui-focused": {

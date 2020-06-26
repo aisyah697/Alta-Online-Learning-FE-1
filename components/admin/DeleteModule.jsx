@@ -14,6 +14,22 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.secondary.main,
     },
   },
+  buttonInPop: {
+    background: "#3364ff",
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(10),
+    color: theme.palette.common.white,
+    margin: theme.spacing(2),
+    minWidth: theme.spacing(12),
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
+  },
 }));
 export default function DeleteModule() {
   const classes = useStyles();
@@ -30,7 +46,7 @@ export default function DeleteModule() {
   return (
     <div>
       <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-        <DeleteIcon className={classes.buttonIcon} fontSize="medium" />
+        <DeleteIcon className={classes.buttonIcon} fontSize="default" />
       </IconButton>
 
       <Dialog
@@ -43,14 +59,19 @@ export default function DeleteModule() {
           {"Are you sure want to delete this user?"}
         </DialogTitle>
         <DialogActions>
-          <Button variant="outlined" size="small" onClick={handleClose}>
+          <Button
+            onClick={handleClose}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
+          >
             No
           </Button>
           <Button
-            variant="outlined"
-            size="small"
             onClick={handleClose}
-            autoFocus
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
           >
             Yes
           </Button>

@@ -1,6 +1,5 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -16,9 +15,9 @@ import ListItem from "@material-ui/core/ListItem";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import PostAddIcon from "@material-ui/icons/PostAdd";
-import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -31,24 +30,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "7px 20px",
     textTransform: "none",
     width: "180px",
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
-      textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
-    },
-  },
-  buttonIcon: {
-    background: "#3364ff",
-    backgroundColor: theme.palette.secondary.main,
-    borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(1),
-    color: theme.palette.common.white,
-    minWidth: theme.spacing(8),
-    padding: "7px 20px",
-    textTransform: "none",
-    width: "250px",
-    marginBottom: theme.spacing(3),
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.secondary,
@@ -89,6 +70,30 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
   },
+  buttonIcon: {
+    color: "white",
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
+  },
+  buttonAddReq: {
+    background: "#3364ff",
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(1),
+    color: theme.palette.common.white,
+    minWidth: theme.spacing(8),
+    padding: "7px 20px",
+    textTransform: "none",
+    width: "250px",
+    marginBottom: theme.spacing(3),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
+  },
 }));
 export default function AddModule() {
   const classes = useStyles();
@@ -104,21 +109,15 @@ export default function AddModule() {
 
   return (
     <div>
-      <Button
-        onClick={handleClickOpen}
-        variant="outlined"
-        color="primary"
-        size="medium"
-        className={classes.button}
-        startIcon={<PostAddIcon />}
-      >
-        Add Module
-      </Button>
+      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+        <EditIcon className={classes.buttonIcon} fontSize="default" />
+      </IconButton>
       <Dialog open={open} aria-labelledby="form-dialog-title">
-        <DialogTitle className={classes.allText} id="form-dialog-title">
-          Add Module
+        <DialogTitle id="form-dialog-title" className={classes.allText}>
+          Edit Module
         </DialogTitle>
         <DialogContent>
+          <Typography className={classes.allText}>Nama Module</Typography>
           <TextField
             className={classes.textField}
             variant="outlined"
@@ -126,6 +125,7 @@ export default function AddModule() {
             label="Module Name"
             size="small"
           />
+          <Typography className={classes.allText}>Nama Mentor</Typography>
           <FormControl
             className={clsx(classes.margin, classes.textField)}
             variant="outlined"
@@ -145,6 +145,12 @@ export default function AddModule() {
               <MenuItem value={"4"}>Faris</MenuItem>
             </Select>
           </FormControl>
+          <Typography className={classes.allText}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </Typography>
           <TextField
             className={classes.textField}
             variant="outlined"
@@ -168,7 +174,7 @@ export default function AddModule() {
             variant="outlined"
             color="primary"
             size="medium"
-            className={classes.buttonIcon}
+            className={classes.buttonAddReq}
             startIcon={<AddIcon />}
           >
             Add System Requirements
