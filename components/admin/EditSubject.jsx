@@ -2,17 +2,16 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import EditIcon from "@material-ui/icons/Edit";
-import IconButton from "@material-ui/core/IconButton";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { Typography } from "@material-ui/core";
-import dynamic from "next/dynamic";
-import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+import InputLabel from "@material-ui/core/InputLabel";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import Divider from "@material-ui/core/Divider";
 
-const EditChoice = dynamic(() => import("./EditChoice"));
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
     color: "white",
@@ -23,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: theme.palette.secondary.secondary,
   },
-  textFieldQuestion: {
+  textFieldFile: {
     width: "100%",
-    marginTop: theme.spacing(5),
+    margin: theme.spacing(5, 0, 2, 0),
     background: "white",
     "&:hover label.Mui-focused": {
       color: "darkBlue",
@@ -36,17 +35,10 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  textFieldChoice: {
-    width: "100%",
-    marginTop: theme.spacing(-3),
-    background: "white",
-    "&:hover label.Mui-focused": {
-      color: "darkBlue",
-    },
-    "& .MuiOutlinedInput-root": {
-      "&:hover fieldset": {
-        borderColor: "darkBlue",
-      },
+  buttonIcon: {
+    color: "white",
+    "&:hover": {
+      color: theme.palette.secondary.main,
     },
   },
   button: {
@@ -55,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
-    marginBottom: theme.spacing(5),
+    margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(12),
     textTransform: "none",
     "&:hover": {
@@ -65,14 +57,14 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  buttonAddChoice: {
+  buttonInpuFile: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(1),
     color: theme.palette.common.white,
-    margin: theme.spacing(5, 0, 5, 0),
-    minWidth: theme.spacing(12),
+    margin: theme.spacing(2, 2, 2, 0),
+    minWidth: theme.spacing(10),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -81,13 +73,17 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  isiQuestion: {
-    fontFamily: "Muli, sans-serif",
-    fontSize: `calc(0.6em + 0.5vw)`,
+
+  inputFile: {
+    margin: theme.spacing(3, 0, 0, 0),
+  },
+  allText: {
     color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+    margin: theme.spacing(3, 0, -3, 0),
   },
 }));
-export default function EditQuiz() {
+export default function EditSubject() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -102,9 +98,8 @@ export default function EditQuiz() {
   return (
     <div>
       <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-        <EditIcon className={classes.buttonIcon} fontSize="medium" />
+        <EditIcon className={classes.buttonIcon} fontSize="default" />
       </IconButton>
-
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"
@@ -113,46 +108,68 @@ export default function EditQuiz() {
         <DialogTitle className={classes.title} id="alert-dialog-title">
           {"Edit Subject"}
         </DialogTitle>
+        <Divider />
         <DialogContent>
-          <Typography className={classes.isiQuestion}>
-            Pagi ini Heldy punya rencana. Dia ingin mengembalikan CD Linux
-            kepada Hardoyo setelah merasakan kelezatan soto daging di Jalan
-            Perintis Kemerdekaan 75 Solo. Heldy ingin makan 2 pisang goreng
-            hangat di kantin Bu Sum di dekat kampus UNS Solo. Setelah makan
-            pisang dia tidak mau minum es teh di kantin Bu Sum tapi ingin minum
-            es buah di dekat stadion Manahan Solo. Sesudah dari Manahan, Heldy
-            menuju Jalan Perintis Kemerdekaan.
+          <Typography className={classes.allText}>Algorithm</Typography>
+          <TextField
+            id="outlined-multiline-static"
+            label="Subject Name"
+            color="secondary"
+            className={classes.textFieldFile}
+            variant="outlined"
+          />
+          <Divider />
+          <Typography className={classes.allText}>
+            Learn Algorithm.mp4
+          </Typography>
+          <div className={classes.inputFile}>
+            <InputLabel htmlFor="outlined-adornment-file">
+              Chose Video FIle
+            </InputLabel>
+            <Button variant="outlined" className={classes.buttonInpuFile}>
+              <input
+                className={classes.textFieldFile}
+                accept="video/*"
+                className={classes.input}
+                id="contained-button-file"
+                multiple
+                row={3}
+                type="file"
+              />
+            </Button>
+          </div>
+          <Divider />
+          <Typography className={classes.allText}>Algorithm.ppt</Typography>
+          <div className={classes.inputFile}>
+            <InputLabel htmlFor="outlined-adornment-file">
+              Chose Presentation File
+            </InputLabel>
+            <Button variant="outlined" className={classes.buttonInpuFile}>
+              <input
+                className={classes.textFieldFile}
+                accept="application/*"
+                className={classes.input}
+                id="contained-button-file"
+                multiple
+                row={3}
+                type="file"
+              />
+            </Button>
+          </div>
+          <Divider />
+          <Typography className={classes.allText}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
           </Typography>
           <TextField
             id="outlined-multiline-static"
-            label="Edit Question"
+            label="Subject Description"
             multiline
             color="secondary"
-            className={classes.textFieldQuestion}
+            className={classes.textFieldFile}
             rows={4}
-            variant="outlined"
-          />
-          <div>
-            <EditChoice />
-            <EditChoice />
-            <EditChoice />
-            <EditChoice />
-          </div>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.buttonAddChoice}
-            startIcon={<AddIcon />}
-          >
-            Add Multiple Choice
-          </Button>
-          <TextField
-            id="outlined-multiline-static"
-            label="Add Choice"
-            multiline
-            color="secondary"
-            className={classes.textFieldChoice}
-            rows={2}
             variant="outlined"
           />
         </DialogContent>
@@ -163,7 +180,7 @@ export default function EditQuiz() {
             size="small"
             onClick={handleClose}
           >
-            No
+            Cancel
           </Button>
           <Button
             variant="outlined"
@@ -172,7 +189,7 @@ export default function EditQuiz() {
             autoFocus
             className={classes.button}
           >
-            Yes
+            Submit
           </Button>
         </DialogActions>
       </Dialog>

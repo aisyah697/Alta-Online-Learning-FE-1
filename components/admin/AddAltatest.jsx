@@ -2,15 +2,13 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import EditIcon from "@material-ui/icons/Edit";
-import IconButton from "@material-ui/core/IconButton";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { Typography } from "@material-ui/core";
 import dynamic from "next/dynamic";
 import AddIcon from "@material-ui/icons/Add";
+import PostAddIcon from "@material-ui/icons/PostAdd";
 
 const EditChoice = dynamic(() => import("./EditChoice"));
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
-    marginBottom: theme.spacing(5),
+    margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(12),
     textTransform: "none",
     "&:hover": {
@@ -87,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
   },
 }));
-export default function EditQuiz() {
+export default function AddAltaTest() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -101,9 +99,16 @@ export default function EditQuiz() {
 
   return (
     <div>
-      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-        <EditIcon className={classes.buttonIcon} fontSize="medium" />
-      </IconButton>
+      <Button
+        onClick={handleClickOpen}
+        variant="outlined"
+        color="primary"
+        size="medium"
+        className={classes.button}
+        startIcon={<PostAddIcon />}
+      >
+        Add Quiz
+      </Button>
 
       <Dialog
         open={open}
@@ -111,18 +116,9 @@ export default function EditQuiz() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Edit Subject"}
+          {"Add Quiz"}
         </DialogTitle>
         <DialogContent>
-          <Typography className={classes.isiQuestion}>
-            Pagi ini Heldy punya rencana. Dia ingin mengembalikan CD Linux
-            kepada Hardoyo setelah merasakan kelezatan soto daging di Jalan
-            Perintis Kemerdekaan 75 Solo. Heldy ingin makan 2 pisang goreng
-            hangat di kantin Bu Sum di dekat kampus UNS Solo. Setelah makan
-            pisang dia tidak mau minum es teh di kantin Bu Sum tapi ingin minum
-            es buah di dekat stadion Manahan Solo. Sesudah dari Manahan, Heldy
-            menuju Jalan Perintis Kemerdekaan.
-          </Typography>
           <TextField
             id="outlined-multiline-static"
             label="Edit Question"

@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
   },
 }));
-export default function EditQuiz() {
+export default function EditAltaTest() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
