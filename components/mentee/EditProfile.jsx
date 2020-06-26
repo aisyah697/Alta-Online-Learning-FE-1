@@ -1,11 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import dynamic from "next/dynamic";
-import {useRouter} from "next/router";
+import Router, {useRouter} from "next/router";
+import { useCookies } from 'react-cookie';
+import axios from 'axios';
+import UserContext from "../../store/userContext";
 
 const Link = dynamic(() => import('../../utils/link'))
 
@@ -108,6 +111,48 @@ const FormProfile = () => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
+
+  const [cookies, setCookie] = useCookies(['user']);
+  const {users} = useContext(UserContext);
+  const[user, setUser] = React.useState(users)
+
+  const [values, setValues] = React.useState({
+    fullName: "",
+    email: "",
+    birthPlace: "",
+    birthDate: "",
+    phoneNumber: "",
+    github: "",
+    about: ""
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const postEditProfile = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + users.id
+    const formData = new FormData()
+    formData.append('full_name', values.fullName)
+    formData.append('email', values.email)
+    formData.append('birth_place', values.birthPlace)
+    formData.append('birth_date', values.birthDate)
+    formData.append('phone_number', values.phoneNumber)
+    formData.append('github', values.github)
+    formData.append('description', values.about)
+
+    try {
+      const response = await axios.patch(url, formData,{
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setCookie('user', response.data);
+
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  }
+
   return (
     <div>
       <Grid container spacing={3}>
@@ -162,6 +207,8 @@ const FormProfile = () => {
               color="secondary"
               label="Full Name"
               size="medium"
+              name="fullName"
+              onChange={handleChange('fullName')}
             />
             <TextField
               className={classes.textField}
@@ -169,6 +216,8 @@ const FormProfile = () => {
               color="secondary"
               label="Email"
               size="medium"
+              name="email"
+              onChange={handleChange('email')}
             />
             <TextField
               className={classes.textField}
@@ -176,6 +225,8 @@ const FormProfile = () => {
               color="secondary"
               label="Birth Place"
               size="medium"
+              name="birthPlace"
+              onChange={handleChange('birthPlace')}
             />
             <TextField
               className={classes.textField}
@@ -184,6 +235,8 @@ const FormProfile = () => {
               label="Birth Date"
               placeholder="DD/MM/YYYY"
               size="medium"
+              name="birthDate"
+              onChange={handleChange('birthDate')}
             />
             <TextField
               className={classes.textField}
@@ -192,6 +245,8 @@ const FormProfile = () => {
               label="Phone Number"
               placeholder="08xxxxxxxxxx"
               size="medium"
+              name="phoneNumber"
+              onChange={handleChange('phoneNumber')}
             />
             <TextField
               className={classes.textField}
@@ -200,6 +255,8 @@ const FormProfile = () => {
               label="GitHub"
               placeholder="github.com/johndoe"
               size="medium"
+              name="github"
+              onChange={handleChange('github')}
             />
             <TextField
               className={classes.textField}
@@ -210,12 +267,15 @@ const FormProfile = () => {
               multiline
               rows={3}
               rowsMax={4}
+              name="about"
+              onChange={handleChange('about')}
             />
           </form>
           <Button
             className={classes.buttonProfile}
             variant="contained"
             color="primary"
+            onClick={() => postEditProfile()}
           >
             Save Changes
           </Button>

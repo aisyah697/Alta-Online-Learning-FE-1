@@ -23,6 +23,7 @@ import Fab from '@material-ui/core/Fab';
 import dynamic from "next/dynamic";
 import NextLink from 'next/link';
 import UserContext from "../store/userContext";
+import { useCookies } from "react-cookie";
 
 const ScrollTop = dynamic(() => import('../utils/scrollTop'));
 const Link = dynamic(() => import('../utils/link'));
@@ -122,7 +123,10 @@ const useStyles = makeStyles((theme) => ({
 
 const NavigationBar = (props) => {
     const classes = useStyles();
-    const {login, signOut} = useContext(UserContext);
+    const {user, login, signOut} = useContext(UserContext);
+    if (!user){
+        const user = useCookies('user')
+    }
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -138,14 +142,14 @@ const NavigationBar = (props) => {
         setMobileMoreAnchorEl(null);
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
+    const handleMenuClose = async () => {
+        await setAnchorEl(null);
         handleMobileMenuClose();
     };
 
-    const doSignOut = () => {
+    const doSignOut = async () => {
+        handleMenuClose();
         signOut();
-        handleMenuClose()
     }
 
     const handleMobileMenuOpen = (event) => {
@@ -184,7 +188,6 @@ const NavigationBar = (props) => {
     )
 
     const menuId = 'primary-search-account-menu';
-    const mentee = {username: 'agsdws'}
     const renderMenu = (
         <Popper open={isMenuOpen}
                 anchorEl={anchorEl}
@@ -213,13 +216,13 @@ const NavigationBar = (props) => {
                                 </IconButton>
                             </div>
                             <div className={classes.infoName}>
-                                <Typography style={{fontSize: '18px'}}> Agus Dwi Sasongko</Typography>
-                                <Typography style={{fontSize: '14px'}}> agusdwi@alterra.id </Typography>
+                                <Typography style={{fontSize: '18px'}}> {user.full_name} </Typography>
+                                <Typography style={{fontSize: '14px'}}> {user.email} </Typography>
                             </div>
                         </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <Link href={'/mentee/[profile]'} as={`/mentee/${mentee.username}`}>
+                                <Link href={'/mentee/[profile]'} as={`/mentee/${user.username}`}>
                                     <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                         <IconButton aria-label="show 4 new mails" color="inherit">
                                             <SettingsIcon/>
