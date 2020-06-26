@@ -93,7 +93,7 @@ export default function EditChoice() {
         </ExpansionPanelDetails>
         <div className={classes.buttonPosition}>
           <Button className={classes.button} variant="outlined" size="small">
-            No
+            Submit Edit
           </Button>
           <Button
             variant="outlined"
@@ -101,7 +101,7 @@ export default function EditChoice() {
             autoFocus
             className={classes.button}
           >
-            Yes
+            Delete Choice
           </Button>
         </div>
       </ExpansionPanel>

@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(10),
+    borderRadius: theme.spacing(1),
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(12),
@@ -107,7 +107,7 @@ export default function AddAltaTest() {
         className={classes.button}
         startIcon={<PostAddIcon />}
       >
-        Add Quiz
+        Add Alta Test
       </Button>
 
       <Dialog

@@ -15,7 +15,7 @@ import AddIcon from "@material-ui/icons/Add";
 const EditChoice = dynamic(() => import("./EditChoice"));
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
-    color: "white",
+    color: theme.palette.secondary.secondary,
     "&:hover": {
       color: theme.palette.secondary.main,
     },
@@ -111,7 +111,7 @@ export default function EditAltaTest() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Edit Subject"}
+          {"Edit Alta Test"}
         </DialogTitle>
         <DialogContent>
           <Typography className={classes.isiQuestion}>
@@ -163,7 +163,7 @@ export default function EditAltaTest() {
             size="small"
             onClick={handleClose}
           >
-            No
+            Submit
           </Button>
           <Button
             variant="outlined"
@@ -172,7 +172,7 @@ export default function EditAltaTest() {
             autoFocus
             className={classes.button}
           >
-            Yes
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
