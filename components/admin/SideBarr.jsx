@@ -6,10 +6,14 @@ import dynamic from "next/dynamic";
 import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import Typography from "@material-ui/core/Typography";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const ContentSide = dynamic(() => import("./ContentSidebarr"));
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -47,10 +51,20 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
-    width: theme.spacing(7) + 1,
+    width: theme.spacing(6) + 1,
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing(7),
     },
+  },
+  textAltaTest: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(0.7em + 0.5vw)`,
+    fontWeight: "bold",
+  },
+  iconAltaTest: {
+    color: theme.palette.secondary.secondary,
+    margin: theme.spacing(0, 0, 0, -0.5),
   },
 }));
 
@@ -103,8 +117,12 @@ export default function SideBarr() {
         <MenuOpenIcon />
       </Button>
       <div className={classes.sideBarr}>
-        <ContentSide />
-        <ContentSide />
+        <ListItem button>
+          <ListItemIcon>
+            <AssignmentIcon className={classes.iconAltaTest} />
+          </ListItemIcon>
+          <Typography className={classes.textAltaTest}>Alta Test</Typography>
+        </ListItem>
         <ContentSide />
         <ContentSide />
       </div>
