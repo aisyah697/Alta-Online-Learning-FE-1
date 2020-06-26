@@ -111,7 +111,7 @@ export default function EditQuiz() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Edit Subject"}
+          {"Edit Quiz"}
         </DialogTitle>
         <DialogContent>
           <Typography className={classes.isiQuestion}>
@@ -163,7 +163,7 @@ export default function EditQuiz() {
             size="small"
             onClick={handleClose}
           >
-            No
+            Submit
           </Button>
           <Button
             variant="outlined"
@@ -172,7 +172,7 @@ export default function EditQuiz() {
             autoFocus
             className={classes.button}
           >
-            Yes
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
