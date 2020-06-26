@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
   },
 }));
-export default function EditAltaTest() {
+export default function EditeModule() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -111,7 +111,7 @@ export default function EditAltaTest() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Edit Subject"}
+          {"Edit Module"}
         </DialogTitle>
         <DialogContent>
           <Typography className={classes.isiQuestion}>

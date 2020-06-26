@@ -13,7 +13,7 @@ import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import dynamic from "next/dynamic";
 
 const DeleteModule = dynamic(() => import("./DeleteModule"));
-const EditModule = dynamic(() => import("./EditModule"));
+const EditeModule = dynamic(() => import("./EditeModule"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
   },
   allText: {
     color: theme.palette.secondary.secondary,
-    fontFamily: "Muli, sans-serif",
   },
   iconDown: {
     color: "white",
@@ -62,82 +61,84 @@ export default function ModuleAdmin() {
           id="panel1bh-header"
           className={classes.headingField}
         >
-          <Typography variant="body1" className={classes.heading}>
+          <Typography className={classes.heading}>
             Basic Programing Python
           </Typography>
-          <EditModule />
+          <EditeModule />
           <DeleteModule />
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <List component="nav">
+          <List>
             <Typography className={classes.allText}>
-              <strong>Mentor :</strong>{" "}
+              <strong>Mentor :</strong>
+              <Typography className={classes.allText}>
+                KobarSeptianus
+              </Typography>
             </Typography>
-            <Typography className={classes.allText}>KobarSeptianus</Typography>
             <Divider className={classes.divider} />
             <Typography className={classes.allText}>
-              <strong>Description Module :</strong>{" "}
-            </Typography>
-            <Typography className={classes.allText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              <strong>Description Module :</strong>
+              <Typography className={classes.allText}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </Typography>
             </Typography>
             <Divider className={classes.divider} />
-            <Typography variant="body1" className={classes.allText}>
-              <strong>System Requirements :</strong>{" "}
+            <Typography className={classes.allText}>
+              <strong>System Requirements :</strong>
+              <List>
+                <ListItem>
+                  <ListItemIcon>
+                    <RadioButtonCheckedIcon color="secondary" />
+                  </ListItemIcon>
+                  <Typography className={classes.allText}>
+                    Lorem ipsum dolor sit amet, consectetur
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <RadioButtonCheckedIcon color="secondary" />
+                  </ListItemIcon>
+                  <Typography className={classes.allText}>
+                    Lorem ipsum dolor sit amet, consectetur
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <RadioButtonCheckedIcon color="secondary" />
+                  </ListItemIcon>
+                  <Typography className={classes.allText}>
+                    Lorem ipsum dolor sit amet, consectetur
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <RadioButtonCheckedIcon color="secondary" />
+                  </ListItemIcon>
+                  <Typography className={classes.allText}>
+                    Lorem ipsum dolor sit amet, consectetur
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <RadioButtonCheckedIcon color="secondary" />
+                  </ListItemIcon>
+                  <Typography className={classes.allText}>
+                    Lorem ipsum dolor sit amet, consectetur
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <RadioButtonCheckedIcon color="secondary" />
+                  </ListItemIcon>
+                  <Typography className={classes.allText}>
+                    Lorem ipsum dolor sit amet, consectetur
+                  </Typography>
+                </ListItem>
+              </List>
             </Typography>
-            <List component="nav">
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-            </List>
           </List>
         </ExpansionPanelDetails>
       </ExpansionPanel>

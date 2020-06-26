@@ -9,7 +9,7 @@ import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 
 const ContentSide = dynamic(() => import("./ContentSidebarr"));
 
-const drawerWidth = 260;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
-    width: theme.spacing(6) + 1,
+    width: theme.spacing(7) + 1,
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing(7),
     },
@@ -103,6 +103,8 @@ export default function SideBarr() {
         <MenuOpenIcon />
       </Button>
       <div className={classes.sideBarr}>
+        <ContentSide />
+        <ContentSide />
         <ContentSide />
         <ContentSide />
       </div>
