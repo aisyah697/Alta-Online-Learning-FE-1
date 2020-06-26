@@ -212,7 +212,7 @@ const NavigationBar = (props) => {
                                     aria-haspopup="true"
                                     color="primary"
                                 >
-                                    <Avatar src={'/images/avatar_example.jpg'}/>
+                                    <Avatar src={user.avatar}/>
                                 </IconButton>
                             </div>
                             <div className={classes.infoName}>
@@ -288,7 +288,7 @@ const NavigationBar = (props) => {
                                     onClick={handleProfileMenuOpen}
                                     color="secondary"
                                 >
-                                    <Avatar className={classes.avatar} src={'/images/avatar_example.jpg'}/>
+                                    <Avatar className={classes.avatar} src={user.avatar}/>
                                 </IconButton> :
                                 <>
                                     <Link href={'/login'}>

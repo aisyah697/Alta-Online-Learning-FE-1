@@ -113,8 +113,7 @@ const FormProfile = () => {
   const { profile } = router.query;
 
   const [cookies, setCookie] = useCookies(['user']);
-  const {users} = useContext(UserContext);
-  const[user, setUser] = React.useState(users)
+  const {user, setUser} = useContext(UserContext);
 
   const [values, setValues] = React.useState({
     fullName: "",
@@ -123,15 +122,24 @@ const FormProfile = () => {
     birthDate: "",
     phoneNumber: "",
     github: "",
-    about: ""
+    about: "",
+    image: ""
   });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const handleImage = e => {
+    if (e.target.files.length) {
+      setValues({
+        image: e.target.files[0]
+      });
+    }
+  };
+
   const postEditProfile = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + users.id
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + user.id
     const formData = new FormData()
     formData.append('full_name', values.fullName)
     formData.append('email', values.email)
@@ -140,12 +148,14 @@ const FormProfile = () => {
     formData.append('phone_number', values.phoneNumber)
     formData.append('github', values.github)
     formData.append('description', values.about)
+    formData.append('avatar', values.image)
 
     try {
       const response = await axios.patch(url, formData,{
         headers: { "Content-Type": "multipart/form-data" },
       });
       setCookie('user', response.data);
+      setUser(response.data);
 
     } catch (error) {
       console.error("Please Try Again!", error);
@@ -174,7 +184,7 @@ const FormProfile = () => {
       <div className={classes.avatar}>
         <Avatar
           alt="Mentee Picture"
-          src={'/images/avatar_example.jpg'}
+          src={user.avatar}
           className={classes.large}
         />
       </div>
@@ -185,6 +195,8 @@ const FormProfile = () => {
           id="contained-button-file"
           multiple
           type="file"
+          name="image"
+          onChange={handleImage}
         />
         <label htmlFor="contained-button-file">
           <Button
@@ -208,6 +220,7 @@ const FormProfile = () => {
               label="Full Name"
               size="medium"
               name="fullName"
+              defaultValue={user.full_name}
               onChange={handleChange('fullName')}
             />
             <TextField
@@ -217,6 +230,7 @@ const FormProfile = () => {
               label="Email"
               size="medium"
               name="email"
+              defaultValue={user.email}
               onChange={handleChange('email')}
             />
             <TextField
@@ -226,6 +240,7 @@ const FormProfile = () => {
               label="Birth Place"
               size="medium"
               name="birthPlace"
+              defaultValue={user.place_birth}
               onChange={handleChange('birthPlace')}
             />
             <TextField
@@ -236,6 +251,7 @@ const FormProfile = () => {
               placeholder="DD/MM/YYYY"
               size="medium"
               name="birthDate"
+              defaultValue={user.date_birth}
               onChange={handleChange('birthDate')}
             />
             <TextField
@@ -246,6 +262,7 @@ const FormProfile = () => {
               placeholder="08xxxxxxxxxx"
               size="medium"
               name="phoneNumber"
+              defaultValue={user.phone}
               onChange={handleChange('phoneNumber')}
             />
             <TextField
@@ -256,6 +273,7 @@ const FormProfile = () => {
               placeholder="github.com/johndoe"
               size="medium"
               name="github"
+              defaultValue={user.github}
               onChange={handleChange('github')}
             />
             <TextField
@@ -268,6 +286,7 @@ const FormProfile = () => {
               rows={3}
               rowsMax={4}
               name="about"
+              defaultValue={user.background_education}
               onChange={handleChange('about')}
             />
           </form>

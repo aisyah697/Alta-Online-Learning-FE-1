@@ -15,18 +15,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function EditProfileAdmin() {
+export default function EditProfileMentee() {
     const classes = useStyles();
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Profile | Alta Online Learning</title>
-      </Head>
-      <NavigationBar />
-      <main className={classes.main}>
-        <FormEditProfile />
-      </main>
-      <FooterBar />
-    </React.Fragment>
-  );
+    return (
+        <React.Fragment>
+            <Head>
+                <title>Profile | Alta Online Learning</title>
+            </Head>
+            <NavigationBar />
+            <main className={classes.main}>
+                <FormEditProfile />
+            </main>
+            <FooterBar />
+        </React.Fragment>
+    );
 }
