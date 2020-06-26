@@ -12,7 +12,7 @@ import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
 import BookIcon from "@material-ui/icons/Book";
 import { Divider } from "@material-ui/core";
-import Link from "../../utils/Link";
+import Link from "../../utils/link";
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
