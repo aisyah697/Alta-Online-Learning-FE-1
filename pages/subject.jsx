@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavigationBar from "../components/NavigationBar";
 import SubjectDrawer from "../components/SubjectDrawer";
-import SubjectContent from "../components/SubjectContent";
+import SubjectContent from "../components/subject/SubjectContent";
 
 const useStyles = makeStyles((theme) => ({
   root: {

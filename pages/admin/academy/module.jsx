@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 const EditSubject = dynamic(() =>
   import("../../../components/admin/EditSubject")
 );
-const Footer = dynamic(() => import("../../../components/Footer"));
+const Footer = dynamic(() => import("../../../components/FooterBar"));
 const NavigationAdminBar = dynamic(() =>
   import("../../../components/admin/NavigationBarAdmin")
 );
