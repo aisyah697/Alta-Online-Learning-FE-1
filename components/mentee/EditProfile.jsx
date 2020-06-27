@@ -169,7 +169,7 @@ const FormProfile = () => {
           <h1 className={classes.h1}>Edit Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/mentee/[profile]'} as={`/mentee/${profile}`}>
+          <Link href={'/mentee/[profile]'} as={`/mentee/${user.username}`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
