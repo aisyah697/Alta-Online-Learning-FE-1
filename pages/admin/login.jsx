@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -16,17 +16,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-
-import SvgIcon from "@material-ui/core/SvgIcon";
-
-const wrapSvgPath = (path, viewBox = "0 0 50 50") => (props) => (
-  <SvgIcon {...props} viewBox={viewBox}>
-    {path}
-  </SvgIcon>
-);
-const GoogleIcon = wrapSvgPath(
-  <path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
-);
+import dynamic from "next/dynamic";
+import Router from "next/router";
+import AdminContext from "../../store/adminContext";
+const GoogleIcon = dynamic(() => import('../../utils/customIcon'))
+import {useCookies} from 'react-cookie'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-
   textLogin: {
     fontWeight: "bold",
     paddingBottom: "20px",
@@ -67,11 +60,10 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     paddingTop: "30%",
     minHeight: "100%",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       display: "none",
     },
   },
-
   button: {
     fontFamily: "SFCompactDisplay-Regular, sans-serif",
     backgroundColor: theme.palette.secondary.secondary,
@@ -96,15 +88,21 @@ const useStyles = makeStyles((theme) => ({
   textMuli: {
     fontFamily: "Muli, sans-serif",
   },
+  container: {
+    display: "flex",
+    justifyContent: 'center',
+    alignItems: "center",
+    height: "100vh"
+  }
 }));
 
 export default function Home() {
   const classes = useStyles();
+  const[message, setMessage] = React.useState('')
+  const{admin, setAdmin, isLogin, setIsLogin} = useContext(AdminContext);
+  const [cookies, setCookie, removeCookie] = useCookies(['admin']);
   const [values, setValues] = React.useState({
-    amount: "",
     password: "",
-    weight: "",
-    weightRange: "",
     showPassword: false,
   });
 
@@ -119,26 +117,67 @@ export default function Home() {
     event.preventDefault();
   };
 
+  const postLoginAdmin = async () => {
+    const username = values.username
+    const password = values.password
+
+    if (username != '' || password != '') {
+      Login(username, password);
+    } else {
+      setMessage('Please enter your username and password');
+    }
+  }
+
+  const Login = async (username, password) => {
+    const signInUrl = process.env.NEXT_PUBLIC_BASE_URL + '/auth/admin';
+    try {
+      const response = await fetch(signInUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setAdmin(data);
+        setCookie('admin', data);
+        setCookie('token', data.token);
+        setIsLogin(true);
+        Router.replace('/admin');
+      } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        return Promise.reject(error);
+      }
+    } catch (error) {
+      console.error("Something Wrong, Please Try Again!", error);
+      throw new Error(error);
+    }
+  }
+
   return (
     <React.Fragment>
       <Head>
         <title>Login | Alta Online Learning</title>
       </Head>
       <main>
-        <Grid container justify="center">
+        <div className={classes.container}>
+          <Grid container justify="center">
           <Card className={classes.root} variant="outlined">
             <Grid container>
               <Grid item lg={5} xs={12}>
                 <Card className={classes.loginImage}>
                   <img
                     width="90%"
-                    src="/images/logo-alterra-academy-white.png"
+                    src={"/images/logo-alterra-academy-white.png"}
                     alt="login-picture"
                   />
                 </Card>
               </Grid>
 
-              <Grid item xs={12} lg={7} style={{ background: "#F4F7FC" }}>
+              <Grid item xs={12} md={12} lg={7} style={{ background: "#F4F7FC" }}>
                 <CardContent>
                   <Typography
                     className={classes.textLogin}
@@ -156,6 +195,7 @@ export default function Home() {
                     variant="outlined"
                     color="secondary"
                     id="mui-theme-provider-outlined-input"
+                    onChange={handleChange('username')}
                   />
                   <FormControl
                     className={clsx(classes.margin, classes.textField)}
@@ -204,6 +244,7 @@ export default function Home() {
                       className={classes.button}
                       variant={"outlined"}
                       size="large"
+                      onClick={postLoginAdmin}
                     >
                       Login
                     </Button>
@@ -211,7 +252,6 @@ export default function Home() {
                       className={classes.button}
                       variant={"outlined"}
                       size="large"
-                      className={classes.button}
                       startIcon={<GoogleIcon />}
                     >
                       <Typography>Login using google account</Typography>
@@ -222,6 +262,7 @@ export default function Home() {
             </Grid>
           </Card>
         </Grid>
+        </div>
       </main>
     </React.Fragment>
   );
