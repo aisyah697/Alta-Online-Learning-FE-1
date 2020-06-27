@@ -51,9 +51,9 @@ export default function MyApp(props) {
                 const data = await response.json();
                 console.log('AAAAAAAAAAAAAAAAAAAAa', data)
                 setUser(data);
-                setIsLogin(true);
                 setCookies('user', data);
                 setCookies('token', data.token);
+                setIsLogin(true);
                 Router.replace('/');
             } else {
                 let error = new Error(response.statusText);
@@ -68,7 +68,7 @@ export default function MyApp(props) {
 
     const signOut = async () => {
         setIsLogin(false);
-        async () => Router.push('/login');
+        Router.push('/login');
         removeCookie('token');
         removeCookie('user');
     };

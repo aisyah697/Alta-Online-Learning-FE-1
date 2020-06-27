@@ -116,15 +116,16 @@ const FormProfile = () => {
   const {user, setUser} = useContext(UserContext);
 
   const [values, setValues] = React.useState({
-    fullName: "",
-    email: "",
-    birthPlace: "",
-    birthDate: "",
-    phoneNumber: "",
-    github: "",
-    about: "",
-    image: ""
+    fullName: user.full_name,
+    email: user.email,
+    birthPlace: user.place_birth,
+    birthDate: user.date_birth,
+    phoneNumber: user.phone,
+    github: user.github,
+    about: user.description,
   });
+
+  const [images, setImages] = React.useState(user.avatar)
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -132,9 +133,7 @@ const FormProfile = () => {
 
   const handleImage = e => {
     if (e.target.files.length) {
-      setValues({
-        image: e.target.files[0]
-      });
+      setImages(e.target.files[0]);
     }
   };
 
@@ -143,12 +142,12 @@ const FormProfile = () => {
     const formData = new FormData()
     formData.append('full_name', values.fullName)
     formData.append('email', values.email)
-    formData.append('birth_place', values.birthPlace)
-    formData.append('birth_date', values.birthDate)
-    formData.append('phone_number', values.phoneNumber)
+    formData.append('place_birth', values.birthPlace)
+    formData.append('date_birth', values.birthDate)
+    formData.append('phone', values.phoneNumber)
     formData.append('github', values.github)
     formData.append('description', values.about)
-    formData.append('avatar', values.image)
+    formData.append('avatar', images)
 
     try {
       const response = await axios.patch(url, formData,{
@@ -248,7 +247,7 @@ const FormProfile = () => {
               variant="outlined"
               color="secondary"
               label="Birth Date"
-              placeholder="DD/MM/YYYY"
+              placeholder="01 Januari 2000"
               size="medium"
               name="birthDate"
               defaultValue={user.date_birth}
@@ -286,7 +285,7 @@ const FormProfile = () => {
               rows={3}
               rowsMax={4}
               name="about"
-              defaultValue={user.background_education}
+              defaultValue={user.description}
               onChange={handleChange('about')}
             />
           </form>
