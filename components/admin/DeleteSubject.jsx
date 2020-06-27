@@ -56,7 +56,7 @@ export default function DeleteModule() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure want to delete this user?"}
+          {"Are you sure want to delete this subject?"}
         </DialogTitle>
         <DialogActions>
           <Button

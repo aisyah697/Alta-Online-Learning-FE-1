@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
-    color: "white",
+    color: theme.palette.secondary.secondary,
     "&:hover": {
       color: theme.palette.secondary.main,
     },
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function DeleteModule() {
+export default function DeleteAltaTest() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -56,7 +56,7 @@ export default function DeleteModule() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure want to delete this user?"}
+          {"Are you sure want to delete this alta test?"}
         </DialogTitle>
         <DialogActions>
           <Button
