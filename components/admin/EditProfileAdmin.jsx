@@ -6,6 +6,8 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import Link from "../../utils/link";
 import AdminContext from "../../store/adminContext";
+import axios from "axios";
+import {useCookies} from "react-cookie";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -106,6 +108,55 @@ export default function FormProfileAdmin(props) {
   const classes = useStyles();
   const{isLogin, setIsLogin, admin, setAdmin} = useContext(AdminContext);
 
+  const [cookies, setCookie] = useCookies(['admin']);
+
+  const [values, setValues] = React.useState({
+    fullName: admin.full_name,
+    email: admin.email,
+    birthPlace: admin.place_birth,
+    birthDate: admin.date_birth,
+    phoneNumber: admin.phone,
+    github: admin.github,
+    about: admin.description,
+  });
+
+  const [images, setImages] = React.useState(admin.avatar)
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleImage = e => {
+    if (e.target.files.length) {
+      setImages(e.target.files[0]);
+    }
+  };
+
+  const postEditProfile = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/admin/' + admin.id
+    const formData = new FormData()
+    formData.append('full_name', values.fullName)
+    formData.append('email', values.email)
+    formData.append('place_birth', values.birthPlace)
+    formData.append('date_birth', values.birthDate)
+    formData.append('phone', values.phoneNumber)
+    formData.append('github', values.github)
+    formData.append('description', values.about)
+    formData.append('avatar', images)
+
+    try {
+      const response = await axios.patch(url, formData,{
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setCookie('admin', response.data);
+      setAdmin(response.data);
+
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  }
+
   return (
     <React.Fragment>
       <Grid container spacing={3}>
@@ -138,6 +189,8 @@ export default function FormProfileAdmin(props) {
           id="contained-button-file"
           multiple
           type="file"
+          name="image"
+          onChange={handleImage}
         />
         <label htmlFor="contained-button-file">
           <Button
@@ -160,6 +213,8 @@ export default function FormProfileAdmin(props) {
               color="secondary"
               label="Full Name"
               size="medium"
+              defaultValue={admin.full_name}
+              onChange={handleChange('fullName')}
             />
             <TextField
               className={classes.textField}
@@ -167,6 +222,8 @@ export default function FormProfileAdmin(props) {
               color="secondary"
               label="Email"
               size="medium"
+              defaultValue={admin.email}
+              onChange={handleChange('email')}
             />
             <TextField
               className={classes.textField}
@@ -174,14 +231,18 @@ export default function FormProfileAdmin(props) {
               color="secondary"
               label="Birth Place"
               size="medium"
+              defaultValue={admin.place_birth}
+              onChange={handleChange('birthPlace')}
             />
             <TextField
               className={classes.textField}
               variant="outlined"
               color="secondary"
               label="Birth Date"
-              placeholder="DD/MM/YYYY"
+              placeholder="01 January 1995"
               size="medium"
+              defaultValue={admin.date_birth}
+              onChange={handleChange('birthDate')}
             />
             <TextField
               className={classes.textField}
@@ -190,6 +251,8 @@ export default function FormProfileAdmin(props) {
               label="Phone Number"
               placeholder="08xxxxxxxxxx"
               size="medium"
+              defaultValue={admin.phone}
+              onChange={handleChange('phone')}
             />
             <TextField
               className={classes.textField}
@@ -198,6 +261,8 @@ export default function FormProfileAdmin(props) {
               label="GitHub"
               placeholder="github.com/johndoe"
               size="medium"
+              defaultValue={admin.github}
+              onChange={handleChange('github')}
             />
             <TextField
               className={classes.textField}
@@ -208,12 +273,15 @@ export default function FormProfileAdmin(props) {
               multiline
               rows={3}
               rowsMax={4}
+              defaultValue={admin.description}
+              onChange={handleChange('about')}
             />
           </form>
           <Button
             className={classes.buttonProfile}
             variant="contained"
             color="primary"
+            onClick={() => postEditProfile()}
           >
             Save Changes
           </Button>
