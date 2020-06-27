@@ -281,7 +281,7 @@ const Register = () => {
                         size="small"
                         name="birthDate"
                         onChange={handleChange("birthDate")}
-                        defaultValue="01 Januari 1995"
+                        placeholder="01 Januari 1995"
                         className={classes.textField}
                         InputLabelProps={{
                           shrink: true,
