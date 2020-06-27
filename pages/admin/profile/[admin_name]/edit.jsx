@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import Head from "next/head";
 import FooterBar from "../../../../components/FooterBar";
 import NavigationAdminBar from "../../../../components/admin/NavigationBarAdmin";
 import FormEditProfileAdmin from "../../../../components/admin/EditProfileAdmin";
 import {makeStyles} from "@material-ui/core/styles";
+import AdminContext from "../../../../store/adminContext";
+import ErrorPage from "next/error";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -17,16 +19,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditProfileAdmin() {
     const classes = useStyles();
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Admin | Edit Profile</title>
-      </Head>
-      <NavigationAdminBar />
-      <main className={classes.main}>
-        <FormEditProfileAdmin />
-      </main>
-      <FooterBar />
-    </React.Fragment>
-  );
+    const { isLogin } = useContext(AdminContext);
+
+    if (!isLogin) {
+        return <ErrorPage statusCode={404}/>
+    } else {
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>Admin | Edit Profile</title>
+                </Head>
+                <NavigationAdminBar/>
+                <main className={classes.main}>
+                    <FormEditProfileAdmin/>
+                </main>
+                <FooterBar/>
+            </React.Fragment>
+        );
+    }
 }
