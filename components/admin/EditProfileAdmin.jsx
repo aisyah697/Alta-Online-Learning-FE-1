@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import Link from "../../utils/link";
+import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,6 +104,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FormProfileAdmin(props) {
   const classes = useStyles();
+  const{isLogin, setIsLogin, admin, setAdmin} = useContext(AdminContext);
+
   return (
     <React.Fragment>
       <Grid container spacing={3}>
@@ -110,7 +113,7 @@ export default function FormProfileAdmin(props) {
           <h1 className={classes.h1}>Edit Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/admin/profile/[admin_name]'} as={`/admin/profile/agusdwis`}>
+          <Link href={'/admin/profile/[admin_name]'} as={`/admin/profile/${admin.username}`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"

@@ -1,9 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
-import FooterBar from "../../../../components/FooterBar";
-import ProfileAdmin from "../../../../components/admin/ProfileAdmin";
-import NavigationAdminBar from "../../../../components/admin/NavigationBarAdmin";
+import dynamic from "next/dynamic";
+import ErrorPage from "next/error";
+import AdminContext from "../../../../store/adminContext";
+const ProfileAdmin = dynamic(() => import('../../../../components/admin/ProfileAdmin'))
+const NavigationAdminBar = dynamic(() => import('../../../../components/admin/NavigationBarAdmin'))
+const FooterBar = dynamic(() => import('../../../../components/FooterBar'))
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -17,18 +20,24 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileAdminPage = () => {
     const classes = useStyles();
-    return (
-        <React.Fragment>
-            <Head>
-                <title>Admin | Profile</title>
-            </Head>
-            <NavigationAdminBar />
-            <main className={classes.main}>
-                <ProfileAdmin/>
-            </main>
-            <FooterBar />
-        </React.Fragment>
-    );
+    const { isLogin } = useContext(AdminContext);
+
+    if (!isLogin) {
+        return <ErrorPage statusCode={404}/>
+    } else {
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>Admin | Profile</title>
+                </Head>
+                <NavigationAdminBar/>
+                <main className={classes.main}>
+                    <ProfileAdmin/>
+                </main>
+                <FooterBar/>
+            </React.Fragment>
+        );
+    }
 }
 
 export default ProfileAdminPage;

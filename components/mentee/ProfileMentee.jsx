@@ -112,7 +112,7 @@ const ProfileMentee = ({mentee}) => {
           <h1 className={classes.h1}>My Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={"/mentee/[profile]/edit"} as={`/mentee/${profile}/edit`}>
+          <Link href={"/mentee/[profile]/edit"} as={`/mentee/${user.username}/edit`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
