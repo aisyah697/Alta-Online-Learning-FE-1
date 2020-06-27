@@ -8,6 +8,7 @@ import theme from '../utils/theme';
 import '../public/index.css'
 
 import UserContext from '../store/userContext';
+import AdminContext from "../store/adminContext";
 import { CookiesProvider, Cookies, useCookies } from 'react-cookie';
 
 const url = process.env.NEXT_PUBLIC_BASE_URL
@@ -49,7 +50,6 @@ export default function MyApp(props) {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log('AAAAAAAAAAAAAAAAAAAAa', data)
                 setUser(data);
                 setCookies('user', data);
                 setCookies('token', data.token);
@@ -73,6 +73,9 @@ export default function MyApp(props) {
         removeCookie('user');
     };
 
+    //Admin
+    const[admin, setAdmin] = React.useState(cookies.admin)
+
     return (
         <React.Fragment>
             <Head>
@@ -82,11 +85,13 @@ export default function MyApp(props) {
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kick start an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
-                    <UserContext.Provider value={{user: user, setUser:setUser, login: isLogin, signIn: signIn, signOut: signOut}}>
-                        <CookiesProvider>
-                            <Component {...pageProps} />
-                        </CookiesProvider>
-                    </UserContext.Provider>
+                    <AdminContext.Provider value={{admin: admin, setAdmin: setAdmin, isLogin: isLogin, setIsLogin: setIsLogin}}>
+                        <UserContext.Provider value={{user: user, setUser:setUser, login: isLogin, signIn: signIn, signOut: signOut}}>
+                            <CookiesProvider>
+                                <Component {...pageProps} />
+                            </CookiesProvider>
+                        </UserContext.Provider>
+                    </AdminContext.Provider>
                 </ThemeProvider>
         </React.Fragment>
     );
