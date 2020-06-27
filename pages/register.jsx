@@ -19,6 +19,8 @@ import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import axios from "axios";
+import Router from "next/router";
 
 const NavigationBar = dynamic(() => import('../components/NavigationBar'))
 const Footer = dynamic(() => import('../components/FooterBar'))
@@ -116,15 +118,19 @@ const useStyles = makeStyles((theme) => ({
 const Register = () => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    amount: "",
-    password: "",
-    weight: "",
-    weightRange: "",
     showPassword: false,
   });
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+  const handleChange = () => (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  const [images, setImages] = React.useState('')
+
+  const handleImage = e => {
+    if (e.target.files.length) {
+      setImages(e.target.files[0]);
+    }
   };
 
   const handleClickShowPassword = () => {
@@ -133,6 +139,32 @@ const Register = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const postRegister = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee'
+    const formRegis = new FormData()
+    formRegis.append('full_name', values.fullName)
+    formRegis.append('username', values.username)
+    formRegis.append('password', values.password)
+    formRegis.append('email', values.email)
+    formRegis.append('place_birth', values.birthPlace)
+    formRegis.append('date_birth', values.birthDate)
+    formRegis.append('phone', values.phoneNumber)
+    formRegis.append('github', values.github)
+    formRegis.append('description', values.about)
+    formRegis.append('avatar', images)
+
+    try {
+      const response = await axios.post(url, formRegis,{
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      Router.push('/login')
+
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  }
 
   return (
     <div>
@@ -170,6 +202,8 @@ const Register = () => {
                         label="Full Name"
                         placeholder="Ahmad Aji P"
                         size="small"
+                        name="fullName"
+                        onChange={handleChange("fullName")}
                       />
                       <TextField
                         className={classes.formAll}
@@ -179,6 +213,8 @@ const Register = () => {
                         type="email"
                         placeholder="example@alterra.id"
                         size="small"
+                        name="email"
+                        onChange={handleChange("email")}
                       />
                       <TextField
                         className={classes.formAll}
@@ -188,6 +224,8 @@ const Register = () => {
                         type="username"
                         placeholder="Ahmad Aji P"
                         size="small"
+                        name="username"
+                        onChange={handleChange("username")}
                       />
                       <FormControl
                         className={clsx(classes.margin, classes.textField)}
@@ -239,9 +277,11 @@ const Register = () => {
                         color="secondary"
                         id="date"
                         label="Birthday"
-                        type="date"
+                        type="text"
                         size="small"
-                        defaultValue="2017-05-24"
+                        name="birthDate"
+                        onChange={handleChange("birthDate")}
+                        defaultValue="01 Januari 1995"
                         className={classes.textField}
                         InputLabelProps={{
                           shrink: true,
@@ -254,6 +294,8 @@ const Register = () => {
                         label="Birth Place"
                         placeholder="Malang"
                         size="small"
+                        name="birthPlace"
+                        onChange={handleChange("birthPlace")}
                       />
                       <TextField
                         variant="outlined"
@@ -262,6 +304,8 @@ const Register = () => {
                         placeholder="08XXXXXXXXXX"
                         size="small"
                         className={classes.formAll}
+                        name="phoneNumber"
+                        onChange={handleChange("phoneNumber")}
                       />
                       <TextField
                         variant="outlined"
@@ -270,6 +314,8 @@ const Register = () => {
                         placeholder="https://github.com/.........."
                         size="small"
                         className={classes.formAll}
+                        name="github"
+                        onChange={handleChange("github")}
                       />
                       <Grid container alignItems="flex-start">
                         <input
@@ -278,6 +324,8 @@ const Register = () => {
                           id="icon-button-file"
                           type="file"
                           size="large"
+                          name="imageUrl"
+                          onChange={handleImage}
                         />
                       </Grid>
                     </Grid>
@@ -295,12 +343,13 @@ const Register = () => {
                     className={classes.button}
                     variant={"outlined"}
                     size="large"
+                    onClick={postRegister}
                   >
                     Register
                   </Button>
                   <Link
                     className={classes.textAlreadyHaveAccount}
-                    href="/login"
+                    href={"/login"}
                   >
                     <Typography>Already have account? Login!</Typography>
                   </Link>

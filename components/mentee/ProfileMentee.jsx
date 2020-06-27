@@ -92,29 +92,6 @@ const ProfileMentee = ({mentee}) => {
   const {user} = useContext(UserContext);
   const[data, setData] = React.useState(user)
 
-  // React.useEffect(() => {
-  //     const fetchData = async () => {
-  //       const profileURL = url + '/mentee/' + user.id
-  //       try {
-  //         const response = await axios(url, {
-  //           method: 'GET',
-  //           headers: 'Access-Control-Allow-Origin'
-  //         });
-  //         if (response.ok) {
-  //           const res = await response.json();
-  //           setData(res);
-  //         } else {
-  //           let error = new Error(response.statusText);
-  //           error.response = response;
-  //           return Promise.reject(error);
-  //         }
-  //       } catch (error) {
-  //         console.log(error)
-  //       }
-  //     };
-  //     fetchData();
-  // },[])
-
   function createData(key, data) {
     return { key, data };
   }
@@ -124,8 +101,8 @@ const ProfileMentee = ({mentee}) => {
     createData("Email", `: ${user.email}`),
     createData("Birthday", `: ${user.place_birth}, ${user.date_birth}`),
     createData("Telephone", `: ${user.phone}`),
-    createData("Background", `: ${user.background_education}`),
     createData("GitHub", `: github.com/${user.github}`),
+    createData("About", `: ${user.description}`),
   ];
 
   return (
