@@ -7,6 +7,8 @@ import FooterBar from "../../../components/FooterBar";
 import ProfileMentee from "../../../components/mentee/ProfileMentee";
 import CourseHistory from "../../../components/mentee/CourseHistory";
 import UserContext from '../../../store/userContext';
+import Router from "next/router";
+import ErrorPage from 'next/error'
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -19,19 +21,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Index() {
-  const classes = useStyles();
-  const { user, login } = useContext(UserContext);
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Profile | Alta Online Learning</title>
-      </Head>
-      <NavigationBar />
-      <main className={classes.main}>
-        <ProfileMentee />
-        <CourseHistory />
-      </main>
-      <FooterBar />
-    </React.Fragment>
-  );
+    const classes = useStyles();
+    const { user, login } = useContext(UserContext);
+
+    if (!login) {
+        return <ErrorPage statusCode={404}/>
+    } else {
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>Profile | Alta Online Learning</title>
+                </Head>
+                <NavigationBar/>
+                <main className={classes.main}>
+                    <ProfileMentee/>
+                    <CourseHistory/>
+                </main>
+                <FooterBar/>
+            </React.Fragment>
+        );
+    }
 }
