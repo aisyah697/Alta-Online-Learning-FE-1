@@ -127,7 +127,7 @@ export default function FormProfileAdmin(props) {
       <div className={classes.avatar}>
         <Avatar
           alt="Mentee Picture"
-          src="/static/images/avatar/1.jpg"
+          src={admin.avatar}
           className={classes.large}
         />
       </div>
