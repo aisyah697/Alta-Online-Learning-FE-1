@@ -1,15 +1,16 @@
 import React from 'react';
+import theme from '../utils/theme';
 import PropTypes from 'prop-types';
-import Head from 'next/head';
 import Router from 'next/router'
+import Head from 'next/head';
+import '../public/index.css'
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from '../utils/theme';
-import '../public/index.css'
 
+import { CookiesProvider, Cookies, useCookies } from 'react-cookie';
 import UserContext from '../store/userContext';
 import AdminContext from "../store/adminContext";
-import { CookiesProvider, Cookies, useCookies } from 'react-cookie';
+import AdminStoreContext from '../store/AdminContext'
 
 const url = process.env.NEXT_PUBLIC_BASE_URL
 const cookies = new Cookies();
@@ -17,7 +18,7 @@ const cookies = new Cookies();
 export default function MyApp(props) {
     const { Component, pageProps } = props
 
-    const[cookies, setCookies, removeCookie] = useCookies('token')
+    const[cookies, setCookies, removeCookie] = useCookies()
     const[isLogin, setIsLogin] = React.useState(null)
     const[user, setUser] = React.useState(cookies.user)
 
@@ -75,6 +76,7 @@ export default function MyApp(props) {
 
     //Admin
     const[admin, setAdmin] = React.useState(cookies.admin)
+    const[listAdmin, setListAdmin] = React.useState('')
 
     return (
         <React.Fragment>
@@ -85,13 +87,15 @@ export default function MyApp(props) {
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kick start an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
-                    <AdminContext.Provider value={{admin: admin, setAdmin: setAdmin, isLogin: isLogin, setIsLogin: setIsLogin}}>
-                        <UserContext.Provider value={{user: user, setUser:setUser, login: isLogin, signIn: signIn, signOut: signOut}}>
-                            <CookiesProvider>
-                                <Component {...pageProps} />
-                            </CookiesProvider>
-                        </UserContext.Provider>
-                    </AdminContext.Provider>
+                    <AdminStoreContext>
+                        <AdminContext.Provider value={{listAdmin: listAdmin, setListAdmin: setListAdmin, admin: admin, setAdmin: setAdmin, isLogin: isLogin, setIsLogin: setIsLogin}}>
+                            <UserContext.Provider value={{user: user, setUser:setUser, login: isLogin, signIn: signIn, signOut: signOut}}>
+                                <CookiesProvider>
+                                    <Component {...pageProps} />
+                                </CookiesProvider>
+                            </UserContext.Provider>
+                        </AdminContext.Provider>
+                    </AdminStoreContext>
                 </ThemeProvider>
         </React.Fragment>
     );

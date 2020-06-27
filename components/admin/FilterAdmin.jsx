@@ -50,6 +50,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FilterAdmin() {
   const classes = useStyles();
+  const [values, setValues] = React.useState({ keyword: '', role: '', sort: '' })
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+  
   return (
     <Card variant="outlined" className={classes.root}>
       <CardActions>
@@ -65,6 +71,7 @@ export default function FilterAdmin() {
             variant="outlined"
             id="mui-theme-provider-outlined-input"
             placeholder="search"
+            onChange={handleChange('keyword')}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -79,7 +86,12 @@ export default function FilterAdmin() {
             className={classes.dropDown}
           >
             <InputLabel color="secondary">Category</InputLabel>
-            <Select label="category">
+            <Select
+                label="category"
+                value={values.role}
+                name="role"
+                onChange={handleChange('role')}
+            >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
@@ -95,7 +107,12 @@ export default function FilterAdmin() {
             className={classes.dropDown}
           >
             <InputLabel color="secondary">Sort By</InputLabel>
-            <Select label="Sort By">
+            <Select 
+                label="Sort By"
+                value={values.sort}
+                name="sort"
+                onChange={handleChange('sort')}
+            >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
