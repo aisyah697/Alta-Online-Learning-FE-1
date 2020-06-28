@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,7 +8,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import MateriContext from "../store/materiContext";
+import Loading from "./Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -101,60 +101,56 @@ function StyledRadio(props) {
 
 export default function QuizContent(props) {
   const classes = useStyles();
-  // console.log("props", props);
-  // const { test_ } = useContext(MateriContext);
-  // const [test, setTest] = test_;
-  // if (!test) {
-  //   return <ErrorPage statusCode={404} />;
-  // } else {
   const listTest = props.list.question;
   console.log("listTest", listTest);
 
   return (
     <main className={classes.content}>
       <Toolbar />
-      {console.log("propss", props.list.question)}
       <Typography variant="h4" className={classes.title}>
         Alta Test
       </Typography>
-      {listTest
-        ? listTest.map((item, idx) => (
-            <div className={classes.perQuest}>
-              <Grid container spacing={0}>
-                <Grid item xs={1} className={classes.spacing}>
-                  <Typography className={classes.allText}>{idx + 1}</Typography>
-                </Grid>
-                <Grid item xs={11}>
-                  <Typography paragraph className={classes.allText}>
-                    {item.question}
-                  </Typography>
-                </Grid>
+      {listTest ? (
+        listTest.map((item, idx) => (
+          <div className={classes.perQuest} key={idx}>
+            <Grid container spacing={0}>
+              <Grid item xs={1} className={classes.spacing}>
+                <Typography className={classes.allText}>{idx + 1}</Typography>
               </Grid>
+              <Grid item xs={11}>
+                <Typography paragraph className={classes.allText}>
+                  {item.question}
+                </Typography>
+              </Grid>
+            </Grid>
 
-              <Grid container spacing={0}>
-                <Grid item xs={1} className={classes.spacing}></Grid>
-                <Grid item xs={11}>
-                  <FormControl component="fieldset">
-                    <RadioGroup
-                      className={classes.answers}
-                      defaultValue="None"
-                      aria-label="answer"
-                      name="customized-radios"
-                    >
-                      {item.choice.map((element, num) => (
-                        <FormControlLabel
-                          control={<StyledRadio />}
-                          value={num.toString()}
-                          label={element.choice}
-                        />
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                </Grid>
+            <Grid container spacing={0}>
+              <Grid item xs={1} className={classes.spacing}></Grid>
+              <Grid item xs={11}>
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    className={classes.answers}
+                    defaultValue="None"
+                    aria-label="answer"
+                    name="customized-radios"
+                  >
+                    {item.choice.map((element, num) => (
+                      <FormControlLabel
+                        key={num}
+                        control={<StyledRadio />}
+                        value={num.toString()}
+                        label={element.choice}
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
               </Grid>
-            </div>
-          ))
-        : null}
+            </Grid>
+          </div>
+        ))
+      ) : (
+        <Loading />
+      )}
     </main>
   );
 }

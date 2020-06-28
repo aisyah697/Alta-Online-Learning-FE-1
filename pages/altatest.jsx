@@ -7,8 +7,7 @@ import AltaTestQuestion from "../components/AltaTestQuestion";
 import Footer from "../components/FooterBar";
 import MateriContext from "../store/materiContext";
 import axios from "axios";
-import UserContext from "../store/userContext";
-import { CookiesProvider, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +25,6 @@ export default function AltaTest() {
   const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log("cek cookie", cookies.mentee.token);
     const urlTest = process.env.NEXT_PUBLIC_BASE_URL + "/altatest/11";
     const fetchData = async function () {
       try {
@@ -37,8 +35,6 @@ export default function AltaTest() {
             Authorization: "Bearer " + cookies.mentee.token,
           },
         });
-
-        // console.log("cek alta test", response.data);
         if (response.status === 200) {
           setTest(response.data);
         }
@@ -65,7 +61,7 @@ export default function AltaTest() {
           <NavigationBar className={classes.appBar} />
           <AltaTestQuestion list={test} />
         </div>
-        <Footer />
+        {test.question ? <Footer /> : null}
       </React.Fragment>
     );
   }
