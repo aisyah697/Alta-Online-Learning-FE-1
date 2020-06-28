@@ -19,9 +19,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditProfileAdmin() {
     const classes = useStyles();
-    const { isLogin } = useContext(AdminContext);
+    const {login_} = useContext(AdminContext);
+    const [login, setLogin] = login_
 
-    if (!isLogin) {
+    if (!login) {
         return <ErrorPage statusCode={404}/>
     } else {
         return (

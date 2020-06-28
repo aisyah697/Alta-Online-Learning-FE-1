@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
@@ -23,7 +23,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AdminContext from "../../store/adminContext";
 import Router from "next/router";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 import dynamic from "next/dynamic";
 import NextLink from 'next/link'
 
@@ -125,8 +125,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavigationAdminBar(props) {
     const classes = useStyles();
-    const{isLogin, setIsLogin, admin, setAdmin} = useContext(AdminContext);
-    const[cookies, setCookies, removeCookie] = useCookies(['token'])
+
+    const[cookies, setCookies, removeCookie] = useCookies()
+
+    const {admin_, login_} = useContext(AdminContext);
+    const [admin, setAdmin] = admin_
+    const [login, setLogin] = login_
     
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -153,9 +157,9 @@ export default function NavigationAdminBar(props) {
 
     const signOutAdmin = async () => {
         handleMenuClose();
-        setIsLogin(false);
+        setLogin(false);
         Router.push('/admin/login');
-        removeCookie('token');
+        removeCookie('token_admin');
         removeCookie('admin');
     };
 
@@ -284,7 +288,7 @@ export default function NavigationAdminBar(props) {
                     <div className={classes.sectionDesktop}>
                         {MenuBar}
                         <div className={'menuButton'}>
-                            {isLogin ?
+                            {login ?
                                 <IconButton
                                     edge="end"
                                     aria-label="account of current user"

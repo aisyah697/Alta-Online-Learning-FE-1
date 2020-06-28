@@ -22,8 +22,10 @@ import Grow from "@material-ui/core/Grow";
 import Fab from '@material-ui/core/Fab';
 import dynamic from "next/dynamic";
 import NextLink from 'next/link';
+import Router from "next/router";
 import UserContext from "../store/userContext";
 import { useCookies } from "react-cookie";
+import AdminContext from "../store/adminContext";
 
 const ScrollTop = dynamic(() => import('../utils/scrollTop'));
 const Link = dynamic(() => import('../utils/link'));
@@ -123,10 +125,11 @@ const useStyles = makeStyles((theme) => ({
 
 const NavigationBar = (props) => {
     const classes = useStyles();
-    const {user, login, signOut} = useContext(UserContext);
-    if (!user){
-        const user = useCookies('user')
-    }
+    const[cookies, setCookies, removeCookie] = useCookies('')
+
+    const {mentee_, login_} = useContext(UserContext);
+    const [user, setUser] = mentee_
+    const [login, setLogin] = login_
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -149,11 +152,19 @@ const NavigationBar = (props) => {
 
     const doSignOut = async () => {
         handleMenuClose();
-        signOut();
+        signOutMentee();
     }
 
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
+    };
+
+    const signOutMentee = async () => {
+        handleMenuClose();
+        setLogin(false);
+        Router.push('/login');
+        removeCookie('token_mentee');
+        removeCookie('mentee');
     };
 
     const NavBarLogo = (

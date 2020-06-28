@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditProfileMentee() {
     const classes = useStyles();
-    const { user, login } = useContext(UserContext);
+    const {login_} = useContext(UserContext);
+    const [login, setLogin] = login_
 
     if (!login) {
         return <ErrorPage statusCode={404}/>

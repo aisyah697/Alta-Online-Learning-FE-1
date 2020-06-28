@@ -118,6 +118,7 @@ const useStyles = makeStyles((theme) => ({
 const Register = () => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
+    password: "",
     showPassword: false,
   });
 
@@ -158,11 +159,15 @@ const Register = () => {
       const response = await axios.post(url, formRegis,{
         headers: { "Content-Type": "multipart/form-data" },
       });
-      Router.push('/login')
-
+      if (response.status === 200) {
+        Router.replace('/login');
+      } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        return Promise.reject(error);
+      }
     } catch (error) {
       console.error("Please Try Again!", error);
-      throw new Error(error);
     }
   }
 
@@ -241,6 +246,7 @@ const Register = () => {
                           id="outlined-adornment-password"
                           type={values.showPassword ? "text" : "password"}
                           value={values.password}
+                          name="password"
                           onChange={handleChange("password")}
                           endAdornment={
                             <InputAdornment position="end">
@@ -311,7 +317,7 @@ const Register = () => {
                         variant="outlined"
                         color="secondary"
                         label="GitHub Link"
-                        placeholder="https://github.com/.........."
+                        placeholder="github.com/....."
                         size="small"
                         className={classes.formAll}
                         name="github"

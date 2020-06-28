@@ -20,9 +20,8 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 
-import AdminContext from "../../store/adminContext";
-import { AdminStoreContext} from "../../store/AdminContext";
 import { useCookies } from 'react-cookie'
+import AdminContext from "../../store/adminContext";
 
 const GoogleIcon = dynamic(() => import('../../utils/customIcon'))
 
@@ -103,15 +102,14 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
   const classes = useStyles();
   const[message, setMessage] = React.useState('')
-  const{admin, setAdmin, isLogin, setIsLogin} = useContext(AdminContext);
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false,
   });
 
-  const { admin_, login_ } = useContext(AdminStoreContext);
-  const [admin2, setAdmin2] = admin_
+  const {admin_, login_} = useContext(AdminContext);
+  const [admin, setAdmin] = admin_
   const [login, setLogin] = login_
 
   const handleChange = (prop) => (event) => {
@@ -150,10 +148,9 @@ export default function LoginPage() {
       if (response.ok) {
         const data = await response.json();
         setAdmin(data);
-        setAdmin2(data);
         setCookie('admin', data);
-        setCookie('token', data.token);
-        setIsLogin(true);
+        setCookie('token_admin', data.token);
+        setLogin(true);
         Router.replace('/admin');
       } else {
         let error = new Error(response.statusText);
