@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
+import AdminContext from "../../../store/adminContext";
+import ErrorPage from "next/error";
 
 const FilterMentee = dynamic(() => import("../../../components/admin/FilterMentee"));
 const TableMentee = dynamic(() => import("../../../components/admin/TableMentee"));
@@ -24,20 +26,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Mentee() {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Admin | Mentee</title>
-      </Head>
-      <NavigationAdminBar />
-      <main className={classes.root}>
-        <div className={classes.main}>
-          <FilterMentee />
-          <TableMentee />
-        </div>
-      </main>
-      <Footer />
-    </React.Fragment>
-  );
+    const classes = useStyles();
+    const {admin_} = useContext(AdminContext);
+    const [admin, setAdmin] = admin_
+
+    if (!admin.role) {
+        return <ErrorPage statusCode={404}/>
+    } else {
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>Admin | Mentee</title>
+                </Head>
+                <NavigationAdminBar />
+                <main className={classes.root}>
+                    <div className={classes.main}>
+                        <FilterMentee />
+                        <TableMentee />
+                    </div>
+                </main>
+                <Footer />
+            </React.Fragment>
+        );
+    }
 }

@@ -12,7 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
-const DeleteUserPopUp = dynamic(() => import("./DeleteUser"));
+const DeleteUserPopUp = dynamic(() => import("./DeleteMentee"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,8 +82,6 @@ export default function TableMentee() {
   const classes = useStyles();
 
   const {admin_, list_, load_, listMentee_, token_} = useContext(AdminContext);
-  const [admin, setAdmin] = admin_
-  const [list, setList] = list_
   const [load, setLoad] = load_
   const [listMentee, setListMentee] = listMentee_
   const [token, setToken] = token_
