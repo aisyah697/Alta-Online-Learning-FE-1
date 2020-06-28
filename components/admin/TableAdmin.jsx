@@ -66,19 +66,25 @@ import axios from "axios";
 export default function TableMentee() {
   const classes = useStyles();
 
-  const { admin_, list_, load_ } = useContext(AdminContext);
+  const { admin_, list_, load_, token_ } = useContext(AdminContext);
   const [admin, setAdmin] = admin_;
   const [list, setList] = list_;
   const [load, setLoad] = load_;
+  const [token, setToken] = token_;
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/admin/all";
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/admin";
     const fetchData = async function () {
       try {
         setLoading(true);
-        const response = await axios.get(url);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+          },
+        });
         if (response.status === 200) {
           setList(response.data);
         }
@@ -230,7 +236,7 @@ export default function TableMentee() {
                         component="th"
                         scope="row"
                       >
-                        <DeleteUserPopUp ID={row.id} />
+                        <DeleteUserPopUp ID={row.id} username={row.username} />
                       </TableCell>
                     </TableRow>
                   ))}
