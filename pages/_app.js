@@ -59,6 +59,7 @@ export default function MyApp(props) {
         const token_admin = cookies.token_admin;
         if (token_admin){
             setLogin(true)
+            setToken(token_admin)
         } else {
             setLogin(false)
         }

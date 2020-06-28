@@ -159,6 +159,8 @@ export default function FormProfileAdmin(props) {
     }
   }
 
+  console.log(values)
+
   return (
     <React.Fragment>
       <Grid container spacing={3}>
@@ -251,10 +253,10 @@ export default function FormProfileAdmin(props) {
               variant="outlined"
               color="secondary"
               label="Phone Number"
-              placeholder="08xxxxxxxxxx"
+              placeholder="08XXXXXXXXX"
               size="medium"
               defaultValue={admin.phone}
-              onChange={handleChange('phone')}
+              onChange={handleChange('phoneNumber')}
             />
             <TextField
               className={classes.textField}
