@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -18,6 +18,8 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Router from "next/router";
+import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -69,7 +71,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddAdmin() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const[open, setOpen] = React.useState(false);
+  const[message, setMessage] = React.useState('')
+  const{listAdmin, setListAdmin} = useContext(AdminContext);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,11 +82,11 @@ export default function AddAdmin() {
   const handleClose = () => {
     setOpen(false);
   };
+  
   const [values, setValues] = React.useState({
-    amount: "",
     password: "",
-    weight: "",
-    weightRange: "",
+    username: "",
+    role: "",
     showPassword: false,
   });
 
@@ -96,6 +100,41 @@ export default function AddAdmin() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const postNewAdmin = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/admin'
+
+    if (username != '' || password != '') {
+      try {
+        const response = await fetch(URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: values.username,
+            password: values.password,
+            role: values.role
+          })
+        });
+        if (response.ok) {
+          const data = await response.json();
+        } else {
+          let error = new Error(response.statusText);
+          error.response = response;
+          return Promise.reject(error);
+        }
+      } catch (error) {
+        console.error("Something Wrong, Please Try Again!", error);
+        throw new Error(error);
+      }
+    } else {
+      setMessage('Please enter your username and password');
+    }
+  }
+
+  const cek = () => {
+    handleClose();
+  }
+
   return (
     <div>
       <Button
@@ -121,6 +160,9 @@ export default function AddAdmin() {
               color="secondary"
               label="User Name"
               size="small"
+              name="username"
+              value={values.username}
+              onChange={handleChange("username")}
             />
             <FormControl
               className={clsx(classes.margin, classes.textField)}
@@ -159,7 +201,11 @@ export default function AddAdmin() {
               color="secondary"
             >
               <InputLabel color="secondary">Category</InputLabel>
-              <Select label="category">
+              <Select
+                  label="category"
+                  value={values.role}
+                  onChange={handleChange('role')}
+              >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
@@ -177,10 +223,10 @@ export default function AddAdmin() {
               size="medium"
               className={classes.buttonInPop}
             >
-              Caancel
+              Cancel
             </Button>
             <Button
-              onClick={handleClose}
+              onClick={cek}
               variant="outlined"
               size="medium"
               className={classes.buttonInPop}

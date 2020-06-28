@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Link from "next/link";
 import TableContainer from "@material-ui/core/TableContainer";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,6 +10,9 @@ import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import Grid from "@material-ui/core/Grid";
 import {useRouter} from "next/router";
+import {Cookies, useCookies } from 'react-cookie';
+import axios from 'axios';
+import UserContext from "../../store/userContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "12px",
     },
   },
-  avatar: {
+  avatars: {
     display: "flex",
     justifyContent: "left",
     [theme.breakpoints.down("xs")]: {
@@ -80,22 +83,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileMentee = (props) => {
+const ProfileMentee = ({mentee}) => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
+
+  const {mentee_, login_} = useContext(UserContext);
+  const [user, setUser] = mentee_
+  const [login, setLogin] = login_
 
   function createData(key, data) {
     return { key, data };
   }
 
-  const rows = [
-    createData("Full Name", ": Yopi Ragil Permana Putra"),
-    createData("Email", ": ragil@alterra.id"),
-    createData("Birthday", ": Jombang, 24 April 1994"),
-    createData("Telephone", ": 081556852960"),
-    createData("Background", ": Teacher"),
-    createData("GitHub", ": github.com/yopiragil"),
+  const rows = [ 
+    createData("Full Name", `: ${user.full_name}`),
+    createData("Email", `: ${user.email}`),
+    createData("Birthday", `: ${user.place_birth}, ${user.date_birth}`),
+    createData("Telephone", `: ${user.phone}`),
+    createData("GitHub", `: github.com/${user.github}`),
+    createData("About", `: ${user.description}`),
   ];
 
   return (
@@ -105,7 +112,7 @@ const ProfileMentee = (props) => {
           <h1 className={classes.h1}>My Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href="/mentee/[profile]/edit" as={`/mentee/${profile}/edit`}>
+          <Link href={"/mentee/[profile]/edit"} as={`/mentee/${user.username}/edit`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
@@ -118,8 +125,8 @@ const ProfileMentee = (props) => {
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4} style={{ margin: "auto" }}>
-          <div className={classes.avatar}>
-            <Avatar className={classes.large} src={'/images/avatar_example.jpg'}/>
+          <div className={classes.avatars}>
+            <Avatar className={classes.large} src={user.avatar}/>
           </div>
         </Grid>
         <Grid item xs={12} sm={8}>
@@ -127,14 +134,14 @@ const ProfileMentee = (props) => {
             <Table className={classes.size} aria-label="a dense table">
               <TableBody>
                 {rows.map((row) => (
-                  <TableRow key={row.key}>
-                    <TableCell className={classes.tableBody} scope="row">
-                      {row.key}
-                    </TableCell>
-                    <TableCell className={classes.tableBody}>
-                      {row.data}
-                    </TableCell>
-                  </TableRow>
+                    <TableRow key={row.key}>
+                      <TableCell className={classes.tableBody} scope="row">
+                        {row.key}
+                      </TableCell>
+                      <TableCell className={classes.tableBody}>
+                        {row.data}
+                      </TableCell>
+                    </TableRow>
                 ))}
               </TableBody>
             </Table>

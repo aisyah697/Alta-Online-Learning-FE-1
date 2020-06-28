@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,7 +21,13 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Link from "next/link";
+import AdminContext from "../../store/adminContext";
+import Router from "next/router";
+import { useCookies } from "react-cookie";
+import dynamic from "next/dynamic";
+import NextLink from 'next/link'
+
+const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
     },
     navLogo: {
         paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1)
+        paddingBottom: theme.spacing(1),
+        cursor: "pointer"
     },
     menu: {
         color: theme.palette.secondary.secondary,
@@ -118,6 +125,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavigationAdminBar(props) {
     const classes = useStyles();
+
+    const[cookies, setCookies, removeCookie] = useCookies()
+
+    const {admin_, login_} = useContext(AdminContext);
+    const [admin, setAdmin] = admin_
+    const [login, setLogin] = login_
+    
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -141,11 +155,19 @@ export default function NavigationAdminBar(props) {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const signOutAdmin = async () => {
+        handleMenuClose();
+        setLogin(false);
+        Router.push('/admin/login');
+        removeCookie('token_admin');
+        removeCookie('admin');
+    };
+
     const NavBarLogo = (
         <>
             <Card elevation={0} className={classes.navLogo}>
-                <Link href="/admin">
-                    <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+                <Link href={"/admin"}>
+                    <img height="60" src={"/images/logo_navbar.png"} alt="Logo NavBar"/>
                 </Link>
             </Card>
         </>
@@ -153,17 +175,21 @@ export default function NavigationAdminBar(props) {
 
     const MenuBar = (
         <>
-            <Typography className={classes.menu} variant="h6" noWrap>
-                Academic
-            </Typography>
-            <Link href={'/admin/manage/mentee'}>
+            <NextLink href={'/admin/academy'}>
+                <Typography className={classes.menu} variant="h6" noWrap>
+                    Academic
+                </Typography>
+            </NextLink>
+            <NextLink href={'/admin/manage/mentee'}>
                 <Typography className={classes.menu} variant="h6" noWrap>
                     Mentees
                 </Typography>
-            </Link>
-            <Typography className={classes.menu} variant="h6" noWrap>
-                Admin
-            </Typography>
+            </NextLink>
+            <NextLink href={'/admin/manage/admin'}>
+                <Typography className={classes.menu} variant="h6" noWrap>
+                    Admin
+                </Typography>
+            </NextLink>
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help
             </Typography>
@@ -185,7 +211,7 @@ export default function NavigationAdminBar(props) {
                 >
                     <Paper elevation={1} className={classes.paper}>
                         <div className={classes.menuLogo}>
-                            <img height="60" src="/images/logo_popper.png" alt="Logo Navbar"/>
+                            <img height="60" src={"/images/logo_popper.png"} alt="Logo Navbar"/>
                         </div>
                         <div className={classes.infoUser}>
                             <div className={classes.avatarPop}>
@@ -195,17 +221,17 @@ export default function NavigationAdminBar(props) {
                                     aria-haspopup="true"
                                     color="primary"
                                 >
-                                    <Avatar> A </Avatar>
+                                    <Avatar src={admin.avatar} alt={'Aavatar'} />
                                 </IconButton>
                             </div>
                             <div className={classes.infoName}>
-                                <Typography style={{fontSize: '18px'}}> Agus Dwi Sasongko</Typography>
-                                <Typography style={{fontSize: '14px'}}> agusdwi@alterra.id </Typography>
+                                <Typography style={{fontSize: '18px'}}> {admin.full_name}</Typography>
+                                <Typography style={{fontSize: '14px'}}> {admin.email} </Typography>
                             </div>
                         </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <Link href="/admin/profile/[admin_name]" as={`/admin/profile/admin1`}>
+                                <Link href={"/admin/profile/[admin_name]"} as={`/admin/profile/${admin.username}`}>
                                     <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                         <IconButton aria-label="show 4 new mails" color="inherit">
                                             <SettingsIcon/>
@@ -213,7 +239,7 @@ export default function NavigationAdminBar(props) {
                                         <p>Manage Your Account</p>
                                     </MenuItem>
                                 </Link>
-                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
+                                <MenuItem onClick={signOutAdmin} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <ExitToAppIcon/>
                                     </IconButton>
@@ -245,7 +271,7 @@ export default function NavigationAdminBar(props) {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <Avatar />
+                    <Avatar >A</Avatar>
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>
@@ -262,23 +288,25 @@ export default function NavigationAdminBar(props) {
                     <div className={classes.sectionDesktop}>
                         {MenuBar}
                         <div className={'menuButton'}>
-                            <Link href="/admin/login">
-                                <Button variant="outlined" aria-label="login"
-                                        className={classes.button}
-                                        style={{ marginRight: '15px' }}>
-                                    Login
-                                </Button>
-                            </Link>
-                            <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="secondary"
-                            >
-                                <Avatar className={classes.avatar}> A </Avatar>
-                            </IconButton>
+                            {login ?
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    onClick={handleProfileMenuOpen}
+                                    color="secondary"
+                                >
+                                    <Avatar className={classes.avatar} src={admin.avatar} alt={'Avatar'}/>
+                                </IconButton> :
+                                <Link href={"/admin/login"}>
+                                    <Button variant="outlined" aria-label="login"
+                                            className={classes.button}
+                                            style={{marginRight: '15px'}}>
+                                        Login
+                                    </Button>
+                                </Link>
+                            }
                         </div>
                     </div>
                     <div className={classes.sectionMobile}>

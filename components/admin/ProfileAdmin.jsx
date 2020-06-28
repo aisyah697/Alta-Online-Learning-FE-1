@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -10,6 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import Link from "../../utils/link";
 import Typography from "@material-ui/core/Typography";
+import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -102,16 +103,20 @@ const useStyles = makeStyles((theme) => ({
 export default function ProfileAdmin(props) {
     const classes = useStyles();
 
+    const {admin_, login_} = useContext(AdminContext);
+    const [admin, setAdmin] = admin_
+    const [login, setLogin] = login_
+
     function createData(key, data) {
         return { key, data };
     }
 
     const rows = [
-        createData("Role", ": academy"),
-        createData("Birthday", ": London, 23 June 1990"),
-        createData("Telephone", ": 081534524360"),
-        createData("Background", ": IT Expert"),
-        createData("GitHub", ": github.com/imable"),
+        createData("Role", `: ${admin.role}`),
+        createData("Birth Day", `: ${admin.place_birth}, ${admin.date_birth}`),
+        createData("Telephone", `: ${admin.phone}`),
+        createData("GitHub", `: ${admin.github}`),
+        createData("Background", `: ${admin.description}`),
     ];
 
     return (
@@ -121,7 +126,7 @@ export default function ProfileAdmin(props) {
                     <h1 className={classes.h1}>Admin Profile</h1>
                 </Grid>
                 <Grid item xs={6} className={classes.viewProfile}>
-                    <Link href="/admin/profile/[admin_name]/edit" as={`/admin/profile/admin1/edit`}>
+                    <Link href={"/admin/profile/[admin_name]/edit"} as={`/admin/profile/${admin.username}/edit`}>
                         <Button
                             className={classes.buttonProfile}
                             variant="contained"
@@ -135,14 +140,14 @@ export default function ProfileAdmin(props) {
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={4} style={{ margin: "auto"}} className={classes.divAvatar}>
                     <div className={classes.avatar}>
-                        <Avatar className={classes.large}>Admin Avatar</Avatar>
+                        <Avatar className={classes.large} src={admin.avatar} alt={'Avatar'}/>
                     </div>
                     <div className={classes.text}>
                         <Typography className={classes.name}>
-                            Admin Alta Online
+                            {admin.full_name}
                         </Typography>
                         <Typography className={classes.email}>
-                            admin@alterra.id
+                            {admin.email}
                         </Typography>
                     </div>
                 </Grid>

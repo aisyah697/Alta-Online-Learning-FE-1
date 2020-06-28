@@ -22,7 +22,10 @@ import Grow from "@material-ui/core/Grow";
 import Fab from '@material-ui/core/Fab';
 import dynamic from "next/dynamic";
 import NextLink from 'next/link';
+import Router from "next/router";
 import UserContext from "../store/userContext";
+import { useCookies } from "react-cookie";
+import AdminContext from "../store/adminContext";
 
 const ScrollTop = dynamic(() => import('../utils/scrollTop'));
 const Link = dynamic(() => import('../utils/link'));
@@ -122,7 +125,11 @@ const useStyles = makeStyles((theme) => ({
 
 const NavigationBar = (props) => {
     const classes = useStyles();
-    const {login, signOut} = useContext(UserContext);
+    const[cookies, setCookies, removeCookie] = useCookies('')
+
+    const {mentee_, login_} = useContext(UserContext);
+    const [user, setUser] = mentee_
+    const [login, setLogin] = login_
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -138,18 +145,26 @@ const NavigationBar = (props) => {
         setMobileMoreAnchorEl(null);
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
+    const handleMenuClose = async () => {
+        await setAnchorEl(null);
         handleMobileMenuClose();
     };
 
-    const doSignOut = () => {
-        signOut();
-        handleMenuClose()
+    const doSignOut = async () => {
+        handleMenuClose();
+        signOutMentee();
     }
 
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
+    };
+
+    const signOutMentee = async () => {
+        handleMenuClose();
+        setLogin(false);
+        Router.push('/login');
+        removeCookie('token_mentee');
+        removeCookie('mentee');
     };
 
     const NavBarLogo = (
@@ -184,7 +199,6 @@ const NavigationBar = (props) => {
     )
 
     const menuId = 'primary-search-account-menu';
-    const mentee = {username: 'agsdws'}
     const renderMenu = (
         <Popper open={isMenuOpen}
                 anchorEl={anchorEl}
@@ -209,17 +223,17 @@ const NavigationBar = (props) => {
                                     aria-haspopup="true"
                                     color="primary"
                                 >
-                                    <Avatar src={'/images/avatar_example.jpg'}/>
+                                    <Avatar src={user.avatar}/>
                                 </IconButton>
                             </div>
                             <div className={classes.infoName}>
-                                <Typography style={{fontSize: '18px'}}> Agus Dwi Sasongko</Typography>
-                                <Typography style={{fontSize: '14px'}}> agusdwi@alterra.id </Typography>
+                                <Typography style={{fontSize: '18px'}}> {user.full_name} </Typography>
+                                <Typography style={{fontSize: '14px'}}> {user.email} </Typography>
                             </div>
                         </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <Link href={'/mentee/[profile]'} as={`/mentee/${mentee.username}`}>
+                                <Link href={'/mentee/[profile]'} as={`/mentee/${user.username}`}>
                                     <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                         <IconButton aria-label="show 4 new mails" color="inherit">
                                             <SettingsIcon/>
@@ -285,7 +299,7 @@ const NavigationBar = (props) => {
                                     onClick={handleProfileMenuOpen}
                                     color="secondary"
                                 >
-                                    <Avatar className={classes.avatar} src={'/images/avatar_example.jpg'}/>
+                                    <Avatar className={classes.avatar} src={user.avatar}/>
                                 </IconButton> :
                                 <>
                                     <Link href={'/login'}>
