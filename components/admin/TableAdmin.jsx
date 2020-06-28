@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     width: "100%",
     overflowY: "hiden",
-    overflowX: "auto"
+    overflowX: "auto",
   },
   table: {
     backgroundColor: "#F4F7FC",
@@ -66,16 +66,16 @@ import axios from "axios";
 export default function TableMentee() {
   const classes = useStyles();
 
-  const {admin_, list_, load_} = useContext(AdminContext);
-  const [admin, setAdmin] = admin_
-  const [list, setList] = list_
-  const [load, setLoad] = load_
+  const { admin_, list_, load_ } = useContext(AdminContext);
+  const [admin, setAdmin] = admin_;
+  const [list, setList] = list_;
+  const [load, setLoad] = load_;
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/admin/all'
-    const fetchData = async function() {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/admin/all";
+    const fetchData = async function () {
       try {
         setLoading(true);
         const response = await axios.get(url);
@@ -86,7 +86,7 @@ export default function TableMentee() {
         throw error;
       } finally {
         setLoading(false);
-        setLoad(false)
+        setLoad(false);
       }
     };
     fetchData();
@@ -129,7 +129,7 @@ export default function TableMentee() {
                         component="th"
                         scope="row"
                       >
-                        {index+1}
+                        {index + 1}
                       </TableCell>
                       <TableCell
                         className={classes.textInTable}
