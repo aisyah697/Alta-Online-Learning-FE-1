@@ -123,14 +123,10 @@ export default function FilterAdmin() {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={"id"}>ID</MenuItem>
               <MenuItem value={"name"}>Name</MenuItem>
               <MenuItem value={"role"}>Role</MenuItem>
             </Select>
           </FormControl>
-          <button onClick={fetchData}>
-            aaaa
-          </button>
         </Grid>
       </CardActions>
     </Card>
