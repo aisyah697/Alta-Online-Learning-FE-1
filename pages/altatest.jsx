@@ -21,46 +21,37 @@ export default function AltaTest() {
   const classes = useStyles();
 
   //Alta Tsst
-  const { token_ } = useContext(UserContext);
-  const [tokenMentee, setTokenMentee] = token_;
   const { test_ } = useContext(MateriContext);
   const [test, setTest] = test_;
-  console.log("test", test);
-  const [cookies, setCookies, removeCookie] = useCookies();
+  const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
-  // const [load, setLoad] = load_;
-  if (!tokenMentee) {
-    return <ErrorPage statusCode={404} />;
-  } else {
-    useEffect(() => {
-      const urlTest = process.env.NEXT_PUBLIC_BASE_URL + "/altatest/11";
-      console.log("token ke 2", tokenMentee);
-      const fetchData = async function () {
-        try {
-          setLoading(true);
-          const response = await axios.get(urlTest, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + tokenMentee,
-            },
-          });
+  useEffect(() => {
+    console.log("cek cookie", cookies.mentee.token);
+    const urlTest = process.env.NEXT_PUBLIC_BASE_URL + "/altatest/11";
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(urlTest, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.mentee.token,
+          },
+        });
 
-          // console.log("cek alta test", response.data);
-          if (response.status === 200) {
-            setTest(response.data);
-            setCookies(response.data);
-          }
-        } catch (error) {
-          throw error;
-        } finally {
-          setLoading(false);
+        // console.log("cek alta test", response.data);
+        if (response.status === 200) {
+          setTest(response.data);
         }
-      };
-      fetchData();
-    }, []);
-  }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
-  if (!test || !tokenMentee) {
+  if (!test) {
     return <ErrorPage statusCode={404} />;
   } else {
     return (
@@ -69,7 +60,7 @@ export default function AltaTest() {
           <title>Exam | Alta Online Learning</title>
         </Head>
         <div className={classes.root}>
-          {console.log("quest1", test)}
+          {console.log("quest11", test)}
           <CssBaseline />
           <NavigationBar className={classes.appBar} />
           <AltaTestQuestion list={test} />

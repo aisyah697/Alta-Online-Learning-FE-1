@@ -45,62 +45,30 @@ export default function MyApp(props) {
     }
   }, []);
 
-<<<<<<< HEAD
   //Admin
   const [login, setLogin] = useState([]);
   const [token, setToken] = useState([]);
   const [admin, setAdmin] = useState([]);
   const [list, setList] = useState([]);
-=======
-    React.useEffect(() => {
-        const token_mentee = cookies.token_mentee;
-        if (token_mentee){
-            setLoginMentee(true)
-            setTokenMentee(token_mentee)
-        } else {
-            setLoginMentee(false)
-        }
->>>>>>> 307585f3ee867cf6ae8616fe26863aa63691dde1
+  const [listMentee, setListMentee] = useState([]);
+  const [load, setLoad] = useState(false);
 
   const store_admin = {
     login_: [login, setLogin],
     token_: [token, setToken],
     admin_: [admin, setAdmin],
     list_: [list, setList],
+    listMentee_: [listMentee, setListMentee],
+    load_: [load, setLoad],
   };
 
-<<<<<<< HEAD
   React.useEffect(() => {
-    const token_admin = cookies.token_admin;
-    if (token_admin) {
-      setLogin(true);
-      setToken(token_admin);
+    const token_mentee = cookies.token_mentee;
+    if (token_mentee) {
+      setLoginMentee(true);
+      setTokenMentee(token_mentee);
     } else {
-      setLogin(false);
-    }
-
-    const data_admin = cookies.admin;
-    if (data_admin) {
-      setAdmin(data_admin);
-    } else {
-      setAdmin(data_admin);
-=======
-    //Admin
-    const [login, setLogin] = useState([])
-    const [token, setToken] = useState([])
-    const [admin, setAdmin] = useState([])
-    const [list, setList] = useState([])
-    const [listMentee, setListMentee] = useState([])
-    const [load, setLoad] = useState(false)
-
-    const store_admin = {
-        login_: [login, setLogin],
-        token_: [token, setToken],
-        admin_: [admin, setAdmin],
-        list_: [list, setList],
-        listMentee_: [listMentee, setListMentee],
-        load_: [load, setLoad]
->>>>>>> 307585f3ee867cf6ae8616fe26863aa63691dde1
+      setLoginMentee(false);
     }
   }, []);
 

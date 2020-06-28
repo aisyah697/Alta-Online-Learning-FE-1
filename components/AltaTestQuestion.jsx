@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: "center",
     marginBottom: theme.spacing(5),
+    fontWeight: "bolder",
+    color: theme.palette.secondary.secondary,
   },
   media: {
     height: theme.spacing(30),
@@ -68,6 +70,18 @@ const useStyles = makeStyles((theme) => ({
   spacing: {
     flexBasis: "5%",
   },
+  perQuest: {
+    marginBottom: theme.spacing(3),
+  },
+  answers: {
+    marginTop: theme.spacing(-2),
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+  },
+  allText: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+  },
 }));
 
 function StyledRadio(props) {
@@ -87,65 +101,60 @@ function StyledRadio(props) {
 
 export default function QuizContent(props) {
   const classes = useStyles();
-  const { test_ } = useContext(MateriContext);
-  const [test, setTest] = test_;
-  if (!test) {
-    return <ErrorPage statusCode={404} />;
-  } else {
-    return (
-      <main className={classes.content}>
-        <Toolbar />
-        {/* {console.log("quest", test)} */}
-        <Typography className={classes.title}> ALTA Test </Typography>
-        {test.question.map((item) => (
-          <div>
-            <Grid container spacing={0}>
-              <Grid item xs={1} className={classes.spacing}>
-                1.
-              </Grid>
-              <Grid item xs={11}>
-                <Typography paragraph>{item.question}</Typography>
-              </Grid>
-            </Grid>
+  // console.log("props", props);
+  // const { test_ } = useContext(MateriContext);
+  // const [test, setTest] = test_;
+  // if (!test) {
+  //   return <ErrorPage statusCode={404} />;
+  // } else {
+  const listTest = props.list.question;
+  console.log("listTest", listTest);
 
-            <Grid container spacing={0}>
-              <Grid item xs={1} className={classes.spacing}>
-                {"   "}
+  return (
+    <main className={classes.content}>
+      <Toolbar />
+      {console.log("propss", props.list.question)}
+      <Typography variant="h4" className={classes.title}>
+        Alta Test
+      </Typography>
+      {listTest
+        ? listTest.map((item, idx) => (
+            <div className={classes.perQuest}>
+              <Grid container spacing={0}>
+                <Grid item xs={1} className={classes.spacing}>
+                  <Typography className={classes.allText}>{idx + 1}</Typography>
+                </Grid>
+                <Grid item xs={11}>
+                  <Typography paragraph className={classes.allText}>
+                    {item.question}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={11}>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    defaultValue="None"
-                    aria-label="answer"
-                    name="customized-radios"
-                  >
-                    <FormControlLabel
-                      value="2"
-                      control={<StyledRadio />}
-                      label="2"
-                    />
-                    <FormControlLabel
-                      value="3"
-                      control={<StyledRadio />}
-                      label="3"
-                    />
-                    <FormControlLabel
-                      value="8"
-                      control={<StyledRadio />}
-                      label="8"
-                    />
-                    <FormControlLabel
-                      value="13"
-                      control={<StyledRadio />}
-                      label="13"
-                    />
-                  </RadioGroup>
-                </FormControl>
+
+              <Grid container spacing={0}>
+                <Grid item xs={1} className={classes.spacing}></Grid>
+                <Grid item xs={11}>
+                  <FormControl component="fieldset">
+                    <RadioGroup
+                      className={classes.answers}
+                      defaultValue="None"
+                      aria-label="answer"
+                      name="customized-radios"
+                    >
+                      {item.choice.map((element, num) => (
+                        <FormControlLabel
+                          control={<StyledRadio />}
+                          value={num.toString()}
+                          label={element.choice}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
-        ))}
-      </main>
-    );
-  }
+            </div>
+          ))
+        : null}
+    </main>
+  );
 }
