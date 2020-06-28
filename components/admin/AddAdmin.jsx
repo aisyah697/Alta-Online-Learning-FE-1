@@ -74,9 +74,10 @@ export default function AddAdmin() {
   const classes = useStyles();
   const[open, setOpen] = React.useState(false);
   const[message, setMessage] = React.useState('')
-  const {admin_, token_} = useContext(AdminContext);
+  const {admin_, token_, load_} = useContext(AdminContext);
   const [admin, setAdmin] = admin_
   const [token, setToken] = token_
+  const [load, setLoad] = load_
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -139,13 +140,13 @@ export default function AddAdmin() {
 
   const handleSubmit = async () => {
     handleClose();
+    setLoad(true)
     postNewAdmin(values.username, values.password, values.role);
   }
 
-  console.log(values)
-
   return (
     <div>
+      {admin.role === 'super'?
       <Button
         onClick={handleClickOpen}
         variant="outlined"
@@ -154,7 +155,7 @@ export default function AddAdmin() {
         startIcon={<PersonAddIcon />}
       >
         Add Admin
-      </Button>
+      </Button> : null }
       <Dialog
         open={open}
         onClose={handleClose}
