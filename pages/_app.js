@@ -30,6 +30,7 @@ export default function MyApp(props) {
         const token_mentee = cookies.token_mentee;
         if (token_mentee){
             setLoginMentee(true)
+            setTokenMentee(token_mentee)
         } else {
             setLoginMentee(false)
         }
@@ -47,18 +48,23 @@ export default function MyApp(props) {
     const [token, setToken] = useState([])
     const [admin, setAdmin] = useState([])
     const [list, setList] = useState([])
+    const [listMentee, setListMentee] = useState([])
+    const [load, setLoad] = useState(false)
 
     const store_admin = {
         login_: [login, setLogin],
         token_: [token, setToken],
         admin_: [admin, setAdmin],
-        list_: [list, setList]
+        list_: [list, setList],
+        listMentee_: [listMentee, setListMentee],
+        load_: [load, setLoad]
     }
 
     React.useEffect(() => {
         const token_admin = cookies.token_admin;
         if (token_admin){
             setLogin(true)
+            setToken(token_admin)
         } else {
             setLogin(false)
         }
