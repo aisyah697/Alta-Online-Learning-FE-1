@@ -14,11 +14,11 @@ export default class MyDocument extends Document {
                         rel="stylesheet"
                         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
                     />
-                    <link rel="icon" href="/images/logo_header.png" />
+                    <link rel="icon" href={"/images/logo_header.png"} />
                 </Head>
                 <body>
-                <Main />
-                <NextScript />
+                    <Main />
+                    <NextScript />
                 </body>
             </Html>
         );
@@ -50,7 +50,7 @@ MyDocument.getInitialProps = async (ctx) => {
     // 3. app.render
     // 4. page.render
 
-    // Render app and page and get the context of the page with collected side effects.
+    // Render app and page and get the store of the page with collected side effects.
     const sheets = new ServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
 

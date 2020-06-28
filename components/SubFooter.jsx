@@ -1,9 +1,11 @@
 import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import dynamic from "next/dynamic";
+const Link = dynamic(() => import('../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
     bannerBox: {
@@ -38,22 +40,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SubFooter () {
+const SubFooter = () => {
     const classes = useStyles();
+    const id = 'one'
     return (
-        <React.Fragment>
+        <div>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} className={classes.container}>
                         <Typography variant={'h5'} className={classes.title}>
                             You can now access the course!
                         </Typography>
-                        <Button variant={'outlined'} className={classes.button}>
-                            View Course
-                        </Button>
+                        <Link href={'/courses/phase/[id]'} as={`/courses/phase/${id}`}>
+                            <Button variant={'outlined'} className={classes.button}>
+                                View Course
+                            </Button>
+                        </Link>
                     </Grid>
                 </Grid>
             </Box>
-        </React.Fragment>
+        </div>
     )
 }
+
+export default SubFooter;

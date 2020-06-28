@@ -1,25 +1,28 @@
 import React from "react";
 import Head from "next/head";
-import NavigationBar from "../components/NavigationBar";
-import Footer from "../components/Footer";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
+import dynamic from "next/dynamic";
+import clsx from "clsx";
+
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
-import clsx from "clsx";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import InputLabel from "@material-ui/core/InputLabel";
+import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
-import Link from "../utils/Link";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+
+const NavigationBar = dynamic(() => import('../components/NavigationBar'))
+const Footer = dynamic(() => import('../components/FooterBar'))
+const Link = dynamic(() => import('../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleCard() {
+const Register = () => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     amount: "",
@@ -132,7 +135,7 @@ export default function SimpleCard() {
   };
 
   return (
-    <React.Fragment>
+    <div>
       <Head>
         <title>Register | Alta Online Learning</title>
       </Head>
@@ -308,6 +311,8 @@ export default function SimpleCard() {
         </Grid>
         <Footer />
       </main>
-    </React.Fragment>
+    </div>
   );
 }
+
+export default Register;

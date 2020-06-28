@@ -1,28 +1,31 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Fab from '@material-ui/core/Fab';
+import React, {useContext} from 'react';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import ScrollTop from "../utils/ScrollTop";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Avatar from "@material-ui/core/Avatar";
-import MenuIcon from '@material-ui/icons/Menu';
-import Popper from "@material-ui/core/Popper";
-import Grow from "@material-ui/core/Grow";
-import MenuList from "@material-ui/core/MenuList";
-import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Link from "../utils/Link";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import SettingsIcon from '@material-ui/icons/Settings';
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from '@material-ui/core/styles';
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
+import Button from "@material-ui/core/Button";
+import AppBar from '@material-ui/core/AppBar';
+import Avatar from "@material-ui/core/Avatar";
+import Popper from "@material-ui/core/Popper";
+import Paper from "@material-ui/core/Paper";
+import Card from "@material-ui/core/Card";
+import Menu from "@material-ui/core/Menu";
+import Grow from "@material-ui/core/Grow";
+import Fab from '@material-ui/core/Fab';
+import dynamic from "next/dynamic";
 import NextLink from 'next/link';
+import UserContext from "../store/userContext";
+
+const ScrollTop = dynamic(() => import('../utils/scrollTop'));
+const Link = dynamic(() => import('../utils/link'));
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -117,8 +120,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function NavigationBar(props) {
+const NavigationBar = (props) => {
     const classes = useStyles();
+    const {login, signOut} = useContext(UserContext);
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -138,22 +143,27 @@ export default function NavigationBar(props) {
         handleMobileMenuClose();
     };
 
+    const doSignOut = () => {
+        signOut();
+        handleMenuClose()
+    }
+
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
     const NavBarLogo = (
-            <>
+            <React.Fragment>
                 <Card elevation={0} className={classes.navLogo}>
                     <Link href="/">
-                        <img height="60" src="/images/logo_navbar.png" alt="Logo Navbar"/>
+                        <img height="60" src={"/images/logo_navbar.png"} alt="Logo NavBar"/>
                     </Link>
                 </Card>
-            </>
+            </React.Fragment>
     )
 
     const MenuBar = (
-        <>
+        <React.Fragment>
             <NextLink href={'/courses'}>
                 <Typography className={classes.menu} variant="h6" noWrap>
                     Courses
@@ -162,7 +172,7 @@ export default function NavigationBar(props) {
             <Typography className={classes.menu} variant="h6" noWrap>
                 Certification
             </Typography>
-            <NextLink href={'/module'}>
+            <NextLink href={'/courses/phase/[id]'} as={`/courses/phase/${1}`}>
                 <Typography className={classes.menu} variant="h6" noWrap>
                     All Courses
                 </Typography>
@@ -170,26 +180,26 @@ export default function NavigationBar(props) {
             <Typography className={classes.menu} variant="h6" noWrap>
                 Help
             </Typography>
-        </>
+        </React.Fragment>
     )
 
     const menuId = 'primary-search-account-menu';
+    const mentee = {username: 'agsdws'}
     const renderMenu = (
         <Popper open={isMenuOpen}
                 anchorEl={anchorEl}
                 role={undefined}
                 transition
                 disablePortal
-                style={{zIndex: '1 !important'}}
         >
-            {({ TransitionProps, placement }) => (
+            {({ TransitionProps, placement}) => (
                 <Grow
                     {...TransitionProps}
                     style={{ transformOrigin: placement === 'bottom' ? 'left top' : 'center bottom' }}
                 >
                     <Paper elevation={1} className={classes.paper}>
                         <div className={classes.menuLogo}>
-                            <img height="60" src="/images/logo_popper.png" alt="Logo Navbar"/>
+                            <img height="60" src={"/images/logo_popper.png"} alt="Logo NavBar"/>
                         </div>
                         <div className={classes.infoUser}>
                             <div className={classes.avatarPop}>
@@ -209,7 +219,7 @@ export default function NavigationBar(props) {
                         </div>
                         <ClickAwayListener onClickAway={handleMenuClose}>
                             <MenuList autoFocusItem={isMenuOpen} id="menu-list-grow" >
-                                <Link href={'/mentee/profile'}>
+                                <Link href={'/mentee/[profile]'} as={`/mentee/${mentee.username}`}>
                                     <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
                                         <IconButton aria-label="show 4 new mails" color="inherit">
                                             <SettingsIcon/>
@@ -217,7 +227,7 @@ export default function NavigationBar(props) {
                                         <p>Manage Your Account</p>
                                     </MenuItem>
                                 </Link>
-                                <MenuItem onClick={handleMenuClose} className={classes.popMenu}>
+                                <MenuItem onClick={doSignOut} className={classes.popMenu}>
                                     <IconButton aria-label="show 4 new mails" color="inherit">
                                         <ExitToAppIcon/>
                                     </IconButton>
@@ -257,7 +267,7 @@ export default function NavigationBar(props) {
     );
 
     return (
-        <React.Fragment>
+        <div>
             <CssBaseline />
             <AppBar>
                 <Toolbar classes={{gutters:classes.toolbar}}>
@@ -266,29 +276,33 @@ export default function NavigationBar(props) {
                     <div className={classes.sectionDesktop}>
                         {MenuBar}
                         <div className={'menuButton'}>
-                            <Link href={'/login'}>
-                                <Button variant="outlined" aria-label="login"
-                                        className={classes.button}
-                                        style={{ marginRight: '15px' }}>
-                                    Login
-                                </Button>
-                            </Link>
-                            <Link href={'/register'}>
-                                <Button variant="outlined" aria-label="signUp"
-                                        className={classes.button} >
-                                    SignUp
-                                </Button>
-                            </Link>
-                            <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="secondary"
-                            >
-                                <Avatar className={classes.avatar} src={'/images/avatar_example.jpg'}/>
-                            </IconButton>
+                            {login ?
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    onClick={handleProfileMenuOpen}
+                                    color="secondary"
+                                >
+                                    <Avatar className={classes.avatar} src={'/images/avatar_example.jpg'}/>
+                                </IconButton> :
+                                <>
+                                    <Link href={'/login'}>
+                                        <Button variant="outlined" aria-label="login"
+                                                className={classes.button}
+                                                style={{marginRight: '15px'}}>
+                                            Login
+                                        </Button>
+                                    </Link>
+                                    <Link href={'/register'}>
+                                        <Button variant="outlined" aria-label="signUp"
+                                                className={classes.button}>
+                                            SignUp
+                                        </Button>
+                                    </Link>
+                                </>
+                            }
                         </div>
                     </div>
                     <div className={classes.sectionMobile}>
@@ -313,6 +327,8 @@ export default function NavigationBar(props) {
                     <KeyboardArrowUpIcon color="primary" />
                 </Fab>
             </ScrollTop>
-        </React.Fragment>
+        </div>
     );
 }
+
+export default NavigationBar;
