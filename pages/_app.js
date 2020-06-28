@@ -47,12 +47,14 @@ export default function MyApp(props) {
     const [token, setToken] = useState([])
     const [admin, setAdmin] = useState([])
     const [list, setList] = useState([])
+    const [load, setLoad] = useState(false)
 
     const store_admin = {
         login_: [login, setLogin],
         token_: [token, setToken],
         admin_: [admin, setAdmin],
-        list_: [list, setList]
+        list_: [list, setList],
+        load_: [load, setLoad]
     }
 
     React.useEffect(() => {
