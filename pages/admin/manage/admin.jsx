@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Mentee() {
+export default function ManageAdmin() {
   const classes = useStyles();
   return (
     <React.Fragment>

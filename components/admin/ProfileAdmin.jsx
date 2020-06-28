@@ -102,7 +102,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProfileAdmin(props) {
     const classes = useStyles();
-    const{isLogin, setIsLogin, admin, setAdmin} = useContext(AdminContext);
+
+    const {admin_, login_} = useContext(AdminContext);
+    const [admin, setAdmin] = admin_
+    const [login, setLogin] = login_
 
     function createData(key, data) {
         return { key, data };

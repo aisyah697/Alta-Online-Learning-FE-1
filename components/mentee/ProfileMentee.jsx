@@ -82,15 +82,15 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "0px",
   },
 }));
-// const cookies = new Cookies();
-// const url = process.env.NEXT_PUBLIC_BASE_URL
 
 const ProfileMentee = ({mentee}) => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
-  const {user} = useContext(UserContext);
-  const[data, setData] = React.useState(user)
+
+  const {mentee_, login_} = useContext(UserContext);
+  const [user, setUser] = mentee_
+  const [login, setLogin] = login_
 
   function createData(key, data) {
     return { key, data };
