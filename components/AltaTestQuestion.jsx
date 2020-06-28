@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,6 +8,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import MateriContext from "../store/materiContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,64 +87,65 @@ function StyledRadio(props) {
 
 export default function QuizContent(props) {
   const classes = useStyles();
+  const { test_ } = useContext(MateriContext);
+  const [test, setTest] = test_;
+  if (!test) {
+    return <ErrorPage statusCode={404} />;
+  } else {
+    return (
+      <main className={classes.content}>
+        <Toolbar />
+        {/* {console.log("quest", test)} */}
+        <Typography className={classes.title}> ALTA Test </Typography>
+        {test.question.map((item) => (
+          <div>
+            <Grid container spacing={0}>
+              <Grid item xs={1} className={classes.spacing}>
+                1.
+              </Grid>
+              <Grid item xs={11}>
+                <Typography paragraph>{item.question}</Typography>
+              </Grid>
+            </Grid>
 
-  return (
-    <main className={classes.content}>
-      <Toolbar />
-      <h1 className={classes.title}>ALTA Test</h1>
-
-      <Typography paragraph>
-        <Grid container spacing={0}>
-          <Grid item xs={1} className={classes.spacing}>
-            1.
-          </Grid>
-          <Grid item xs={11}>
-            Pagi ini Heldy punya rencana. Dia ingin mengembalikan CD Linux
-            kepada Hardoyo setelah merasakan kelezatan soto daging di Jalan
-            Perintis Kemerdekaan 75 Solo. Heldy ingin makan 2 pisang goreng
-            hangat di kantin Bu Sum di dekat kampus UNS Solo. Setelah makan
-            pisang dia tidak mau minum es teh di kantin Bu Sum tapi ingin minum
-            es buah di dekat stadion Manahan Solo. Sesudah dari Manahan, Heldy
-            menuju Jalan Perintis Kemerdekaan.
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={0}>
-          <Grid item xs={1} className={classes.spacing}>
-            {"   "}
-          </Grid>
-          <Grid item xs={11}>
-            <FormControl component="fieldset">
-              <RadioGroup
-                defaultValue="None"
-                aria-label="answer"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  value="2"
-                  control={<StyledRadio />}
-                  label="2"
-                />
-                <FormControlLabel
-                  value="3"
-                  control={<StyledRadio />}
-                  label="3"
-                />
-                <FormControlLabel
-                  value="8"
-                  control={<StyledRadio />}
-                  label="8"
-                />
-                <FormControlLabel
-                  value="13"
-                  control={<StyledRadio />}
-                  label="13"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-        </Grid>
-      </Typography>
-    </main>
-  );
+            <Grid container spacing={0}>
+              <Grid item xs={1} className={classes.spacing}>
+                {"   "}
+              </Grid>
+              <Grid item xs={11}>
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    defaultValue="None"
+                    aria-label="answer"
+                    name="customized-radios"
+                  >
+                    <FormControlLabel
+                      value="2"
+                      control={<StyledRadio />}
+                      label="2"
+                    />
+                    <FormControlLabel
+                      value="3"
+                      control={<StyledRadio />}
+                      label="3"
+                    />
+                    <FormControlLabel
+                      value="8"
+                      control={<StyledRadio />}
+                      label="8"
+                    />
+                    <FormControlLabel
+                      value="13"
+                      control={<StyledRadio />}
+                      label="13"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </div>
+        ))}
+      </main>
+    );
+  }
 }
