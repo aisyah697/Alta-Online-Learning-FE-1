@@ -1,11 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import dynamic from "next/dynamic";
-import {useRouter} from "next/router";
+import Router, {useRouter} from "next/router";
+import { useCookies } from 'react-cookie';
+import axios from 'axios';
+import UserContext from "../../store/userContext";
 
 const Link = dynamic(() => import('../../utils/link'))
 
@@ -108,6 +111,58 @@ const FormProfile = () => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
+
+  const [cookies, setCookie] = useCookies(['user']);
+  const {mentee_, login_} = useContext(UserContext);
+  const [user, setUser] = mentee_
+
+  const [values, setValues] = React.useState({
+    fullName: user.full_name,
+    email: user.email,
+    birthPlace: user.place_birth,
+    birthDate: user.date_birth,
+    phoneNumber: user.phone,
+    github: user.github,
+    about: user.description,
+  });
+
+  const [images, setImages] = React.useState(user.avatar)
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleImage = e => {
+    if (e.target.files.length) {
+      setImages(e.target.files[0]);
+    }
+  };
+
+  const postEditProfile = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + user.id
+    const formData = new FormData()
+    formData.append('full_name', values.fullName)
+    formData.append('email', values.email)
+    formData.append('place_birth', values.birthPlace)
+    formData.append('date_birth', values.birthDate)
+    formData.append('phone', values.phoneNumber)
+    formData.append('github', values.github)
+    formData.append('description', values.about)
+    formData.append('avatar', images)
+
+    try {
+      const response = await axios.patch(url, formData,{
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setCookie('mentee', response.data);
+      setUser(response.data);
+
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  }
+
   return (
     <div>
       <Grid container spacing={3}>
@@ -115,7 +170,7 @@ const FormProfile = () => {
           <h1 className={classes.h1}>Edit Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/mentee/[profile]'} as={`/mentee/${profile}`}>
+          <Link href={'/mentee/[profile]'} as={`/mentee/${user.username}`}>
             <Button
               className={classes.buttonProfile}
               variant="contained"
@@ -129,7 +184,7 @@ const FormProfile = () => {
       <div className={classes.avatar}>
         <Avatar
           alt="Mentee Picture"
-          src={'/images/avatar_example.jpg'}
+          src={user.avatar}
           className={classes.large}
         />
       </div>
@@ -140,6 +195,8 @@ const FormProfile = () => {
           id="contained-button-file"
           multiple
           type="file"
+          name="image"
+          onChange={handleImage}
         />
         <label htmlFor="contained-button-file">
           <Button
@@ -162,6 +219,9 @@ const FormProfile = () => {
               color="secondary"
               label="Full Name"
               size="medium"
+              name="fullName"
+              defaultValue={user.full_name}
+              onChange={handleChange('fullName')}
             />
             <TextField
               className={classes.textField}
@@ -169,6 +229,9 @@ const FormProfile = () => {
               color="secondary"
               label="Email"
               size="medium"
+              name="email"
+              defaultValue={user.email}
+              onChange={handleChange('email')}
             />
             <TextField
               className={classes.textField}
@@ -176,14 +239,20 @@ const FormProfile = () => {
               color="secondary"
               label="Birth Place"
               size="medium"
+              name="birthPlace"
+              defaultValue={user.place_birth}
+              onChange={handleChange('birthPlace')}
             />
             <TextField
               className={classes.textField}
               variant="outlined"
               color="secondary"
               label="Birth Date"
-              placeholder="DD/MM/YYYY"
+              placeholder="01 Januari 2000"
               size="medium"
+              name="birthDate"
+              defaultValue={user.date_birth}
+              onChange={handleChange('birthDate')}
             />
             <TextField
               className={classes.textField}
@@ -192,6 +261,9 @@ const FormProfile = () => {
               label="Phone Number"
               placeholder="08xxxxxxxxxx"
               size="medium"
+              name="phoneNumber"
+              defaultValue={user.phone}
+              onChange={handleChange('phoneNumber')}
             />
             <TextField
               className={classes.textField}
@@ -200,6 +272,9 @@ const FormProfile = () => {
               label="GitHub"
               placeholder="github.com/johndoe"
               size="medium"
+              name="github"
+              defaultValue={user.github}
+              onChange={handleChange('github')}
             />
             <TextField
               className={classes.textField}
@@ -210,12 +285,16 @@ const FormProfile = () => {
               multiline
               rows={3}
               rowsMax={4}
+              name="about"
+              defaultValue={user.description}
+              onChange={handleChange('about')}
             />
           </form>
           <Button
             className={classes.buttonProfile}
             variant="contained"
             color="primary"
+            onClick={() => postEditProfile()}
           >
             Save Changes
           </Button>

@@ -1,13 +1,14 @@
 import React from "react";
 import Head from "next/head";
+import { useContext } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "../../../components/NavigationBar";
 import FooterBar from "../../../components/FooterBar";
 import ProfileMentee from "../../../components/mentee/ProfileMentee";
 import CourseHistory from "../../../components/mentee/CourseHistory";
-import { useContext } from 'react';
 import UserContext from '../../../store/userContext';
-import useFetch from "../../../utils/useFetch";
+import Router from "next/router";
+import ErrorPage from 'next/error'
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -20,20 +21,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Index() {
-  const classes = useStyles();
-  const { login } = useContext(UserContext);
+    const classes = useStyles();
+    const {login_} = useContext(UserContext);
+    const [login, setLogin] = login_
 
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Profile | Alta Online Learning</title>
-      </Head>
-      <NavigationBar />
-      <main className={classes.main}>
-        <ProfileMentee />
-        <CourseHistory />
-      </main>
-      <FooterBar />
-    </React.Fragment>
-  );
+    if (!login) {
+        return <ErrorPage statusCode={404}/>
+    } else {
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>Profile | Alta Online Learning</title>
+                </Head>
+                <NavigationBar/>
+                <main className={classes.main}>
+                    <ProfileMentee/>
+                    <CourseHistory/>
+                </main>
+                <FooterBar/>
+            </React.Fragment>
+        );
+    }
 }

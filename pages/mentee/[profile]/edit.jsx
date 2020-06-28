@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import Head from "next/head";
 import NavigationBar from "../../../components/NavigationBar";
 import FooterBar from "../../../components/FooterBar";
 import FormEditProfile from "../../../components/mentee/EditProfile";
 import {makeStyles} from "@material-ui/core/styles";
+import UserContext from "../../../store/userContext";
+import ErrorPage from "next/error";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -15,18 +17,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function EditProfileAdmin() {
+export default function EditProfileMentee() {
     const classes = useStyles();
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Profile | Alta Online Learning</title>
-      </Head>
-      <NavigationBar />
-      <main className={classes.main}>
-        <FormEditProfile />
-      </main>
-      <FooterBar />
-    </React.Fragment>
-  );
+    const {login_} = useContext(UserContext);
+    const [login, setLogin] = login_
+
+    if (!login) {
+        return <ErrorPage statusCode={404}/>
+    } else {
+        return (
+            <React.Fragment>
+                <Head>
+                    <title>Profile | Alta Online Learning</title>
+                </Head>
+                <NavigationBar/>
+                <main className={classes.main}>
+                    <FormEditProfile/>
+                </main>
+                <FooterBar/>
+            </React.Fragment>
+        );
+    }
 }

@@ -15,6 +15,7 @@ import NavigationBarAdmin from "../../components/admin/NavigationBarAdmin";
 import Typography from "@material-ui/core/Typography";
 import Link from 'next/link'
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 250,
@@ -83,7 +84,7 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Link href="/admin/manage/mentee">
+                  <Link href={"/admin/manage/mentee"}>
                     <Button
                       variant="outlined"
                       size="medium"
@@ -106,15 +107,17 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="medium"
-                    className={classes.button}
-                    startIcon={<ViewModuleIcon />}
-                  >
-                    Our Module
-                  </Button>
+                  <Link href={'/admin/academy'}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="medium"
+                      className={classes.button}
+                      startIcon={<ViewModuleIcon />}
+                    >
+                      Academic
+                    </Button>
+                  </Link>
                 </Grid>
               </CardActions>
             </Card>
@@ -128,7 +131,7 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Link href="/admin/profile/[admin_name]" as={`/admin/profile/admin1`}>
+                  <Link href={"/admin/manage/admin"}>
                     <Button
                       variant="outlined"
                       color="primary"
@@ -136,7 +139,7 @@ export default function Home() {
                       className={classes.button}
                       startIcon={<PeopleAltSharpIcon />}
                     >
-                      See Your Profile
+                      Our Admin
                     </Button>
                   </Link>
                 </Grid>

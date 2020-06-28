@@ -7,7 +7,7 @@ const AddAdmin = dynamic(() => import("../../../components/admin/AddAdmin"));
 const FilterAdmin = dynamic(() => import("../../../components/admin/FilterAdmin"));
 const TableAdmin = dynamic(() => import("../../../components/admin/TableAdmin"));
 const Footer = dynamic(() => import("../../../components/FooterBar"));
-const NavigationAdminBar = dynamic(() => import("../../../components/NavigationBar")
+const NavigationAdminBar = dynamic(() => import("../../../components/admin/NavigationBarAdmin")
 );
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Mentee() {
+export default function ManageAdmin() {
   const classes = useStyles();
   return (
     <React.Fragment>

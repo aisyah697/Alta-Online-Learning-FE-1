@@ -22,6 +22,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import UserContext from "../store/userContext";
+import AdminContext from "../store/adminContext";
 
 const NavigationBar = dynamic(() => import('../components/NavigationBar'))
 const Footer = dynamic(() => import('../components/FooterBar'))
@@ -99,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = (data) => {
   const classes = useStyles();
   const { signIn } = useContext(UserContext);
+  const [cookie, setCookie] = useCookies()
   const [message, setMessage] = React.useState('')
   const [values, setValues] = React.useState({
     username: "",
@@ -107,14 +109,47 @@ const Login = (data) => {
     token: ""
   });
 
+  const {login_, mentee_} = useContext(UserContext);
+  const [mentee, setMentee] = mentee_
+  const [login, setLogin] = login_
+
   const onLoginClick = async () => {
     const username = values.username
     const password = values.password
 
     if (username != '' || password != '') {
-      signIn(username, password);
+      Login(username, password);
     } else {
       setMessage('Please enter your username and password');
+    }
+  }
+
+  const Login = async (username, password) => {
+    const signInUrl = process.env.NEXT_PUBLIC_BASE_URL + '/auth/mentee';
+    try {
+      const response = await fetch(signInUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username,
+          password: password
+        })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setMentee(data);
+        setCookie('mentee', data);
+        setCookie('token_mentee', data.token);
+        setLogin(true);
+        Router.replace('/');
+      } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        return Promise.reject(error);
+      }
+    } catch (error) {
+      console.error("Something Wrong, Please Try Again!", error);
+      throw new Error(error);
     }
   }
 
