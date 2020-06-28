@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +10,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import axios from "axios";
+import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,6 +54,11 @@ export default function FilterAdmin() {
   const classes = useStyles();
   const [values, setValues] = React.useState({ keyword: '', role: '', sort: '' })
 
+  const {admin_, list_, load_} = useContext(AdminContext);
+  const [admin, setAdmin] = admin_
+  const [list, setList] = list_
+  const [load, setLoad] = load_
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -69,7 +76,7 @@ export default function FilterAdmin() {
             className={classes.search}
             size="small"
             variant="outlined"
-            id="mui-theme-provider-outlined-input"
+            id="search"
             placeholder="search"
             onChange={handleChange('keyword')}
             InputProps={{
@@ -121,6 +128,9 @@ export default function FilterAdmin() {
               <MenuItem value={"role"}>Role</MenuItem>
             </Select>
           </FormControl>
+          <button onClick={fetchData}>
+            aaaa
+          </button>
         </Grid>
       </CardActions>
     </Card>

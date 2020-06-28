@@ -74,7 +74,7 @@ export default function TableMentee() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/admin/all'
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/admin'
     const fetchData = async function() {
       try {
         setLoading(true);
@@ -230,7 +230,7 @@ export default function TableMentee() {
                         component="th"
                         scope="row"
                       >
-                        <DeleteUserPopUp ID={row.id} />
+                        <DeleteUserPopUp ID={row.id} username={row.username} />
                       </TableCell>
                     </TableRow>
                   ))}
