@@ -106,9 +106,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FormProfileAdmin(props) {
   const classes = useStyles();
-  const{isLogin, setIsLogin, admin, setAdmin} = useContext(AdminContext);
+  const [cookies, setCookie] = useCookies();
 
-  const [cookies, setCookie] = useCookies(['admin']);
+  const {admin_, login_} = useContext(AdminContext);
+  const [admin, setAdmin] = admin_
+  const [login, setLogin] = login_
 
   const [values, setValues] = React.useState({
     fullName: admin.full_name,

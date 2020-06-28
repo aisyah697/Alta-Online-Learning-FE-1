@@ -1,26 +1,29 @@
-import React, {useContext} from "react";
-import Head from "next/head";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import FormControl from "@material-ui/core/FormControl";
-import clsx from "clsx";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import React, { useContext } from "react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
+import Head from "next/head";
+import clsx from "clsx";
+
+import InputAdornment from "@material-ui/core/InputAdornment";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import CardContent from "@material-ui/core/CardContent";
+import FormControl from "@material-ui/core/FormControl";
+import CardActions from "@material-ui/core/CardActions";
+import Typography from "@material-ui/core/Typography";
+import InputLabel from "@material-ui/core/InputLabel";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+
+import { useCookies } from 'react-cookie'
 import AdminContext from "../../store/adminContext";
+
 const GoogleIcon = dynamic(() => import('../../utils/customIcon'))
-import {useCookies} from 'react-cookie'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,15 +99,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Home() {
+export default function LoginPage() {
   const classes = useStyles();
   const[message, setMessage] = React.useState('')
-  const{admin, setAdmin, isLogin, setIsLogin} = useContext(AdminContext);
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
   const [values, setValues] = React.useState({
     password: "",
     showPassword: false,
   });
+
+  const {admin_, login_} = useContext(AdminContext);
+  const [admin, setAdmin] = admin_
+  const [login, setLogin] = login_
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -143,8 +149,8 @@ export default function Home() {
         const data = await response.json();
         setAdmin(data);
         setCookie('admin', data);
-        setCookie('token', data.token);
-        setIsLogin(true);
+        setCookie('token_admin', data.token);
+        setLogin(true);
         Router.replace('/admin');
       } else {
         let error = new Error(response.statusText);

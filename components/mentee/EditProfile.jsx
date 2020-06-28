@@ -113,7 +113,8 @@ const FormProfile = () => {
   const { profile } = router.query;
 
   const [cookies, setCookie] = useCookies(['user']);
-  const {user, setUser} = useContext(UserContext);
+  const {mentee_, login_} = useContext(UserContext);
+  const [user, setUser] = mentee_
 
   const [values, setValues] = React.useState({
     fullName: user.full_name,
@@ -153,7 +154,7 @@ const FormProfile = () => {
       const response = await axios.patch(url, formData,{
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setCookie('user', response.data);
+      setCookie('mentee', response.data);
       setUser(response.data);
 
     } catch (error) {
