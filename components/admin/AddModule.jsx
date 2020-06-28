@@ -90,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Muli, sans-serif",
   },
 }));
+
 export default function AddModule() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -100,6 +101,20 @@ export default function AddModule() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const [values, setValues] = React.useState({
+    name: "",
+    description: "",
+    requirement_module: "",
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const postModule = async (name, description, requirement_module) => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/module";
   };
 
   return (
