@@ -12,8 +12,7 @@ import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
 import BookIcon from "@material-ui/icons/Book";
 import { Divider } from "@material-ui/core";
-
-const drawerWidth = 240;
+import Link from "../../utils/Link";
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
@@ -26,19 +25,28 @@ const useStyles = makeStyles((theme) => ({
     height: "3",
   },
   expansummar: {
-    margin: theme.spacing(0, 0, 0, -2),
+    margin: theme.spacing(0, 0, 0, -1),
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(0, 0, 0, -3),
+    },
   },
   expansummar2: {
-    margin: theme.spacing(-4, 0, 0, 2),
+    margin: theme.spacing(-6, 0, 0, 3),
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(-6, 0, 0, 1.5),
+    },
   },
   expandMenu: {
     margin: theme.spacing(0, 0, 0, -1),
   },
   expandMenu1: {
-    margin: theme.spacing(-2, 0, 0, -3),
+    margin: theme.spacing(-2, 0, 0, -4),
   },
   expandMenu2: {
-    margin: theme.spacing(-1, 0, 0, -2),
+    margin: theme.spacing(-1, 0, 0, -1),
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(-1, 0, 0, -1),
+    },
   },
   textJudul: {
     marginLeft: theme.spacing(-2),
@@ -48,16 +56,33 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Muli, sans-serif",
     fontSize: `calc(0.5em + 0.5vw)`,
   },
+  noJudulSubject: {
+    color: theme.palette.secondary.main,
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(0.1em + 0.5vw)`,
+  },
   textJudulModule: {
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
     fontSize: `calc(0.7em + 0.5vw)`,
     fontWeight: "bold",
   },
+  noJudulModule: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(0.1em + 0.5vw)`,
+    fontWeight: "bold",
+  },
   textJudulPhase: {
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
     fontSize: `calc(0.7em + 0.5vw)`,
+    fontWeight: "bold",
+  },
+  noJudulPhase: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(0.1em + 0.5vw)`,
     fontWeight: "bold",
   },
   iconPhase: {
@@ -107,10 +132,13 @@ export default function ContentSide() {
             <ListItem button>
               <ListItemIcon className={classes.iconPhase}>
                 <LibraryBooksIcon />
+                <Typography className={classes.noJudulPhase}>1</Typography>
               </ListItemIcon>
-              <Typography className={classes.textJudulPhase}>
-                PHASE 01
-              </Typography>
+              <Link href="/admin/academy/module">
+                <Typography className={classes.textJudulPhase}>
+                  PHASE 01
+                </Typography>
+              </Link>
             </ListItem>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expandMenu1}>
@@ -130,6 +158,9 @@ export default function ContentSide() {
                   <ListItem button>
                     <ListItemIcon>
                       <CollectionsBookmarkIcon className={classes.iconPhase} />
+                      <Typography className={classes.noJudulModule}>
+                        1
+                      </Typography>
                     </ListItemIcon>
                     <Typography className={classes.textJudulModule}>
                       Module 01
@@ -139,12 +170,15 @@ export default function ContentSide() {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.expandMenu2}>
                 <List>
-                  <ListItemIcon button className={classes.moduleName}>
+                  <ListItemIcon button="true" className={classes.moduleName}>
                     Python
                   </ListItemIcon>
                   <ListItem button>
                     <ListItemIcon>
                       <BookIcon className={classes.iconSubject} />
+                      <Typography className={classes.noJudulSubject}>
+                        1
+                      </Typography>
                     </ListItemIcon>
                     <Typography className={classes.textJudulSubject}>
                       Subject 01
@@ -153,14 +187,9 @@ export default function ContentSide() {
                   <ListItem button>
                     <ListItemIcon>
                       <BookIcon className={classes.iconSubject} />
-                    </ListItemIcon>
-                    <Typography className={classes.textJudulSubject}>
-                      Subject 01
-                    </Typography>
-                  </ListItem>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <BookIcon className={classes.iconSubject} />
+                      <Typography className={classes.noJudulSubject}>
+                        1
+                      </Typography>
                     </ListItemIcon>
                     <Typography className={classes.textJudulSubject}>
                       Subject 01
