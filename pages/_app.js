@@ -54,6 +54,7 @@ export default function MyApp(props) {
         admin_: [admin, setAdmin],
         list_: [list, setList]
     }
+  };
 
     React.useEffect(() => {
         const token_admin = cookies.token_admin;
@@ -101,6 +102,6 @@ export default function MyApp(props) {
 }
 
 MyApp.propTypes = {
-    Component: PropTypes.elementType.isRequired,
-    pageProps: PropTypes.object.isRequired,
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.object.isRequired,
 };
