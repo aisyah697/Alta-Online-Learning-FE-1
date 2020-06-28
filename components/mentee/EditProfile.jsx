@@ -155,7 +155,8 @@ const FormProfile = () => {
       const response = await axios.patch(url, formData,{
         headers: {
           "Content-Type": "multipart/form-data",
-          'Authorization':'Bearer ' + tokenMentee },
+          'Authorization':'Bearer ' + tokenMentee
+        },
 
       });
       setCookie('mentee', response.data);
@@ -298,7 +299,7 @@ const FormProfile = () => {
             className={classes.buttonProfile}
             variant="contained"
             color="primary"
-            onClick={() => postEditProfile()}
+            onClick={postEditProfile}
           >
             Save Changes
           </Button>
