@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -112,7 +112,7 @@ export default function QuizContent(props) {
       </Typography>
       {listTest ? (
         listTest.map((item, idx) => (
-          <div className={classes.perQuest}>
+          <div className={classes.perQuest} key={idx}>
             <Grid container spacing={0}>
               <Grid item xs={1} className={classes.spacing}>
                 <Typography className={classes.allText}>{idx + 1}</Typography>
@@ -136,6 +136,7 @@ export default function QuizContent(props) {
                   >
                     {item.choice.map((element, num) => (
                       <FormControlLabel
+                        key={num}
                         control={<StyledRadio />}
                         value={num.toString()}
                         label={element.choice}
