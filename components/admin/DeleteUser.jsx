@@ -65,7 +65,7 @@ export default function DeleteUserPopUp(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title" style={{color: '#19355f'}}>
-          {"Are you sure want to delete this user?"}
+          {`Are you sure want to delete ${props.username} ?`}
         </DialogTitle>
         <DialogActions>
           <Button variant="outlined" size="small" onClick={handleClose}>

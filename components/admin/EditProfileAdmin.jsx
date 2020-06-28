@@ -108,9 +108,10 @@ export default function FormProfileAdmin(props) {
   const classes = useStyles();
   const [cookies, setCookie] = useCookies();
 
-  const {admin_, login_} = useContext(AdminContext);
+  const {admin_, login_, token_} = useContext(AdminContext);
   const [admin, setAdmin] = admin_
   const [login, setLogin] = login_
+  const [token, setToken] = token_
 
   const [values, setValues] = React.useState({
     fullName: admin.full_name,
@@ -148,7 +149,10 @@ export default function FormProfileAdmin(props) {
 
     try {
       const response = await axios.patch(url, formData,{
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          'Authorization':'Bearer ' + token
+        },
       });
       setCookie('admin', response.data);
       setAdmin(response.data);
@@ -158,8 +162,6 @@ export default function FormProfileAdmin(props) {
       throw new Error(error);
     }
   }
-
-  console.log(values)
 
   return (
     <React.Fragment>
