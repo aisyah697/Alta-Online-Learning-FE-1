@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
@@ -13,6 +13,10 @@ import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
 import BookIcon from "@material-ui/icons/Book";
 import { Divider } from "@material-ui/core";
 import Link from "../../utils/link";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+
+
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
@@ -25,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     height: "3",
   },
   expansummar: {
-    margin: theme.spacing(0, 0, 0, -1),
+    margin: theme.spacing(0, 0, 3, -1),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(0, 0, 0, -3),
     },
@@ -37,13 +41,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   expandMenu: {
-    margin: theme.spacing(0, 0, 0, -1),
+    margin: theme.spacing(0, 0, 0, 0),
   },
   expandMenu1: {
-    margin: theme.spacing(-2, 0, 0, -4),
+    margin: theme.spacing(-1, 0, 0, -5.5),
   },
   expandMenu2: {
-    margin: theme.spacing(-1, 0, 0, -1),
+    margin: theme.spacing(-1, 0, 0, 0),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(-1, 0, 0, -1),
     },
@@ -65,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
     fontSize: `calc(0.7em + 0.5vw)`,
-    fontWeight: "bold",
   },
   noJudulModule: {
     color: theme.palette.secondary.secondary,
@@ -100,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ContentSide() {
+export default function ContentSide(props) {
   const classes = useStyles();
 
   const [expanded, setExpanded] = React.useState(true);
@@ -114,6 +117,7 @@ export default function ContentSide() {
     setExpanded2(isExpanded ? panel : false);
   };
 
+  console.log("module", props.module)
   return (
     <div>
       <ExpansionPanelDetails className={classes.expandMenu}>
@@ -132,21 +136,24 @@ export default function ContentSide() {
             <ListItem button>
               <ListItemIcon className={classes.iconPhase}>
                 <LibraryBooksIcon />
-                <Typography className={classes.noJudulPhase}>1</Typography>
+                <Typography className={classes.noJudulPhase}>
+                  {props.idPhase}
+                </Typography>
               </ListItemIcon>
               <Link href="/admin/academy/module">
                 <Typography className={classes.textJudulPhase}>
-                  PHASE 01
+                  {props.name}
                 </Typography>
               </Link>
             </ListItem>
           </ExpansionPanelSummary>
+            {props.module.map((item, idx)=>(
           <ExpansionPanelDetails className={classes.expandMenu1}>
             <ExpansionPanel
               elevation={0}
               className={classes.expandTitle2}
-              expanded={expanded2 === "panel1"}
-              onChange={handleChange2("panel1")}
+              expanded={expanded2 === idx.toString()}
+              onChange={handleChange2(idx.toString())}
             >
               <ExpansionPanelSummary
                 className={classes.expansummar2}
@@ -159,11 +166,11 @@ export default function ContentSide() {
                     <ListItemIcon>
                       <CollectionsBookmarkIcon className={classes.iconPhase} />
                       <Typography className={classes.noJudulModule}>
-                        1
+                        {idx+1}
                       </Typography>
                     </ListItemIcon>
                     <Typography className={classes.textJudulModule}>
-                      Module 01
+                      Module {idx+1}
                     </Typography>
                   </ListItem>
                 </List>
@@ -171,35 +178,27 @@ export default function ContentSide() {
               <ExpansionPanelDetails className={classes.expandMenu2}>
                 <List>
                   <ListItemIcon button="true" className={classes.moduleName}>
-                    Python
+                    {item.name}
                   </ListItemIcon>
+                  {item.subject.map((item, indexsub)=>(
                   <ListItem button>
                     <ListItemIcon>
                       <BookIcon className={classes.iconSubject} />
                       <Typography className={classes.noJudulSubject}>
-                        1
+                        {indexsub+1}
                       </Typography>
                     </ListItemIcon>
                     <Typography className={classes.textJudulSubject}>
-                      Subject 01
+                      {item.name}
                     </Typography>
                   </ListItem>
-                  <ListItem button>
-                    <ListItemIcon>
-                      <BookIcon className={classes.iconSubject} />
-                      <Typography className={classes.noJudulSubject}>
-                        1
-                      </Typography>
-                    </ListItemIcon>
-                    <Typography className={classes.textJudulSubject}>
-                      Subject 01
-                    </Typography>
-                  </ListItem>
+                  ))}
                 </List>
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </ExpansionPanelDetails>
-        </ExpansionPanel>
+          ))}
+          </ExpansionPanel>
       </ExpansionPanelDetails>
       <Divider />
     </div>

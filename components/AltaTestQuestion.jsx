@@ -102,7 +102,6 @@ function StyledRadio(props) {
 export default function QuizContent(props) {
   const classes = useStyles();
   const listTest = props.list.question;
-  console.log("listTest", listTest);
 
   return (
     <main className={classes.content}>
