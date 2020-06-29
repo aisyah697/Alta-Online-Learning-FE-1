@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -10,7 +10,11 @@ import Typography from "@material-ui/core/Typography";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Link from 'next/link';
+import Link from "../../utils/link";
+import { Divider } from "@material-ui/core";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import Loading from "../Loading";
 
 const ContentSide = dynamic(() => import("./ContentSidebarr"));
 
@@ -73,6 +77,7 @@ export default function SideBarr() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [close, setClose] = React.useState(true);
+  const [cookies] = useCookies();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -84,6 +89,29 @@ export default function SideBarr() {
     setClose(true);
   };
 
+  const [phase, setPhase] = useState();
+  useEffect(() => {
+    const urlPhase = process.env.NEXT_PUBLIC_BASE_URL + "/phase/nested";
+    const fetchData = async function () {
+      try {
+        const response = await axios.get(urlPhase, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.admin.token,
+          },
+        });
+        if (response.status === 200) {
+          setPhase(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log("phasesss", phase);
   return (
     <Drawer
       variant="permanent"
@@ -126,8 +154,16 @@ export default function SideBarr() {
             <Typography className={classes.textAltaTest}>Alta Test</Typography>
           </ListItem>
         </Link>
-        {/*<ContentSide />*/}
-        {/*<ContentSide />*/}
+        <Divider />
+        {phase ? (
+          <div>
+            {phase.map((item, idx) => (
+              <ContentSide key={idx} name={item.name} module={item.module} idPhase={item.id} />
+            ))}
+          </div>
+        ) : (
+          <Loading />
+        )}
       </div>
     </Drawer>
   );
