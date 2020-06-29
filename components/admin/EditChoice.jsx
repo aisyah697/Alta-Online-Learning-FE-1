@@ -10,6 +10,11 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -57,8 +62,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditChoice() {
+export default function EditChoice(props) {
   const classes = useStyles();
+  const [correct, setCorrect] = React.useState(props.correct);
+  const [checked, setChecked] = React.useState(props.correct);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    setCorrect(!correct)
+  };
 
   return (
     <div className={classes.root}>
@@ -70,15 +82,19 @@ export default function EditChoice() {
           id="additional-actions1-header"
         >
           <FormControlLabel
-            aria-label="Acknowledge"
-            onClick={(event) => event.stopPropagation()}
-            onFocus={(event) => event.stopPropagation()}
-            control={<Checkbox />}
-            label=""
+              control={
+                <Checkbox
+                    checked={checked}
+                    onChange={handleChange}
+                    onClick={(event) => event.stopPropagation()}
+                    onFocus={(event) => event.stopPropagation()}
+                    name="correct"
+                    color="secondary"
+                />
+              }
+              label={props.choice}
           />
-          <Typography className={classes.isiChoice}>
-            Heldy pertama-tama akan pergi ke Jalan Perintis Kemerdekaan.
-          </Typography>
+          
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionChoice}>
           <TextField
@@ -89,6 +105,7 @@ export default function EditChoice() {
             className={classes.textFieldQuestion}
             rows={2}
             variant="outlined"
+            defaultValue={props.choice}
           />
         </ExpansionPanelDetails>
         <div className={classes.buttonPosition}>

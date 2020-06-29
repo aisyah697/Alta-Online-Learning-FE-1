@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Link from 'next/link';
 
 const ContentSide = dynamic(() => import("./ContentSidebarr"));
 
@@ -117,14 +118,16 @@ export default function SideBarr() {
         <MenuOpenIcon />
       </Button>
       <div className={classes.sideBarr}>
-        <ListItem button>
-          <ListItemIcon>
-            <AssignmentIcon className={classes.iconAltaTest} />
-          </ListItemIcon>
-          <Typography className={classes.textAltaTest}>Alta Test</Typography>
-        </ListItem>
-        <ContentSide />
-        <ContentSide />
+        <Link href={"/admin/academy/altatest"}>
+          <ListItem button>
+            <ListItemIcon>
+              <AssignmentIcon className={classes.iconAltaTest} />
+            </ListItemIcon>
+            <Typography className={classes.textAltaTest}>Alta Test</Typography>
+          </ListItem>
+        </Link>
+        {/*<ContentSide />*/}
+        {/*<ContentSide />*/}
       </div>
     </Drawer>
   );
