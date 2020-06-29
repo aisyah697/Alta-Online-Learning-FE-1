@@ -12,7 +12,7 @@ import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
-    color: theme.palette.secondary.secondary,
+    color: theme.palette.secondary.main,
     "&:hover": {
       color: theme.palette.secondary.main,
     },
@@ -58,7 +58,7 @@ export default function DeleteAltaTest(props) {
     try {
       const response = await axios.delete(url,{
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           'Authorization':'Bearer ' + auth
         },
       });

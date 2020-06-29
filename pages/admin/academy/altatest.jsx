@@ -70,7 +70,7 @@ export default function Module() {
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState('')
 
-  useEffect(() => {
+  React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + '/questionaltatest'
     const auth = cookies.token_admin
     const fetchData = async function() {
@@ -113,7 +113,7 @@ export default function Module() {
                 Alterra Academy Test
               </Typography>
               <div>
-                <AltaTestFilter />
+                <AltaTestFilter questions={question} />
                 <AltaTest questions={question}/>
               </div>
             </main>

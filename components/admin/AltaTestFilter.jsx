@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AltaTestFilter() {
+export default function AltaTestFilter(props) {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({

@@ -36,9 +36,13 @@ const useStyles = makeStyles((theme) => ({
     delete: {
         display: "flex",
         justifyContent: "center",
+        alignItems: "center"
     },
     choices: {
         padding: theme.spacing(2)
+    },
+    grow : {
+        flexGrow: 1
     }
 }));
 
@@ -48,17 +52,16 @@ export default function AltaTest(props) {
     return (
         <> {props.questions ?
             (props.questions.map((item, index) => (
-                <Grid key={index} container spacing={0} style={{padding: '20px',}}>
+                <Grid key={index} container spacing={0}>
                     <Grid item className={classes.number}>
                         <Typography className={classes.question}>{index+1}.</Typography>
                     </Grid>
-                    <Grid item lg={10} sm={10}>
-                        <Grid>
-                            <Typography className={classes.question}>
-                                {item.question}
-                            </Typography>
-                        </Grid>
+                    <Grid item lg={10}>
+                        <Typography className={classes.question}>
+                            {item.question}
+                        </Typography>
                     </Grid>
+                    <div className={classes.grow}/>
                     <Grid item lg={1} sm={1} className={classes.delete}>
                         <EditAltaTest
                             ID={item.id}

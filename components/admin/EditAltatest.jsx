@@ -105,7 +105,8 @@ export default function EditAltaTest(props) {
   const [choices, setChoices] = useState('')
 
   const [values, setValues] = React.useState({
-    question: props.question
+    question: props.question,
+    choice: ""
   });
 
   const handleChange = (prop) => (event) => {
@@ -121,6 +122,7 @@ export default function EditAltaTest(props) {
   };
 
   const postEditQuestion = async () => {
+    setOpen(false);
     const url = process.env.NEXT_PUBLIC_BASE_URL + '/questionaltatest/' + props.ID
     const auth = cookies.token_admin
 
@@ -146,6 +148,35 @@ export default function EditAltaTest(props) {
     }
   }
 
+  const postAddChoice = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/choicealtatest'
+    const auth = cookies.token_admin
+
+    const MyJOSN = JSON.stringify({
+      choice: values.choice,
+      question_id: props.ID
+    })
+
+    try {
+      const response = await axios.post(url, MyJOSN, {
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':'Bearer ' + auth
+        }
+      });
+      if (response.status === 200) {
+        setLoad(true);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+
+    setValues({...values, choice: ""})
+    // reset input form
+    document.getElementById("add-choice").value="";
+  }
+
   React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + '/questionaltatest/' + props.ID
     const auth = cookies.token_admin
@@ -160,15 +191,15 @@ export default function EditAltaTest(props) {
         if (response.status === 200) {
           setChoices(response.data.choice_id)
         }
-      } catch (error) {
-        throw error;
-      } finally {
-        setLoad(false)
+        } catch (error) {
+        throw new Error(error)
       }
+      
+      
+      
     };
     fetchData();
   }, [load]);
-
 
   return (
     <div>
@@ -178,6 +209,8 @@ export default function EditAltaTest(props) {
 
       <Dialog
         open={open}
+        fullWidth
+        maxWidth={'md'}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -213,17 +246,20 @@ export default function EditAltaTest(props) {
             color="secondary"
             className={classes.buttonAddChoice}
             startIcon={<AddIcon />}
+            onClick={postAddChoice}
           >
             Add Multiple Choice
           </Button>
           <TextField
-            id="outlined-multiline-static"
+            id="add-choice"
             label="Add Choice"
             multiline
             color="secondary"
             className={classes.textFieldChoice}
             rows={2}
             variant="outlined"
+            onChange={handleChange('choice')}
+            defaultValue={values.choice}
           />
         </DialogContent>
         <DialogActions className={classes.action}>
