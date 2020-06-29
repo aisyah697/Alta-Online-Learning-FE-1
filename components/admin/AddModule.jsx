@@ -94,6 +94,11 @@ const useStyles = makeStyles((theme) => ({
 export default function AddModule() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const { admin_, token_, load_ } = useContext(AdminContext);
+  const [admin, setAdmin] = admin_;
+  const [token, setToken] = token_;
+  const [load, setLoad] = load_;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -106,6 +111,7 @@ export default function AddModule() {
   const [values, setValues] = React.useState({
     name: "",
     description: "",
+
     requirement_module: "",
   });
 
@@ -115,21 +121,61 @@ export default function AddModule() {
 
   const postModule = async (name, description, requirement_module) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/module";
+
+    if (name != "" || description != "") {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("requirement_module", requirementModule);
+      try {
+        const response = await axios.post(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+          },
+        });
+
+        if (response.status === 200) {
+          const data = response.data;
+          console.log(data);
+        } else {
+          let error = new Error(response.statusText);
+          error.response = response;
+          return Promise.reject(error);
+        }
+      } catch (error) {
+        console.error("Something Wrong, Please Try Again!", error);
+        throw new Error(error);
+      }
+    } else {
+      setMessage("Please enter module name and description");
+    }
   };
 
+  const handleSubmit = async () => {
+    handleClose();
+    setLoad(true);
+    postNewAdmin(values.name, values.description, values.requirementModule);
+  };
   return (
     <div>
-      <Button
-        onClick={handleClickOpen}
-        variant="outlined"
-        color="primary"
-        size="medium"
-        className={classes.button}
-        startIcon={<PostAddIcon />}
+      {admin.role === "super" || "academic" ? (
+        <Button
+          onClick={handleClickOpen}
+          variant="outlined"
+          color="primary"
+          size="medium"
+          className={classes.button}
+          startIcon={<PostAddIcon />}
+        >
+          Add Module
+        </Button>
+      ) : null}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
       >
-        Add Module
-      </Button>
-      <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle className={classes.allText} id="form-dialog-title">
           Add Module
         </DialogTitle>
@@ -140,6 +186,8 @@ export default function AddModule() {
             color="secondary"
             label="Module Name"
             size="small"
+            value={values.name}
+            onChange={handleChange("name")}
           />
           <FormControl
             className={clsx(classes.margin, classes.textField)}
@@ -168,6 +216,8 @@ export default function AddModule() {
             multiline
             label="Module Description"
             size="small"
+            value={values.description}
+            onChange={handleChange("description")}
           />
           <TextField
             className={classes.textField}
@@ -177,6 +227,8 @@ export default function AddModule() {
             multiline
             label="System Requirements Module"
             size="small"
+            value={values.requirement_module}
+            onChange={handleChange("requirementModule")}
           />
           <Button
             onClick={handleClickOpen}
@@ -252,7 +304,7 @@ export default function AddModule() {
             Cancel
           </Button>
           <Button
-            onClick={handleClose}
+            onClick={handleSubmit}
             variant="outlined"
             size="medium"
             className={classes.buttonInPop}

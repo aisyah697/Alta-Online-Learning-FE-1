@@ -81,12 +81,6 @@ export default function Module() {
             <div>
               <ModuleAdmin />
               <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
             </div>
           </main>
         </div>
