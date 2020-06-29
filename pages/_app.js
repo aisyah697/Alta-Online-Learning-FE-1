@@ -73,6 +73,8 @@ export default function MyApp(props) {
     const data_admin = cookies.admin;
     if (data_admin) {
       setAdmin(data_admin);
+    } else {
+      setAdmin(data_admin);
     }
   }, []);
 
