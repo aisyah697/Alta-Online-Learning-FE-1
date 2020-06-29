@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -11,8 +11,12 @@ import TextField from "@material-ui/core/TextField";
 import { Typography } from "@material-ui/core";
 import dynamic from "next/dynamic";
 import AddIcon from "@material-ui/icons/Add";
+import axios from "axios";
+import {useCookies} from "react-cookie";
+import AdminContext from "../../store/adminContext";
 
 const EditChoice = dynamic(() => import("./EditChoice"));
+
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
     color: theme.palette.secondary.secondary,
@@ -55,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(1),
     minWidth: theme.spacing(12),
     textTransform: "none",
     "&:hover": {
@@ -86,10 +90,28 @@ const useStyles = makeStyles((theme) => ({
     fontSize: `calc(0.6em + 0.5vw)`,
     color: theme.palette.secondary.secondary,
   },
+  action: {
+    display: "flex",
+    alignItems: "center",
+  }
 }));
-export default function EditAltaTest() {
+
+export default function EditAltaTest(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [cookies, setCookie] = useCookies()
+  const {load_} = useContext(AdminContext);
+  const [load, setLoad] = load_
+  const [choices, setChoices] = useState('')
+
+  const [values, setValues] = React.useState({
+    question: props.question,
+    choice: ""
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -99,29 +121,105 @@ export default function EditAltaTest() {
     setOpen(false);
   };
 
+  const postEditQuestion = async () => {
+    setOpen(false);
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/questionaltatest/' + props.ID
+    const auth = cookies.token_admin
+
+    const MyJOSN = JSON.stringify({
+      question: values.question,
+    })
+
+    try {
+      const response = await axios.patch(url, MyJOSN, {
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':'Bearer ' + auth
+        }
+      });
+
+      if (response.status === 200) {
+        setLoad(true);
+      }
+
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  }
+
+  const postAddChoice = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/choicealtatest'
+    const auth = cookies.token_admin
+
+    const MyJOSN = JSON.stringify({
+      choice: values.choice,
+      question_id: props.ID
+    })
+
+    try {
+      const response = await axios.post(url, MyJOSN, {
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':'Bearer ' + auth
+        }
+      });
+      if (response.status === 200) {
+        setLoad(true);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+
+    setValues({...values, choice: ""})
+    // reset input form
+    document.getElementById("add-choice").value="";
+  }
+
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/questionaltatest/' + props.ID
+    const auth = cookies.token_admin
+    const fetchData = async function() {
+      try {
+        const response = await axios.get(url,{
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization':'Bearer ' + auth
+          },
+        });
+        if (response.status === 200) {
+          setChoices(response.data.choice_id)
+        }
+        } catch (error) {
+        throw new Error(error)
+      }
+      
+      
+      
+    };
+    fetchData();
+  }, [load]);
+
   return (
     <div>
       <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-        <EditIcon className={classes.buttonIcon} fontSize="medium" />
+        <EditIcon className={classes.buttonIcon} fontSize="small" />
       </IconButton>
 
       <Dialog
         open={open}
+        fullWidth
+        maxWidth={'md'}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Edit Alta Test"}
+          {"Edit Question Alta Test"}
         </DialogTitle>
         <DialogContent>
           <Typography className={classes.isiQuestion}>
-            Pagi ini Heldy punya rencana. Dia ingin mengembalikan CD Linux
-            kepada Hardoyo setelah merasakan kelezatan soto daging di Jalan
-            Perintis Kemerdekaan 75 Solo. Heldy ingin makan 2 pisang goreng
-            hangat di kantin Bu Sum di dekat kampus UNS Solo. Setelah makan
-            pisang dia tidak mau minum es teh di kantin Bu Sum tapi ingin minum
-            es buah di dekat stadion Manahan Solo. Sesudah dari Manahan, Heldy
-            menuju Jalan Perintis Kemerdekaan.
+            {props.question}
           </Typography>
           <TextField
             id="outlined-multiline-static"
@@ -131,48 +229,56 @@ export default function EditAltaTest() {
             className={classes.textFieldQuestion}
             rows={4}
             variant="outlined"
+            defaultValue={props.question}
+            onChange={handleChange('question')}
           />
           <div>
-            <EditChoice />
-            <EditChoice />
-            <EditChoice />
-            <EditChoice />
+            {choices? (choices.map((item, index) => (
+                <EditChoice key={index}
+                    choice={item.choice}
+                    ID={item.id}
+                    correct={item.is_correct}
+                />
+            ))): null}
           </div>
           <Button
             variant="contained"
             color="secondary"
             className={classes.buttonAddChoice}
             startIcon={<AddIcon />}
+            onClick={postAddChoice}
           >
             Add Multiple Choice
           </Button>
           <TextField
-            id="outlined-multiline-static"
+            id="add-choice"
             label="Add Choice"
             multiline
             color="secondary"
             className={classes.textFieldChoice}
             rows={2}
             variant="outlined"
+            onChange={handleChange('choice')}
+            defaultValue={values.choice}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions className={classes.action}>
           <Button
             className={classes.button}
             variant="outlined"
             size="small"
             onClick={handleClose}
           >
-            Submit
+            Cancel
           </Button>
           <Button
             variant="outlined"
             size="small"
-            onClick={handleClose}
+            onClick={postEditQuestion}
             autoFocus
             className={classes.button}
           >
-            Cancel
+            Save
           </Button>
         </DialogActions>
       </Dialog>
