@@ -36,7 +36,7 @@ export default function Mentee() {
   const { admin_ } = useContext(AdminContext);
   const [admin, setAdmin] = admin_;
 
-  if (admin.role !== "super") {
+  if (!admin.role) {
     return <ErrorPage statusCode={404} />;
   } else {
     return (
