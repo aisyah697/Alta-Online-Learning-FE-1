@@ -117,7 +117,6 @@ export default function ContentSide(props) {
     setExpanded2(isExpanded ? panel : false);
   };
 
-  console.log("module", props.module)
   return (
     <div>
       <ExpansionPanelDetails className={classes.expandMenu}>

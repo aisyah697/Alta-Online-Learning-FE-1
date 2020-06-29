@@ -78,6 +78,7 @@ export default function SideBarr() {
   const [open, setOpen] = React.useState(false);
   const [close, setClose] = React.useState(true);
   const [cookies] = useCookies();
+  const [phase, setPhase] = useState();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -89,7 +90,6 @@ export default function SideBarr() {
     setClose(true);
   };
 
-  const [phase, setPhase] = useState();
   useEffect(() => {
     const urlPhase = process.env.NEXT_PUBLIC_BASE_URL + "/phase/nested";
     const fetchData = async function () {
@@ -111,7 +111,6 @@ export default function SideBarr() {
     fetchData();
   }, []);
 
-  console.log("phasesss", phase);
   return (
     <Drawer
       variant="permanent"
