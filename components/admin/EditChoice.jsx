@@ -109,7 +109,11 @@ export default function EditChoice(props) {
           />
         </ExpansionPanelDetails>
         <div className={classes.buttonPosition}>
-          <Button className={classes.button} variant="outlined" size="small">
+          <Button
+              className={classes.button}
+              variant="outlined"
+              size="small"
+          >
             Submit Edit
           </Button>
           <Button
