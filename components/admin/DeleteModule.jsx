@@ -41,9 +41,7 @@ export default function DeleteModule(props) {
   const [cookies, setCookie] = useCookies();
 
   const { admin_, token_, load_ } = useContext(AdminContext);
-  // const [admin, setAdmin] = admin_;
   const [load, setLoad] = load_;
-  // const [token, setToken] = token_;
   const [loading, setLoading] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -57,7 +55,6 @@ export default function DeleteModule(props) {
   const deleteModule = async () => {
     setOpen(false);
     setLoading(true);
-    console.log("id module", props.id_module);
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/" + props.id_module;
     const auth = cookies.token_admin;
 
@@ -70,7 +67,7 @@ export default function DeleteModule(props) {
       });
 
       if (response.status === 200) {
-        setLoading(true);
+        setLoad(true);
       } else {
         let error = new Error(response.statusText);
         error.response = response;

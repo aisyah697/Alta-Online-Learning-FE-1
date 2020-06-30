@@ -1,15 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { useCookies } from "react-cookie";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import clsx from "clsx";
 import Dialog from "@material-ui/core/Dialog";
+import InputLabel from "@material-ui/core/InputLabel";
 import DialogActions from "@material-ui/core/DialogActions";
+import Select from "@material-ui/core/Select";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
 import PostAddIcon from "@material-ui/icons/PostAdd";
+import MenuItem from "@material-ui/core/MenuItem";
+import Router from "next/router";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
-import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -114,16 +120,17 @@ export default function AddModule() {
   const [token, setToken] = token_;
 
   const [cookies] = useCookies();
-  const [load, setLoad] = useState(true);
+  const [load, setLoad] = load_;
   const [module, setModule] = useState();
 
   const [values, setValues] = useState({
     name: "",
     description: "",
-    image: "",
+    phase_id: "",
+    // image: "",
   });
 
-  // const [images, setImages] = useState(module.image);
+  const [images, setImages] = useState(values.image);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -143,19 +150,16 @@ export default function AddModule() {
     setOpen(false);
   };
 
-  const postModule = async (name, description, images) => {
+  const postModule = async (name, description, image, phase_id) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/module";
 
     if (name != "" || description != "") {
       const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
+      formData.append("name", values.name);
+      formData.append("description", values.description);
       formData.append("admin_id", admin.id);
-      formData.append("phase_id", admin.id);
-
+      formData.append("phase_id", values.phase_id);
       formData.append("image", images);
-
-      console.log("formdata", formData);
 
       try {
         const response = await axios.post(url, formData, {
@@ -189,7 +193,7 @@ export default function AddModule() {
     postModule(values.name, values.description, values.image);
   };
   console.log("admin", admin);
-  console.log("add module", module);
+  console.log("add module", values);
   // if (!module) {
   //   return <div></div>;
   // } else {
@@ -225,6 +229,23 @@ export default function AddModule() {
             value={values.name}
             onChange={handleChange("name")}
           />
+
+          <FormControl
+            className={clsx(classes.margin, classes.textField)}
+            variant="outlined"
+            size="small"
+            color="secondary"
+          >
+            <InputLabel color="secondary">Phase</InputLabel>
+            <Select
+              label="phase"
+              value={values.phase_id}
+              onChange={handleChange("phase_id")}
+            >
+              <MenuItem value={"1"}>1</MenuItem>
+              <MenuItem value={"2"}>2</MenuItem>
+            </Select>
+          </FormControl>
 
           <TextField
             className={classes.textField}

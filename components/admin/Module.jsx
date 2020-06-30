@@ -10,6 +10,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
+import Grid from "@material-ui/core/Grid";
+import Avatar from "@material-ui/core/Avatar";
 import dynamic from "next/dynamic";
 import AdminContext from "../../store/adminContext";
 import { useCookies } from "react-cookie";
@@ -46,6 +48,32 @@ const useStyles = makeStyles((theme) => ({
   },
   margins: {
     marginBottom: theme.spacing(2),
+  },
+  square: {
+    width: theme.spacing(30),
+    height: theme.spacing(30),
+    [theme.breakpoints.down("xs")]: {
+      width: theme.spacing(18),
+      height: theme.spacing(18),
+    },
+    [theme.breakpoints.down("md")]: {
+      width: theme.spacing(22),
+      height: theme.spacing(22),
+    },
+  },
+  list: {
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
+  },
+  avatar: {
+    display: "flex",
+    justifyContent: "left",
+    objectFit: "contain",
+    [theme.breakpoints.down("xs")]: {
+      justifyContent: "center",
+    },
   },
 }));
 
@@ -107,24 +135,44 @@ export default function ModuleAdmin() {
                   <Typography variant="body1" className={classes.heading}>
                     {value.name}
                   </Typography>
-                  <EditModule {...value} id_module={value.id} />
+                  <EditModule
+                    {...value}
+                    id_module={value.id}
+                    // name={value.name}
+                    // description={value.description}
+                  />
                   <DeleteModule id_module={value.id} />
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                  <List component="nav">
-                    <Typography className={classes.allText}>
-                      <strong>Mentor :</strong>{" "}
-                    </Typography>
-                    <Typography className={classes.allText}>
-                      {value.admin_id}
-                    </Typography>
-                    <Divider className={classes.divider} />
-                    <Typography className={classes.allText}>
-                      <strong>Description Module :</strong>{" "}
-                    </Typography>
-                    <Typography className={classes.allText}>
-                      {value.description}
-                    </Typography>
+                  <List component="nav" className={classes.list}>
+                    <Grid container className={classes.root} spacing={2}>
+                      <Grid item xs={12} sm={4} md={3}>
+                        <div className={classes.avatar}>
+                          <Avatar
+                            variant="square"
+                            className={classes.square}
+                            src={value.image}
+                            alt={"Image"}
+                          />
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm={8} md={9}>
+                        <Typography className={classes.allText}>
+                          <strong>Mentor :</strong>{" "}
+                        </Typography>
+                        <Typography className={classes.allText}>
+                          {value.admin_id}
+                        </Typography>
+                        <Divider className={classes.divider} />
+                        <Typography className={classes.allText}>
+                          <strong>Description Module :</strong>{" "}
+                        </Typography>
+                        <Typography className={classes.allText}>
+                          {value.description}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
                     <Divider className={classes.divider} />
                     <Typography variant="body1" className={classes.allText}>
                       <strong>System Requirements :</strong>{" "}

@@ -99,6 +99,29 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
+  divButton: {
+    display: "flex",
+    justifyContent: "left",
+    marginTop: "5px",
+    marginBottom: "5px",
+  },
+  input: {
+    display: "none",
+  },
+  uploadPhoto: {
+    backgroundColor: theme.palette.secondary.secondary,
+    color: "#ffffff",
+    boxShadow: "none",
+    border: "1px solid #19355f",
+    WebkitBorderRadius: "20px",
+    textTransform: "capitalize",
+    "&:hover": {
+      backgroundColor: "#ffffff",
+      boxShadow: "none",
+      border: "1px solid #19355f",
+      color: theme.palette.secondary.secondary,
+    },
+  },
 }));
 
 export default function EditModule(props) {
@@ -116,8 +139,16 @@ export default function EditModule(props) {
     description_module: props.description,
   });
 
+  const [images, setImages] = React.useState(values.image);
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleImage = (e) => {
+    if (e.target.files.length) {
+      setImages(e.target.files[0]);
+    }
   };
 
   const handleClickOpen = () => {
@@ -135,6 +166,7 @@ export default function EditModule(props) {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("description", values.description_module);
+    formData.append("image", images);
 
     try {
       const response = await axios.patch(url, formData, {
@@ -237,6 +269,29 @@ export default function EditModule(props) {
             defaultValue={props.description}
             onChange={handleChange("description_module")}
           />
+
+          <div className={classes.divButton}>
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              name="image"
+              onChange={handleImage}
+            />
+            <label htmlFor="contained-button-file">
+              <Button
+                className={classes.uploadPhoto}
+                variant="contained"
+                color="primary"
+                component="span"
+              >
+                Edit Module Image
+              </Button>
+            </label>
+          </div>
+
           <TextField
             id="add-requirement"
             className={classes.textField}
