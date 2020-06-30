@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import Router from "next/router";
 import Head from "next/head";
 import "../public/index.css";
+import { CookiesProvider, useCookies } from "react-cookie";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { CookiesProvider, useCookies } from "react-cookie";
 
 import UserContext from "../store/userContext";
 import AdminContext from "../store/adminContext";
@@ -29,7 +29,6 @@ export default function MyApp(props) {
 
   React.useEffect(() => {
     const token_mentee = cookies.token_mentee;
-    console.log("cek token mentee", token_mentee);
     if (token_mentee) {
       setLoginMentee(true);
       setTokenMentee(token_mentee);
@@ -63,12 +62,19 @@ export default function MyApp(props) {
   };
 
   React.useEffect(() => {
-    const token_mentee = cookies.token_mentee;
-    if (token_mentee) {
-      setLoginMentee(true);
-      setTokenMentee(token_mentee);
+    const token_admin = cookies.token_admin;
+    if (token_admin) {
+      setLogin(true);
+      setToken(token_admin);
     } else {
-      setLoginMentee(false);
+      setLogin(false);
+    }
+
+    const data_admin = cookies.admin;
+    if (data_admin) {
+      setAdmin(data_admin);
+    } else {
+      setAdmin(data_admin);
     }
   }, []);
 

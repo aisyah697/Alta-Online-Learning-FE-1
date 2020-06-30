@@ -25,7 +25,6 @@ export default function Loading() {
         <CircularProgress
           thickness={3}
           size={70}
-          // variant="circleStatic"
           className={classes.blue}
         />
         <CircularProgress size={70} thickness={3} className={classes.orange} />

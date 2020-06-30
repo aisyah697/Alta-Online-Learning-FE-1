@@ -130,10 +130,9 @@ export default function EditSubject() {
               <input
                 className={classes.textFieldFile}
                 accept="video/*"
-                className={classes.input}
+                // className={classes.input}
                 id="contained-button-file"
                 multiple
-                row={3}
                 type="file"
               />
             </Button>

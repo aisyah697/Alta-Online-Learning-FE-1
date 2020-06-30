@@ -123,7 +123,6 @@ export default function AddAdmin() {
 
         if (response.status === 200) {
           const data = response.data
-          console.log(data)
         } else {
           let error = new Error(response.statusText);
           error.response = response;
