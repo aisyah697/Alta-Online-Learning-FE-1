@@ -4,6 +4,8 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import dynamic from "next/dynamic";
 import Router, {useRouter} from "next/router";
 import { useCookies } from 'react-cookie';
@@ -107,12 +109,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const FormProfile = () => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
 
-  const [cookies, setCookie] = useCookies(['user']);
+  const [open, setOpen] = React.useState(false);
+  const [cookies, setCookie] = useCookies();
   const {mentee_, login_, token_} = useContext(UserContext);
   const [user, setUser] = mentee_
   const [tokenMentee, setTokenMentee] = token_
@@ -123,6 +130,8 @@ const FormProfile = () => {
     birthPlace: user.place_birth,
     birthDate: user.date_birth,
     phoneNumber: user.phone,
+    address: user.address,
+    background_education: user.background_education,
     github: user.github,
     about: user.description,
   });
@@ -133,6 +142,10 @@ const FormProfile = () => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleImage = e => {
     if (e.target.files.length) {
       setImages(e.target.files[0]);
@@ -141,6 +154,8 @@ const FormProfile = () => {
 
   const postEditProfile = async () => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + user.id
+    const auth = cookies.token_mentee
+
     const formData = new FormData()
     formData.append('full_name', values.fullName)
     formData.append('email', values.email)
@@ -148,6 +163,8 @@ const FormProfile = () => {
     formData.append('date_birth', values.birthDate)
     formData.append('phone', values.phoneNumber)
     formData.append('github', values.github)
+    formData.append('background_education', values.background_education)
+    formData.append('address', values.address)
     formData.append('description', values.about)
     formData.append('avatar', images)
 
@@ -155,12 +172,14 @@ const FormProfile = () => {
       const response = await axios.patch(url, formData,{
         headers: {
           "Content-Type": "multipart/form-data",
-          'Authorization':'Bearer ' + tokenMentee
+          'Authorization':'Bearer ' + auth
         },
 
       });
       setCookie('mentee', response.data);
       setUser(response.data);
+      setOpen(true)
+      window.scrollTo(0, 0);
 
     } catch (error) {
       console.error("Please Try Again!", error);
@@ -255,6 +274,7 @@ const FormProfile = () => {
               label="Birth Date"
               placeholder="01 Januari 2000"
               size="medium"
+              // type="date"
               name="birthDate"
               defaultValue={user.date_birth}
               onChange={handleChange('birthDate')}
@@ -269,6 +289,28 @@ const FormProfile = () => {
               name="phoneNumber"
               defaultValue={user.phone}
               onChange={handleChange('phoneNumber')}
+            />
+            <TextField
+              className={classes.textField}
+              variant="outlined"
+              color="secondary"
+              label="Address"
+              placeholder="Jl. Tidar No. 123, Malang"
+              size="medium"
+              name="address"
+              defaultValue={user.address}
+              onChange={handleChange('address')}
+            />
+            <TextField
+              className={classes.textField}
+              variant="outlined"
+              color="secondary"
+              label="Education"
+              placeholder="S1 Teknik Informatika"
+              size="medium"
+              name="background_education"
+              defaultValue={user.background_education}
+              onChange={handleChange('background_education')}
             />
             <TextField
               className={classes.textField}
@@ -306,6 +348,18 @@ const FormProfile = () => {
         </Grid>
         <Grid item xs={1} md={2} />
       </Grid>
+      <Snackbar open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          Your profile was successfully updated!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

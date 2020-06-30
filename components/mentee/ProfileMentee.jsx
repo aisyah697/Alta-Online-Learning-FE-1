@@ -96,14 +96,18 @@ const ProfileMentee = ({mentee}) => {
     return { key, data };
   }
 
-  const rows = [ 
-    createData("Full Name", `: ${user.full_name}`),
-    createData("Email", `: ${user.email}`),
-    createData("Birthday", `: ${user.place_birth}, ${user.date_birth}`),
-    createData("Telephone", `: ${user.phone}`),
-    createData("GitHub", `: github.com/${user.github}`),
-    createData("About", `: ${user.description}`),
-  ];
+  const rows = [
+      createData("Username", `: ${user.username}`),
+      createData("Full Name", `: ${user.full_name}`),
+      createData("Email", `: ${user.email}`),
+      createData("Birthday", `: ${user.place_birth}, ${user.date_birth}`),
+      createData("Telephone", `: ${user.phone}`),
+      createData("Address", `: ${user.address}`),
+      createData("Education", `: ${user.background_education}`),
+      createData("GitHub", `: ${user.github}`),
+      createData("About", `: ${user.description}`),
+      ]
+  ;
 
   return (
     <div>
