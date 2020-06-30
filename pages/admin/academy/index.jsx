@@ -13,12 +13,9 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 
+const NavigationAdminBar = dynamic(() =>  import("../../../components/admin/NavigationBarAdmin"));
 const AddModule = dynamic(() => import("../../../components/admin/AddModule"));
 const Footer = dynamic(() => import("../../../components/FooterBar"));
-
-const NavigationAdminBar = dynamic(() =>
-  import("../../../components/admin/NavigationBarAdmin")
-);
 const SideBarr = dynamic(() => import("../../../components/admin/SideBarr"));
 
 const useStyles = makeStyles((theme) => ({

@@ -11,11 +11,12 @@ import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import Grid from "@material-ui/core/Grid";
 import PeopleAltSharpIcon from "@material-ui/icons/PeopleAltSharp";
 import GroupWorkSharpIcon from "@material-ui/icons/GroupWorkSharp";
-import NavigationBarAdmin from "../../components/admin/NavigationBarAdmin";
 import Typography from "@material-ui/core/Typography";
 import Link from 'next/link'
+import dynamic from "next/dynamic";
 import AdminContext from "../../store/adminContext";
 
+const NavigationBarAdmin = dynamic(() => import('../../components/admin/NavigationBarAdmin'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
