@@ -1,24 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import clsx from "clsx";
-import Typography from "@material-ui/core/Typography";
-import InputLabel from "@material-ui/core/InputLabel";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import PostAddIcon from "@material-ui/icons/PostAdd";
-import AddIcon from "@material-ui/icons/Add";
-import IconButton from "@material-ui/core/IconButton";
+import AdminContext from "../../store/adminContext";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -31,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "7px 20px",
     textTransform: "none",
     width: "180px",
+    transition: "0.3s",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.secondary,
@@ -89,16 +81,59 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
   },
+  divButton: {
+    display: "flex",
+    justifyContent: "left",
+    marginTop: "20px",
+  },
+  input: {
+    display: "none",
+  },
+  uploadPhoto: {
+    backgroundColor: theme.palette.secondary.secondary,
+    color: "#ffffff",
+    boxShadow: "none",
+    border: "1px solid #19355f",
+    WebkitBorderRadius: "20px",
+    textTransform: "capitalize",
+    "&:hover": {
+      backgroundColor: "#ffffff",
+      boxShadow: "none",
+      border: "1px solid #19355f",
+      color: theme.palette.secondary.secondary,
+    },
+  },
 }));
 
 export default function AddModule() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [message, setMessage] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
   const { admin_, token_, load_ } = useContext(AdminContext);
   const [admin, setAdmin] = admin_;
   const [token, setToken] = token_;
-  const [load, setLoad] = load_;
+
+  const [cookies] = useCookies();
+  const [load, setLoad] = useState(true);
+  const [module, setModule] = useState();
+
+  const [values, setValues] = useState({
+    name: "",
+    description: "",
+    image: "",
+  });
+
+  // const [images, setImages] = useState(module.image);
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleImage = (e) => {
+    if (e.target.files.length) {
+      setImages(e.target.files[0]);
+    }
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -108,25 +143,20 @@ export default function AddModule() {
     setOpen(false);
   };
 
-  const [values, setValues] = React.useState({
-    name: "",
-    description: "",
-
-    requirement_module: "",
-  });
-
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const postModule = async (name, description, requirement_module) => {
+  const postModule = async (name, description, images) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/module";
 
     if (name != "" || description != "") {
       const formData = new FormData();
       formData.append("name", name);
       formData.append("description", description);
-      formData.append("requirement_module", requirementModule);
+      formData.append("admin_id", admin.id);
+      formData.append("phase_id", admin.id);
+
+      formData.append("image", images);
+
+      console.log("formdata", formData);
+
       try {
         const response = await axios.post(url, formData, {
           headers: {
@@ -137,7 +167,8 @@ export default function AddModule() {
 
         if (response.status === 200) {
           const data = response.data;
-          console.log(data);
+          setLoad(true);
+          setModule(response.data);
         } else {
           let error = new Error(response.statusText);
           error.response = response;
@@ -155,8 +186,13 @@ export default function AddModule() {
   const handleSubmit = async () => {
     handleClose();
     setLoad(true);
-    postNewAdmin(values.name, values.description, values.requirementModule);
+    postModule(values.name, values.description, values.image);
   };
+  console.log("admin", admin);
+  console.log("add module", module);
+  // if (!module) {
+  //   return <div></div>;
+  // } else {
   return (
     <div>
       {admin.role === "super" || "academic" ? (
@@ -189,25 +225,7 @@ export default function AddModule() {
             value={values.name}
             onChange={handleChange("name")}
           />
-          <FormControl
-            className={clsx(classes.margin, classes.textField)}
-            variant="outlined"
-            size="small"
-            color="secondary"
-          >
-            <InputLabel color="secondary">Mentor</InputLabel>
-            <Select label="Mentor">
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"1"}>
-                Prof. Kobar Septianus S.Pd, M.Komp
-              </MenuItem>
-              <MenuItem value={"2"}>Dinsyah</MenuItem>
-              <MenuItem value={"3"}>Razin</MenuItem>
-              <MenuItem value={"4"}>Faris</MenuItem>
-            </Select>
-          </FormControl>
+
           <TextField
             className={classes.textField}
             variant="outlined"
@@ -219,80 +237,28 @@ export default function AddModule() {
             value={values.description}
             onChange={handleChange("description")}
           />
-          <TextField
-            className={classes.textField}
-            variant="outlined"
-            color="secondary"
-            rows={2}
-            multiline
-            label="System Requirements Module"
-            size="small"
-            value={values.requirement_module}
-            onChange={handleChange("requirementModule")}
-          />
-          <Button
-            onClick={handleClickOpen}
-            variant="outlined"
-            color="primary"
-            size="medium"
-            className={classes.buttonIcon}
-            startIcon={<AddIcon />}
-          >
-            Add System Requirements
-          </Button>
-          <Typography className={classes.allText}>
-            System Requirements :
-          </Typography>
-          <List>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-          </List>
+
+          <div className={classes.divButton}>
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              name="image"
+              onChange={handleImage}
+            />
+            <label htmlFor="contained-button-file">
+              <Button
+                className={classes.uploadPhoto}
+                variant="contained"
+                color="primary"
+                component="span"
+              >
+                Upload Module Image
+              </Button>
+            </label>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button
@@ -316,3 +282,4 @@ export default function AddModule() {
     </div>
   );
 }
+// }

@@ -6,8 +6,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
+import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
+import Loading from "../../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -36,11 +38,13 @@ const useStyles = makeStyles((theme) => ({
 export default function DeleteModule(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [cookies, setCookie] = useCookies();
 
   const { admin_, token_, load_ } = useContext(AdminContext);
-  const [admin, setAdmin] = admin_;
-  const [token, setToken] = token_;
+  // const [admin, setAdmin] = admin_;
   const [load, setLoad] = load_;
+  // const [token, setToken] = token_;
+  const [loading, setLoading] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,23 +54,23 @@ export default function DeleteModule(props) {
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    handleClose();
-    deleteModule();
-  };
-
   const deleteModule = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/" + props.ID;
+    setOpen(false);
+    setLoading(true);
+    console.log("id module", props.id_module);
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/" + props.id_module;
+    const auth = cookies.token_admin;
+
     try {
       const response = await axios.delete(url, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + auth,
         },
       });
 
       if (response.status === 200) {
-        setLoad(true);
+        setLoading(true);
       } else {
         let error = new Error(response.statusText);
         error.response = response;
@@ -78,40 +82,48 @@ export default function DeleteModule(props) {
     }
   };
 
-  return (
-    <div>
-      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-        <DeleteIcon className={classes.buttonIcon} fontSize="default" />
-      </IconButton>
+  if (load) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+          <DeleteIcon className={classes.buttonIcon} fontSize="default" />
+        </IconButton>
 
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {`Are you sure want to delete ${props.name}?`}
-        </DialogTitle>
-        <DialogActions>
-          <Button
-            onClick={handleClose}
-            variant="outlined"
-            size="medium"
-            className={classes.buttonInPop}
-          >
-            No
-          </Button>
-          <Button
-            onClick={handleDelete}
-            variant="outlined"
-            size="medium"
-            className={classes.buttonInPop}
-          >
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {`Are you sure want to delete this module?`}
+          </DialogTitle>
+          <DialogActions>
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              size="medium"
+              className={classes.buttonInPop}
+            >
+              No
+            </Button>
+            <Button
+              onClick={deleteModule}
+              variant="outlined"
+              size="medium"
+              className={classes.buttonInPop}
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  }
 }

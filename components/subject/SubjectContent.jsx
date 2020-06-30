@@ -50,7 +50,7 @@ const SubjectContent = (props) => {
         varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
         Lorem donec massa sapien faucibus et molestie ac.
       </Typography>
-      <Card className={classes.root}>
+      <Card className={classes.root} elevation={0}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
@@ -64,7 +64,7 @@ const SubjectContent = (props) => {
           </CardContent>
         </CardActionArea>
       </Card>
-      <Card className={classes.root}>
+      <Card className={classes.root} elevation={0}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
@@ -80,6 +80,6 @@ const SubjectContent = (props) => {
       </Card>
     </main>
   );
-}
+};
 
 export default SubjectContent;
