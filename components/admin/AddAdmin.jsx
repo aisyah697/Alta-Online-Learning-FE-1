@@ -20,6 +20,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Router from "next/router";
 import AdminContext from "../../store/adminContext";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -73,7 +74,10 @@ export default function AddAdmin() {
   const classes = useStyles();
   const[open, setOpen] = React.useState(false);
   const[message, setMessage] = React.useState('')
-  const{listAdmin, setListAdmin} = useContext(AdminContext);
+  const {admin_, token_, load_} = useContext(AdminContext);
+  const [admin, setAdmin] = admin_
+  const [token, setToken] = token_
+  const [load, setLoad] = load_
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,22 +105,24 @@ export default function AddAdmin() {
     event.preventDefault();
   };
 
-  const postNewAdmin = async () => {
+  const postNewAdmin = async (username, password, role) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + '/admin'
 
     if (username != '' || password != '') {
+      const formData = new FormData()
+      formData.append('username', username)
+      formData.append('password', password)
+      formData.append('role', role)
       try {
-        const response = await fetch(URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: values.username,
-            password: values.password,
-            role: values.role
-          })
+        const response = await axios.post(url, formData,{
+          headers: {
+            "Content-Type": "multipart/form-data",
+            'Authorization':'Bearer ' + token
+          },
         });
-        if (response.ok) {
-          const data = await response.json();
+
+        if (response.status === 200) {
+          const data = response.data
         } else {
           let error = new Error(response.statusText);
           error.response = response;
@@ -131,12 +137,15 @@ export default function AddAdmin() {
     }
   }
 
-  const cek = () => {
+  const handleSubmit = async () => {
     handleClose();
+    setLoad(true)
+    postNewAdmin(values.username, values.password, values.role);
   }
 
   return (
     <div>
+      {admin.role === 'super'?
       <Button
         onClick={handleClickOpen}
         variant="outlined"
@@ -145,7 +154,7 @@ export default function AddAdmin() {
         startIcon={<PersonAddIcon />}
       >
         Add Admin
-      </Button>
+      </Button> : null }
       <Dialog
         open={open}
         onClose={handleClose}
@@ -210,9 +219,9 @@ export default function AddAdmin() {
                   <em>None</em>
                 </MenuItem>
                 <MenuItem value={"super"}>Super</MenuItem>
-                <MenuItem value={"academy"}>Academy</MenuItem>
-                <MenuItem value={"conseling"}>Conseling</MenuItem>
-                <MenuItem value={"bisnis"}>Bisnis</MenuItem>
+                <MenuItem value={"academic"}>Academy</MenuItem>
+                <MenuItem value={"council"}>Council</MenuItem>
+                <MenuItem value={"business"}>Business</MenuItem>
               </Select>
             </FormControl>
           </DialogContent>
@@ -226,7 +235,7 @@ export default function AddAdmin() {
               Cancel
             </Button>
             <Button
-              onClick={cek}
+              onClick={handleSubmit}
               variant="outlined"
               size="medium"
               className={classes.buttonInPop}

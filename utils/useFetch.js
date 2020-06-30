@@ -24,8 +24,3 @@ const useFetch = (url, initialValue) => {
 };
 
 export default useFetch;
-
-//How to use
-// const { loading, data } = useFetch(
-//     "some url"
-// );

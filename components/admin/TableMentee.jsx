@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -10,7 +10,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-const DeleteUserPopUp = dynamic(() => import("./DeleteUser"));
+import AdminContext from "../../store/adminContext";
+import axios from "axios";
+const DeleteUserPopUp = dynamic(() => import("./DeleteMentee"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,42 +59,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(
-  id,
-  name,
-  username,
-  email,
-  phoneNumber,
-  alamat,
-  tempatLahir,
-  tanggalLahir,
-  pendidikanTerakhir,
-  githubLink,
-  progress,
-  task1,
-  task2,
-  task3,
-  deleteMentee
-) {
-  return {
-    id,
-    name,
-    username,
-    email,
-    phoneNumber,
-    alamat,
-    tempatLahir,
-    tanggalLahir,
-    pendidikanTerakhir,
-    githubLink,
-    progress,
-    task1,
-    task2,
-    task3,
-    deleteMentee,
-  };
-}
-
 const headTable = [
   // "id",
   // "name",
@@ -111,139 +77,40 @@ const headTable = [
   "",
 ];
 
-const rows = [
-  createData(
-    1,
-    "Aji Pangestu",
-    "ajip",
-    "ahmadajip@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Klaten",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "",
-    85,
-    ""
-  ),
-  createData(
-    2,
-    "Yopi Ragil",
-    "yopiragil",
-    "yopiragil@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Jombang",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    3,
-    "Agus Dwi S",
-    "suga",
-    "agus.suga@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Solo",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    4,
-    "Aisyah",
-    "aisy",
-    "umi.aisyah@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Depok",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    5,
-    "SyahRizal S",
-    "badboy",
-    "iam.badboy@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Mojokerto",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    5,
-    "SyahRizal Pamungkas",
-    "badboy",
-    "iam.badboy@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Mojokerto",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    5,
-    "SyahRizal",
-    "badboy",
-    "iam.badboy@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Mojokerto",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    5,
-    "SyahRizals",
-    "badboy",
-    "iam.badboy@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Mojokerto",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-];
 
 export default function TableMentee() {
   const classes = useStyles();
+
+  const {admin_, list_, load_, listMentee_, token_} = useContext(AdminContext);
+  const [load, setLoad] = load_
+  const [listMentee, setListMentee] = listMentee_
+  const [token, setToken] = token_
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee'
+    const fetchData = async function() {
+      try {
+        setLoading(true);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            'Authorization':'Bearer ' + token
+          },
+        });
+        if (response.status === 200) {
+          setListMentee(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+        setLoad(false)
+      }
+    };
+    fetchData();
+  }, [load]);
 
   return (
     <div>
@@ -263,21 +130,21 @@ export default function TableMentee() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.name}>
+                  {listMentee.map((row, index) => (
+                    <TableRow key={index}>
                       <TableCell
                         className={classes.textInTable}
                         component="th"
                         scope="row"
                       >
-                        {row.id}
+                        {index + 1}
                       </TableCell>
                       <TableCell
                         className={classes.textInTable}
                         component="th"
                         scope="row"
                       >
-                        {row.name}
+                        {row.full_name}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -307,7 +174,7 @@ export default function TableMentee() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row, key) => (
+                  {listMentee.map((row, key) => (
                     <TableRow key={key}>
                       <TableCell
                         className={classes.textInTable}
@@ -328,42 +195,42 @@ export default function TableMentee() {
                         component="th"
                         scope="row"
                       >
-                        {row.phoneNumber}
+                        {row.phone}
                       </TableCell>
                       <TableCell
                         className={classes.textInTable}
                         component="th"
                         scope="row"
                       >
-                        {row.alamat}
+                        {row.address}
                       </TableCell>
                       <TableCell
                         className={classes.textInTable}
                         component="th"
                         scope="row"
                       >
-                        {row.tempatLahir}
+                        {row.place_birth}
                       </TableCell>
                       <TableCell
                         className={classes.textInTable}
                         component="th"
                         scope="row"
                       >
-                        {row.tanggalLahir}
+                        {row.date_birth}
                       </TableCell>
                       <TableCell
                         className={classes.textInTable}
                         component="th"
                         scope="row"
                       >
-                        {row.pendidikanTerakhir}
+                        {row.background_education}
                       </TableCell>
                       <TableCell
                         className={classes.textInTable}
                         component="th"
                         scope="row"
                       >
-                        {row.githubLink}
+                        {row.github}
                       </TableCell>
                       <TableCell
                         className={classes.textInTable}
@@ -381,7 +248,6 @@ export default function TableMentee() {
                           className={classes.taskTextField}
                           size="small"
                           variant="outlined"
-                          id="standard-basic"
                           label={row.task1}
                           placeholder="nilai"
                           color="secondary"
@@ -396,7 +262,6 @@ export default function TableMentee() {
                           className={classes.taskTextField}
                           size="small"
                           variant="outlined"
-                          id="standard-basic"
                           label={row.task2}
                           placeholder="nilai"
                           color="secondary"
@@ -411,7 +276,6 @@ export default function TableMentee() {
                           className={classes.taskTextField}
                           size="small"
                           variant="outlined"
-                          id="standard-basic"
                           label={row.task3}
                           placeholder="nilai"
                           color="secondary"
@@ -422,7 +286,7 @@ export default function TableMentee() {
                         component="th"
                         scope="row"
                       >
-                        <DeleteUserPopUp />
+                        <DeleteUserPopUp ID={row.id} username={row.username}  />
                       </TableCell>
                     </TableRow>
                   ))}

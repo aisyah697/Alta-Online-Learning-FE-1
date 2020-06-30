@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -10,6 +10,11 @@ import Typography from "@material-ui/core/Typography";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Link from "../../utils/link";
+import { Divider } from "@material-ui/core";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import Loading from "../Loading";
 
 const ContentSide = dynamic(() => import("./ContentSidebarr"));
 
@@ -72,6 +77,8 @@ export default function SideBarr() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [close, setClose] = React.useState(true);
+  const [cookies] = useCookies();
+  const [phase, setPhase] = useState();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -82,6 +89,27 @@ export default function SideBarr() {
     setOpen(false);
     setClose(true);
   };
+
+  useEffect(() => {
+    const urlPhase = process.env.NEXT_PUBLIC_BASE_URL + "/phase/nested";
+    const fetchData = async function () {
+      try {
+        const response = await axios.get(urlPhase, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.admin.token,
+          },
+        });
+        if (response.status === 200) {
+          setPhase(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Drawer
@@ -117,14 +145,24 @@ export default function SideBarr() {
         <MenuOpenIcon />
       </Button>
       <div className={classes.sideBarr}>
-        <ListItem button>
-          <ListItemIcon>
-            <AssignmentIcon className={classes.iconAltaTest} />
-          </ListItemIcon>
-          <Typography className={classes.textAltaTest}>Alta Test</Typography>
-        </ListItem>
-        <ContentSide />
-        <ContentSide />
+        <Link href={"/admin/academy/altatest"}>
+          <ListItem button>
+            <ListItemIcon>
+              <AssignmentIcon className={classes.iconAltaTest} />
+            </ListItemIcon>
+            <Typography className={classes.textAltaTest}>Alta Test</Typography>
+          </ListItem>
+        </Link>
+        <Divider />
+        {phase ? (
+          <div>
+            {phase.map((item, idx) => (
+              <ContentSide key={idx} name={item.name} module={item.module} idPhase={item.id} />
+            ))}
+          </div>
+        ) : (
+          <Loading />
+        )}
       </div>
     </Drawer>
   );

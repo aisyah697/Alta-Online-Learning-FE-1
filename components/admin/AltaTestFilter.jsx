@@ -1,8 +1,5 @@
-import React, {useContext} from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
-import CardActions from "@material-ui/core/CardActions";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from "@material-ui/core/TextField";
 import SearchSharpIcon from "@material-ui/icons/SearchSharp";
@@ -10,18 +7,24 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import axios from "axios";
-import AdminContext from "../../store/adminContext";
+import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import dynamic from "next/dynamic";
+import Typography from "@material-ui/core/Typography";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
+import FormLabel from "@material-ui/core/FormLabel";
+
+const AddAltaTest = dynamic(() => import("./AddAltatest"));
+const EditAltaTest = dynamic(() => import("./EditAltatest"));
+const DeleteAltaTest = dynamic(() => import("./DeleteAltatest"));
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    minWidth: 275,
-    backgroundColor: "#F4F7FC",
-    // borderColor: theme.palette.primary.secondary,
-  },
   search: {
     margin: theme.spacing(1),
-    width: `calc(29em + 25vw)`,
+    width: "50%",
     backgroundColor: "white",
     "& .MuiOutlinedInput-root": {
       "&:hover fieldset": {
@@ -34,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   dropDown: {
     margin: theme.spacing(1),
-    width: `calc(9em + 2vw)`,
+    width: "20%",
     backgroundColor: "white",
     "& .MuiOutlinedInput-root": {
       "&:hover fieldset": {
@@ -45,38 +48,41 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  iconSearch: {
-    color: "silver",
+  button: {
+    width: "20%",
+  },
+  card: {
+    backgroundColor: "#F4F7FC",
+    margin: theme.spacing(0, 0, 5, 0),
   },
 }));
 
-export default function FilterAdmin() {
+export default function AltaTestFilter(props) {
   const classes = useStyles();
-  const [values, setValues] = React.useState({ keyword: '', role: '', sort: '' })
 
-  const {admin_, list_, load_} = useContext(AdminContext);
-  const [admin, setAdmin] = admin_
-  const [list, setList] = list_
-  const [load, setLoad] = load_
+  const [values, setValues] = React.useState({
+    keyword: '',
+    sort: '' 
+  })
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-  
+
   return (
-    <Card variant="outlined" className={classes.root}>
-      <CardActions>
+    <div>
+      <Card variant="outlined" elevation={0} className={classes.card}>
         <Grid
           container
           direction="row"
-          justify="space-between"
+          justify="space-around"
           alignItems="center"
         >
           <TextField
             className={classes.search}
             size="small"
             variant="outlined"
-            id="search"
+            id="mui-theme-provider-outlined-input"
             placeholder="search"
             onChange={handleChange('keyword')}
             InputProps={{
@@ -92,43 +98,23 @@ export default function FilterAdmin() {
             size="small"
             className={classes.dropDown}
           >
-            <InputLabel color="secondary">Category</InputLabel>
-            <Select
-                label="category"
-                value={values.role}
-                name="role"
-                onChange={handleChange('role')}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"super"}>Super</MenuItem>
-              <MenuItem value={"academy"}>Academy</MenuItem>
-              <MenuItem value={"conseling"}>Conseling</MenuItem>
-              <MenuItem value={"bisnis"}>Bisnis</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl
-            variant="outlined"
-            size="small"
-            className={classes.dropDown}
-          >
             <InputLabel color="secondary">Sort By</InputLabel>
-            <Select 
-                label="Sort By"
+            <Select
+                label="phase"
                 value={values.sort}
-                name="sort"
                 onChange={handleChange('sort')}
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
               <MenuItem value={"name"}>Name</MenuItem>
-              <MenuItem value={"role"}>Role</MenuItem>
+              <MenuItem value={"progress"}>Progress</MenuItem>
+              <MenuItem value={"id"}>Id</MenuItem>
             </Select>
           </FormControl>
+          <AddAltaTest className={classes.button} />
         </Grid>
-      </CardActions>
-    </Card>
+      </Card>
+    </div>
   );
 }

@@ -8,7 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
 
-export default function DeleteUserPopUp(props) {
+export default function DeleteMenteePopUp(props) {
   const [open, setOpen] = React.useState(false);
 
   const {admin_, token_, load_} = useContext(AdminContext);
@@ -30,7 +30,7 @@ export default function DeleteUserPopUp(props) {
   }
 
   const deleteAdmin = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/admin/' + props.ID
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + props.ID
       try {
         const response = await axios.delete(url,{
           headers: {

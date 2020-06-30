@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  formControl: {
+  form: {
     margin: theme.spacing(1),
     width: `calc(12em + 0.2vw)`,
     backgroundColor: "white",
@@ -62,16 +62,22 @@ const useStyles = makeStyles((theme) => ({
   iconSearch: {
     color: "silver",
   },
-  titleregis: {
-    width: "100%",
-  },
-  natives: {
-    backgroundColor: "white",
-  },
 }));
 
 export default function FilterMentee() {
   const classes = useStyles();
+
+  const [values, setValues] = React.useState({
+    keyword: '',
+    phase: '',
+    sort: '',
+    startDate: '',
+    endDate: ''
+  })
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   return (
     <Card variant="outlined" className={classes.root}>
@@ -89,6 +95,7 @@ export default function FilterMentee() {
               variant="outlined"
               id="mui-theme-provider-outlined-input"
               placeholder="search"
+              onChange={handleChange('keyword')}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -106,7 +113,11 @@ export default function FilterMentee() {
               className={classes.dropDown}
             >
               <InputLabel color="secondary">Sort By</InputLabel>
-              <Select label="phase">
+              <Select
+                  label="phase"
+                  value={values.sort}
+                  onChange={handleChange('sort')}
+              >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
@@ -123,7 +134,11 @@ export default function FilterMentee() {
               className={classes.dropDown}
             >
               <InputLabel color="secondary">Phase</InputLabel>
-              <Select label="phase">
+              <Select
+                  label="phase"
+                  value={values.phase}
+                  onChange={handleChange('phase')}
+              >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
@@ -144,25 +159,27 @@ export default function FilterMentee() {
               </InputLabel>
               <form className={classes.container} noValidate>
                 <TextField
-                  id="date"
+                  id="startDate"
                   variant="outlined"
                   size="small"
                   label="from"
                   type="date"
                   color="secondary"
-                  className={classes.formControl}
+                  onChange={handleChange('startDate')}
+                  className={classes.form}
                   InputLabelProps={{
                     shrink: true,
                   }}
                 />
                 <TextField
-                  id="date"
+                  id="endDate"
                   variant="outlined"
                   size="small"
                   label="to"
                   type="date"
                   color="secondary"
-                  className={classes.formControl}
+                  onChange={handleChange('endDate')}
+                  className={classes.form}
                   InputLabelProps={{
                     shrink: true,
                   }}
