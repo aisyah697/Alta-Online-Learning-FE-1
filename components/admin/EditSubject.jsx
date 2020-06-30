@@ -35,12 +35,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  buttonIcon: {
-    color: "white",
-    "&:hover": {
-      color: theme.palette.secondary.main,
-    },
-  },
   button: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
@@ -97,9 +91,16 @@ export default function EditSubject() {
 
   return (
     <div>
-      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-        <EditIcon className={classes.buttonIcon} fontSize="default" />
-      </IconButton>
+      <Button
+        onClick={handleClickOpen}
+        variant="outlined"
+        color="primary"
+        size="medium"
+        className={classes.button}
+        startIcon={<EditIcon />}
+      >
+        Edit Subject
+      </Button>
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"

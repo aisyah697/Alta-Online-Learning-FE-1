@@ -9,6 +9,8 @@ import TextField from "@material-ui/core/TextField";
 import dynamic from "next/dynamic";
 import AddIcon from "@material-ui/icons/Add";
 import PostAddIcon from "@material-ui/icons/PostAdd";
+import IconButton from "@material-ui/core/IconButton";
+import { Typography } from "@material-ui/core";
 
 const EditChoice = dynamic(() => import("./EditChoice"));
 const useStyles = makeStyles((theme) => ({
@@ -99,17 +101,9 @@ export default function AddQuiz() {
 
   return (
     <div>
-      <Button
-        onClick={handleClickOpen}
-        variant="outlined"
-        color="primary"
-        size="medium"
-        className={classes.button}
-        startIcon={<PostAddIcon />}
-      >
-        Add Quiz
-      </Button>
-
+      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+        <PostAddIcon className={classes.buttonIcon} fontSize="default" />
+      </IconButton>
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"

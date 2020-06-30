@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import dynamic from "next/dynamic";
 import Typography from "@material-ui/core/Typography";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import Grid from "@material-ui/core/Grid";
 
-const EditSubject = dynamic(() =>
-  import("../../../components/admin/EditSubject")
-);
+const Loading = dynamic(() => import("../../../components/Loading"));
 const Footer = dynamic(() => import("../../../components/FooterBar"));
 const NavigationAdminBar = dynamic(() =>
   import("../../../components/admin/NavigationBarAdmin")
+);
+const DeleteSubject = dynamic(() =>
+  import("../../../components/admin/DeleteSubject")
+);
+const EditSubject = dynamic(() =>
+  import("../../../components/admin/EditSubject")
 );
 const SubjectAdmin = dynamic(() => import("../../../components/admin/Subject"));
 const SideBarr = dynamic(() => import("../../../components/admin/SideBarr"));
@@ -59,41 +66,71 @@ const useStyles = makeStyles((theme) => ({
 export default function Subject() {
   const classes = useStyles();
   const [open] = React.useState(false);
-
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Admin | Academy</title>
-      </Head>
-      <div className={classes.page}>
-        <div className={classes.root}>
-          <CssBaseline />
-          <AppBar className={classes.appBar}>
-            <NavigationAdminBar />
-          </AppBar>
-          <SideBarr />
-          <main className={classes.content}>
-            <div className={classes.toolbar} />
-            <Typography className={classes.titleInPage}>
-              Basic Programming Python
-            </Typography>
-            <EditSubject />
-            <div>
-              <SubjectAdmin />
-              <SubjectAdmin />
-              <SubjectAdmin />
-              <SubjectAdmin />
-              <SubjectAdmin />
-              <SubjectAdmin />
-              <SubjectAdmin />
-              <SubjectAdmin />
-            </div>
-          </main>
+  const [subject, setsubject] = React.useState();
+  const [loading, setLoading] = React.useState();
+  const [cookies] = useCookies();
+  useEffect(() => {
+    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/1";
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(urlsubject, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.admin.token,
+          },
+        });
+        if (response.status === 200) {
+          setsubject(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log("subjecteeee", subject);
+  if (!subject) {
+    return <Loading />;
+  } else {
+    return (
+      <React.Fragment>
+        <Head>
+          <title>Admin | Academy</title>
+        </Head>
+        <div className={classes.page}>
+          <div className={classes.root}>
+            <CssBaseline />
+            <AppBar className={classes.appBar}>
+              <NavigationAdminBar />
+            </AppBar>
+            <SideBarr />
+            <main className={classes.content}>
+              <div className={classes.toolbar} />
+              <Typography className={classes.titleInPage}>
+                {subject.name}
+              </Typography>
+              <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start"
+              >
+                <EditSubject />
+                <DeleteSubject />
+              </Grid>
+              <div>
+                <SubjectAdmin props={subject} />
+              </div>
+            </main>
+          </div>
+          <div className={classes.footer}>
+            <Footer />
+          </div>
         </div>
-        <div className={classes.footer}>
-          <Footer />
-        </div>
-      </div>
-    </React.Fragment>
-  );
+      </React.Fragment>
+    );
+  }
 }

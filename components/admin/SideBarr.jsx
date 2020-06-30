@@ -110,8 +110,6 @@ export default function SideBarr() {
     };
     fetchData();
   }, []);
-
-  console.log("phasesss", phase);
   return (
     <Drawer
       variant="permanent"
@@ -158,7 +156,12 @@ export default function SideBarr() {
         {phase ? (
           <div>
             {phase.map((item, idx) => (
-              <ContentSide key={idx} name={item.name} module={item.module} idPhase={item.id} />
+              <ContentSide
+                key={idx}
+                name={item.name}
+                module={item.module}
+                idPhase={item.id}
+              />
             ))}
           </div>
         ) : (

@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
-    color: "white",
+    color: theme.palette.secondary.secondary,
     "&:hover": {
       color: theme.palette.secondary.main,
     },
@@ -30,24 +30,8 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  button: {
-    background: "#3364ff",
-    backgroundColor: theme.palette.secondary.main,
-    borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(10),
-    color: theme.palette.common.white,
-    margin: theme.spacing(2, 2, 2, 0),
-    minWidth: theme.spacing(12),
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
-      textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
-    },
-  },
 }));
-export default function DeleteModule() {
+export default function DeleteQuestion() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -61,19 +45,10 @@ export default function DeleteModule() {
 
   return (
     <div>
-      {/* <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
         <DeleteIcon className={classes.buttonIcon} fontSize="default" />
-      </IconButton> */}
-      <Button
-        onClick={handleClickOpen}
-        variant="outlined"
-        color="primary"
-        size="medium"
-        className={classes.button}
-        startIcon={<DeleteIcon />}
-      >
-        Delete Subject
-      </Button>
+      </IconButton>
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -81,7 +56,7 @@ export default function DeleteModule() {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure want to delete this subject?"}
+          {"Are you sure want to delete this alta test?"}
         </DialogTitle>
         <DialogActions>
           <Button

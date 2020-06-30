@@ -5,13 +5,11 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Divider } from "@material-ui/core";
+import { Divider, ListItem } from "@material-ui/core";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import dynamic from "next/dynamic";
 
+const AddQuiz = dynamic(() => import("./AddQuiz"));
 const DeleteSubject = dynamic(() => import("./DeleteSubject"));
 const EditSubject = dynamic(() => import("./EditSubject"));
 const SubjectVideo = dynamic(() => import("./SubjectVideo"));
@@ -19,6 +17,7 @@ const SubjectPPT = dynamic(() => import("./SubjectPPT"));
 const SubjectQuiz = dynamic(() => import("./SubjectQuiz"));
 const EditQuiz = dynamic(() => import("./EditQuiz"));
 const EditLiveCode = dynamic(() => import("./EditLiveCode"));
+const Loading = dynamic(() => import("./../Loading"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
   headingField: {
     backgroundColor: theme.palette.secondary.secondary,
   },
+  headingOfHeadField: {
+    backgroundColor: theme.palette.secondary.secondary,
+  },
   divider: {
     margin: theme.spacing(5, 0, 1, 0),
   },
@@ -45,9 +47,16 @@ const useStyles = makeStyles((theme) => ({
   iconDown: {
     color: "white",
   },
+  panelUtama: {
+    display: "block",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: theme.spacing(5),
+  },
 }));
 
-export default function SubjectAdmin() {
+export default function SubjectAdmin(props) {
   const classes = useStyles();
 
   const [expanded, setExpanded] = React.useState(false);
@@ -74,126 +83,95 @@ export default function SubjectAdmin() {
   const handleChangeQuiz = (panel) => (event, isExpanded) => {
     setExpandedQuiz(isExpanded ? panel : false);
   };
+  console.log("props", props.props);
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
+      <ExpansionPanelSummary
+        aria-controls="panel1bh-content"
+        id="panel1bh-header"
+        className={classes.headingOfHeadField}
       >
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-          className={classes.headingField}
-        >
-          <Typography variant="body1" className={classes.heading}>
-            Algorithm
+        <Typography variant="body1" className={classes.heading}>
+          Subject Description:
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails className={classes.panelUtama}>
+        <List component="nav">
+          <Typography className={classes.allText}>
+            {props.props.description}
           </Typography>
-          <EditSubject />
-          <DeleteSubject />
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <List component="nav">
-            <Typography className={classes.allText}>
-              <strong>Subject Description:</strong>{" "}
-            </Typography>
-            <Typography className={classes.allText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </Typography>
-            <Divider className={classes.divider} />
+        </List>
+      </ExpansionPanelDetails>
 
-            <ExpansionPanel
-              expanded={expandedVid === "panelVid"}
-              onChange={handleChangeVid("panelVid")}
-            >
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                className={classes.headingField}
-              >
-                <Typography variant="body1" className={classes.heading}>
-                  Video
-                </Typography>
-                <EditSubject />
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <SubjectVideo />
-              </ExpansionPanelDetails>
-              <List component="nav"></List>
-            </ExpansionPanel>
-            <br />
-            <ExpansionPanel
-              expanded={expandedPPT === "panelPPT"}
-              onChange={handleChangePPT("panelPPT")}
-            >
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                className={classes.headingField}
-              >
-                <Typography variant="body1" className={classes.heading}>
-                  Presentation
-                </Typography>
-                <EditSubject />
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <SubjectPPT />
-              </ExpansionPanelDetails>
-              <List component="nav"></List>
-            </ExpansionPanel>
-            <br />
-            <ExpansionPanel
-              expanded={expandedLC === "panelLC"}
-              onChange={handleChangeLC("panelLC")}
-            >
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                className={classes.headingField}
-              >
-                <Typography variant="body1" className={classes.heading}>
-                  Live Code
-                </Typography>
-                <EditLiveCode />
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography className={classes.allText}>
-                  Algorithm Live Code: https://hackerrank.com/alta/livecode
-                </Typography>
-              </ExpansionPanelDetails>
-              <List component="nav"></List>
-            </ExpansionPanel>
-            <br />
-            <ExpansionPanel
-              expanded={expandedQuiz === "panelQuiz"}
-              onChange={handleChangeQuiz("panelQuiz")}
-            >
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                className={classes.headingField}
-              >
-                <Typography variant="body1" className={classes.heading}>
-                  Quiz
-                </Typography>
-                <EditQuiz />
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails></ExpansionPanelDetails>
-              <List component="nav">
-                <SubjectQuiz />
-              </List>
-            </ExpansionPanel>
-          </List>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+      <ExpansionPanelSummary
+        aria-controls="panel1bh-content"
+        id="panel1bh-header"
+        className={classes.headingField}
+      >
+        <Typography variant="body1" className={classes.heading}>
+          Video
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        {props.props.video.map((element, num) => (
+          <SubjectVideo
+            key={num}
+            name={element.name}
+            video={element.content_file}
+          />
+        ))}
+      </ExpansionPanelDetails>
+      <List component="nav"></List>
+
+      <ExpansionPanelSummary
+        aria-controls="panel1bh-content"
+        id="panel1bh-header"
+        className={classes.headingField}
+      >
+        <Typography variant="body1" className={classes.heading}>
+          Presentation
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        <SubjectPPT />
+      </ExpansionPanelDetails>
+      <List component="nav"></List>
+
+      {props.props.exam[0].type_exam === "quiz" ? (
+        <div>
+          <ExpansionPanelSummary
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+            className={classes.headingField}
+          >
+            <Typography variant="body1" className={classes.heading}>
+              Quiz: {props.props.name}
+            </Typography>
+            <AddQuiz />
+          </ExpansionPanelSummary>
+          <SubjectQuiz quiz={props.props.exam[0].quiz[0]} />
+        </div>
+      ) : (
+        <div>
+          <ExpansionPanelSummary
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+            className={classes.headingField}
+          >
+            <Typography variant="body1" className={classes.heading}>
+              Live Code
+            </Typography>
+            <EditLiveCode />
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography className={classes.allText}>
+              Algorithm Live Code: https://hackerrank.com/alta/livecode
+            </Typography>
+          </ExpansionPanelDetails>
+        </div>
+      )}
+      <List component="nav"></List>
     </div>
   );
 }

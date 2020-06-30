@@ -8,6 +8,10 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import { Divider } from "@material-ui/core";
+import dynamic from "next/dynamic";
+
+const DeleteQuestion = dynamic(() => import("./DeleteQuestion"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    paddingLeft: 0,
+    marginLeft: theme.spacing(1),
     paddingRight: theme.spacing(5),
     paddingTop: 0,
   },
@@ -67,6 +71,16 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#106ba3",
     },
   },
+  question: {
+    marginLeft: theme.spacing(3),
+  },
+  allText: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+  },
+  spacing: {
+    marginBottom: theme.spacing(3),
+  },
 }));
 
 function StyledRadio(props) {
@@ -86,61 +100,44 @@ function StyledRadio(props) {
 
 export default function QuizContent(props) {
   const classes = useStyles();
-
+  console.log("quiz", props);
   return (
     <main className={classes.content}>
-      <h1 className={classes.title}>Basic Programming Quiz</h1>
-      <Typography paragraph>
-        <Grid container spacing={0}>
-          <Grid item xs={1} className={classes.spacing}>
-            1.
+      <div className={classes.spacing}>
+        <Typography className={classes.allText}>
+          <strong>Name: </strong>
+        </Typography>
+        <Typography className={classes.allText}>{props.quiz.name}</Typography>
+      </div>
+      <Divider />
+      <div className={classes.spacing}>
+        <Typography className={classes.allText}>
+          <strong>Description: </strong>
+        </Typography>
+        <Typography className={classes.allText}>
+          {props.quiz.description}
+        </Typography>
+      </div>
+      <Divider />
+      {props.quiz.question.map((item, key) => (
+        <Grid
+          key={key}
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
+        >
+          <Grid md={0}>
+            <Typography className={classes.allText}>{key + 1}</Typography>
           </Grid>
-          <Grid item xs={11}>
-            numbers = [1, 1, 2, 3, 5, 8, 13]
-            <br />
-            print(list[3])
-            <br />
-            What is the output of the code above?
-            <br />
+          <Grid className={classes.question} md={10}>
+            <Typography className={classes.allText}>{item.question}</Typography>
           </Grid>
-        </Grid>
-
-        <Grid container spacing={0}>
-          <Grid item xs={1} className={classes.spacing}>
-            {"   "}
-          </Grid>
-          <Grid item xs={11}>
-            <FormControl component="fieldset">
-              <RadioGroup
-                defaultValue="None"
-                aria-label="answer"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  value="2"
-                  control={<StyledRadio />}
-                  label="2"
-                />
-                <FormControlLabel
-                  value="3"
-                  control={<StyledRadio />}
-                  label="3"
-                />
-                <FormControlLabel
-                  value="8"
-                  control={<StyledRadio />}
-                  label="8"
-                />
-                <FormControlLabel
-                  value="13"
-                  control={<StyledRadio />}
-                  label="13"
-                />
-              </RadioGroup>
-            </FormControl>
+          <Grid md={1}>
+            <DeleteQuestion />
           </Grid>
         </Grid>
-      </Typography>
+      ))}
     </main>
   );
 }
