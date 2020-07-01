@@ -112,18 +112,18 @@ export default function AddModule() {
         className={classes.button}
         startIcon={<PostAddIcon />}
       >
-        Add Module
+        Add Index
       </Button>
       <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle className={classes.allText} id="form-dialog-title">
-          Add Module
+          Add Index
         </DialogTitle>
         <DialogContent>
           <TextField
             className={classes.textField}
             variant="outlined"
             color="secondary"
-            label="Module Name"
+            label="Index Name"
             size="small"
           />
           <FormControl
@@ -151,7 +151,7 @@ export default function AddModule() {
             color="secondary"
             rows={7}
             multiline
-            label="Module Description"
+            label="Index Description"
             size="small"
           />
           <TextField
@@ -160,7 +160,7 @@ export default function AddModule() {
             color="secondary"
             rows={2}
             multiline
-            label="System Requirements Module"
+            label="System Requirements Index"
             size="small"
           />
           <Button

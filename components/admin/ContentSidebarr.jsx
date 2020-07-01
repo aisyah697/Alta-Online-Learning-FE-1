@@ -15,6 +15,7 @@ import { Divider } from "@material-ui/core";
 import Link from "../../utils/link";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import {useRouter} from "next/router";
 
 
 
@@ -105,6 +106,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentSide(props) {
   const classes = useStyles();
+  const router = useRouter();
+  const { id } = router.query;
 
   const [expanded, setExpanded] = React.useState(true);
 
@@ -132,14 +135,14 @@ export default function ContentSide(props) {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <ListItem button>
+            <ListItem button onClick={(event) => event.stopPropagation()}>
               <ListItemIcon className={classes.iconPhase}>
                 <LibraryBooksIcon />
                 <Typography className={classes.noJudulPhase}>
                   {props.idPhase}
                 </Typography>
               </ListItemIcon>
-              <Link href="/admin/academy/module">
+              <Link href={"/admin/academy/phase/[id]"} as={`/admin/academy/phase/${props.idPhase}`}>
                 <Typography className={classes.textJudulPhase}>
                   {props.name}
                 </Typography>
@@ -161,24 +164,23 @@ export default function ContentSide(props) {
                 id="panel1bh-header"
               >
                 <List>
-                  <ListItem button>
+                  <ListItem button onClick={(event) => event.stopPropagation()}>
                     <ListItemIcon>
                       <CollectionsBookmarkIcon className={classes.iconPhase} />
                       <Typography className={classes.noJudulModule}>
                         {idx+1}
                       </Typography>
                     </ListItemIcon>
-                    <Typography className={classes.textJudulModule}>
-                      Module {idx+1}
-                    </Typography>
+                    <Link href={"/admin/academy/phase/[id]/[module]"} as={`/admin/academy/phase/${id}/${item.name.split(" ").join("-")}`}>
+                      <Typography className={classes.textJudulModule}>
+                        Module {idx+1}
+                      </Typography>
+                    </Link>
                   </ListItem>
                 </List>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.expandMenu2}>
                 <List>
-                  <ListItemIcon button="true" className={classes.moduleName}>
-                    {item.name}
-                  </ListItemIcon>
                   {item.subject.map((item, indexsub)=>(
                   <ListItem button>
                     <ListItemIcon>

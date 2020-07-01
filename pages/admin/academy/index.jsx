@@ -12,6 +12,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import ScheduleIcon from "@material-ui/icons/Schedule";
+import Link from "next/link";
 
 const NavigationAdminBar = dynamic(() =>  import("../../../components/admin/NavigationBarAdmin"));
 const AddModule = dynamic(() => import("../../../components/admin/AddModule"));
@@ -131,19 +132,21 @@ export default function Academy() {
                     <CardMedia
                       className={classes.media}
                       image="/images/mentee_pict.jpg"
-                      title="Contemplative Reptile"
+                      title="Phase 1"
                     />
                   </CardActionArea>
                   <CardActions>
                     <Grid container justify="center">
-                      <Button
-                        variant="outlined"
-                        size="medium"
-                        className={classes.button}
-                        startIcon={<ScheduleIcon />}
-                      >
-                        Phase 1
-                      </Button>
+                      <Link href={'/admin/academy/phase/[id]'} as={'/admin/academy/phase/1'}>
+                        <Button
+                          variant="outlined"
+                          size="medium"
+                          className={classes.button}
+                          startIcon={<ScheduleIcon />}
+                        >
+                          Phase 1
+                        </Button>
+                      </Link>
                     </Grid>
                   </CardActions>
                 </Card>
@@ -152,7 +155,7 @@ export default function Academy() {
                     <CardMedia
                       className={classes.media}
                       image="/images/module_ilustrations.jpg"
-                      title="Contemplative Reptile"
+                      title="Phase 2"
                     />
                   </CardActionArea>
                   <CardActions>
