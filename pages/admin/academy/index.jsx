@@ -160,15 +160,17 @@ export default function Academy() {
                   </CardActionArea>
                   <CardActions>
                     <Grid container justify="center">
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        size="medium"
-                        className={classes.button}
-                        startIcon={<ScheduleIcon />}
-                      >
-                        Phase 2
-                      </Button>
+                      <Link href={'/admin/academy/phase/[id]'} as={'/admin/academy/phase/2'}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          size="medium"
+                          className={classes.button}
+                          startIcon={<ScheduleIcon />}
+                        >
+                          Phase 2
+                        </Button>
+                      </Link>
                     </Grid>
                   </CardActions>
                 </Card>

@@ -171,7 +171,7 @@ export default function ContentSide(props) {
                         {idx+1}
                       </Typography>
                     </ListItemIcon>
-                    <Link href={"/admin/academy/phase/[id]/[module]"} as={`/admin/academy/phase/${id}/${item.name.split(" ").join("-")}`}>
+                    <Link href={"/admin/academy/phase/[id]/[module]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}`}>
                       <Typography className={classes.textJudulModule}>
                         Module {idx+1}
                       </Typography>
@@ -181,18 +181,20 @@ export default function ContentSide(props) {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.expandMenu2}>
                 <List>
-                  {item.subject.map((item, indexsub)=>(
-                  <ListItem button>
-                    <ListItemIcon>
-                      <BookIcon className={classes.iconSubject} />
-                      <Typography className={classes.noJudulSubject}>
-                        {indexsub+1}
-                      </Typography>
-                    </ListItemIcon>
-                    <Typography className={classes.textJudulSubject}>
-                      {item.name}
-                    </Typography>
-                  </ListItem>
+                  {item.subject.map((items, indexsub)=>(
+                      <Link href={"/admin/academy/phase/[id]/[module]/[subject_name]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}/${items.name.split(" ").join("-")}`}>
+                        <ListItem button>
+                          <ListItemIcon>
+                            <BookIcon className={classes.iconSubject} />
+                            <Typography className={classes.noJudulSubject}>
+                              {indexsub+1}
+                            </Typography>
+                          </ListItemIcon>
+                          <Typography className={classes.textJudulSubject}>
+                            {items.name}
+                          </Typography>
+                        </ListItem>
+                      </Link>
                   ))}
                 </List>
               </ExpansionPanelDetails>
