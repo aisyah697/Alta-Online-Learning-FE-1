@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Grid from "@material-ui/core/Grid";
+import AdminContext from "../../../store/adminContext";
 
 const Loading = dynamic(() => import("../../../components/Loading"));
 const Footer = dynamic(() => import("../../../components/FooterBar"));
@@ -69,8 +70,10 @@ export default function Subject() {
   const [subject, setsubject] = React.useState();
   const [loading, setLoading] = React.useState();
   const [cookies] = useCookies();
+  const { load_ } = useContext(AdminContext);
+  const [load, setLoad] = load_;
   useEffect(() => {
-    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/1";
+    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/7";
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -90,8 +93,7 @@ export default function Subject() {
       }
     };
     fetchData();
-  }, []);
-  console.log("subjecteeee", subject);
+  }, [load]);
   if (!subject) {
     return <Loading />;
   } else {
@@ -118,8 +120,8 @@ export default function Subject() {
                 justify="flex-start"
                 alignItems="flex-start"
               >
-                <EditSubject />
-                <DeleteSubject />
+                <EditSubject subject={subject} />
+                <DeleteSubject ID={subject.id} />
               </Grid>
               <div>
                 <SubjectAdmin props={subject} />

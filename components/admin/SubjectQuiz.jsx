@@ -11,7 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import { Divider } from "@material-ui/core";
 import dynamic from "next/dynamic";
 
-const DeleteQuestion = dynamic(() => import("./DeleteQuestion"));
+const Quiz = dynamic(() => import("./QuizSubject"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,7 +100,6 @@ function StyledRadio(props) {
 
 export default function QuizContent(props) {
   const classes = useStyles();
-  console.log("quiz", props);
   return (
     <main className={classes.content}>
       <div className={classes.spacing}>
@@ -119,25 +118,7 @@ export default function QuizContent(props) {
         </Typography>
       </div>
       <Divider />
-      {props.quiz.question.map((item, key) => (
-        <Grid
-          key={key}
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-start"
-        >
-          <Grid md={0}>
-            <Typography className={classes.allText}>{key + 1}</Typography>
-          </Grid>
-          <Grid className={classes.question} md={10}>
-            <Typography className={classes.allText}>{item.question}</Typography>
-          </Grid>
-          <Grid md={1}>
-            <DeleteQuestion />
-          </Grid>
-        </Grid>
-      ))}
+      <Quiz questions={props.quiz.question} />
     </main>
   );
 }
