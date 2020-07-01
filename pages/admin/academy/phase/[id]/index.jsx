@@ -7,9 +7,7 @@ import dynamic from "next/dynamic";
 import Typography from "@material-ui/core/Typography";
 import {useRouter} from "next/router";
 
-const EditSubject = dynamic(() =>
-  import("../../../../../components/admin/EditSubject")
-);
+const AddModule = dynamic(() => import("../../../../../components/admin/AddModule"));
 const Footer = dynamic(() => import("../../../../../components/FooterBar"));
 const NavigationAdminBar = dynamic(() =>
   import("../../../../../components/admin/NavigationBarAdmin")
@@ -81,7 +79,7 @@ export default function Index() {
             <Typography className={classes.titleInPage}>
               Module In Phase {id}
             </Typography>
-            <EditSubject />
+            <AddModule />
             <div>
               <ModuleAdmin />
             </div>
