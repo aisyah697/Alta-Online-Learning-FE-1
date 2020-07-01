@@ -3,15 +3,18 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core/styles";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
+
+import Loading from "./../Loading";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
-    color: "white",
+    color: theme.palette.secondary.main,
     "&:hover": {
       color: theme.palette.secondary.main,
     },
@@ -32,24 +35,9 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  button: {
-    background: "#3364ff",
-    backgroundColor: theme.palette.secondary.main,
-    borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(10),
-    color: theme.palette.common.white,
-    margin: theme.spacing(2, 2, 2, 0),
-    minWidth: theme.spacing(12),
-    textTransform: "none",
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
-      textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
-    },
-  },
 }));
-export default function DeleteModule(props) {
+
+export default function DeleteQestion(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
@@ -66,7 +54,7 @@ export default function DeleteModule(props) {
   console.log("propsdelete", props.ID);
   const deleteQuestion = async () => {
     setOpen(false);
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + props.ID;
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz/" + props.ID;
     const auth = cookies.token_admin;
 
     const MyJOSN = JSON.stringify({
@@ -98,16 +86,10 @@ export default function DeleteModule(props) {
   } else {
     return (
       <div>
-        <Button
-          onClick={handleClickOpen}
-          variant="outlined"
-          color="primary"
-          size="medium"
-          className={classes.button}
-          startIcon={<DeleteIcon />}
-        >
-          Delete Subject
-        </Button>
+        <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+          <DeleteIcon className={classes.buttonIcon} fontSize="default" />
+        </IconButton>
+
         <Dialog
           open={open}
           onClose={handleClose}
@@ -115,7 +97,7 @@ export default function DeleteModule(props) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Are you sure want to delete this subject?"}
+            {"Are you sure want to delete this alta test?"}
           </DialogTitle>
           <DialogActions>
             <Button

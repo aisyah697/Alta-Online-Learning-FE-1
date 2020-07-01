@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -9,8 +9,10 @@ import TextField from "@material-ui/core/TextField";
 import EditIcon from "@material-ui/icons/Edit";
 import InputLabel from "@material-ui/core/InputLabel";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
+import { useCookies } from "react-cookie";
 import Divider from "@material-ui/core/Divider";
+import axios from "axios";
+import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -33,12 +35,6 @@ const useStyles = makeStyles((theme) => ({
       "&:hover fieldset": {
         borderColor: "darkBlue",
       },
-    },
-  },
-  buttonIcon: {
-    color: "white",
-    "&:hover": {
-      color: theme.palette.secondary.main,
     },
   },
   button: {
@@ -83,24 +79,136 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, -3, 0),
   },
 }));
-export default function EditSubject() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
+export default function EditSubject(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
+  var namaPresentasi = "";
+  var namaVideo = "";
+  var videoFile = "";
+  var presFile = "";
+  if (props.subject.video[0] != undefined) {
+    var namaVideo = props.subject.video[0].name;
+    var videoFile = props.subject.video[0].content_file;
+  }
+  if (props.subject.presentation[0] != undefined) {
+    var namaPresentasi = props.subject.video[0].name;
+    var presFile = props.subject.presentation[0].content_file;
+  }
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [quiz, setQuiz] = React.useState();
+  const [cookies] = useCookies();
+  const { load_ } = useContext(AdminContext);
+  const [load, setLoad] = load_;
 
+  const [values, setValues] = React.useState({
+    name: props.subject.name,
+    description: props.subject.description,
+    // video
+    videoName: namaVideo,
+    // presentation
+    pressentationName: namaPresentasi,
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+  const [video, setVideo] = React.useState(videoFile);
+  const [presentation, setPresentation] = React.useState(presFile);
+
+  const handleVideo = (e) => {
+    if (e.target.files.length) {
+      setVideo(e.target.files[0]);
+    }
+  };
+  const handlePresentation = (e) => {
+    if (e.target.files.length) {
+      setPresentation(e.target.files[0]);
+    }
+  };
+
+  const postEditSubject = async () => {
+    setOpen(false);
+    const urlSubject =
+      process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + props.subject.id;
+    const urlVideo =
+      process.env.NEXT_PUBLIC_BASE_URL +
+      "/filesubject/" +
+      props.subject.video[0].id;
+    const urlPresentation =
+      process.env.NEXT_PUBLIC_BASE_URL +
+      "/filesubject/" +
+      props.subject.presentation[0].id;
+    const auth = cookies.admin.token;
+
+    const formDataVideo = new FormData();
+    formDataVideo.append("name", values.videoName);
+    formDataVideo.append("content_file", video);
+
+    const formDataPresentation = new FormData();
+    formDataVideo.append("name", values.videoName);
+    formDataVideo.append("content_file", presentation);
+
+    const MyJOSN = JSON.stringify({
+      name: values.name,
+      description: values.description,
+    });
+    try {
+      const response = await axios.patch(urlSubject, MyJOSN, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      });
+      const responseVideo = await axios.patch(urlVideo, formDataVideo, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      });
+      const responsePresentation = await axios.patch(
+        urlPresentation,
+        formDataPresentation,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth,
+          },
+        }
+      );
+
+      if (
+        response.status === 200 &&
+        responseVideo.status === 200 &&
+        responsePresentation.status === 200
+      ) {
+        setLoad(true);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  };
+  console.log("video", props.subject.video[0]);
   return (
     <div>
-      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-        <EditIcon className={classes.buttonIcon} fontSize="default" />
-      </IconButton>
+      <Button
+        onClick={handleClickOpen}
+        variant="outlined"
+        color="primary"
+        size="medium"
+        className={classes.button}
+        startIcon={<EditIcon />}
+      >
+        Edit Subject
+      </Button>
       <Dialog
+        fullWidth
+        maxWidth={"md"}
         open={open}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -110,18 +218,33 @@ export default function EditSubject() {
         </DialogTitle>
         <Divider />
         <DialogContent>
-          <Typography className={classes.allText}>Algorithm</Typography>
+          <Typography className={classes.allText}>
+            {props.subject.name}
+          </Typography>
           <TextField
             id="outlined-multiline-static"
             label="Subject Name"
             color="secondary"
             className={classes.textFieldFile}
             variant="outlined"
+            onChange={handleChange("name")}
           />
           <Divider />
+          <Divider />
           <Typography className={classes.allText}>
-            Learn Algorithm.mp4
+            {props.subject.description}
           </Typography>
+          <TextField
+            onChange={handleChange("description")}
+            id="outlined-multiline-static"
+            label="Subject Description"
+            multiline
+            color="secondary"
+            className={classes.textFieldFile}
+            rows={4}
+            variant="outlined"
+          />
+          <Typography className={classes.allText}>{props.videoName}</Typography>
           <div className={classes.inputFile}>
             <InputLabel htmlFor="outlined-adornment-file">
               Chose Video FIle
@@ -130,15 +253,27 @@ export default function EditSubject() {
               <input
                 className={classes.textFieldFile}
                 accept="video/*"
-                // className={classes.input}
+                className={classes.input}
                 id="contained-button-file"
                 multiple
                 type="file"
+                onChange={handleVideo}
               />
             </Button>
           </div>
+
+          <TextField
+            id="outlined-multiline-static"
+            label="Video Name"
+            color="secondary"
+            className={classes.textFieldFile}
+            variant="outlined"
+            onChange={handleChange("videoName")}
+          />
           <Divider />
-          <Typography className={classes.allText}>Algorithm.ppt</Typography>
+          <Typography className={classes.allText}>
+            {props.pressentationName}
+          </Typography>
           <div className={classes.inputFile}>
             <InputLabel htmlFor="outlined-adornment-file">
               Chose Presentation File
@@ -150,27 +285,20 @@ export default function EditSubject() {
                 className={classes.input}
                 id="contained-button-file"
                 multiple
+                onChange={handlePresentation}
                 row={3}
                 type="file"
               />
             </Button>
+            <TextField
+              id="outlined-multiline-static"
+              label="Presentation Name"
+              color="secondary"
+              className={classes.textFieldFile}
+              variant="outlined"
+              onChange={handleChange("pressentationName")}
+            />
           </div>
-          <Divider />
-          <Typography className={classes.allText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </Typography>
-          <TextField
-            id="outlined-multiline-static"
-            label="Subject Description"
-            multiline
-            color="secondary"
-            className={classes.textFieldFile}
-            rows={4}
-            variant="outlined"
-          />
         </DialogContent>
         <DialogActions>
           <Button
@@ -184,9 +312,9 @@ export default function EditSubject() {
           <Button
             variant="outlined"
             size="small"
-            onClick={handleClose}
             autoFocus
             className={classes.button}
+            onClick={() => postEditSubject()}
           >
             Submit
           </Button>

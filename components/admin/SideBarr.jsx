@@ -159,10 +159,13 @@ export default function SideBarr() {
         <Divider />
         {phase ? (
           <div>
-            {phase.map((item, index) => (
-                <React.Fragment key={index}>
-                  <ContentSide name={item.name} module={item.module} idPhase={item.id} />
-                </React.Fragment>
+            {phase.map((item, idx) => (
+              <ContentSide
+                key={idx}
+                name={item.name}
+                module={item.module}
+                idPhase={item.id}
+              />
             ))}
           </div>
         ) : (
