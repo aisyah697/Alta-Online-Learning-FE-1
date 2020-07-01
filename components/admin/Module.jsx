@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -10,7 +10,13 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
+import Grid from "@material-ui/core/Grid";
+import Avatar from "@material-ui/core/Avatar";
 import dynamic from "next/dynamic";
+import AdminContext from "../../store/adminContext";
+import { useCookies } from "react-cookie";
+
+import axios from "axios";
 
 const DeleteModule = dynamic(() => import("./DeleteModule"));
 const EditModule = dynamic(() => import("./EditModule"));
@@ -40,6 +46,35 @@ const useStyles = makeStyles((theme) => ({
   iconDown: {
     color: "white",
   },
+  margins: {
+    marginBottom: theme.spacing(2),
+  },
+  square: {
+    width: theme.spacing(30),
+    height: theme.spacing(30),
+    [theme.breakpoints.down("xs")]: {
+      width: theme.spacing(18),
+      height: theme.spacing(18),
+    },
+    [theme.breakpoints.down("md")]: {
+      width: theme.spacing(22),
+      height: theme.spacing(22),
+    },
+  },
+  list: {
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
+  },
+  avatar: {
+    display: "flex",
+    justifyContent: "left",
+    objectFit: "contain",
+    [theme.breakpoints.down("xs")]: {
+      justifyContent: "center",
+    },
+  },
 }));
 
 export default function ModuleAdmin() {
@@ -49,98 +84,117 @@ export default function ModuleAdmin() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  const [cookies] = useCookies();
+
+  const { admin_, load_ } = useContext(AdminContext);
+  const [admin, setAdmin] = admin_;
+  const [load, setLoad] = load_;
+
+  const [module, setModule] = React.useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/nested";
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + cookies.admin.token,
+          },
+        });
+        if (response.status === 200) {
+          setModule(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+        setLoad(false);
+      }
+    };
+    fetchData();
+  }, [load]);
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-      >
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-          className={classes.headingField}
-        >
-          <Typography variant="body1" className={classes.heading}>
-            Basic Programing Python
-          </Typography>
-          <EditModule />
-          <DeleteModule />
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <List component="nav">
-            <Typography className={classes.allText}>
-              <strong>Mentor :</strong>{" "}
-            </Typography>
-            <Typography className={classes.allText}>KobarSeptianus</Typography>
-            <Divider className={classes.divider} />
-            <Typography className={classes.allText}>
-              <strong>Description Module :</strong>{" "}
-            </Typography>
-            <Typography className={classes.allText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </Typography>
-            <Divider className={classes.divider} />
-            <Typography variant="body1" className={classes.allText}>
-              <strong>System Requirements :</strong>{" "}
-            </Typography>
-            <List component="nav">
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <RadioButtonCheckedIcon color="secondary" />
-                </ListItemIcon>
-                <Typography className={classes.allText}>
-                  Lorem ipsum dolor sit amet, consectetur
-                </Typography>
-              </ListItem>
-            </List>
-          </List>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+      {module
+        ? module.map((value, index) => (
+            <div className={classes.margins}>
+              <ExpansionPanel
+                expanded={expanded === value.id.toString()}
+                onChange={handleChange(value.id.toString())}
+              >
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                  className={classes.headingField}
+                >
+                  <Typography variant="body1" className={classes.heading}>
+                    {value.name}
+                  </Typography>
+                  <EditModule
+                    {...value}
+                    id_module={value.id}
+                    // name={value.name}
+                    // description={value.description}
+                  />
+                  <DeleteModule id_module={value.id} />
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <List component="nav" className={classes.list}>
+                    <Grid container className={classes.root} spacing={2}>
+                      <Grid item xs={12} sm={4} md={3}>
+                        <div className={classes.avatar}>
+                          <Avatar
+                            variant="square"
+                            className={classes.square}
+                            src={value.image}
+                            alt={"Image"}
+                          />
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm={8} md={9}>
+                        <Typography className={classes.allText}>
+                          <strong>Mentor :</strong>{" "}
+                        </Typography>
+                        <Typography className={classes.allText}>
+                          {value.admin_id}
+                        </Typography>
+                        <Divider className={classes.divider} />
+                        <Typography className={classes.allText}>
+                          <strong>Description Module :</strong>{" "}
+                        </Typography>
+                        <Typography className={classes.allText}>
+                          {value.description}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                    <Divider className={classes.divider} />
+                    <Typography variant="body1" className={classes.allText}>
+                      <strong>System Requirements :</strong>{" "}
+                    </Typography>
+                    <List component="nav">
+                      {value.requirement.map((item, index) => (
+                        <ListItem>
+                          <ListItemIcon>
+                            <RadioButtonCheckedIcon color="secondary" />
+                          </ListItemIcon>
+                          <Typography className={classes.allText}>
+                            {item.description}
+                          </Typography>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </List>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </div>
+          ))
+        : null}
     </div>
   );
 }

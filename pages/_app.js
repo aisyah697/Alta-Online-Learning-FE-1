@@ -67,6 +67,7 @@ export default function MyApp(props) {
       setLogin(true);
       setToken(token_admin);
     } else {
+      Router.push("/admin/login");
       setLogin(false);
     }
 
@@ -97,24 +98,24 @@ export default function MyApp(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>Alta Online Learning</title>
+        <title> Alta Online Learning </title>{" "}
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-      </Head>
+      </Head>{" "}
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AdminContext.Provider value={store_admin}>
           <UserContext.Provider value={store_mentee}>
             <MateriContext.Provider value={store_materi}>
               <CookiesProvider>
-                <Component {...pageProps} />
-              </CookiesProvider>
-            </MateriContext.Provider>
-          </UserContext.Provider>
-        </AdminContext.Provider>
-      </ThemeProvider>
+                <Component {...pageProps} />{" "}
+              </CookiesProvider>{" "}
+            </MateriContext.Provider>{" "}
+          </UserContext.Provider>{" "}
+        </AdminContext.Provider>{" "}
+      </ThemeProvider>{" "}
     </React.Fragment>
   );
 }
