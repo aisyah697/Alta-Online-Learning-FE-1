@@ -85,7 +85,7 @@ export default function Home() {
                 <CardMedia
                   className={classes.media}
                   image="/images/mentee_pict.jpg"
-                  title="Contemplative Reptile"
+                  title="Manage Mentee"
                 />
               </CardActionArea>
               <CardActions>
@@ -108,7 +108,7 @@ export default function Home() {
                 <CardMedia
                   className={classes.media}
                   image="/images/module_ilustrations.jpg"
-                  title="Contemplative Reptile"
+                  title="Manage Academic"
                 />
               </CardActionArea>
               <CardActions>
@@ -132,7 +132,7 @@ export default function Home() {
                 <CardMedia
                   className={classes.media}
                   image="/images/profile_ilustration.png"
-                  title="Contemplative Reptile"
+                  title="Manage Admin"
                 />
               </CardActionArea>
               <CardActions>

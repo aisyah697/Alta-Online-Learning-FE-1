@@ -114,15 +114,15 @@ export default function AddModule() {
       </IconButton>
       <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" className={classes.allText}>
-          Edit Module
+          Edit Index
         </DialogTitle>
         <DialogContent>
-          <Typography className={classes.allText}>Nama Module</Typography>
+          <Typography className={classes.allText}>Nama Index</Typography>
           <TextField
             className={classes.textField}
             variant="outlined"
             color="secondary"
-            label="Module Name"
+            label="Index Name"
             size="small"
           />
           <Typography className={classes.allText}>Nama Mentor</Typography>
@@ -157,7 +157,7 @@ export default function AddModule() {
             color="secondary"
             rows={7}
             multiline
-            label="Module Description"
+            label="Index Description"
             size="small"
           />
           <TextField
@@ -166,7 +166,7 @@ export default function AddModule() {
             color="secondary"
             rows={2}
             multiline
-            label="System Requirements Module"
+            label="System Requirements Index"
             size="small"
           />
           <Button

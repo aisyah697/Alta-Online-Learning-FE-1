@@ -111,6 +111,9 @@ export default function SideBarr() {
     fetchData();
   }, []);
 
+
+  console.log("AAAAAAAAAAAA", phase)
+
   return (
     <Drawer
       variant="permanent"
@@ -156,12 +159,14 @@ export default function SideBarr() {
         <Divider />
         {phase ? (
           <div>
-            {phase.map((item, idx) => (
-              <ContentSide key={idx} name={item.name} module={item.module} idPhase={item.id} />
+            {phase.map((item, index) => (
+                <React.Fragment key={index}>
+                  <ContentSide name={item.name} module={item.module} idPhase={item.id} />
+                </React.Fragment>
             ))}
           </div>
         ) : (
-          <Loading />
+          null
         )}
       </div>
     </Drawer>
