@@ -31,7 +31,7 @@ const SubjectPPT = (props) => {
 
   return (
     <main className={classes.content}>
-      <Card className={classes.root}>
+      <Card className={classes.root} elevation={0}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
