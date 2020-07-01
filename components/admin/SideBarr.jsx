@@ -111,9 +111,6 @@ export default function SideBarr() {
     fetchData();
   }, []);
 
-
-  console.log("AAAAAAAAAAAA", phase)
-
   return (
     <Drawer
       variant="permanent"

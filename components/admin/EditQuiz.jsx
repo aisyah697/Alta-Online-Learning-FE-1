@@ -174,7 +174,7 @@ export default function EditQuiz(props) {
 
     setValues({ ...values, choice: "" });
     // reset input form
-    document.getElementById("add-choice").value = "";
+    document.getElementById("add-choices").value = "";
   };
 
   React.useEffect(() => {
@@ -254,7 +254,7 @@ export default function EditQuiz(props) {
               Add Multiple Choice
             </Button>
             <TextField
-              id="add-choice"
+              id="add-choices"
               label="Add Choice"
               multiline
               color="secondary"

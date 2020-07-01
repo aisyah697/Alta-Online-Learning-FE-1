@@ -88,7 +88,7 @@ export default function SubjectAdmin(props) {
     <div className={classes.root}>
       <ExpansionPanelSummary
         aria-controls="panel1bh-content"
-        id="panel1bh-header"
+        id="panel1bh-header-4"
         className={classes.headingOfHeadField}
       >
         <Typography variant="body1" className={classes.heading}>
@@ -105,7 +105,7 @@ export default function SubjectAdmin(props) {
 
       <ExpansionPanelSummary
         aria-controls="panel1bh-content"
-        id="panel1bh-header"
+        id="panel1bh-header-3"
         className={classes.headingField}
       >
         <Typography variant="body1" className={classes.heading}>
@@ -121,11 +121,11 @@ export default function SubjectAdmin(props) {
           />
         ))}
       </ExpansionPanelDetails>
-      <List component="nav"></List>
+      <List component="nav"> </List>
 
       <ExpansionPanelSummary
         aria-controls="panel1bh-content"
-        id="panel1bh-header"
+        id="panel1bh-header-2"
         className={classes.headingField}
       >
         <Typography variant="body1" className={classes.heading}>
@@ -141,7 +141,7 @@ export default function SubjectAdmin(props) {
             <div>
               <ExpansionPanelSummary
                 aria-controls="panel1bh-content"
-                id="panel1bh-header"
+                id="panel1bh-header-1"
                 className={classes.headingField}
               >
                 <Typography variant="body1" className={classes.heading}>

@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Index() {
+export default function Module() {
   const classes = useStyles();
   const router = useRouter();
   const { id } = router.query;

@@ -192,11 +192,7 @@ export default function AddModule() {
     setLoad(true);
     postModule(values.name, values.description, values.image);
   };
-  console.log("admin", admin);
-  console.log("add module", values);
-  // if (!module) {
-  //   return <div></div>;
-  // } else {
+
   return (
     <div>
       {admin.role === "super" || "academic" ? (
