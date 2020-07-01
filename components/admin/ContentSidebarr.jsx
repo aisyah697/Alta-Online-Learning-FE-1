@@ -182,7 +182,7 @@ export default function ContentSide(props) {
               <ExpansionPanelDetails className={classes.expandMenu2}>
                 <List>
                   {item.subject.map((items, indexsub)=>(
-                      <Link href={"/admin/academy/phase/[id]/[module]/[subject_name]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}/${items.name.split(" ").join("-")}`}>
+                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[module]/[subject_name]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}/${items.name.split(" ").join("-")}`}>
                         <ListItem button>
                           <ListItemIcon>
                             <BookIcon className={classes.iconSubject} />

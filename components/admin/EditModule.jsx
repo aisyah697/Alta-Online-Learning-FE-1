@@ -151,8 +151,9 @@ export default function EditModule(props) {
     }
   };
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (e) => {
     setOpen(true);
+    e.stopPropagation()
   };
 
   const handleClose = () => {
@@ -222,20 +223,20 @@ export default function EditModule(props) {
       </IconButton>
       <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" className={classes.allText}>
-          Edit Index
+          Edit Module
         </DialogTitle>
         <DialogContent>
-          <Typography className={classes.allText}>Nama Index</Typography>
+          <Typography className={classes.allText}>Module Title</Typography>
           <TextField
             className={classes.textField}
             variant="outlined"
             color="secondary"
-            label="Index Name"
+            label="Module Title"
             size="small"
             defaultValue={props.name}
             onChange={handleChange("name")}
           />
-          <Typography className={classes.allText}>Nama Mentor</Typography>
+          <Typography className={classes.allText}>Mentor's Name</Typography>
           <FormControl
             className={clsx(classes.margin, classes.textField)}
             variant="outlined"

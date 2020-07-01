@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -15,6 +15,7 @@ import { Divider } from "@material-ui/core";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loading from "../Loading";
+import AdminContext from "../../store/adminContext";
 
 const ContentSide = dynamic(() => import("./ContentSidebarr"));
 
@@ -80,6 +81,9 @@ export default function SideBarr() {
   const [cookies] = useCookies();
   const [phase, setPhase] = useState();
 
+  const { load_ } = useContext(AdminContext);
+  const [load, setLoad] = load_;
+
   const handleDrawerOpen = () => {
     setOpen(true);
     setClose(false);
@@ -109,10 +113,7 @@ export default function SideBarr() {
       }
     };
     fetchData();
-  }, []);
-
-
-  console.log("AAAAAAAAAAAA", phase)
+  }, [load]);
 
   return (
     <Drawer

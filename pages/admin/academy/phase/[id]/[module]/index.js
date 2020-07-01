@@ -81,7 +81,6 @@ export default function Index() {
                         <Typography className={classes.titleInPage}>
                             Module In Phase {id}
                         </Typography>
-                        <EditSubject />
                         <div>
                             <ModuleAdmin />
                         </div>

@@ -44,8 +44,9 @@ export default function DeleteModule(props) {
   const [load, setLoad] = load_;
   const [loading, setLoading] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (e) => {
     setOpen(true);
+    e.stopPropagation()
   };
 
   const handleClose = () => {
