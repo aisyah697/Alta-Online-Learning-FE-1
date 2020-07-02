@@ -10,15 +10,24 @@ import AppBar from "@material-ui/core/AppBar";
 import { useCookies } from "react-cookie";
 import Grid from "@material-ui/core/Grid";
 
-const NavigationAdminBar = dynamic(() => import("../../../../../../components/admin/NavigationBarAdmin"));
-const DeleteSubject = dynamic(() => import("../../../../../../components/admin/DeleteSubject"));
-const EditSubject = dynamic(() => import("../../../../../../components/admin/EditSubject"));
-const SubjectAdmin = dynamic(() => import("../../../../../../components/admin/Subject"));
-const SideBarr = dynamic(() => import("../../../../../../components/admin/SideBarr"));
 const Loading = dynamic(() => import("../../../../../../components/Loading"));
 const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
+const NavigationAdminBar = dynamic(() =>
+  import("../../../../../../components/admin/NavigationBarAdmin")
+);
+const DeleteSubject = dynamic(() =>
+  import("../../../../../../components/admin/DeleteSubject")
+);
+const EditSubject = dynamic(() =>
+  import("../../../../../../components/admin/EditSubject")
+);
+const SubjectAdmin = dynamic(() =>
+  import("../../../../../../components/admin/Subject")
+);
+const SideBarr = dynamic(() =>
+  import("../../../../../../components/admin/SideBarr")
+);
 
-import AdminContext from "../../../../../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -70,8 +79,8 @@ export default function Subject() {
   const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
 
-  React.useEffect(() => {
-    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/6";
+  useEffect(() => {
+    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/1";
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -93,6 +102,9 @@ export default function Subject() {
     fetchData();
   }, [load]);
 
+  if (!subject) {
+    return <Loading />;
+  } else {
     return (
       <React.Fragment>
         <Head>

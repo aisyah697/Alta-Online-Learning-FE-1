@@ -193,7 +193,6 @@ export default function EditSubject(props) {
       throw new Error(error);
     }
   };
-
   return (
     <div>
       <Button

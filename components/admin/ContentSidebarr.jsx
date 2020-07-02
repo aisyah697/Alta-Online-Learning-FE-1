@@ -15,9 +15,7 @@ import { Divider } from "@material-ui/core";
 import Link from "../../utils/link";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import {useRouter} from "next/router";
-
-
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
@@ -142,7 +140,10 @@ export default function ContentSide(props) {
                   {props.idPhase}
                 </Typography>
               </ListItemIcon>
-              <Link href={"/admin/academy/phase/[id]"} as={`/admin/academy/phase/${props.idPhase}`}>
+              <Link
+                href={"/admin/academy/phase/[id]"}
+                as={`/admin/academy/phase/${props.idPhase}`}
+              >
                 <Typography className={classes.textJudulPhase}>
                   {props.name}
                 </Typography>
@@ -187,7 +188,7 @@ export default function ContentSide(props) {
                           <ListItemIcon>
                             <BookIcon className={classes.iconSubject} />
                             <Typography className={classes.noJudulSubject}>
-                              {indexsub+1}
+                              {indexsub + 1}
                             </Typography>
                           </ListItemIcon>
                           <Typography className={classes.textJudulSubject}>
@@ -195,13 +196,13 @@ export default function ContentSide(props) {
                           </Typography>
                         </ListItem>
                       </Link>
-                  ))}
-                </List>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          </ExpansionPanelDetails>
+                    ))}
+                  </List>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </ExpansionPanelDetails>
           ))}
-          </ExpansionPanel>
+        </ExpansionPanel>
       </ExpansionPanelDetails>
       <Divider />
     </div>

@@ -59,31 +59,6 @@ const useStyles = makeStyles((theme) => ({
 export default function SubjectAdmin(props) {
   const classes = useStyles();
 
-  const [expanded, setExpanded] = React.useState(false);
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
-  const [expandedVid, setExpandedVid] = React.useState(false);
-  const handleChangeVid = (panel) => (event, isExpanded) => {
-    setExpandedVid(isExpanded ? panel : false);
-  };
-
-  const [expandedPPT, setExpandedPPT] = React.useState(false);
-  const handleChangePPT = (panel) => (event, isExpanded) => {
-    setExpandedPPT(isExpanded ? panel : false);
-  };
-
-  const [expandedLC, setExpandedLC] = React.useState(false);
-  const handleChangeLC = (panel) => (event, isExpanded) => {
-    setExpandedLC(isExpanded ? panel : false);
-  };
-
-  const [expandedQuiz, setExpandedQuiz] = React.useState(false);
-  const handleChangeQuiz = (panel) => (event, isExpanded) => {
-    setExpandedQuiz(isExpanded ? panel : false);
-  };
-
   return (
     <div className={classes.root}>
       <ExpansionPanelSummary
@@ -133,7 +108,14 @@ export default function SubjectAdmin(props) {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <SubjectPPT />
+        {console.log("pptss", props.props.presentation)}
+        {props.props.presentation.map((element, num) => (
+          <SubjectPPT
+            key={num}
+            name={element.name}
+            press={element.content_file}
+          />
+        ))}
       </ExpansionPanelDetails>
       {props.props.exam[0] ? (
         <div>

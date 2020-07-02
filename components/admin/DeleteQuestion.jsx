@@ -51,7 +51,6 @@ export default function DeleteQestion(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log("propsdelete", props.ID);
   const deleteQuestion = async () => {
     setOpen(false);
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz/" + props.ID;
