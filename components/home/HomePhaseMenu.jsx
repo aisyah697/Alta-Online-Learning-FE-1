@@ -12,6 +12,7 @@ import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import { Done } from "@material-ui/icons";
 import dynamic from "next/dynamic";
+import Loading from "../Loading";
 const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
@@ -50,10 +51,11 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         backgroundColor: theme.palette.secondary.main,
-        borderColor: theme.palette.secondary.main,
+        // borderColor: theme.palette.secondary.main,
         color: theme.palette.common.white,
         padding: '5px 20px',
         textTransform: 'none',
+        textDecoration: 'none',
         borderRadius: theme.spacing(1),
         minWidth: theme.spacing(12),
         '&:hover' : {
@@ -68,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
         borderColor: theme.palette.secondary.secondary,
         color: theme.palette.common.white,
         padding: '5px 20px',
+        textDecoration: 'none',
         textTransform: 'none',
         borderRadius: theme.spacing(1),
         minWidth: theme.spacing(12),
@@ -110,143 +113,75 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-// const CustomCard = ({ classes, title, status}) => {
-//     return (
-//         <Card className={classes.card}>
-//             <Typography className={classes.title}> {title} </Typography>
-//             <CardContent className={classes.content}>
-//                 {status?
-//                     <AssignmentTurnedInIcon style={{fontSize: '40px'}}/>:
-//                     <PlayCircleFilledWhiteIcon style={{fontSize: '40px'}}/>
-//                 }
-//             </CardContent>
-//             <CardActions className={classes.action}>
-//                 {status ?
-//                     <Link href={'/courses/phase/[id]'} as={'/courses/phase/one'}>
-//                         <Button size="small" variant={'outlined'} className={classes.button}
-//                                 endIcon={<Done/>}
-//                                 >
-//                             Done
-//                         </Button>
-//                     </Link>
-//                     :
-//                     <Link href={'/courses/phase/[id]'} as={'/courses/phase/two'}>
-//                         <Button size="small" variant={'outlined'} className={classes.button2}
-//                                 startIcon={<PlayCircleOutlineIcon/>}>
-//                             Start
-//                         </Button>
-//                     </Link>
-//                 }
-//             </CardActions>
-//         </Card>
-//     );
-// };
+const CustomCard = ({ classes, phase, lock, disabled, style}) => {
+    const myStyle = useStyles();
+    return (
+        <Card className={classes.card}>
+            <Typography className={classes.title}> Phase {phase} </Typography>
+            <CardContent className={classes.content}>
+                {!lock ?
+                    <PlayCircleFilledWhiteIcon style={{fontSize: '40px'}}/> :
+                    <LockIcon/>
+                }
+            </CardContent>
+            <CardActions className={classes.action}>
+                {phase == 3 ?
+                    <Button disabled={lock} size="small" variant={'outlined'} className={style}
+                            startIcon={<LockIcon/>}
+                            style={{backgroundColor: '#788896', color: '#fff'}}
+                    >
+                        Offline Class
+                    </Button>
+                    :
+                    (!lock ?
+                    <Link href={'/courses/phase/[id]'} as={`/courses/phase/${phase}`}>
+                        <Button disabled={lock} size="small" variant={'outlined'} className={style}
+                                startIcon={<PlayCircleOutlineIcon/>}>
+                            Start
+                        </Button>
+                    </Link> :
+                    <Button disabled={lock} size="small" variant={'outlined'} className={style}
+                            startIcon={<LockIcon/>}
+                            style={{backgroundColor: '#788896', color: '#fff'}} >
+                        Start
+                    </Button>
+                    )
+                }
+            </CardActions>
+        </Card>
+    );
+};
 
-const HomePhaseMenu = (props) => {
+const HomePhaseMenu = ({phase}) => {
     const classes = useStyles();
 
-    console.log(props.phase)
     return(
         <div>
             <div className={classes.phaseTitle}>
                 <Typography className={classes.phaseFont}> Track Your Progress </Typography>
             </div>
             <Grid container className={classes.root}>
-                    <Grid item xs={12} lg={3} style={{backgroundColor: 'red'}}>
-                        {props.phase ?
-                                <Card className={classes.card}>
-                                    <Typography className={classes.title}> {'Phase 1'} </Typography>
-                                    <CardContent className={classes.content}>
-                                        {/*<AssignmentTurnedInIcon style={{fontSize: '40px'}}/>*/}
-                                        <PlayCircleFilledWhiteIcon style={{fontSize: '40px'}}/>
-                                        <Typography>{props.phase.id}</Typography>
-                                    </CardContent>
-                                    <CardActions className={classes.action}>
-                                        {/*<Link href={'/courses/phase/[id]'} as={'/courses/phase/one'}>*/}
-                                        {/*    <Button size="small" variant={'outlined'} className={classes.button}*/}
-                                        {/*            endIcon={<Done/>}*/}
-                                        {/*    >*/}
-                                        {/*        Done*/}
-                                        {/*    </Button>*/}
-                                        {/*</Link>*/}
-                                        <Link href={'/courses/phase/[id]'} as={'/courses/phase/two'}>
-                                            <Button size="small" variant={'outlined'} className={classes.button2}
-                                                    startIcon={<PlayCircleOutlineIcon/>}>
-                                                Start
-                                            </Button>
-                                        </Link>
-                                    </CardActions>
-                                </Card>
-                             : <Typography>BB</Typography>
-                        }
-
-
-                        {/*<Card className={classes.card}>*/}
-                        {/*    <Typography className={classes.title}> {'Phase 1'} </Typography>*/}
-                        {/*    <CardContent className={classes.content}>*/}
-                        {/*        /!*<AssignmentTurnedInIcon style={{fontSize: '40px'}}/>*!/*/}
-                        {/*        <PlayCircleFilledWhiteIcon style={{fontSize: '40px'}}/>*/}
-                        {/*    </CardContent>*/}
-                        {/*    <CardActions className={classes.action}>*/}
-                        {/*        /!*<Link href={'/courses/phase/[id]'} as={'/courses/phase/one'}>*!/*/}
-                        {/*        /!*    <Button size="small" variant={'outlined'} className={classes.button}*!/*/}
-                        {/*        /!*            endIcon={<Done/>}*!/*/}
-                        {/*        /!*    >*!/*/}
-                        {/*        /!*        Done*!/*/}
-                        {/*        /!*    </Button>*!/*/}
-                        {/*        /!*</Link>*!/*/}
-                        {/*        <Link href={'/courses/phase/[id]'} as={'/courses/phase/two'}>*/}
-                        {/*            <Button size="small" variant={'outlined'} className={classes.button2}*/}
-                        {/*                    startIcon={<PlayCircleOutlineIcon/>}>*/}
-                        {/*                Start*/}
-                        {/*            </Button>*/}
-                        {/*        </Link>*/}
-                        {/*    </CardActions>*/}
-                        {/*</Card>*/}
+                {phase?
+                    (phase.map((items, index) => (
+                    <Grid key={index} item xs={12} lg={3}>
+                        <CustomCard
+                            classes={classes}
+                            phase={index + 1}
+                            lock={items.lock_key}
+                            disabled={false}
+                            style={classes.button}
+                        />
                     </Grid>
-
-                    {/*<Grid item xs={12} lg={3}>*/}
-                    {/*    <Card className={classes.card}>*/}
-                    {/*        <Typography className={classes.title}> {'Phase 2'} </Typography>*/}
-                    {/*        <CardContent className={classes.content}>*/}
-                    {/*            /!*<AssignmentTurnedInIcon style={{fontSize: '40px'}}/>*!/*/}
-                    {/*            <PlayCircleFilledWhiteIcon style={{fontSize: '40px'}}/>*/}
-                    {/*        </CardContent>*/}
-                    {/*        <CardActions className={classes.action}>*/}
-                    {/*            /!*<Link href={'/courses/phase/[id]'} as={'/courses/phase/one'}>*!/*/}
-                    {/*            /!*    <Button size="small" variant={'outlined'} className={classes.button}*!/*/}
-                    {/*            /!*            endIcon={<Done/>}*!/*/}
-                    {/*            /!*    >*!/*/}
-                    {/*            /!*        Done*!/*/}
-                    {/*            /!*    </Button>*!/*/}
-                    {/*            /!*</Link>*!/*/}
-                    {/*            <Link href={'/courses/phase/[id]'} as={'/courses/phase/two'}>*/}
-                    {/*                <Button size="small" variant={'outlined'} className={classes.button2}*/}
-                    {/*                        startIcon={<PlayCircleOutlineIcon/>}>*/}
-                    {/*                    Start*/}
-                    {/*                </Button>*/}
-                    {/*            </Link>*/}
-                    {/*        </CardActions>*/}
-                    {/*    </Card>*/}
-                    {/*</Grid>*/}
-
-                    {/*<Grid item xs={12} lg={3}>*/}
-                    {/*    <Card className={classes.card}>*/}
-                    {/*        <Typography className={classes.title}> {'Phase 3'} </Typography>*/}
-                    {/*        <CardContent className={classes.content2}>*/}
-                    {/*            <LockIcon style={{fontSize: '40px'}}/>*/}
-                    {/*        </CardContent>*/}
-                    {/*        <CardActions className={classes.action}>*/}
-                    {/*            <Button size="small" className={classes.button}*/}
-                    {/*                    variant={'outlined'}*/}
-                    {/*                    disabled*/}
-                    {/*                    style={{backgroundColor: '#788896', color: '#fff'}}*/}
-                    {/*                    >*/}
-                    {/*                Offline Class*/}
-                    {/*            </Button>*/}
-                    {/*        </CardActions>*/}
-                    {/*    </Card>*/}
-                    {/*</Grid>*/}
+                ))) : <Typography> Loading... </Typography>}
+                <Grid item xs={12} lg={3}>
+                    <CustomCard
+                        classes={classes}
+                        phase={3}
+                        lock={true}
+                        disabled={true}
+                        style={classes.button}
+                    />
+                </Grid>
             </Grid>
         </div>
     )
