@@ -15,9 +15,7 @@ import { Divider } from "@material-ui/core";
 import Link from "../../utils/link";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import {useRouter} from "next/router";
-
-
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
@@ -142,52 +140,74 @@ export default function ContentSide(props) {
                   {props.idPhase}
                 </Typography>
               </ListItemIcon>
-              <Link href={"/admin/academy/phase/[id]"} as={`/admin/academy/phase/${props.idPhase}`}>
+              <Link
+                href={"/admin/academy/phase/[id]"}
+                as={`/admin/academy/phase/${props.idPhase}`}
+              >
                 <Typography className={classes.textJudulPhase}>
                   {props.name}
                 </Typography>
               </Link>
             </ListItem>
           </ExpansionPanelSummary>
-            {props.module.map((item, idx)=>(
-          <ExpansionPanelDetails className={classes.expandMenu1}>
-            <ExpansionPanel
-              elevation={0}
-              className={classes.expandTitle2}
-              expanded={expanded2 === idx.toString()}
-              onChange={handleChange2(idx.toString())}
-            >
-              <ExpansionPanelSummary
-                className={classes.expansummar2}
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
+          {props.module.map((item, idx) => (
+            <ExpansionPanelDetails className={classes.expandMenu1}>
+              <ExpansionPanel
+                elevation={0}
+                className={classes.expandTitle2}
+                expanded={expanded2 === idx.toString()}
+                onChange={handleChange2(idx.toString())}
               >
-                <List>
-                  <ListItem button onClick={(event) => event.stopPropagation()}>
-                    <ListItemIcon>
-                      <CollectionsBookmarkIcon className={classes.iconPhase} />
-                      <Typography className={classes.noJudulModule}>
-                        {idx+1}
-                      </Typography>
-                    </ListItemIcon>
-                    <Link href={"/admin/academy/phase/[id]/[module]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}`}>
-                      <Typography className={classes.textJudulModule}>
-                        Module {idx+1}
-                      </Typography>
-                    </Link>
-                  </ListItem>
-                </List>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails className={classes.expandMenu2}>
-                <List>
-                  {item.subject.map((items, indexsub)=>(
-                      <Link href={"/admin/academy/phase/[id]/[module]/[subject_name]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}/${items.name.split(" ").join("-")}`}>
+                <ExpansionPanelSummary
+                  className={classes.expansummar2}
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <List>
+                    <ListItem
+                      button
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <ListItemIcon>
+                        <CollectionsBookmarkIcon
+                          className={classes.iconPhase}
+                        />
+                        <Typography className={classes.noJudulModule}>
+                          {idx + 1}
+                        </Typography>
+                      </ListItemIcon>
+                      <Link
+                        href={"/admin/academy/phase/[id]/[module]"}
+                        as={`/admin/academy/phase/${
+                          props.idPhase
+                        }/${item.name.split(" ").join("-")}`}
+                      >
+                        <Typography className={classes.textJudulModule}>
+                          Module {idx + 1}
+                        </Typography>
+                      </Link>
+                    </ListItem>
+                  </List>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails className={classes.expandMenu2}>
+                  <List>
+                    {item.subject.map((items, indexsub) => (
+                      <Link
+                        href={
+                          "/admin/academy/phase/[id]/[module]/[subject_name]"
+                        }
+                        as={`/admin/academy/phase/${
+                          props.idPhase
+                        }/${item.name.split(" ").join("-")}/${items.name
+                          .split(" ")
+                          .join("-")}`}
+                      >
                         <ListItem button>
                           <ListItemIcon>
                             <BookIcon className={classes.iconSubject} />
                             <Typography className={classes.noJudulSubject}>
-                              {indexsub+1}
+                              {indexsub + 1}
                             </Typography>
                           </ListItemIcon>
                           <Typography className={classes.textJudulSubject}>
@@ -195,13 +215,13 @@ export default function ContentSide(props) {
                           </Typography>
                         </ListItem>
                       </Link>
-                  ))}
-                </List>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          </ExpansionPanelDetails>
+                    ))}
+                  </List>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </ExpansionPanelDetails>
           ))}
-          </ExpansionPanel>
+        </ExpansionPanel>
       </ExpansionPanelDetails>
       <Divider />
     </div>

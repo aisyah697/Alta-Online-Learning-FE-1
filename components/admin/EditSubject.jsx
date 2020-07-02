@@ -193,7 +193,6 @@ export default function EditSubject(props) {
       throw new Error(error);
     }
   };
-  console.log("video", props.subject.video[0]);
   return (
     <div>
       <Button

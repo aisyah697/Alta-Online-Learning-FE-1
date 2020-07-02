@@ -21,8 +21,12 @@ const DeleteSubject = dynamic(() =>
 const EditSubject = dynamic(() =>
   import("../../../../../../components/admin/EditSubject")
 );
-const SubjectAdmin = dynamic(() => import("../../../../../../components/admin/Subject"));
-const SideBarr = dynamic(() => import("../../../../../../components/admin/SideBarr"));
+const SubjectAdmin = dynamic(() =>
+  import("../../../../../../components/admin/Subject")
+);
+const SideBarr = dynamic(() =>
+  import("../../../../../../components/admin/SideBarr")
+);
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -74,7 +78,7 @@ export default function Subject() {
   const [load, setLoad] = load_;
 
   useEffect(() => {
-    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/6";
+    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/1";
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -95,7 +99,7 @@ export default function Subject() {
     };
     fetchData();
   }, [load]);
-  
+
   if (!subject) {
     return <Loading />;
   } else {
