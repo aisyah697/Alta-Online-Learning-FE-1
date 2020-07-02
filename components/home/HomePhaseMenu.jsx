@@ -133,14 +133,14 @@ const CustomCard = ({ classes, phase, lock, disabled, style}) => {
                         Offline Class
                     </Button>
                     :
-                    (!lock ?
+                    (lock ?
                     <Link href={'/courses/phase/[id]'} as={`/courses/phase/${phase}`}>
-                        <Button disabled={lock} size="small" variant={'outlined'} className={style}
+                        <Button disabled={!lock} size="small" variant={'outlined'} className={style}
                                 startIcon={<PlayCircleOutlineIcon/>}>
                             Start
                         </Button>
                     </Link> :
-                    <Button disabled={lock} size="small" variant={'outlined'} className={style}
+                    <Button disabled={!lock} size="small" variant={'outlined'} className={style}
                             startIcon={<LockIcon/>}
                             style={{backgroundColor: '#788896', color: '#fff'}} >
                         Start
@@ -173,15 +173,6 @@ const HomePhaseMenu = ({phase}) => {
                         />
                     </Grid>
                 ))) : <Typography> Loading... </Typography>}
-                <Grid item xs={12} lg={3}>
-                    <CustomCard
-                        classes={classes}
-                        phase={3}
-                        lock={true}
-                        disabled={true}
-                        style={classes.button}
-                    />
-                </Grid>
             </Grid>
         </div>
     )

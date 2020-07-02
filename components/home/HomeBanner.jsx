@@ -76,31 +76,36 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const HomeBanner = () => {
+const HomeBanner = ({phase}) => {
     const classes = useStyles();
-    const id = 'one'
+
     return (
         <div>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} lg={6} className={classes.leftBanner}>
-                        <img className={classes.ornament} src="/images/ornament_batik.png" alt="Ornament"/>
+                        <img className={classes.ornament} src={"/images/ornament_batik.png"} alt="Ornament"/>
                         <div className={classes.leftText}>
-                            <img className={classes.bannerImageSmall} src="/images/banner_image_1.png" alt="Banner"/>
+                            <img className={classes.bannerImageSmall} src={"/images/banner_image_1.png"} alt="Banner"/>
                             <Typography className={classes.bannerTitle} style={{fontWeight: 'bold'}}> What is Alta </Typography>
                             <Typography className={classes.bannerTitle} style={{fontWeight: 'bold'}}> Online Learning? </Typography>
                             <Typography> Alterra Online Learning is a online tech talent learning that gives everyone (even non-IT background) a chance to be a professional Tech Talent. </Typography>
                             <React.Fragment>
-                                <Link href={'/courses/phase/[id]'} as={`/courses/phase/${id}`}>
+                                {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 ?
+                                    <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
+                                        <Button variant={'outlined'} className={classes.button}>
+                                            View Course
+                                        </Button>
+                                    </Link> :
                                     <Button variant={'outlined'} className={classes.button}>
-                                        View Course
+                                        Register
                                     </Button>
-                                </Link>
+                                }
                             </React.Fragment>
                         </div>
                     </Grid>
                     <Grid item xs={12} lg={6} className={classes.rightBanner}>
-                        <img className={classes.bannerImage} src="/images/banner_image_1.png" alt="Banner"/>
+                        <img className={classes.bannerImage} src={"/images/banner_image_1.png"} alt="Banner"/>
                     </Grid>
                 </Grid>
             </Box>

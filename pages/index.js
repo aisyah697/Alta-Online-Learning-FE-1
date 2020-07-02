@@ -45,11 +45,13 @@ const Home = () => {
             </Head>
             <main>
                 <NavigationBar/>
-                <HomeBanner/>
-                <HomePhaseMenu phase={phase}/>
+                <HomeBanner phase={phase}/>
+                {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 ?
+                    <HomePhaseMenu phase={phase}/> : <></>
+                }
                 <HomeTestimony/>
                 <FrequentQuestion/>
-                <SubFooter/>
+                <SubFooter phase={phase}/>
                 <Footer/>
             </main>
         </div>
