@@ -8,6 +8,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Loading from "./Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: "center",
     marginBottom: theme.spacing(5),
+    fontWeight: "bolder",
+    color: theme.palette.secondary.secondary,
   },
   media: {
     height: theme.spacing(30),
@@ -67,6 +70,18 @@ const useStyles = makeStyles((theme) => ({
   spacing: {
     flexBasis: "5%",
   },
+  perQuest: {
+    marginBottom: theme.spacing(3),
+  },
+  answers: {
+    marginTop: theme.spacing(-2),
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+  },
+  allText: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+  },
 }));
 
 function StyledRadio(props) {
@@ -86,64 +101,55 @@ function StyledRadio(props) {
 
 export default function QuizContent(props) {
   const classes = useStyles();
+  const listTest = props.list.question;
 
   return (
     <main className={classes.content}>
       <Toolbar />
-      <h1 className={classes.title}>ALTA Test</h1>
-
-      <Typography paragraph>
-        <Grid container spacing={0}>
-          <Grid item xs={1} className={classes.spacing}>
-            1.
-          </Grid>
-          <Grid item xs={11}>
-            Pagi ini Heldy punya rencana. Dia ingin mengembalikan CD Linux
-            kepada Hardoyo setelah merasakan kelezatan soto daging di Jalan
-            Perintis Kemerdekaan 75 Solo. Heldy ingin makan 2 pisang goreng
-            hangat di kantin Bu Sum di dekat kampus UNS Solo. Setelah makan
-            pisang dia tidak mau minum es teh di kantin Bu Sum tapi ingin minum
-            es buah di dekat stadion Manahan Solo. Sesudah dari Manahan, Heldy
-            menuju Jalan Perintis Kemerdekaan.
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={0}>
-          <Grid item xs={1} className={classes.spacing}>
-            {"   "}
-          </Grid>
-          <Grid item xs={11}>
-            <FormControl component="fieldset">
-              <RadioGroup
-                defaultValue="None"
-                aria-label="answer"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  value="2"
-                  control={<StyledRadio />}
-                  label="2"
-                />
-                <FormControlLabel
-                  value="3"
-                  control={<StyledRadio />}
-                  label="3"
-                />
-                <FormControlLabel
-                  value="8"
-                  control={<StyledRadio />}
-                  label="8"
-                />
-                <FormControlLabel
-                  value="13"
-                  control={<StyledRadio />}
-                  label="13"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-        </Grid>
+      <Typography variant="h4" className={classes.title}>
+        Alta Test
       </Typography>
+      {listTest ? (
+        listTest.map((item, idx) => (
+          <div className={classes.perQuest} key={idx}>
+            <Grid container spacing={0}>
+              <Grid item xs={1} className={classes.spacing}>
+                <Typography className={classes.allText}>{idx + 1}</Typography>
+              </Grid>
+              <Grid item xs={11}>
+                <Typography paragraph className={classes.allText}>
+                  {item.question}
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={0}>
+              <Grid item xs={1} className={classes.spacing}></Grid>
+              <Grid item xs={11}>
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    className={classes.answers}
+                    defaultValue="None"
+                    aria-label="answer"
+                    name="customized-radios"
+                  >
+                    {item.choice.map((element, num) => (
+                      <FormControlLabel
+                        key={num}
+                        control={<StyledRadio />}
+                        value={num.toString()}
+                        label={element.choice}
+                      />
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </div>
+        ))
+      ) : (
+        <Loading />
+      )}
     </main>
   );
 }

@@ -13,7 +13,8 @@ import Loading from "../../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
-    color: "white",
+    color: theme.palette.secondary.primary,
+    transitions: "0.5s",
     "&:hover": {
       color: theme.palette.secondary.main,
     },
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function DeleteModule(props) {
+export default function DeleteRequirement(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
@@ -44,25 +45,27 @@ export default function DeleteModule(props) {
   const [load, setLoad] = load_;
   const [loading, setLoading] = React.useState(false);
 
-  const handleClickOpen = (e) => {
+  const handleClickOpen = () => {
     setOpen(true);
-    e.stopPropagation()
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const deleteModule = async () => {
+  const deleteRequirement = async () => {
     setOpen(false);
     setLoading(true);
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/" + props.id_module;
+    const url =
+      process.env.NEXT_PUBLIC_BASE_URL +
+      "/requirementmodule/" +
+      props.id_requirement;
     const auth = cookies.token_admin;
 
     try {
       const response = await axios.delete(url, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: "Bearer " + auth,
         },
       });
@@ -100,7 +103,7 @@ export default function DeleteModule(props) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {`Are you sure want to delete this module?`}
+            {`Are you sure want to delete this requirement?`}
           </DialogTitle>
           <DialogActions>
             <Button
@@ -112,7 +115,7 @@ export default function DeleteModule(props) {
               No
             </Button>
             <Button
-              onClick={deleteModule}
+              onClick={deleteRequirement}
               variant="outlined"
               size="medium"
               className={classes.buttonInPop}

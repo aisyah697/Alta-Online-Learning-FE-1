@@ -9,11 +9,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
-import Loading from "../../components/Loading";
+
+import Loading from "./../Loading";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
-    color: "white",
+    color: theme.palette.secondary.main,
     "&:hover": {
       color: theme.palette.secondary.main,
     },
@@ -35,40 +36,41 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function DeleteModule(props) {
+
+export default function DeleteQestion(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
-
-  const { admin_, token_, load_ } = useContext(AdminContext);
+  const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
-  const [loading, setLoading] = React.useState(false);
 
-  const handleClickOpen = (e) => {
+  const handleClickOpen = () => {
     setOpen(true);
-    e.stopPropagation()
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-
-  const deleteModule = async () => {
+  console.log("propsdelete", props.ID);
+  const deleteQuestion = async () => {
     setOpen(false);
-    setLoading(true);
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/" + props.id_module;
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz/" + props.ID;
     const auth = cookies.token_admin;
 
+    const MyJOSN = JSON.stringify({
+      status: false,
+    });
     try {
-      const response = await axios.delete(url, {
+      const response = await axios.put(url, MyJOSN, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization: "Bearer " + auth,
         },
       });
 
       if (response.status === 200) {
         setLoad(true);
+        // setLoad(false);
       } else {
         let error = new Error(response.statusText);
         error.response = response;
@@ -79,13 +81,8 @@ export default function DeleteModule(props) {
       throw new Error(error);
     }
   };
-
-  if (load) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
+  if (load === true) {
+    return <Loading />;
   } else {
     return (
       <div>
@@ -100,7 +97,7 @@ export default function DeleteModule(props) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {`Are you sure want to delete this module?`}
+            {"Are you sure want to delete this alta test?"}
           </DialogTitle>
           <DialogActions>
             <Button
@@ -112,7 +109,7 @@ export default function DeleteModule(props) {
               No
             </Button>
             <Button
-              onClick={deleteModule}
+              onClick={deleteQuestion}
               variant="outlined"
               size="medium"
               className={classes.buttonInPop}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -18,6 +18,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
+
+import AdminContext from "../../store/adminContext";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import DeleteRequirement from "./DeleteRequirement";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -94,17 +99,121 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
+  divButton: {
+    display: "flex",
+    justifyContent: "left",
+    marginTop: "5px",
+    marginBottom: "5px",
+  },
+  input: {
+    display: "none",
+  },
+  uploadPhoto: {
+    backgroundColor: theme.palette.secondary.secondary,
+    color: "#ffffff",
+    boxShadow: "none",
+    border: "1px solid #19355f",
+    WebkitBorderRadius: "20px",
+    textTransform: "capitalize",
+    "&:hover": {
+      backgroundColor: "#ffffff",
+      boxShadow: "none",
+      border: "1px solid #19355f",
+      color: theme.palette.secondary.secondary,
+    },
+  },
 }));
-export default function AddModule() {
+
+export default function EditModule(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [cookies, setCookie] = useCookies();
+  const { load_ } = useContext(AdminContext);
+  const [load, setLoad] = load_;
+  const [module, setModule] = React.useState();
+  const [requirement, setRequirement] = React.useState();
 
-  const handleClickOpen = () => {
+  const [values, setValues] = React.useState({
+    name: props.name,
+    description: "",
+    description_module: props.description,
+  });
+
+  const [images, setImages] = React.useState(values.image);
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleImage = (e) => {
+    if (e.target.files.length) {
+      setImages(e.target.files[0]);
+    }
+  };
+
+  const handleClickOpen = (e) => {
     setOpen(true);
+    e.stopPropagation()
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const postEditModule = async () => {
+    setOpen(false);
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/" + props.id;
+    const auth = cookies.token_admin;
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("description", values.description_module);
+    formData.append("image", images);
+
+    try {
+      const response = await axios.patch(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (response.status === 200) {
+        setLoad(true);
+        setCookie("module", response.data);
+        setModule(response.data);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  };
+
+  const postEditRequirement = async () => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/requirementmodule";
+    const auth = cookies.token_admin;
+
+    const MyJOSN = JSON.stringify({
+      description: values.description,
+      module_id: props.id_module,
+    });
+
+    try {
+      const response = await axios.post(url, MyJOSN, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      });
+      if (response.status === 200) {
+        setLoad(true);
+        setCookie("requirement", response.data);
+        setRequirement(response.data);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+    setValues({ ...values, requirement: "" });
+    document.getElementById("add-requirement").value = "";
   };
 
   return (
@@ -117,15 +226,17 @@ export default function AddModule() {
           Edit Module
         </DialogTitle>
         <DialogContent>
-          <Typography className={classes.allText}>Nama Module</Typography>
+          <Typography className={classes.allText}>Module Title</Typography>
           <TextField
             className={classes.textField}
             variant="outlined"
             color="secondary"
-            label="Module Name"
+            label="Module Title"
             size="small"
+            defaultValue={props.name}
+            onChange={handleChange("name")}
           />
-          <Typography className={classes.allText}>Nama Mentor</Typography>
+          <Typography className={classes.allText}>Mentor's Name</Typography>
           <FormControl
             className={clsx(classes.margin, classes.textField)}
             variant="outlined"
@@ -133,7 +244,7 @@ export default function AddModule() {
             color="secondary"
           >
             <InputLabel color="secondary">Mentor</InputLabel>
-            <Select label="Mentor">
+            <Select label="Mentor" value={1}>
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
@@ -146,10 +257,7 @@ export default function AddModule() {
             </Select>
           </FormControl>
           <Typography className={classes.allText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            {props.description}
           </Typography>
           <TextField
             className={classes.textField}
@@ -157,20 +265,48 @@ export default function AddModule() {
             color="secondary"
             rows={7}
             multiline
-            label="Module Description"
+            label="Index Description"
             size="small"
+            defaultValue={props.description}
+            onChange={handleChange("description_module")}
           />
+
+          <div className={classes.divButton}>
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              name="image"
+              onChange={handleImage}
+            />
+            <label htmlFor="contained-button-file">
+              <Button
+                className={classes.uploadPhoto}
+                variant="contained"
+                color="primary"
+                component="span"
+              >
+                Edit Module Image
+              </Button>
+            </label>
+          </div>
+
           <TextField
+            id="add-requirement"
             className={classes.textField}
             variant="outlined"
             color="secondary"
             rows={2}
             multiline
-            label="System Requirements Module"
+            label="System Requirements Index"
             size="small"
+            // defaultValue={props.description}
+            onChange={handleChange("description")}
           />
           <Button
-            onClick={handleClickOpen}
+            onClick={postEditRequirement}
             variant="outlined"
             color="primary"
             size="medium"
@@ -183,54 +319,14 @@ export default function AddModule() {
             System Requirements :
           </Typography>
           <List>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
-            <ListItem>
-              <IconButton>
-                <DeleteIcon color="secondary" />
-              </IconButton>
-              <Typography className={classes.allText}>
-                Lorem ipsum dolor sit amet, consectetur
-              </Typography>
-            </ListItem>
+            {props.requirement.map((item, index) => (
+              <ListItem key={index}>
+                <DeleteRequirement id_requirement={item.id} color="secondary" />
+                <Typography className={classes.allText}>
+                  {item.description}
+                </Typography>
+              </ListItem>
+            ))}
           </List>
         </DialogContent>
         <DialogActions>
@@ -243,7 +339,7 @@ export default function AddModule() {
             Cancel
           </Button>
           <Button
-            onClick={handleClose}
+            onClick={postEditModule}
             variant="outlined"
             size="medium"
             className={classes.buttonInPop}
