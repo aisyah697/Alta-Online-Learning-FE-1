@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react";
-import Head from "next/head";
+import {useRouter} from "next/router";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import axios from "axios";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,24 +11,15 @@ import AppBar from "@material-ui/core/AppBar";
 import { useCookies } from "react-cookie";
 import Grid from "@material-ui/core/Grid";
 
-const Loading = dynamic(() => import("../../../../../../components/Loading"));
-const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
-const NavigationAdminBar = dynamic(() =>
-  import("../../../../../../components/admin/NavigationBarAdmin")
-);
-const DeleteSubject = dynamic(() =>
-  import("../../../../../../components/admin/DeleteSubject")
-);
-const EditSubject = dynamic(() =>
-  import("../../../../../../components/admin/EditSubject")
-);
-const SubjectAdmin = dynamic(() =>
-  import("../../../../../../components/admin/Subject")
-);
-const SideBarr = dynamic(() =>
-  import("../../../../../../components/admin/SideBarr")
-);
+const NavigationAdminBar = dynamic(() => import("../../../../../../../../components/admin/NavigationBarAdmin"));
+const DeleteSubject = dynamic(() => import("../../../../../../../../components/admin/DeleteSubject"));
+const EditSubject = dynamic(() => import("../../../../../../../../components/admin/EditSubject"));
+const SubjectAdmin = dynamic(() => import("../../../../../../../../components/admin/Subject"));
+const SideBarr = dynamic(() => import("../../../../../../../../components/admin/SideBarr"));
+const Footer = dynamic(() => import("../../../../../../../../components/FooterBar"));
+const Loading = dynamic(() => import("../../../../../../../../components/Loading"));
 
+import AdminContext from "../../../../../../../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -73,25 +65,29 @@ const useStyles = makeStyles((theme) => ({
 export default function Subject() {
   const classes = useStyles();
   const [open] = React.useState(false);
-  const [subject, setsubject] = React.useState();
+  const router = useRouter();
+  const { id, id_module, module, id_subject } = router.query;
+
+  const [subject, setSubject] = React.useState();
   const [loading, setLoading] = React.useState();
+
   const [cookies] = useCookies();
-  const { load_ } = useContext(AdminContext);
+  const { load_ } = React.useContext(AdminContext);
   const [load, setLoad] = load_;
 
-  useEffect(() => {
-    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/1";
+  React.useEffect(() => {
+    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/"+ id_subject;
     const fetchData = async function () {
       try {
         setLoading(true);
-        const response = await axios.get(urlsubject, {
+        const response = await axios.get(urlSubject, {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + cookies.admin.token,
           },
         });
         if (response.status === 200) {
-          setsubject(response.data);
+          setSubject(response.data);
         }
       } catch (error) {
         throw error;
@@ -99,24 +95,23 @@ export default function Subject() {
         setLoading(false);
       }
     };
-    fetchData();
-  }, [load]);
+    if (id_subject){
+      fetchData();
+    }
+  }, [id_subject]);
 
-  if (!subject) {
-    return <Loading />;
-  } else {
-    return (
+  return (
       <React.Fragment>
         <Head>
           <title>Admin | Academy</title>
         </Head>
         <div className={classes.page}>
           <div className={classes.root}>
-            <CssBaseline />
+            <CssBaseline/>
             <AppBar className={classes.appBar}>
-              <NavigationAdminBar />
+              <NavigationAdminBar/>
             </AppBar>
-            <SideBarr />
+            <SideBarr/>
             <main className={classes.content}>
               {subject ?
                   <React.Fragment>
@@ -130,21 +125,21 @@ export default function Subject() {
                         justify="flex-start"
                         alignItems="flex-start"
                     >
-                      <EditSubject subject={subject}/>
-                      <DeleteSubject ID={subject.id}/>
+                      {/*<EditSubject subject={subject} />*/}
+                      <DeleteSubject ID={subject.id} />
                     </Grid>
-                    <div>
-                      <SubjectAdmin props={subject}/>
-                    </div>
+                    {/*<div>*/}
+                    {/*  <SubjectAdmin props={subject} />*/}
+                    {/*</div>*/}
                   </React.Fragment>
-              : null
+                  : null
               }
             </main>
           </div>
           <div className={classes.footer}>
-            <Footer />
+            <Footer/>
           </div>
         </div>
       </React.Fragment>
-    );
+  );
 }

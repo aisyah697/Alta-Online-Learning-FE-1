@@ -12,7 +12,9 @@ import Typography from "@material-ui/core/Typography";
 import { useCookies } from "react-cookie";
 import Divider from "@material-ui/core/Divider";
 import axios from "axios";
+
 import AdminContext from "../../store/adminContext";
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -79,18 +81,24 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, -3, 0),
   },
 }));
-export default function EditSubject(props) {
+export default function EditSubject({props, subject}) {
+  const router = useRouter();
+  const { id, id_module, module, id_subject } = router.query;
   const handleClickOpen = () => {
+
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
+
   var namaPresentasi = "";
   var namaVideo = "";
   var videoFile = "";
   var presFile = "";
-  if (props.subject.video[0] != undefined) {
+
+  if (props.subject.video[0] !== undefined) {
     var namaVideo = props.subject.video[0].name;
     var videoFile = props.subject.video[0].content_file;
   }

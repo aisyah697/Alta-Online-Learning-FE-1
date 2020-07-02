@@ -172,7 +172,7 @@ export default function ContentSide(props) {
                         {idx+1}
                       </Typography>
                     </ListItemIcon>
-                    <Link href={"/admin/academy/phase/[id]/[module]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}`}>
+                    <Link href={"/admin/academy/phase/[id]/[id_module]/[module]"} as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}`}>
                       <Typography className={classes.textJudulModule}>
                         Module {idx+1}
                       </Typography>
@@ -183,7 +183,7 @@ export default function ContentSide(props) {
               <ExpansionPanelDetails className={classes.expandMenu2}>
                 <List>
                   {item.subject.map((items, indexsub)=>(
-                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[module]/[subject_name]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}/${items.name.split(" ").join("-")}`}>
+                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"} as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}/${items.id}/${items.name.split(" ").join("-")}`}>
                         <ListItem button>
                           <ListItemIcon>
                             <BookIcon className={classes.iconSubject} />
