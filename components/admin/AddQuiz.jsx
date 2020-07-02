@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -8,9 +8,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import dynamic from "next/dynamic";
 import AddIcon from "@material-ui/icons/Add";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import AdminContext from "../../store/adminContext";
 import PostAddIcon from "@material-ui/icons/PostAdd";
+import IconButton from "@material-ui/core/IconButton";
 
-const EditChoice = dynamic(() => import("./EditChoice"));
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
     color: "white",
@@ -36,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   textFieldChoice: {
     width: "100%",
+    minWidth: "50vw",
     marginTop: theme.spacing(-3),
     background: "white",
     "&:hover label.Mui-focused": {
@@ -51,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(10),
+    borderRadius: theme.spacing(1),
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(12),
@@ -84,10 +88,26 @@ const useStyles = makeStyles((theme) => ({
     fontSize: `calc(0.6em + 0.5vw)`,
     color: theme.palette.secondary.secondary,
   },
+  dialog: {
+    minWidth: "50vw",
+  },
 }));
-export default function AddQuiz() {
+
+export default function AddQuestion(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [cookies, setCookie] = useCookies();
+  const { load_, admin_ } = useContext(AdminContext);
+  const [load, setLoad] = load_;
+  const [admin, setAdmin] = admin_;
+
+  const [values, setValues] = React.useState({
+    question: "",
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -97,26 +117,49 @@ export default function AddQuiz() {
     setOpen(false);
   };
 
+  const postAddQuestion = async () => {
+    setOpen(false);
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz";
+    const auth = cookies.token_admin;
+
+    const MyJOSN = JSON.stringify({
+      question: values.question,
+      quiz_id: props.quizID,
+    });
+
+    try {
+      const response = await axios.post(url, MyJOSN, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      });
+
+      if (response.status === 200) {
+        setLoad(true);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
+  };
+
   return (
     <div>
-      <Button
-        onClick={handleClickOpen}
-        variant="outlined"
-        color="primary"
-        size="medium"
-        className={classes.button}
-        startIcon={<PostAddIcon />}
-      >
-        Add Quiz
-      </Button>
+      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+        <PostAddIcon className={classes.buttonIcon} fontSize="default" />
+      </IconButton>
 
       <Dialog
+        className={classes.dialog}
         open={open}
+        fullWidth
+        maxWidth={"md"}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Add Quiz"}
+          {"Add Question"}
         </DialogTitle>
         <DialogContent>
           <TextField
@@ -125,31 +168,9 @@ export default function AddQuiz() {
             multiline
             color="secondary"
             className={classes.textFieldQuestion}
-            rows={4}
+            rows={12}
             variant="outlined"
-          />
-          <div>
-            <EditChoice />
-            <EditChoice />
-            <EditChoice />
-            <EditChoice />
-          </div>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.buttonAddChoice}
-            startIcon={<AddIcon />}
-          >
-            Add Multiple Choice
-          </Button>
-          <TextField
-            id="outlined-multiline-static"
-            label="Add Choice"
-            multiline
-            color="secondary"
-            className={classes.textFieldChoice}
-            rows={2}
-            variant="outlined"
+            onChange={handleChange("question")}
           />
         </DialogContent>
         <DialogActions>
@@ -159,16 +180,16 @@ export default function AddQuiz() {
             size="small"
             onClick={handleClose}
           >
-            No
+            Cancel
           </Button>
           <Button
             variant="outlined"
             size="small"
-            onClick={handleClose}
+            onClick={postAddQuestion}
             autoFocus
             className={classes.button}
           >
-            Yes
+            Submit
           </Button>
         </DialogActions>
       </Dialog>

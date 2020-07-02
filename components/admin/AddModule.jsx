@@ -13,7 +13,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import MenuItem from "@material-ui/core/MenuItem";
-import Router, {useRouter} from "next/router";
+import Router, { useRouter } from "next/router";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
 
@@ -192,6 +192,7 @@ export default function AddModule() {
     setLoad(true);
     postModule(values.name, values.description, values.image);
   };
+
   return (
     <div>
       {admin.role === "super" || "academic" ? (
