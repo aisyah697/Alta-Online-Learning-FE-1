@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
+    minHeight: `calc(100vh - 147px)`
   },
   titleInPage: {
     textAlign: "center",
@@ -69,7 +70,7 @@ export default function Subject() {
   const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
 
-  useEffect(() => {
+  React.useEffect(() => {
     const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/6";
     const fetchData = async function () {
       try {
@@ -92,9 +93,6 @@ export default function Subject() {
     fetchData();
   }, [load]);
 
-  if (!subject) {
-    return <Loading />;
-  } else {
     return (
       <React.Fragment>
         <Head>
@@ -108,22 +106,27 @@ export default function Subject() {
             </AppBar>
             <SideBarr />
             <main className={classes.content}>
-              <div className={classes.toolbar} />
-              <Typography className={classes.titleInPage}>
-                {subject.name}
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
-              >
-                <EditSubject subject={subject} />
-                <DeleteSubject ID={subject.id} />
-              </Grid>
-              <div>
-                <SubjectAdmin props={subject} />
-              </div>
+              {subject ?
+                  <React.Fragment>
+                    <div className={classes.toolbar}/>
+                    <Typography className={classes.titleInPage}>
+                      {subject.name}
+                    </Typography>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="flex-start"
+                        alignItems="flex-start"
+                    >
+                      <EditSubject subject={subject}/>
+                      <DeleteSubject ID={subject.id}/>
+                    </Grid>
+                    <div>
+                      <SubjectAdmin props={subject}/>
+                    </div>
+                  </React.Fragment>
+              : null
+              }
             </main>
           </div>
           <div className={classes.footer}>
@@ -132,5 +135,4 @@ export default function Subject() {
         </div>
       </React.Fragment>
     );
-  }
 }
