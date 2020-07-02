@@ -64,7 +64,7 @@ export default function DeleteModule(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log("propsdelete", props.ID);
+
   const deleteQuestion = async () => {
     setOpen(false);
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + props.ID;

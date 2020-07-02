@@ -1,28 +1,24 @@
 import React, { useEffect, useContext } from "react";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+import axios from "axios";
+
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import dynamic from "next/dynamic";
-import Typography from "@material-ui/core/Typography";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import Grid from "@material-ui/core/Grid";
-import AdminContext from "../../../../../../store/adminContext";
 
-const Loading = dynamic(() => import("../../../../../../components/Loading"));
-const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
-const NavigationAdminBar = dynamic(() =>
-  import("../../../../../../components/admin/NavigationBarAdmin")
-);
-const DeleteSubject = dynamic(() =>
-  import("../../../../../../components/admin/DeleteSubject")
-);
-const EditSubject = dynamic(() =>
-  import("../../../../../../components/admin/EditSubject")
-);
+const NavigationAdminBar = dynamic(() => import("../../../../../../components/admin/NavigationBarAdmin"));
+const DeleteSubject = dynamic(() => import("../../../../../../components/admin/DeleteSubject"));
+const EditSubject = dynamic(() => import("../../../../../../components/admin/EditSubject"));
 const SubjectAdmin = dynamic(() => import("../../../../../../components/admin/Subject"));
 const SideBarr = dynamic(() => import("../../../../../../components/admin/SideBarr"));
+const Loading = dynamic(() => import("../../../../../../components/Loading"));
+const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
+
+import AdminContext from "../../../../../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -95,7 +91,7 @@ export default function Subject() {
     };
     fetchData();
   }, [load]);
-  
+
   if (!subject) {
     return <Loading />;
   } else {

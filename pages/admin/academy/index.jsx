@@ -1,23 +1,24 @@
 import React from "react";
-import Head from "next/head";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import dynamic from "next/dynamic";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
+import Head from "next/head";
+import Link from "next/link";
+
 import CardActionArea from "@material-ui/core/CardActionArea";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import CardActions from "@material-ui/core/CardActions";
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
+import AppBar from "@material-ui/core/AppBar";
+import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import Link from "next/link";
 
 const NavigationAdminBar = dynamic(() =>  import("../../../components/admin/NavigationBarAdmin"));
 const AddModule = dynamic(() => import("../../../components/admin/AddModule"));
-const Footer = dynamic(() => import("../../../components/FooterBar"));
 const SideBarr = dynamic(() => import("../../../components/admin/SideBarr"));
+const Footer = dynamic(() => import("../../../components/FooterBar"));
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -35,57 +36,58 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   toolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
+    justifyContent: "flex-end",
+    alignItems: "center",
+    display: "flex",
     ...theme.mixins.toolbar,
   },
   content: {
-    flexGrow: 1,
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
+    minHeight: `calc(100vh - 155px)`,
+    flexGrow: 1,
   },
   titleInPage: {
-    textAlign: "center",
     color: theme.palette.secondary.secondary,
+    margin: theme.spacing(2, 0, 2, 0),
     ontFamily: "Muli, sans-serif",
     fontSize: `calc(1em + 1.2vw)`,
     fontWeight: "bold",
-    margin: theme.spacing(2, 0, 2, 0),
+    textAlign: "center",
   },
   footer: {
     position: "relative",
   },
   card: {
-    minWidth: 250,
-    margin: theme.spacing(4),
-    borderRadius: theme.spacing(2),
     borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(2),
+    margin: theme.spacing(4),
     borderStyle: "solid",
     borderWidth: "5px",
+    minWidth: 250,
     "&:hover": {
       borderColor: theme.palette.secondary.secondary,
     },
   },
   cardMenu: {
-    background: "#F4F7FC",
-    marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(5),
+    marginTop: theme.spacing(2),
+    background: "#F4F7FC",
   },
   media: {
     height: 340,
   },
   button: {
-    width: "180px",
-    textTransform: "none",
-    background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     color: theme.palette.common.white,
-    padding: "7px 20px",
     borderRadius: theme.spacing(10),
     minWidth: theme.spacing(12),
+    textTransform: "none",
+    background: "#3364ff",
+    padding: "7px 20px",
+    width: "180px",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.secondary,
@@ -94,12 +96,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   monitoring: {
-    textAlign: "center",
-    fontFamily: "Muli, sans-serif",
-    fontSize: `calc(2em + 0.5vw)`,
     color: theme.palette.secondary.secondary,
-    fontWeight: 600,
+    fontFamily: "Muli, sans-serif",
     paddingTop: theme.spacing(4),
+    fontSize: `calc(2em + 0.5vw)`,
+    fontWeight: 600,
+    textAlign: "center",
   },
 }));
 
