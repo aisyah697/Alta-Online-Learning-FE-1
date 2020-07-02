@@ -150,7 +150,7 @@ export default function ContentSide(props) {
             </ListItem>
           </ExpansionPanelSummary>
             {props.module.map((item, idx)=>(
-          <ExpansionPanelDetails className={classes.expandMenu1}>
+          <ExpansionPanelDetails key={idx} className={classes.expandMenu1}>
             <ExpansionPanel
               elevation={0}
               className={classes.expandTitle2}

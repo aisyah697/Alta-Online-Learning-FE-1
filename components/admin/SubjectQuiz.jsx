@@ -90,8 +90,7 @@ export default function QuizContent(props) {
   return (
     <main className={classes.content}>
       <h1 className={classes.title}>Basic Programming Quiz</h1>
-      <Typography paragraph>
-        <Grid container spacing={0}>
+        <Grid item>
           <Grid item xs={1} className={classes.spacing}>
             1.
           </Grid>
@@ -104,7 +103,6 @@ export default function QuizContent(props) {
             <br />
           </Grid>
         </Grid>
-
         <Grid container spacing={0}>
           <Grid item xs={1} className={classes.spacing}>
             {"   "}
@@ -140,7 +138,6 @@ export default function QuizContent(props) {
             </FormControl>
           </Grid>
         </Grid>
-      </Typography>
     </main>
   );
 }

@@ -100,8 +100,10 @@ export default function EditAltaTest(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies()
-  const {load_} = useContext(AdminContext);
+
+  const {load_, trigger_} = useContext(AdminContext);
   const [load, setLoad] = load_
+  const [trigger] = trigger_
   const [choices, setChoices] = useState('')
 
   const [values, setValues] = React.useState({
@@ -194,9 +196,6 @@ export default function EditAltaTest(props) {
         } catch (error) {
         throw new Error(error)
       }
-      
-      
-      
     };
     fetchData();
   }, [load]);

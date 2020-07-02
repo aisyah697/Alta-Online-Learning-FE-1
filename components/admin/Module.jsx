@@ -123,7 +123,7 @@ export default function ModuleAdmin() {
     <div className={classes.root}>
       {module
         ? module.filter(mod => mod.phase_id == id).map((value, index) => (
-            <div className={classes.margins}>
+            <div className={classes.margins} key={index}>
               <ExpansionPanel
                 expanded={expanded === value.id.toString()}
                 onChange={handleChange(value.id.toString())}
@@ -180,7 +180,7 @@ export default function ModuleAdmin() {
                     </Typography>
                     <List component="nav">
                       {value.requirement.map((item, index) => (
-                        <ListItem>
+                        <ListItem key={index}>
                           <ListItemIcon>
                             <RadioButtonCheckedIcon color="secondary" />
                           </ListItemIcon>

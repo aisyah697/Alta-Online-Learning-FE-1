@@ -147,10 +147,8 @@ export default function EditSubject() {
               <input
                 className={classes.textFieldFile}
                 accept="application/*"
-                className={classes.input}
                 id="contained-button-file"
                 multiple
-                row={3}
                 type="file"
               />
             </Button>

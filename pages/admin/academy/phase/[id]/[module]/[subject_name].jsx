@@ -1,20 +1,17 @@
 import React from "react";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import dynamic from "next/dynamic";
-import Typography from "@material-ui/core/Typography";
 
-const EditSubject = dynamic(() =>
-    import("../../../../../../components/admin/EditSubject")
-);
-const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
-const NavigationAdminBar = dynamic(() =>
-    import("../../../../../../components/admin/NavigationBarAdmin")
-);
+const NavigationAdminBar = dynamic(() => import("../../../../../../components/admin/NavigationBarAdmin"));
+const EditSubject = dynamic(() => import("../../../../../../components/admin/EditSubject"));
 const SubjectAdmin = dynamic(() => import("../../../../../../components/admin/Subject"));
 const SideBarr = dynamic(() => import("../../../../../../components/admin/SideBarr"));
+const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
 
 const useStyles = makeStyles((theme) => ({
     page: {
@@ -32,24 +29,24 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     toolbar: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-end",
         padding: theme.spacing(0, 1),
+        justifyContent: "flex-end",
+        alignItems: "center",
+        display: "flex",
         ...theme.mixins.toolbar,
     },
     content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
         backgroundColor: "#F4F7FC",
+        padding: theme.spacing(3),
+        flexGrow: 1,
     },
     titleInPage: {
-        textAlign: "center",
         color: theme.palette.secondary.secondary,
+        margin: theme.spacing(2, 0, 2, 0),
         ontFamily: "Muli, sans-serif",
         fontSize: `calc(1em + 1.2vw)`,
+        textAlign: "center",
         fontWeight: "bold",
-        margin: theme.spacing(2, 0, 2, 0),
     },
     footer: {
         position: "relative",

@@ -320,7 +320,7 @@ export default function EditModule(props) {
           </Typography>
           <List>
             {props.requirement.map((item, index) => (
-              <ListItem>
+              <ListItem key={index}>
                 <DeleteRequirement id_requirement={item.id} color="secondary" />
                 <Typography className={classes.allText}>
                   {item.description}

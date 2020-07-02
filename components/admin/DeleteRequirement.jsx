@@ -42,9 +42,7 @@ export default function DeleteRequirement(props) {
   const [cookies, setCookie] = useCookies();
 
   const { admin_, token_, load_ } = useContext(AdminContext);
-  // const [admin, setAdmin] = admin_;
   const [load, setLoad] = load_;
-  // const [token, setToken] = token_;
   const [loading, setLoading] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -58,7 +56,6 @@ export default function DeleteRequirement(props) {
   const deleteRequirement = async () => {
     setOpen(false);
     setLoading(true);
-    console.log("id requirement", props.id_requirement);
     const url =
       process.env.NEXT_PUBLIC_BASE_URL +
       "/requirementmodule/" +

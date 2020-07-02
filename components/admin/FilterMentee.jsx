@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 275,
     backgroundColor: "#F4F7FC",
-    // borderColor: theme.palette.primary.secondary,
   },
   search: {
     margin: theme.spacing(1),

@@ -102,7 +102,7 @@ export default function EditQuiz() {
   return (
     <div>
       <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-        <EditIcon className={classes.buttonIcon} fontSize="medium" />
+        <EditIcon className={classes.buttonIcon} fontSize="inherit" />
       </IconButton>
 
       <Dialog
