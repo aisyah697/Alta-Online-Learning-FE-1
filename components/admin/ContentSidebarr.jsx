@@ -150,59 +150,40 @@ export default function ContentSide(props) {
               </Link>
             </ListItem>
           </ExpansionPanelSummary>
-          {props.module.map((item, idx) => (
-            <ExpansionPanelDetails className={classes.expandMenu1}>
-              <ExpansionPanel
-                elevation={0}
-                className={classes.expandTitle2}
-                expanded={expanded2 === idx.toString()}
-                onChange={handleChange2(idx.toString())}
+            {props.module.map((item, idx)=>(
+          <ExpansionPanelDetails key={idx} className={classes.expandMenu1}>
+            <ExpansionPanel
+              elevation={0}
+              className={classes.expandTitle2}
+              expanded={expanded2 === idx.toString()}
+              onChange={handleChange2(idx.toString())}
+            >
+              <ExpansionPanelSummary
+                className={classes.expansummar2}
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
               >
-                <ExpansionPanelSummary
-                  className={classes.expansummar2}
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <List>
-                    <ListItem
-                      button
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      <ListItemIcon>
-                        <CollectionsBookmarkIcon
-                          className={classes.iconPhase}
-                        />
-                        <Typography className={classes.noJudulModule}>
-                          {idx + 1}
-                        </Typography>
-                      </ListItemIcon>
-                      <Link
-                        href={"/admin/academy/phase/[id]/[module]"}
-                        as={`/admin/academy/phase/${
-                          props.idPhase
-                        }/${item.name.split(" ").join("-")}`}
-                      >
-                        <Typography className={classes.textJudulModule}>
-                          Module {idx + 1}
-                        </Typography>
-                      </Link>
-                    </ListItem>
-                  </List>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.expandMenu2}>
-                  <List>
-                    {item.subject.map((items, indexsub) => (
-                      <Link
-                        href={
-                          "/admin/academy/phase/[id]/[module]/[subject_name]"
-                        }
-                        as={`/admin/academy/phase/${
-                          props.idPhase
-                        }/${item.name.split(" ").join("-")}/${items.name
-                          .split(" ")
-                          .join("-")}`}
-                      >
+                <List>
+                  <ListItem button onClick={(event) => event.stopPropagation()}>
+                    <ListItemIcon>
+                      <CollectionsBookmarkIcon className={classes.iconPhase} />
+                      <Typography className={classes.noJudulModule}>
+                        {idx+1}
+                      </Typography>
+                    </ListItemIcon>
+                    <Link href={"/admin/academy/phase/[id]/[module]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}`}>
+                      <Typography className={classes.textJudulModule}>
+                        Module {idx+1}
+                      </Typography>
+                    </Link>
+                  </ListItem>
+                </List>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.expandMenu2}>
+                <List>
+                  {item.subject.map((items, indexsub)=>(
+                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[module]/[subject_name]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}/${items.name.split(" ").join("-")}`}>
                         <ListItem button>
                           <ListItemIcon>
                             <BookIcon className={classes.iconSubject} />

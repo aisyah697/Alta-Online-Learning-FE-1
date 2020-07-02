@@ -15,8 +15,8 @@ import Avatar from "@material-ui/core/Avatar";
 import dynamic from "next/dynamic";
 import AdminContext from "../../store/adminContext";
 import { useCookies } from "react-cookie";
-
 import axios from "axios";
+import {useRouter} from "next/router";
 
 const DeleteModule = dynamic(() => import("./DeleteModule"));
 const EditModule = dynamic(() => import("./EditModule"));
@@ -80,6 +80,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ModuleAdmin() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const router = useRouter();
+  const { id } = router.query;
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -93,7 +95,7 @@ export default function ModuleAdmin() {
   const [module, setModule] = React.useState();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/nested";
     const fetchData = async function () {
       try {
@@ -120,11 +122,12 @@ export default function ModuleAdmin() {
   return (
     <div className={classes.root}>
       {module
-        ? module.map((value, index) => (
-            <div className={classes.margins}>
+        ? module.filter(mod => mod.phase_id == id).map((value, index) => (
+            <div className={classes.margins} key={index}>
               <ExpansionPanel
                 expanded={expanded === value.id.toString()}
                 onChange={handleChange(value.id.toString())}
+                onClick={(event) => event.stopPropagation()}
               >
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
@@ -138,8 +141,6 @@ export default function ModuleAdmin() {
                   <EditModule
                     {...value}
                     id_module={value.id}
-                    // name={value.name}
-                    // description={value.description}
                   />
                   <DeleteModule id_module={value.id} />
                 </ExpansionPanelSummary>
@@ -161,7 +162,7 @@ export default function ModuleAdmin() {
                           <strong>Mentor :</strong>{" "}
                         </Typography>
                         <Typography className={classes.allText}>
-                          {value.admin_id}
+                          {value.admin.full_name}
                         </Typography>
                         <Divider className={classes.divider} />
                         <Typography className={classes.allText}>
@@ -179,7 +180,7 @@ export default function ModuleAdmin() {
                     </Typography>
                     <List component="nav">
                       {value.requirement.map((item, index) => (
-                        <ListItem>
+                        <ListItem key={index}>
                           <ListItemIcon>
                             <RadioButtonCheckedIcon color="secondary" />
                           </ListItemIcon>

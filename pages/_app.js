@@ -51,6 +51,7 @@ export default function MyApp(props) {
   const [list, setList] = useState([]);
   const [listMentee, setListMentee] = useState([]);
   const [load, setLoad] = useState(false);
+  const [trigger, setTrigger] = useState(false)
 
   const store_admin = {
     login_: [login, setLogin],
@@ -59,6 +60,7 @@ export default function MyApp(props) {
     list_: [list, setList],
     listMentee_: [listMentee, setListMentee],
     load_: [load, setLoad],
+    trigger_: [trigger, setTrigger]
   };
 
   React.useEffect(() => {

@@ -1,14 +1,14 @@
 import React, { useEffect, useContext } from "react";
 import Head from "next/head";
+import dynamic from "next/dynamic";
+import axios from "axios";
+
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import dynamic from "next/dynamic";
-import Typography from "@material-ui/core/Typography";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import Grid from "@material-ui/core/Grid";
-import AdminContext from "../../../../../../store/adminContext";
 
 const Loading = dynamic(() => import("../../../../../../components/Loading"));
 const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
@@ -27,6 +27,7 @@ const SubjectAdmin = dynamic(() =>
 const SideBarr = dynamic(() =>
   import("../../../../../../components/admin/SideBarr")
 );
+
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -54,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
+    minHeight: `calc(100vh - 147px)`
   },
   titleInPage: {
     textAlign: "center",
@@ -116,22 +118,27 @@ export default function Subject() {
             </AppBar>
             <SideBarr />
             <main className={classes.content}>
-              <div className={classes.toolbar} />
-              <Typography className={classes.titleInPage}>
-                {subject.name}
-              </Typography>
-              <Grid
-                container
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
-              >
-                <EditSubject subject={subject} />
-                <DeleteSubject ID={subject.id} />
-              </Grid>
-              <div>
-                <SubjectAdmin props={subject} />
-              </div>
+              {subject ?
+                  <React.Fragment>
+                    <div className={classes.toolbar}/>
+                    <Typography className={classes.titleInPage}>
+                      {subject.name}
+                    </Typography>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="flex-start"
+                        alignItems="flex-start"
+                    >
+                      <EditSubject subject={subject}/>
+                      <DeleteSubject ID={subject.id}/>
+                    </Grid>
+                    <div>
+                      <SubjectAdmin props={subject}/>
+                    </div>
+                  </React.Fragment>
+              : null
+              }
             </main>
           </div>
           <div className={classes.footer}>
@@ -140,5 +147,4 @@ export default function Subject() {
         </div>
       </React.Fragment>
     );
-  }
 }

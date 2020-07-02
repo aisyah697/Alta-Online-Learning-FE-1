@@ -1,11 +1,15 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import Head from "next/head";
-import FooterBar from "../../../../components/FooterBar";
-import NavigationAdminBar from "../../../../components/admin/NavigationBarAdmin";
-import FormEditProfileAdmin from "../../../../components/admin/EditProfileAdmin";
-import {makeStyles} from "@material-ui/core/styles";
-import AdminContext from "../../../../store/adminContext";
 import ErrorPage from "next/error";
+import dynamic from "next/dynamic";
+import {makeStyles} from "@material-ui/core/styles";
+
+const NavigationAdminBar = dynamic(() => import('../../../../components/admin/NavigationBarAdmin'))
+const FormEditProfileAdmin = dynamic(() => import('../../../../components/admin/EditProfileAdmin'))
+const FooterBar = dynamic(() => import('../../../../components/FooterBar'))
+const Loading = dynamic(() => import('../../../../components/Loading'))
+
+import AdminContext from "../../../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -19,11 +23,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditProfileAdmin() {
     const classes = useStyles();
+
     const {login_} = useContext(AdminContext);
     const [login, setLogin] = login_
 
     if (!login) {
-        return <ErrorPage statusCode={404}/>
+        return <Loading />
     } else {
         return (
             <React.Fragment>

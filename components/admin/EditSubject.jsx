@@ -235,7 +235,7 @@ export default function EditSubject(props) {
           </Typography>
           <TextField
             onChange={handleChange("description")}
-            id="outlined-multiline-static"
+            id="outlined-multiline-static2"
             label="Subject Description"
             multiline
             color="secondary"
@@ -252,7 +252,6 @@ export default function EditSubject(props) {
               <input
                 className={classes.textFieldFile}
                 accept="video/*"
-                className={classes.input}
                 id="contained-button-file"
                 multiple
                 type="file"
@@ -262,7 +261,7 @@ export default function EditSubject(props) {
           </div>
 
           <TextField
-            id="outlined-multiline-static"
+            id="outlined-multiline-static3"
             label="Video Name"
             color="secondary"
             className={classes.textFieldFile}
@@ -281,16 +280,14 @@ export default function EditSubject(props) {
               <input
                 className={classes.textFieldFile}
                 accept="application/*"
-                className={classes.input}
-                id="contained-button-file"
+                id="contained-button-file4"
                 multiple
                 onChange={handlePresentation}
-                row={3}
                 type="file"
               />
             </Button>
             <TextField
-              id="outlined-multiline-static"
+              id="outlined-multiline-static5"
               label="Presentation Name"
               color="secondary"
               className={classes.textFieldFile}

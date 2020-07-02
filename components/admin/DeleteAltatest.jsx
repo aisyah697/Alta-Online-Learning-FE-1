@@ -39,8 +39,8 @@ export default function DeleteAltaTest(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
-  const {load_} = useContext(AdminContext);
-  const [load, setLoad] = load_
+  const {trigger_} = useContext(AdminContext);
+  const [trigger, setTrigger] = trigger_
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,8 +55,12 @@ export default function DeleteAltaTest(props) {
     const url = process.env.NEXT_PUBLIC_BASE_URL + '/questionaltatest/' + props.ID
     const auth = cookies.token_admin
 
+    const MyJOSN = JSON.stringify({
+      status: false,
+    })
+
     try {
-      const response = await axios.delete(url,{
+      const response = await axios.put(url, MyJOSN,{
         headers: {
           "Content-Type": "application/json",
           'Authorization':'Bearer ' + auth
@@ -64,7 +68,7 @@ export default function DeleteAltaTest(props) {
       });
 
       if (response.status === 200) {
-        setLoad(true);
+        setTrigger(true);
       } else {
         let error = new Error(response.statusText);
         error.response = response;

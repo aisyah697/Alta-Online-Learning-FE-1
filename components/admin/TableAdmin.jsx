@@ -1,5 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
+import { useCookies} from "react-cookie";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,6 +12,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+
 import AdminContext from "../../store/adminContext";
 
 const DeleteUserPopUp = dynamic(() => import("./DeleteUser"));
@@ -65,24 +68,25 @@ import axios from "axios";
 
 export default function TableMentee() {
   const classes = useStyles();
+  const [cookies] = useCookies();
 
-  const { admin_, list_, load_, token_ } = useContext(AdminContext);
+  const { admin_, list_, load_ } = React.useContext(AdminContext);
   const [admin, setAdmin] = admin_;
   const [list, setList] = list_;
   const [load, setLoad] = load_;
-  const [token, setToken] = token_;
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/admin";
+    const auth = cookies.token_admin
     const fetchData = async function () {
       try {
         setLoading(true);
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: "Bearer " + token,
+            Authorization: "Bearer " + auth,
           },
         });
         if (response.status === 200) {
@@ -128,7 +132,8 @@ export default function TableMentee() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {list.map((row, index) => (
+                  {list ?
+                    (list.map((row, index) => (
                     <TableRow key={index}>
                       <TableCell
                         className={classes.textInTable}
@@ -145,7 +150,7 @@ export default function TableMentee() {
                         {row.full_name}
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))) : null }
                 </TableBody>
               </Table>
             </Paper>
@@ -172,7 +177,8 @@ export default function TableMentee() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {list.map((row, key) => (
+                  {list ?
+                    (list.map((row, key) => (
                     <TableRow key={key}>
                       <TableCell
                         className={classes.textInTable}
@@ -239,7 +245,7 @@ export default function TableMentee() {
                         <DeleteUserPopUp ID={row.id} username={row.username} />
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))) : null }
                 </TableBody>
               </Table>
             </Paper>
