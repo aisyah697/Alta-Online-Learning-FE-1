@@ -98,15 +98,18 @@ function StyledRadio(props) {
   );
 }
 
-export default function QuizContent(props) {
+export default function QuizContent({quiz}) {
   const classes = useStyles();
+
   return (
     <main className={classes.content}>
       <div className={classes.spacing}>
         <Typography className={classes.allText}>
           <strong>Name: </strong>
         </Typography>
-        <Typography className={classes.allText}>{props.quiz.name}</Typography>
+        <Typography className={classes.allText}>
+          {quiz.name}
+        </Typography>
       </div>
       <Divider />
       <div className={classes.spacing}>
@@ -114,11 +117,11 @@ export default function QuizContent(props) {
           <strong>Description: </strong>
         </Typography>
         <Typography className={classes.allText}>
-          {props.quiz.description}
+          {quiz.description}
         </Typography>
       </div>
       <Divider />
-      <Quiz questions={props.quiz.question} />
+      <Quiz questions={quiz.question} />
     </main>
   );
 }

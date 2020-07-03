@@ -97,13 +97,12 @@ export default function AddQuestion(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
+
   const { load_, admin_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
   const [admin, setAdmin] = admin_;
 
-  const [values, setValues] = React.useState({
-    question: "",
-  });
+  const [values, setValues] = React.useState({question: "" });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -131,7 +130,7 @@ export default function AddQuestion(props) {
       const response = await axios.post(url, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
+          "Authorization": "Bearer " + auth,
         },
       });
 

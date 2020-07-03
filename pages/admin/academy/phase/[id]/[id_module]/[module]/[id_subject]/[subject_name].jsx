@@ -76,14 +76,14 @@ export default function Subject() {
   const [load, setLoad] = load_;
 
   React.useEffect(() => {
-    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/"+ id_subject;
+    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested";
     const fetchData = async function () {
       try {
         setLoading(true);
         const response = await axios.get(urlSubject, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + cookies.admin.token,
+            "Authorization": "Bearer " + cookies.admin.token,
           },
         });
         if (response.status === 200) {
@@ -95,13 +95,8 @@ export default function Subject() {
         setLoading(false);
       }
     };
-    if (id_subject){
-      fetchData();
-    }
-  }, [id_subject]);
-  
-  
-  console.log('AAAAAAAAA', subject)
+    fetchData();
+  }, [load]);
 
   return (
       <React.Fragment>
@@ -117,10 +112,11 @@ export default function Subject() {
             <SideBarr/>
             <main className={classes.content}>
               {subject ?
-                  <React.Fragment>
+                  subject.filter(map => map.id == id_subject).map((item, index) => (
+                  <React.Fragment key={index}>
                     <div className={classes.toolbar}/>
                     <Typography className={classes.titleInPage}>
-                      {subject.name}
+                      {item.name}
                     </Typography>
                     <Grid
                         container
@@ -129,13 +125,14 @@ export default function Subject() {
                         alignItems="flex-start"
                     >
                       {/*<EditSubject subject={subject} />*/}
-                      <DeleteSubject ID={subject.id} />
+                      <DeleteSubject ID={item.id} />
                     </Grid>
                     <div>
-                      <SubjectAdmin subject={subject} />
+                      <SubjectAdmin subject={item} />
                     </div>
                   </React.Fragment>
-                  : null
+                ))
+                  : <Typography> No Data </Typography>
               }
             </main>
           </div>

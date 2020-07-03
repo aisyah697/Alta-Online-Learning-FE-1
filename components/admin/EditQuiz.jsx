@@ -106,8 +106,7 @@ export default function EditQuiz(props) {
   const [choices, setChoices] = useState("");
 
   const [values, setValues] = React.useState({
-    question: props.question,
-    choice: "",
+    question: props.question, choice: "",
   });
 
   const handleChange = (prop) => (event) => {
@@ -196,7 +195,7 @@ export default function EditQuiz(props) {
       }
     };
     fetchData();
-  }, [load]);
+  }, []);
 
   if (load === true) {
     return <Loading />;
