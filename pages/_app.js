@@ -67,7 +67,7 @@ export default function MyApp(props) {
       setLogin(true);
       setToken(token_admin);
     } else {
-      Router.push("/admin/login");
+      // Router.push("/admin/login");
       setLogin(false);
     }
 
