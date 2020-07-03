@@ -72,8 +72,9 @@ export default function Subject() {
   const [loading, setLoading] = React.useState();
 
   const [cookies] = useCookies();
-  const { load_ } = React.useContext(AdminContext);
+  const { load_, trigger_ } = React.useContext(AdminContext);
   const [load, setLoad] = load_;
+  const [trigger, setTrigger] = trigger_
 
   React.useEffect(() => {
     const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested";
@@ -96,7 +97,7 @@ export default function Subject() {
       }
     };
     fetchData();
-  }, [load]);
+  }, [load, trigger]);
 
   return (
       <React.Fragment>

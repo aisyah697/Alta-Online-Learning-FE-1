@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditChoice(props) {
+export default function EditChoiceQuiz(props) {
   const classes = useStyles();
   const [cookies, setCookie] = useCookies()
 
@@ -102,7 +102,7 @@ export default function EditChoice(props) {
   };
 
   const postEditChoice = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/choicealtatest/' + props.ID
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/choicequiz/' + props.ID
     const auth = cookies.token_admin
 
     const MyJOSN = JSON.stringify({
@@ -127,7 +127,7 @@ export default function EditChoice(props) {
   }
 
   const postDeleteChoice = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/choicealtatest/' + props.ID
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/choicequiz/' + props.ID
     const auth = cookies.token_admin
 
     try {

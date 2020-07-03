@@ -106,9 +106,6 @@ export default function DeleteModule({ID}) {
     }
   };
 
-  if (load === true) {
-    return <Loading />;
-  } else {
     return (
       <div>
         <Button
@@ -153,5 +150,4 @@ export default function DeleteModule({ID}) {
         </Dialog>
       </div>
     );
-  }
 }

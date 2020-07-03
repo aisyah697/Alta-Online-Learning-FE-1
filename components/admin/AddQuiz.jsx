@@ -98,9 +98,10 @@ export default function AddQuestion(props) {
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
 
-  const { load_, admin_ } = useContext(AdminContext);
+  const { load_, admin_, trigger_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
   const [admin, setAdmin] = admin_;
+  const [trigger, setTrigger] = trigger_
 
   const [values, setValues] = React.useState({question: "" });
 
@@ -136,6 +137,7 @@ export default function AddQuestion(props) {
 
       if (response.status === 200) {
         setLoad(true);
+        setTrigger(true)
       }
     } catch (error) {
       console.error("Please Try Again!", error);

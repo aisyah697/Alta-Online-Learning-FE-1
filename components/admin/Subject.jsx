@@ -61,63 +61,63 @@ export default function SubjectAdmin({subject}) {
 
   return (
     <div className={classes.root}>
-      {/*<ExpansionPanelSummary*/}
-      {/*  aria-controls="panel1bh-content"*/}
-      {/*  id="panel1bh-header-4"*/}
-      {/*  className={classes.headingOfHeadField}*/}
-      {/*>*/}
-      {/*  <Typography variant="body1" className={classes.heading}>*/}
-      {/*    Subject Description:*/}
-      {/*  </Typography>*/}
-      {/*</ExpansionPanelSummary>*/}
-      {/*<ExpansionPanelDetails className={classes.panelUtama}>*/}
-      {/*  <List component="nav">*/}
-      {/*    <Typography className={classes.allText}>*/}
-      {/*      {subject.description}*/}
-      {/*    </Typography>*/}
-      {/*  </List>*/}
-      {/*</ExpansionPanelDetails>*/}
+      <ExpansionPanelSummary
+        aria-controls="panel1bh-content"
+        id="panel1bh-header-4"
+        className={classes.headingOfHeadField}
+      >
+        <Typography variant="body1" className={classes.heading}>
+          Subject Description:
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails className={classes.panelUtama}>
+        <List component="nav">
+          <Typography className={classes.allText}>
+            {subject.description}
+          </Typography>
+        </List>
+      </ExpansionPanelDetails>
 
-      {/*<ExpansionPanelSummary*/}
-      {/*  aria-controls="panel1bh-content"*/}
-      {/*  id="panel1bh-header-3"*/}
-      {/*  className={classes.headingField}*/}
-      {/*>*/}
-      {/*  <Typography variant="body1" className={classes.heading}>*/}
-      {/*    Video*/}
-      {/*  </Typography>*/}
-      {/*</ExpansionPanelSummary>*/}
-      {/*<ExpansionPanelDetails>*/}
-      {/*  {subject.video ?*/}
-      {/*    (subject.video.map((element, num) => (*/}
-      {/*    <SubjectVideo*/}
-      {/*      key={num}*/}
-      {/*      name={element.name}*/}
-      {/*      video={element.content_file}*/}
-      {/*    />*/}
-      {/*    ))) : <Typography> No Data </Typography> }*/}
-      {/*</ExpansionPanelDetails>*/}
-      {/*  <List component="nav"/>*/}
+      <ExpansionPanelSummary
+        aria-controls="panel1bh-content"
+        id="panel1bh-header-3"
+        className={classes.headingField}
+      >
+        <Typography variant="body1" className={classes.heading}>
+          Video
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        {subject.video ?
+          (subject.video.map((element, num) => (
+          <SubjectVideo
+            key={num}
+            name={element.name}
+            video={element.content_file}
+          />
+          ))) : <Typography> No Data </Typography> }
+      </ExpansionPanelDetails>
+        <List component="nav"/>
 
-      {/*<ExpansionPanelSummary*/}
-      {/*  aria-controls="panel1bh-content"*/}
-      {/*  id="panel1bh-header-2"*/}
-      {/*  className={classes.headingField}*/}
-      {/*>*/}
-      {/*  <Typography variant="body1" className={classes.heading}>*/}
-      {/*    Presentation*/}
-      {/*  </Typography>*/}
-      {/*</ExpansionPanelSummary>*/}
-      {/*<ExpansionPanelDetails>*/}
-      {/*  {subject.presentation ?*/}
-      {/*    (subject.presentation.map((element, num) => (*/}
-      {/*        <SubjectPPT*/}
-      {/*            key={num}*/}
-      {/*            name={element.name}*/}
-      {/*            press={element.content_file}*/}
-      {/*        />*/}
-      {/*    ))) : <Typography>No Data</Typography> }*/}
-      {/*</ExpansionPanelDetails>*/}
+      <ExpansionPanelSummary
+        aria-controls="panel1bh-content"
+        id="panel1bh-header-2"
+        className={classes.headingField}
+      >
+        <Typography variant="body1" className={classes.heading}>
+          Presentation
+        </Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails>
+        {subject.presentation ?
+          (subject.presentation.map((element, num) => (
+              <SubjectPPT
+                  key={num}
+                  name={element.name}
+                  press={element.content_file}
+              />
+          ))) : <Typography>No Data</Typography> }
+      </ExpansionPanelDetails>
 
       {subject.exam[0] ? (
         <div>

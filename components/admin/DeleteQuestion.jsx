@@ -41,8 +41,8 @@ export default function DeleteQestion(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
-  const { load_ } = useContext(AdminContext);
-  const [load, setLoad] = load_;
+  const { trigger_ } = useContext(AdminContext);
+  const [trigger, setTrigger] = trigger_;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,6 +51,7 @@ export default function DeleteQestion(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
   const deleteQuestion = async () => {
     setOpen(false);
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz/" + props.ID;
@@ -59,6 +60,7 @@ export default function DeleteQestion(props) {
     const MyJOSN = JSON.stringify({
       status: false,
     });
+
     try {
       const response = await axios.put(url, MyJOSN, {
         headers: {
@@ -68,8 +70,7 @@ export default function DeleteQestion(props) {
       });
 
       if (response.status === 200) {
-        setLoad(true);
-        // setLoad(false);
+        setTrigger(true);
       } else {
         let error = new Error(response.statusText);
         error.response = response;
@@ -78,11 +79,11 @@ export default function DeleteQestion(props) {
     } catch (error) {
       console.error("Something Wrong, Please Try Again!", error);
       throw new Error(error);
+    } finally {
+      setTrigger(false)
     }
   };
-  if (load === true) {
-    return <Loading />;
-  } else {
+
     return (
       <div>
         <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
@@ -119,5 +120,4 @@ export default function DeleteQestion(props) {
         </Dialog>
       </div>
     );
-  }
 }
