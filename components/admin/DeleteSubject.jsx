@@ -136,7 +136,8 @@ export default function DeleteModule({ID}) {
             >
               No
             </Button>
-            <Link href={'/admin/academy/phase/[id]/[id_module]/[module]'} as={`/admin/academy/phase/${id}/${id_module}/${module}`}>
+            <Link href={'/admin/academy/phase/[id]/[id_module]/[module]'}
+                  as={`/admin/academy/phase/${id}/${id_module}/${module}`}>
               <Button
                 onClick={deleteQuestion}
                 variant="outlined"

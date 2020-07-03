@@ -98,6 +98,8 @@ export default function Subject() {
     };
     fetchData();
   }, [load, trigger]);
+  
+  console.log('AAAAA', subject)
 
   return (
       <React.Fragment>
@@ -125,7 +127,7 @@ export default function Subject() {
                         justify="flex-start"
                         alignItems="flex-start"
                     >
-                      {/*<EditSubject subject={subject} />*/}
+                      <EditSubject subject={item} />
                       <DeleteSubject ID={item.id} />
                     </Grid>
                     <div>

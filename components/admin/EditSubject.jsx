@@ -81,11 +81,12 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, -3, 0),
   },
 }));
-export default function EditSubject({props, subject}) {
+
+export default function EditSubject({subject}) {
   const router = useRouter();
   const { id, id_module, module, id_subject } = router.query;
-  const handleClickOpen = () => {
 
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -98,13 +99,13 @@ export default function EditSubject({props, subject}) {
   var videoFile = "";
   var presFile = "";
 
-  if (props.subject.video[0] !== undefined) {
-    var namaVideo = props.subject.video[0].name;
-    var videoFile = props.subject.video[0].content_file;
+  if (subject.video[0] !== undefined) {
+    var namaVideo = subject.video[0].name;
+    var videoFile = subject.video[0].content_file;
   }
-  if (props.subject.presentation[0] != undefined) {
-    var namaPresentasi = props.subject.video[0].name;
-    var presFile = props.subject.presentation[0].content_file;
+  if (subject.presentation[0] != undefined) {
+    var namaPresentasi = subject.video[0].name;
+    var presFile = subject.presentation[0].content_file;
   }
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -114,8 +115,8 @@ export default function EditSubject({props, subject}) {
   const [load, setLoad] = load_;
 
   const [values, setValues] = React.useState({
-    name: props.subject.name,
-    description: props.subject.description,
+    name: subject.name,
+    description: subject.description,
     // video
     videoName: namaVideo,
     // presentation
@@ -141,16 +142,9 @@ export default function EditSubject({props, subject}) {
 
   const postEditSubject = async () => {
     setOpen(false);
-    const urlSubject =
-      process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + props.subject.id;
-    const urlVideo =
-      process.env.NEXT_PUBLIC_BASE_URL +
-      "/filesubject/" +
-      props.subject.video[0].id;
-    const urlPresentation =
-      process.env.NEXT_PUBLIC_BASE_URL +
-      "/filesubject/" +
-      props.subject.presentation[0].id;
+    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + subject.id;
+    const urlVideo = process.env.NEXT_PUBLIC_BASE_URL + "/filesubject/" + subject.video[0].id;
+    const urlPresentation = process.env.NEXT_PUBLIC_BASE_URL + "/filesubject/" + subject.presentation[0].id;
     const auth = cookies.admin.token;
 
     const formDataVideo = new FormData();
@@ -165,42 +159,48 @@ export default function EditSubject({props, subject}) {
       name: values.name,
       description: values.description,
     });
+
     try {
       const response = await axios.patch(urlSubject, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
+          "Authorization": "Bearer " + auth,
         },
       });
+
       const responseVideo = await axios.patch(urlVideo, formDataVideo, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
+          "Authorization": "Bearer " + auth,
         },
       });
+
       const responsePresentation = await axios.patch(
         urlPresentation,
         formDataPresentation,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth,
+            "Authorization": "Bearer " + auth,
           },
         }
       );
 
       if (
-        response.status === 200 &&
-        responseVideo.status === 200 &&
-        responsePresentation.status === 200
+          response.status === 200 &&
+          responseVideo.status === 200 &&
+          responsePresentation.status === 200
       ) {
         setLoad(true);
       }
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
+    } finally {
+      setLoad(false)
     }
   };
+
   return (
     <div>
       <Button
@@ -225,22 +225,17 @@ export default function EditSubject({props, subject}) {
         </DialogTitle>
         <Divider />
         <DialogContent>
-          <Typography className={classes.allText}>
-            {props.subject.name}
-          </Typography>
           <TextField
             id="outlined-multiline-static"
             label="Subject Name"
             color="secondary"
             className={classes.textFieldFile}
             variant="outlined"
+            defaultValue={subject.name}
             onChange={handleChange("name")}
           />
           <Divider />
           <Divider />
-          <Typography className={classes.allText}>
-            {props.subject.description}
-          </Typography>
           <TextField
             onChange={handleChange("description")}
             id="outlined-multiline-static2"
@@ -249,80 +244,93 @@ export default function EditSubject({props, subject}) {
             color="secondary"
             className={classes.textFieldFile}
             rows={4}
+            defaultValue={subject.description}
             variant="outlined"
           />
-          <Typography className={classes.allText}>{props.videoName}</Typography>
+          {/*<Typography className={classes.allText}>{subject.video[0].name ? subject.video[0].name : null}</Typography>*/}
           <div className={classes.inputFile}>
             <InputLabel htmlFor="outlined-adornment-file">
-              Chose Video FIle
+              Choose Video File
             </InputLabel>
-            <Button variant="outlined" className={classes.buttonInpuFile}>
-              <input
-                className={classes.textFieldFile}
+            {/*<Button variant="outlined" className={classes.buttonInpuFile}>*/}
+            {/*  <input*/}
+            {/*    // className={classes.textFieldFile}*/}
+            {/*    accept="video/*"*/}
+            {/*    id="contained-button-file"*/}
+            {/*    multiple*/}
+            {/*    type="file"*/}
+            {/*    onChange={handleVideo}*/}
+            {/*  />*/}
+            {/*</Button>*/}
+            <input
                 accept="video/*"
+                className={classes.input}
                 id="contained-button-file"
                 multiple
                 type="file"
-                onChange={handleVideo}
-              />
-            </Button>
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="primary" component="span">
+                Upload
+              </Button>
+            </label>
           </div>
 
-          <TextField
-            id="outlined-multiline-static3"
-            label="Video Name"
-            color="secondary"
-            className={classes.textFieldFile}
-            variant="outlined"
-            onChange={handleChange("videoName")}
-          />
+          {/*<TextField*/}
+          {/*  id="outlined-multiline-static3"*/}
+          {/*  label="Video Name"*/}
+          {/*  color="secondary"*/}
+          {/*  className={classes.textFieldFile}*/}
+          {/*  variant="outlined"*/}
+          {/*  onChange={handleChange("videoName")}*/}
+          {/*/>*/}
           <Divider />
-          <Typography className={classes.allText}>
-            {props.pressentationName}
-          </Typography>
-          <div className={classes.inputFile}>
-            <InputLabel htmlFor="outlined-adornment-file">
-              Chose Presentation File
-            </InputLabel>
-            <Button variant="outlined" className={classes.buttonInpuFile}>
-              <input
-                className={classes.textFieldFile}
-                accept="application/*"
-                id="contained-button-file4"
-                multiple
-                onChange={handlePresentation}
-                type="file"
-              />
-            </Button>
-            <TextField
-              id="outlined-multiline-static5"
-              label="Presentation Name"
-              color="secondary"
-              className={classes.textFieldFile}
-              variant="outlined"
-              onChange={handleChange("pressentationName")}
-            />
-          </div>
+          {/*<Typography className={classes.allText}>*/}
+          {/*  {props.pressentationName}*/}
+          {/*</Typography>*/}
+          {/*<div className={classes.inputFile}>*/}
+          {/*  <InputLabel htmlFor="outlined-adornment-file">*/}
+          {/*    Chose Presentation File*/}
+          {/*  </InputLabel>*/}
+          {/*  <Button variant="outlined" className={classes.buttonInpuFile}>*/}
+          {/*    <input*/}
+          {/*      className={classes.textFieldFile}*/}
+          {/*      accept="application/*"*/}
+          {/*      id="contained-button-file4"*/}
+          {/*      multiple*/}
+          {/*      onChange={handlePresentation}*/}
+          {/*      type="file"*/}
+          {/*    />*/}
+          {/*  </Button>*/}
+          {/*  <TextField*/}
+          {/*    id="outlined-multiline-static5"*/}
+          {/*    label="Presentation Name"*/}
+          {/*    color="secondary"*/}
+          {/*    className={classes.textFieldFile}*/}
+          {/*    variant="outlined"*/}
+          {/*    onChange={handleChange("pressentationName")}*/}
+          {/*  />*/}
+          {/*</div>*/}
         </DialogContent>
-        <DialogActions>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            size="small"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="outlined"
-            size="small"
-            autoFocus
-            className={classes.button}
-            onClick={() => postEditSubject()}
-          >
-            Submit
-          </Button>
-        </DialogActions>
+        {/*<DialogActions>*/}
+        {/*  <Button*/}
+        {/*    className={classes.button}*/}
+        {/*    variant="outlined"*/}
+        {/*    size="small"*/}
+        {/*    onClick={handleClose}*/}
+        {/*  >*/}
+        {/*    Cancel*/}
+        {/*  </Button>*/}
+        {/*  <Button*/}
+        {/*    variant="outlined"*/}
+        {/*    size="small"*/}
+        {/*    autoFocus*/}
+        {/*    className={classes.button}*/}
+        {/*    onClick={() => postEditSubject()}*/}
+        {/*  >*/}
+        {/*    Submit*/}
+        {/*  </Button>*/}
+        {/*</DialogActions>*/}
       </Dialog>
     </div>
   );

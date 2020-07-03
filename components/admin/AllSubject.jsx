@@ -150,7 +150,8 @@ export default function AllSubject(props) {
                         className={classes.headingField}
                         onClick={(event) => event.stopPropagation()}
                     >
-                      <Link href={'/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'} as={`/admin/academy/phase/${id}/${id_module}/${module}/${value.id}/${value.name.split(" ").join("-")}`}>
+                      <Link href={'/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}
+                            as={`/admin/academy/phase/${id}/${id_module}/${module}/${value.id}/${value.name.split(" ").join("-")}`}>
                         <Typography
                             onClick={(event) => event.stopPropagation()}
                             variant="body1"

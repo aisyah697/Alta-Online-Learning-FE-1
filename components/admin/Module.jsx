@@ -119,8 +119,6 @@ export default function ModuleAdmin() {
     };
     fetchData();
   }, [load]);
-  
-  console.log('MODULE', module)
 
   return (
     <div className={classes.root}>
