@@ -95,9 +95,9 @@ export default function SubjectAdmin({subject}) {
             name={element.name}
             video={element.content_file}
           />
-        ))) : null }
+          ))) : <Typography>Empty</Typography> }
       </ExpansionPanelDetails>
-      <List component="nav"> </List>
+      <List component="nav"/>
 
       <ExpansionPanelSummary
         aria-controls="panel1bh-content"
@@ -116,10 +116,8 @@ export default function SubjectAdmin({subject}) {
                   name={element.name}
                   press={element.content_file}
               />
-          ))) : null
-        }
-
-      {/*</ExpansionPanelDetails>*/}
+          ))) : <Typography>Empty</Typography> }
+      </ExpansionPanelDetails>
       {/*{props.props.exam[0] ? (*/}
       {/*  <div>*/}
       {/*    {props.props.exam[0].type_exam === "quiz" ? (*/}

@@ -99,6 +99,9 @@ export default function Subject() {
       fetchData();
     }
   }, [id_subject]);
+  
+  
+  console.log('AAAAAAAAA', subject)
 
   return (
       <React.Fragment>
