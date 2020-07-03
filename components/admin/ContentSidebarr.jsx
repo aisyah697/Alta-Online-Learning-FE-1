@@ -15,9 +15,7 @@ import { Divider } from "@material-ui/core";
 import Link from "../../utils/link";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import {useRouter} from "next/router";
-
-
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
@@ -142,7 +140,10 @@ export default function ContentSide(props) {
                   {props.idPhase}
                 </Typography>
               </ListItemIcon>
-              <Link href={"/admin/academy/phase/[id]"} as={`/admin/academy/phase/${props.idPhase}`}>
+              <Link
+                href={"/admin/academy/phase/[id]"}
+                as={`/admin/academy/phase/${props.idPhase}`}
+              >
                 <Typography className={classes.textJudulPhase}>
                   {props.name}
                 </Typography>
@@ -171,7 +172,8 @@ export default function ContentSide(props) {
                         {idx+1}
                       </Typography>
                     </ListItemIcon>
-                    <Link href={"/admin/academy/phase/[id]/[module]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}`}>
+                    <Link href={"/admin/academy/phase/[id]/[id_module]/[module]"}
+                          as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}`}>
                       <Typography className={classes.textJudulModule}>
                         Module {idx+1}
                       </Typography>
@@ -182,12 +184,13 @@ export default function ContentSide(props) {
               <ExpansionPanelDetails className={classes.expandMenu2}>
                 <List>
                   {item.subject.map((items, indexsub)=>(
-                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[module]/[subject_name]"} as={`/admin/academy/phase/${props.idPhase}/${item.name.split(" ").join("-")}/${items.name.split(" ").join("-")}`}>
+                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
+                            as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}/${items.id}/${items.name.split(" ").join("-")}`}>
                         <ListItem button>
                           <ListItemIcon>
                             <BookIcon className={classes.iconSubject} />
                             <Typography className={classes.noJudulSubject}>
-                              {indexsub+1}
+                              {indexsub + 1}
                             </Typography>
                           </ListItemIcon>
                           <Typography className={classes.textJudulSubject}>
@@ -195,13 +198,13 @@ export default function ContentSide(props) {
                           </Typography>
                         </ListItem>
                       </Link>
-                  ))}
-                </List>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          </ExpansionPanelDetails>
+                    ))}
+                  </List>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </ExpansionPanelDetails>
           ))}
-          </ExpansionPanel>
+        </ExpansionPanel>
       </ExpansionPanelDetails>
       <Divider />
     </div>

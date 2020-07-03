@@ -4,7 +4,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMedia from "@material-ui/core/CardMedia";
-import Toolbar from "@material-ui/core/Toolbar";
+import ReactPlayer from "react-player";
 import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,16 +28,18 @@ const useStyles = makeStyles((theme) => ({
 
 const SubjectPPT = (props) => {
   const classes = useStyles();
-
+  console.log("ppt", props);
   return (
     <main className={classes.content}>
       <Card className={classes.root} elevation={0}>
         <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
-          />
+          <iframe
+            src={`https://view.officeapps.live.com/op/embed.aspx?src=${props.press}`}
+            width="100%"
+            height="520px"
+            frameBorder="0"
+          ></iframe>
+
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
               PPT Part 1: Dasar-dasar algoritma
