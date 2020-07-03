@@ -11,7 +11,9 @@ import Dialog from "@material-ui/core/Dialog";
 import { useCookies } from "react-cookie";
 
 import AdminContext from "../../store/adminContext";
-import {Router, useRouter} from "next/router";
+import {useRouter} from "next/router";
+import Router from "next/router";
+import Link from "next/link";
 
 const Loading = dynamic(() => import('../Loading'))
 
@@ -92,7 +94,6 @@ export default function DeleteModule({ID}) {
       });
 
       if (response.status === 200) {
-        Router.push(`/admin/academy/phase/${id}/${id_module}/${module}`)
         setLoad(true);
       } else {
         let error = new Error(response.statusText);
@@ -138,14 +139,16 @@ export default function DeleteModule({ID}) {
             >
               No
             </Button>
-            <Button
-              onClick={deleteQuestion}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
-            >
-              Yes
-            </Button>
+            <Link href={'/admin/academy/phase/[id]/[id_module]/[module]'} as={`/admin/academy/phase/${id}/${id_module}/${module}`}>
+              <Button
+                onClick={deleteQuestion}
+                variant="outlined"
+                size="medium"
+                className={classes.buttonInPop}
+              >
+                Yes
+              </Button>
+            </Link>
           </DialogActions>
         </Dialog>
       </div>

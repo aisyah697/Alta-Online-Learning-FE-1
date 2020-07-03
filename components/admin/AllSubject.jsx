@@ -140,14 +140,16 @@ export default function AllSubject(props) {
                   <ExpansionPanel
                       expanded={expanded === value.id.toString()}
                       onChange={handleChange(value.id.toString())}
+                      onClick={(event) => event.stopPropagation()}
                   >
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                         className={classes.headingField}
+                        onClick={(event) => event.stopPropagation()}
                     >
-                      <Typography variant="body1" className={classes.heading}>
+                      <Typography onClick={(event) => event.stopPropagation()} variant="body1" className={classes.heading}>
                         <strong>Subject {index + 1}: </strong>
                         {value.name}
                       </Typography>

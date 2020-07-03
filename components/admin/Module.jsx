@@ -17,6 +17,7 @@ import AdminContext from "../../store/adminContext";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
 const DeleteModule = dynamic(() => import("./DeleteModule"));
 const EditModule = dynamic(() => import("./EditModule"));
@@ -118,6 +119,8 @@ export default function ModuleAdmin() {
     };
     fetchData();
   }, [load]);
+  
+  console.log('MODULE', module)
 
   return (
     <div className={classes.root}>
@@ -134,10 +137,13 @@ export default function ModuleAdmin() {
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                   className={classes.headingField}
+                  onClick={(event) => event.stopPropagation()}
                 >
-                  <Typography variant="body1" className={classes.heading}>
-                    {value.name}
-                  </Typography>
+                  <Link href={'/admin/academy/phase/[id]/[id_module]/[module]'} as={`/admin/academy/phase/${id}/${value.id}/${value.name.split(" ").join("-")}`}>
+                    <Typography onClick={(event) => event.stopPropagation()} variant="body1" className={classes.heading}>
+                      {value.name}
+                    </Typography>
+                  </Link>
                   <EditModule
                     {...value}
                     id_module={value.id}
