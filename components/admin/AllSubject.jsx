@@ -10,12 +10,12 @@ import List from "@material-ui/core/List";
 import Grid from "@material-ui/core/Grid";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import Avatar from "@material-ui/core/Avatar";
-import dynamic from "next/dynamic";
 import AdminContext from "../../store/adminContext";
 import { useCookies } from "react-cookie";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import Loading from "./../Loading";
 import axios from "axios";
+import dynamic from "next/dynamic";
 
 const AddPresentation = dynamic(() => import("./AddPresentation"));
 const AddVideo = dynamic(() => import("./AddVideo"));
