@@ -18,6 +18,7 @@ import List from "@material-ui/core/List";
 import Grid from "@material-ui/core/Grid";
 
 import AdminContext from "../../store/adminContext";
+import Link from "next/link";
 
 const AddPresentation = dynamic(() => import("./AddPresentation"));
 const AddSubject = dynamic(() => import("./AddSubject"));
@@ -149,10 +150,16 @@ export default function AllSubject(props) {
                         className={classes.headingField}
                         onClick={(event) => event.stopPropagation()}
                     >
-                      <Typography onClick={(event) => event.stopPropagation()} variant="body1" className={classes.heading}>
-                        <strong>Subject {index + 1}: </strong>
-                        {value.name}
-                      </Typography>
+                      <Link href={'/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'} as={`/admin/academy/phase/${id}/${id_module}/${module}/${value.id}/${value.name.split(" ").join("-")}`}>
+                        <Typography
+                            onClick={(event) => event.stopPropagation()}
+                            variant="body1"
+                            className={classes.heading}
+                        >
+                          <strong>Subject {index + 1}: </strong>
+                          {value.name}
+                        </Typography>
+                      </Link>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <List component="nav" className={classes.list}>
