@@ -128,9 +128,9 @@ export default function Subject() {
                       {/*<EditSubject subject={subject} />*/}
                       <DeleteSubject ID={subject.id} />
                     </Grid>
-                    {/*<div>*/}
-                    {/*  <SubjectAdmin props={subject} />*/}
-                    {/*</div>*/}
+                    <div>
+                      <SubjectAdmin subject={subject} />
+                    </div>
                   </React.Fragment>
                   : null
               }

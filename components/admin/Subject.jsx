@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubjectAdmin(props) {
+export default function SubjectAdmin({subject}) {
   const classes = useStyles();
 
   return (
@@ -73,7 +73,7 @@ export default function SubjectAdmin(props) {
       <ExpansionPanelDetails className={classes.panelUtama}>
         <List component="nav">
           <Typography className={classes.allText}>
-            {props.props.description}
+            {subject.description}
           </Typography>
         </List>
       </ExpansionPanelDetails>
@@ -88,13 +88,14 @@ export default function SubjectAdmin(props) {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        {props.props.video.map((element, num) => (
+        {subject.video ?
+          (subject.video.map((element, num) => (
           <SubjectVideo
             key={num}
             name={element.name}
             video={element.content_file}
           />
-        ))}
+        ))) : null }
       </ExpansionPanelDetails>
       <List component="nav"> </List>
 
@@ -108,55 +109,57 @@ export default function SubjectAdmin(props) {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        {console.log("pptss", props.props.presentation)}
-        {props.props.presentation.map((element, num) => (
-          <SubjectPPT
-            key={num}
-            name={element.name}
-            press={element.content_file}
-          />
-        ))}
-      </ExpansionPanelDetails>
-      {props.props.exam[0] ? (
-        <div>
-          {props.props.exam[0].type_exam === "quiz" ? (
-            <div>
-              <ExpansionPanelSummary
-                aria-controls="panel1bh-content"
-                id="panel1bh-header-1"
-                className={classes.headingField}
-              >
-                <Typography variant="body1" className={classes.heading}>
-                  Quiz: {props.props.name}
-                </Typography>
-              </ExpansionPanelSummary>
-              <AddQuiz quizID={props.props.exam[0].quiz[0].id} />
-              <SubjectQuiz quiz={props.props.exam[0].quiz[0]} />
-            </div>
-          ) : (
-            <div>
-              <ExpansionPanelSummary
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                className={classes.headingField}
-              >
-                <Typography variant="body1" className={classes.heading}>
-                  Live Code
-                </Typography>
-                <EditLiveCode />
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography className={classes.allText}>
-                  Algorithm Live Code: https://hackerrank.com/alta/livecode
-                </Typography>
-              </ExpansionPanelDetails>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div></div>
-      )}
-      <List component="nav"></List>
+        {subject.presentation ?
+          (subject.presentation.map((element, num) => (
+              <SubjectPPT
+                  key={num}
+                  name={element.name}
+                  press={element.content_file}
+              />
+          ))) : null
+        }
+
+      {/*</ExpansionPanelDetails>*/}
+      {/*{props.props.exam[0] ? (*/}
+      {/*  <div>*/}
+      {/*    {props.props.exam[0].type_exam === "quiz" ? (*/}
+      {/*      <div>*/}
+      {/*        <ExpansionPanelSummary*/}
+      {/*          aria-controls="panel1bh-content"*/}
+      {/*          id="panel1bh-header-1"*/}
+      {/*          className={classes.headingField}*/}
+      {/*        >*/}
+      {/*          <Typography variant="body1" className={classes.heading}>*/}
+      {/*            Quiz: {props.props.name}*/}
+      {/*          </Typography>*/}
+      {/*        </ExpansionPanelSummary>*/}
+      {/*        <AddQuiz quizID={props.props.exam[0].quiz[0].id} />*/}
+      {/*        <SubjectQuiz quiz={props.props.exam[0].quiz[0]} />*/}
+      {/*      </div>*/}
+      {/*    ) : (*/}
+      {/*      <div>*/}
+      {/*        <ExpansionPanelSummary*/}
+      {/*          aria-controls="panel1bh-content"*/}
+      {/*          id="panel1bh-header"*/}
+      {/*          className={classes.headingField}*/}
+      {/*        >*/}
+      {/*          <Typography variant="body1" className={classes.heading}>*/}
+      {/*            Live Code*/}
+      {/*          </Typography>*/}
+      {/*          <EditLiveCode />*/}
+      {/*        </ExpansionPanelSummary>*/}
+      {/*        <ExpansionPanelDetails>*/}
+      {/*          <Typography className={classes.allText}>*/}
+      {/*            Algorithm Live Code: https://hackerrank.com/alta/livecode*/}
+      {/*          </Typography>*/}
+      {/*        </ExpansionPanelDetails>*/}
+      {/*      </div>*/}
+      {/*    )}*/}
+      {/*  </div>*/}
+      {/*) : (*/}
+      {/*  <></>*/}
+      {/*)}*/}
+      {/*<List component="nav"> </List>*/}
     </div>
   );
 }
