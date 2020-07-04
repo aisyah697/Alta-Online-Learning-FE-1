@@ -9,12 +9,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
-import Loading from "../../components/Loading";
+
+import Loading from "./../Loading";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
-    color: theme.palette.secondary.primary,
-    transitions: "0.5s",
+    color: theme.palette.secondary.main,
     "&:hover": {
       color: theme.palette.secondary.main,
     },
@@ -36,14 +36,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function DeleteRequirement(props) {
+
+export default function DeleteQestion(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
-
-  const { admin_, token_, load_ } = useContext(AdminContext);
+  const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
-  const [loading, setLoading] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,18 +51,16 @@ export default function DeleteRequirement(props) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const deleteRequirement = async () => {
+  const deleteQuestion = async () => {
     setOpen(false);
-    setLoading(true);
-    const url =
-      process.env.NEXT_PUBLIC_BASE_URL +
-      "/requirementmodule/" +
-      props.id_requirement;
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz/" + props.ID;
     const auth = cookies.token_admin;
 
+    const MyJOSN = JSON.stringify({
+      status: false,
+    });
     try {
-      const response = await axios.delete(url, {
+      const response = await axios.put(url, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + auth,
@@ -72,6 +69,7 @@ export default function DeleteRequirement(props) {
 
       if (response.status === 200) {
         setLoad(true);
+        // setLoad(false);
       } else {
         let error = new Error(response.statusText);
         error.response = response;
@@ -82,13 +80,8 @@ export default function DeleteRequirement(props) {
       throw new Error(error);
     }
   };
-
-  if (load) {
-    return (
-      <div>
-        <Loading />
-      </div>
-    );
+  if (load === true) {
+    return <Loading />;
   } else {
     return (
       <div>
@@ -103,7 +96,7 @@ export default function DeleteRequirement(props) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {`Are you sure want to delete this requirement?`}
+            {"Are you sure want to delete this alta test?"}
           </DialogTitle>
           <DialogActions>
             <Button
@@ -115,7 +108,7 @@ export default function DeleteRequirement(props) {
               No
             </Button>
             <Button
-              onClick={deleteRequirement}
+              onClick={deleteQuestion}
               variant="outlined"
               size="medium"
               className={classes.buttonInPop}

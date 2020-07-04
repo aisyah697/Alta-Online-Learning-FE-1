@@ -1,18 +1,22 @@
 import React from "react";
 import Head from "next/head";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import dynamic from "next/dynamic";
+import Typography from "@material-ui/core/Typography";
+import { useRouter } from "next/router";
 
-const NavigationAdminBar = dynamic(() => import("../../../../../components/admin/NavigationBarAdmin"));
-const AddModule = dynamic(() => import("../../../../../components/admin/AddModule"));
-const ModuleAdmin = dynamic(() => import("../../../../../components/admin/Module"));
-const SideBarr = dynamic(() => import("../../../../../components/admin/SideBarr"));
-const Footer = dynamic(() => import("../../../../../components/FooterBar"));
+const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
+const NavigationAdminBar = dynamic(() =>
+  import("../../../../../../components/admin/NavigationBarAdmin")
+);
+const AllSubject = dynamic(() =>
+  import("../../../../../../components/admin/AllSubject")
+);
+const SideBarr = dynamic(() =>
+  import("../../../../../../components/admin/SideBarr")
+);
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -30,32 +34,32 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   toolbar: {
-    padding: theme.spacing(0, 1),
-    justifyContent: "flex-end",
-    alignItems: "center",
     display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
   },
   content: {
+    flexGrow: 1,
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
-    minHeight: `calc(100vh - 147px)`,
-    flexGrow: 1
+    minHeight: `calc(77vh)`,
   },
   titleInPage: {
+    textAlign: "center",
     color: theme.palette.secondary.secondary,
-    margin: theme.spacing(2, 0, 2, 0),
     ontFamily: "Muli, sans-serif",
     fontSize: `calc(1em + 1.2vw)`,
-    textAlign: "center",
     fontWeight: "bold",
+    margin: theme.spacing(2, 0, 2, 0),
   },
   footer: {
     position: "relative",
   },
 }));
 
-export default function Module() {
+export default function Index() {
   const classes = useStyles();
   const router = useRouter();
   const { id } = router.query;
@@ -76,11 +80,11 @@ export default function Module() {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Typography className={classes.titleInPage}>
-              Module In Phase {id}
+              Subject In Module {id}
             </Typography>
-            <AddModule />
+
             <div>
-              <ModuleAdmin />
+              <AllSubject />
             </div>
           </main>
         </div>
