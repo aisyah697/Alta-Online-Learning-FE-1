@@ -98,8 +98,6 @@ export default function Subject() {
     };
     fetchData();
   }, [load, trigger]);
-  
-  console.log('AAAAA', subject)
 
   return (
       <React.Fragment>

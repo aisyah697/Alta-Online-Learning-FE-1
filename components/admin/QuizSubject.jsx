@@ -62,10 +62,8 @@ export default function Quiz({questions}) {
               </Typography>
             </Grid>
             <div className={classes.grow} />
-            {/*<Grid item lg={1} sm={1} className={classes.delete}>*/}
               <EditQuiz ID={item.id} question={item.question} />
               <DeleteQuestion ID={item.id} />
-            {/*</Grid>*/}
           </Grid>
         ))
       ) : (

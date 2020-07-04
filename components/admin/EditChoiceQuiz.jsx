@@ -145,8 +145,6 @@ export default function EditChoiceQuiz(props) {
       throw new Error(error);
     }
   }
-  
-  console.log("AAAA", props.ID)
 
   return (
     <div className={classes.root}>

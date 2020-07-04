@@ -8,6 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Divider, ListItem } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import dynamic from "next/dynamic";
+import EditQuizSubject from "./EditQuizSubject";
 
 const AddQuiz = dynamic(() => import("./AddQuiz"));
 const DeleteSubject = dynamic(() => import("./DeleteSubject"));
@@ -18,6 +19,8 @@ const SubjectQuiz = dynamic(() => import("./SubjectQuiz"));
 const EditQuiz = dynamic(() => import("./EditQuiz"));
 const EditLiveCode = dynamic(() => import("./EditLiveCode"));
 const Loading = dynamic(() => import("./../Loading"));
+const AddPostQuiz = dynamic(() => import("./AddPostQuiz"));
+const DeleteQuiz = dynamic(() => import("./DeleteQuiz"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -131,9 +134,15 @@ export default function SubjectAdmin({subject}) {
                 <Typography variant="body1" className={classes.heading}>
                   Quiz: {subject.name}
                 </Typography>
-                <AddQuiz quizID={subject.exam[0].quiz[0].id} />
+                 {subject.exam[0].quiz[0]?
+                     <> <EditQuizSubject quiz={subject.exam[0].quiz[0]} />
+                    <DeleteQuiz ID={subject.exam[0].quiz[0].id}/></> :
+                     <AddPostQuiz exam={subject.exam[0]}/> }
               </ExpansionPanelSummary>
-              <SubjectQuiz quiz={subject.exam[0].quiz[0]} />
+                {subject.exam[0].quiz[0]?
+                    (<>
+                        <SubjectQuiz quiz={subject.exam[0].quiz[0]} />
+                    </>) : null }
             </div>
           ) : (
             <div>

@@ -144,6 +144,8 @@ export default function EditQuiz(props) {
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
+    } finally {
+      setLoad(false)
     }
   };
 

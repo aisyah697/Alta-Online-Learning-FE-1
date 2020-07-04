@@ -12,6 +12,7 @@ import { Divider } from "@material-ui/core";
 import dynamic from "next/dynamic";
 
 const Quiz = dynamic(() => import("./QuizSubject"));
+const AddQuiz = dynamic(() => import("./AddQuiz"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,6 +105,7 @@ export default function QuizContent({quiz}) {
   return (
     <main className={classes.content}>
       <div className={classes.spacing}>
+        <br/>
         <Typography className={classes.allText}>
           <strong>Name: </strong>
         </Typography>
@@ -113,6 +115,7 @@ export default function QuizContent({quiz}) {
       </div>
       <Divider />
       <div className={classes.spacing}>
+        <br/>
         <Typography className={classes.allText}>
           <strong>Description: </strong>
         </Typography>
@@ -121,6 +124,9 @@ export default function QuizContent({quiz}) {
         </Typography>
       </div>
       <Divider />
+      <br/>
+      <AddQuiz quizID={quiz.id} />
+      <br/>
       <Quiz questions={quiz.question} />
     </main>
   );

@@ -100,6 +100,10 @@ const useStyles = makeStyles((theme) => ({
     ontFamily: "Muli, sans-serif",
     fontSize: `calc(0.7em + 0.5vw)`,
   },
+  rootList: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
 }));
 
 export default function ContentSide(props) {
