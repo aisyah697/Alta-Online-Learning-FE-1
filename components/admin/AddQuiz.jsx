@@ -123,13 +123,13 @@ export default function AddQuestion(props) {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz";
     const auth = cookies.token_admin;
 
-    const MyJOSN = JSON.stringify({
+    const MyJSON = JSON.stringify({
       question: values.question,
       quiz_id: props.quizID,
     });
 
     try {
-      const response = await axios.post(url, MyJOSN, {
+      const response = await axios.post(url, MyJSON, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer " + auth,

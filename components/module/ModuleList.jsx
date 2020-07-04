@@ -94,7 +94,7 @@ const ModuleList = (props) => {
   const [module, setModule] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/subject/" + `${id}`;
     const fetchData = async function () {
       try {
@@ -126,7 +126,7 @@ const ModuleList = (props) => {
       <div>
         {module
           ? module.map((value, index) => (
-              <div>
+              <div key={index}>
                 {value.lock_key ? (
                   <div key={index} className={classes.root}>
                     <Grid container className={classes.betweenModule}>

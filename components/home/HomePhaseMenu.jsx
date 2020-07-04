@@ -118,7 +118,7 @@ const CustomCard = ({ classes, phase, lock, disabled, style }) => {
     <Card className={classes.card}>
       <Typography className={classes.title}> Phase {phase} </Typography>
       <CardContent className={classes.content}>
-        {!lock ?
+        {lock ?
           <PlayCircleFilledWhiteIcon style={{ fontSize: '40px' }} /> :
           <LockIcon />
         }
