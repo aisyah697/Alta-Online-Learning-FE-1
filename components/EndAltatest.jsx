@@ -65,6 +65,9 @@ export default function EndAltatest(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  const sendEndTest = (status) => {
+    props.endTest(status);
+  };
 
   return (
     <div>
@@ -95,7 +98,10 @@ export default function EndAltatest(props) {
           >
             No
           </Button>
-          <Scores score={props.score} />
+          <Scores
+            endAltaTest={(status) => sendEndTest(status)}
+            score={props.score}
+          />
         </DialogActions>
       </Dialog>
     </div>

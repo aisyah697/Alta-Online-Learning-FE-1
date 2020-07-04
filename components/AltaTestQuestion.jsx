@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import Timer from "./Timer";
 import Button from "@material-ui/core/Button";
 import AdminContext from "../store/adminContext";
+import Router from "next/router";
 
 // const Scores = dynamic(() => import("./Score"));
 const EndAltatest = dynamic(() => import("./EndAltatest"));
@@ -113,6 +114,9 @@ export default function QuizContent(props) {
           },
         });
         if (response.status === 200) {
+          if (response.data.is_complete === "end") {
+            Router.push("/");
+          }
           setTest(response.data);
         }
       } catch (error) {
@@ -143,8 +147,15 @@ export default function QuizContent(props) {
           </Button>
         ) : (
           <div>
-            <EndAltatest score={test.score} />
-            <Timer timeStart={test.time_start} />
+            <EndAltatest
+              endTest={(status) => changeStatusTest(status)}
+              score={test.score}
+            />
+            <Timer
+              endTest={(status) => changeStatusTest(status)}
+              statusTest={test.is_complete}
+              timeStart={test.time_start}
+            />
             {test.altatest ? (
               <div>
                 {test.altatest.question.map((item, idx) => (

@@ -3,10 +3,11 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import { Typography } from "@material-ui/core";
+import { Typography, RootRef } from "@material-ui/core";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
+import Router from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   buttonInPop: {
@@ -25,15 +26,25 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
+  score: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+    fontSize: "10vw",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
 }));
 
 export default function Scores(props) {
   const [opens, setOpens] = React.useState(false);
   const classes = useStyles();
   const handleClickOpens = () => {
+    props.endAltaTest("end");
     setOpens(true);
   };
-
+  const redirectToProgress = () => {
+    Router.push("/");
+  };
   const handleClose = () => {
     setOpens(false);
   };
@@ -48,16 +59,21 @@ export default function Scores(props) {
         Yes
       </Button>
       <Dialog
+        fullWidth
+        maxWidth={"xs"}
         open={opens}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
-          Your Score is {props.score}
+          Your Score
         </DialogTitle>
-        <DialogContent>{props.score}</DialogContent>
+        <DialogContent>
+          <Typography className={classes.score}>{props.score}</Typography>
+        </DialogContent>
         <DialogActions>
           <Button
+            onClick={redirectToProgress}
             variant="outlined"
             size="medium"
             className={classes.buttonInPop}

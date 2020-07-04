@@ -17,7 +17,7 @@ export default function Timers(props) {
   const [second, setSecond] = React.useState(0);
 
   const countDownDate =
-    new Date(props.timeStart).getTime() + new Date("9999 9:00:00").getTime();
+    new Date(props.timeStart).getTime() + new Date("9999 09:00:00").getTime();
   const now = Date.now();
   const distance = countDownDate - now;
   const hours = Math.floor((distance % (3600000 * 24)) / 3600000);
@@ -31,12 +31,19 @@ export default function Timers(props) {
     const timer = setInterval(() => setSecond(second - 1), 1000);
     return () => clearInterval(timer);
   }, [second]);
-
+  if (hours === 0 && minutes === 0 && seconds === 0) {
+    props.endTest("end");
+  }
+  // console.log("teeeessssttt", props.statusTest);
   return (
     <div>
-      <Typography className={classes.allText}>
-        {hourShow}:{minuteShow}:{secondShow}
-      </Typography>
+      {props.statusTest === "start" ? (
+        <Typography className={classes.allText}>
+          {hourShow}:{minuteShow}:{secondShow}
+        </Typography>
+      ) : (
+        <Typography className={classes.allText}>00:00:00</Typography>
+      )}
     </div>
   );
 }
