@@ -37,6 +37,8 @@ const Home = () => {
         };
         fetchData();
     }, []);
+    
+    console.log('CEK', phase)
 
     return (
         <div>

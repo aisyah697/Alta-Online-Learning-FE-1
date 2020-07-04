@@ -1,14 +1,16 @@
 import React from "react";
+import { Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,19 +100,19 @@ const CourseHistory = (props) => {
       <h2 className={classes.h2}>Phase 1</h2>
       <h3>Basic Programming Python</h3>
       <div className={classes.root}>
-        <ExpansionPanel
+        <Accordion
           expanded={expanded === "panel1"}
           onChange={handleChange("panel1")}
         >
-          <ExpansionPanelSummary
+          <AccordionSummary
             className={classes.headerPanel}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
             <Typography className={classes.heading}>Subject 1</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          </AccordionSummary>
+          <AccordionDetails>
             <Grid container spacing={3}>
               <Grid item xs={6}>
                 <div className={classes.checklist}>
@@ -151,21 +153,21 @@ const CourseHistory = (props) => {
                 </div>
               </Grid>
             </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel
+          </AccordionDetails>
+        </Accordion>
+        <Accordion
           expanded={expanded === "panel2"}
           onChange={handleChange("panel2")}
         >
-          <ExpansionPanelSummary
+          <AccordionSummary
             className={classes.headerPanel}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
             <Typography className={classes.heading}>Subject 2</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          </AccordionSummary>
+          <AccordionDetails>
             <Grid container spacing={3}>
               <Grid item xs={6}>
                 <div className={classes.checklist}>
@@ -192,8 +194,8 @@ const CourseHistory = (props) => {
                 </div>
               </Grid>
             </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </AccordionDetails>
+        </Accordion>
       </div>
     </div>
   );

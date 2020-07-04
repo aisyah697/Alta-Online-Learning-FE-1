@@ -86,8 +86,6 @@ const ModuleList = (props) => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log("INI ID APAAAA", id);
-
   const [cookies] = useCookies();
   const { mentee_, token_ } = useContext(UserContext);
   const [mentee, setMentee] = mentee_;
@@ -97,9 +95,7 @@ const ModuleList = (props) => {
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
-    console.log("AAAA");
-    const url =
-      process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/subject/" + `${id}`;
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/subject/" + `${id}`;
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -123,11 +119,8 @@ const ModuleList = (props) => {
     }
   }, []);
 
-  console.log("CEK MODULE", module);
-  console.log("CEK MENTEE", mentee);
-
   if (!id) {
-    return null;
+    return <p>Loading...</p>;
   } else {
     return (
       <div>
