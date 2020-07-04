@@ -10,6 +10,10 @@ import dynamic from "next/dynamic";
 import Timer from "./Timer";
 import Button from "@material-ui/core/Button";
 import AdminContext from "../store/adminContext";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Router from "next/router";
 
 // const Scores = dynamic(() => import("./Score"));
@@ -64,6 +68,29 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
+  score: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+    fontSize: "10vw",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  buttonInPop: {
+    background: "#3364ff",
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(10),
+    color: theme.palette.common.white,
+    margin: theme.spacing(2),
+    minWidth: theme.spacing(12),
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
+  },
 }));
 
 export default function QuizContent(props) {
@@ -74,7 +101,9 @@ export default function QuizContent(props) {
   const [test, setTest] = test_;
   const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
-
+  const redirectToProgress = () => {
+    Router.push("/");
+  };
   const changeStatusTest = async (status) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
     const auth = cookies.mentee.token;
@@ -101,6 +130,7 @@ export default function QuizContent(props) {
       setLoad(false);
     }
   };
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     const urlTest = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
@@ -115,7 +145,7 @@ export default function QuizContent(props) {
         });
         if (response.status === 200) {
           if (response.data.is_complete === "end") {
-            Router.push("/");
+            setOpen(true);
           }
           setTest(response.data);
         }
@@ -150,23 +180,57 @@ export default function QuizContent(props) {
             <EndAltatest
               endTest={(status) => changeStatusTest(status)}
               score={test.score}
+              statusTest={test.is_complete}
             />
             <Timer
               endTest={(status) => changeStatusTest(status)}
               statusTest={test.is_complete}
               timeStart={test.time_start}
             />
-            {test.altatest ? (
+            {test.is_complete === "end" ? null : (
               <div>
-                {test.altatest.question.map((item, idx) => (
-                  <Question key={idx} no={idx} id={test.id} question={item} />
-                ))}
+                {test.altatest ? (
+                  <div>
+                    {test.altatest.question.map((item, idx) => (
+                      <Question
+                        key={idx}
+                        no={idx}
+                        id={test.id}
+                        question={item}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <Loading />
+                )}
               </div>
-            ) : (
-              <Loading />
             )}
           </div>
         )}
+        <Dialog
+          fullWidth
+          maxWidth={"xs"}
+          open={open}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
+            Your Score
+          </DialogTitle>
+          <DialogContent>
+            <Typography className={classes.score}>{test.score}</Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={redirectToProgress}
+              variant="outlined"
+              size="medium"
+              className={classes.buttonInPop}
+            >
+              Next
+            </Button>
+          </DialogActions>
+        </Dialog>
       </main>
     );
   }

@@ -9,7 +9,6 @@ import axios from "axios";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
 import Loading from "./Loading";
-import Scores from "./Score";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -56,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 export default function EndAltatest(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [cookies, setCookie] = useCookies();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -65,8 +63,8 @@ export default function EndAltatest(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  const sendEndTest = (status) => {
-    props.endTest(status);
+  const sendEndTest = () => {
+    props.endTest("end");
   };
 
   return (
@@ -98,10 +96,14 @@ export default function EndAltatest(props) {
           >
             No
           </Button>
-          <Scores
-            endAltaTest={(status) => sendEndTest(status)}
-            score={props.score}
-          />
+          <Button
+            onClick={sendEndTest}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
+          >
+            Yes
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
