@@ -72,7 +72,7 @@ const SubjectVideo = (props) => {
         </Grid>
       </Card>
       <Typography className={classes.judulVideo} variant="h6">
-        Video Part 1: {props.name}
+        Title: {props.name}
       </Typography>
     </main>
   );

@@ -1,14 +1,21 @@
 import React, { useContext } from "react";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { useCookies } from "react-cookie";
-import AdminContext from "../../store/adminContext";
+import dynamic from "next/dynamic";
 import axios from "axios";
+
+import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
-import Loading from "../Loading"
+import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import { useCookies } from "react-cookie";
+
+import AdminContext from "../../store/adminContext";
+import {useRouter} from "next/router";
+import Router from "next/router";
+import Link from "next/link";
+
+const Loading = dynamic(() => import('../Loading'))
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -50,8 +57,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export default function DeleteModule(props) {
+
+export default function DeleteModule({ID}) {
   const classes = useStyles();
+  const router = useRouter();
+  const { id, id_module, module, id_subject } = router.query;
+
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
   const { load_ } = useContext(AdminContext);
@@ -67,12 +78,13 @@ export default function DeleteModule(props) {
 
   const deleteQuestion = async () => {
     setOpen(false);
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + props.ID;
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + ID;
     const auth = cookies.token_admin;
 
     const MyJOSN = JSON.stringify({
       status: false,
     });
+
     try {
       const response = await axios.put(url, MyJOSN, {
         headers: {
@@ -83,7 +95,6 @@ export default function DeleteModule(props) {
 
       if (response.status === 200) {
         setLoad(true);
-        // setLoad(false);
       } else {
         let error = new Error(response.statusText);
         error.response = response;
@@ -94,9 +105,7 @@ export default function DeleteModule(props) {
       throw new Error(error);
     }
   };
-  if (load === true) {
-    return <Loading />;
-  } else {
+
     return (
       <div>
         <Button
@@ -127,17 +136,19 @@ export default function DeleteModule(props) {
             >
               No
             </Button>
-            <Button
-              onClick={deleteQuestion}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
-            >
-              Yes
-            </Button>
+            <Link href={'/admin/academy/phase/[id]/[id_module]/[module]'}
+                  as={`/admin/academy/phase/${id}/${id_module}/${module}`}>
+              <Button
+                onClick={deleteQuestion}
+                variant="outlined"
+                size="medium"
+                className={classes.buttonInPop}
+              >
+                Yes
+              </Button>
+            </Link>
           </DialogActions>
         </Dialog>
       </div>
     );
-  }
 }

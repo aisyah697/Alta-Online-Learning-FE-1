@@ -16,7 +16,7 @@ import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import Loading from "../Loading";
 
-const EditChoice = dynamic(() => import("./EditChoice"));
+const EditChoice = dynamic(() => import("./EditChoiceQuiz"));
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -106,8 +106,7 @@ export default function EditQuiz(props) {
   const [choices, setChoices] = useState("");
 
   const [values, setValues] = React.useState({
-    question: props.question,
-    choice: "",
+    question: props.question, choice: "",
   });
 
   const handleChange = (prop) => (event) => {
@@ -145,6 +144,8 @@ export default function EditQuiz(props) {
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
+    } finally {
+      setLoad(false)
     }
   };
 
@@ -170,10 +171,11 @@ export default function EditQuiz(props) {
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
+    } finally {
+      setLoad(false)
     }
 
     setValues({ ...values, choice: "" });
-    // reset input form
     document.getElementById("add-choices").value = "";
   };
 
@@ -198,9 +200,6 @@ export default function EditQuiz(props) {
     fetchData();
   }, [load]);
 
-  if (load === true) {
-    return <Loading />;
-  } else {
     return (
       <div>
         <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
@@ -287,5 +286,4 @@ export default function EditQuiz(props) {
         </Dialog>
       </div>
     );
-  }
 }

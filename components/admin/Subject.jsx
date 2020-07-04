@@ -8,6 +8,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Divider, ListItem } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import dynamic from "next/dynamic";
+import EditQuizSubject from "./EditQuizSubject";
 
 const AddQuiz = dynamic(() => import("./AddQuiz"));
 const DeleteSubject = dynamic(() => import("./DeleteSubject"));
@@ -18,6 +19,8 @@ const SubjectQuiz = dynamic(() => import("./SubjectQuiz"));
 const EditQuiz = dynamic(() => import("./EditQuiz"));
 const EditLiveCode = dynamic(() => import("./EditLiveCode"));
 const Loading = dynamic(() => import("./../Loading"));
+const AddPostQuiz = dynamic(() => import("./AddPostQuiz"));
+const DeleteQuiz = dynamic(() => import("./DeleteQuiz"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,33 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubjectAdmin(props) {
+export default function SubjectAdmin({subject}) {
   const classes = useStyles();
-
-  const [expanded, setExpanded] = React.useState(false);
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
-  const [expandedVid, setExpandedVid] = React.useState(false);
-  const handleChangeVid = (panel) => (event, isExpanded) => {
-    setExpandedVid(isExpanded ? panel : false);
-  };
-
-  const [expandedPPT, setExpandedPPT] = React.useState(false);
-  const handleChangePPT = (panel) => (event, isExpanded) => {
-    setExpandedPPT(isExpanded ? panel : false);
-  };
-
-  const [expandedLC, setExpandedLC] = React.useState(false);
-  const handleChangeLC = (panel) => (event, isExpanded) => {
-    setExpandedLC(isExpanded ? panel : false);
-  };
-
-  const [expandedQuiz, setExpandedQuiz] = React.useState(false);
-  const handleChangeQuiz = (panel) => (event, isExpanded) => {
-    setExpandedQuiz(isExpanded ? panel : false);
-  };
 
   return (
     <div className={classes.root}>
@@ -98,7 +76,7 @@ export default function SubjectAdmin(props) {
       <ExpansionPanelDetails className={classes.panelUtama}>
         <List component="nav">
           <Typography className={classes.allText}>
-            {props.props.description}
+            {subject.description}
           </Typography>
         </List>
       </ExpansionPanelDetails>
@@ -113,15 +91,16 @@ export default function SubjectAdmin(props) {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        {props.props.video.map((element, num) => (
+        {subject.video ?
+          (subject.video.map((element, num) => (
           <SubjectVideo
             key={num}
             name={element.name}
             video={element.content_file}
           />
-        ))}
+          ))) : <Typography> No Data </Typography> }
       </ExpansionPanelDetails>
-      <List component="nav"> </List>
+        <List component="nav"/>
 
       <ExpansionPanelSummary
         aria-controls="panel1bh-content"
@@ -133,11 +112,19 @@ export default function SubjectAdmin(props) {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <SubjectPPT />
+        {subject.presentation ?
+          (subject.presentation.map((element, num) => (
+              <SubjectPPT
+                  key={num}
+                  name={element.name}
+                  press={element.content_file}
+              />
+          ))) : <Typography>No Data</Typography> }
       </ExpansionPanelDetails>
-      {props.props.exam[0] ? (
+
+      {subject.exam[0] ? (
         <div>
-          {props.props.exam[0].type_exam === "quiz" ? (
+          {subject.exam[0].type_exam === "quiz" ? (
             <div>
               <ExpansionPanelSummary
                 aria-controls="panel1bh-content"
@@ -145,11 +132,17 @@ export default function SubjectAdmin(props) {
                 className={classes.headingField}
               >
                 <Typography variant="body1" className={classes.heading}>
-                  Quiz: {props.props.name}
+                  Quiz: {subject.name}
                 </Typography>
+                 {subject.exam[0].quiz[0]?
+                     <> <EditQuizSubject quiz={subject.exam[0].quiz[0]} />
+                    <DeleteQuiz ID={subject.exam[0].quiz[0].id}/></> :
+                     <AddPostQuiz exam={subject.exam[0]}/> }
               </ExpansionPanelSummary>
-              <AddQuiz quizID={props.props.exam[0].quiz[0].id} />
-              <SubjectQuiz quiz={props.props.exam[0].quiz[0]} />
+                {subject.exam[0].quiz[0]?
+                    (<>
+                        <SubjectQuiz quiz={subject.exam[0].quiz[0]} />
+                    </>) : null }
             </div>
           ) : (
             <div>
@@ -171,10 +164,9 @@ export default function SubjectAdmin(props) {
             </div>
           )}
         </div>
-      ) : (
-        <div></div>
-      )}
-      <List component="nav"></List>
+      ) : null
+      }
+      <List component="nav"/>
     </div>
   );
 }
