@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext} from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -6,11 +6,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
-import { useCookies } from "react-cookie";
+import {useCookies} from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
-
-import Loading from "./../Loading";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -37,12 +35,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DeleteQestion(props) {
+export default function DeleteQuiz({ID}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
-  const { trigger_ } = useContext(AdminContext);
-  const [trigger, setTrigger] = trigger_;
+  const {trigger_} = useContext(AdminContext);
+  const [trigger, setTrigger] = trigger_
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,20 +50,20 @@ export default function DeleteQestion(props) {
     setOpen(false);
   };
 
-  const deleteQuestion = async () => {
+  const DeleteQuiz = async () => {
     setOpen(false);
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz/" + props.ID;
-    const auth = cookies.token_admin;
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/quiz/' + ID
+    const auth = cookies.token_admin
 
     const MyJOSN = JSON.stringify({
       status: false,
-    });
+    })
 
     try {
-      const response = await axios.put(url, MyJOSN, {
+      const response = await axios.delete(url, MyJOSN,{
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
+          'Authorization':'Bearer ' + auth
         },
       });
 
@@ -79,45 +77,43 @@ export default function DeleteQestion(props) {
     } catch (error) {
       console.error("Something Wrong, Please Try Again!", error);
       throw new Error(error);
-    } finally {
-      setTrigger(false)
     }
-  };
+  }
 
-    return (
-      <div>
-        <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-          <DeleteIcon className={classes.buttonIcon} fontSize="default" />
-        </IconButton>
+  return (
+    <div>
+      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+        <DeleteIcon className={classes.buttonIcon} fontSize="default" />
+      </IconButton>
 
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Are you sure want to delete this alta test?"}
-          </DialogTitle>
-          <DialogActions>
-            <Button
-              onClick={handleClose}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
-            >
-              No
-            </Button>
-            <Button
-              onClick={deleteQuestion}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
-            >
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure want to delete this Quiz?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            onClick={handleClose}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
+          >
+            No
+          </Button>
+          <Button
+            onClick={DeleteQuiz}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }

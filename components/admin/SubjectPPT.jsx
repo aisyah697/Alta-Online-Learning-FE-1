@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SubjectPPT = (props) => {
   const classes = useStyles();
-  console.log("ppt", props);
+
   return (
     <main className={classes.content}>
       <Card className={classes.root} elevation={0}>
@@ -38,15 +38,12 @@ const SubjectPPT = (props) => {
             width="100%"
             height="520px"
             frameBorder="0"
-          ></iframe>
-
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              PPT Part 1: Dasar-dasar algoritma
-            </Typography>
-          </CardContent>
+          />
         </CardActionArea>
       </Card>
+      <Typography variant="body2" color="textSecondary" component="p">
+        Title: {props.name}
+      </Typography>
     </main>
   );
 };

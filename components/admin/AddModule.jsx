@@ -226,23 +226,6 @@ export default function AddModule() {
             onChange={handleChange("name")}
           />
 
-          {/*<FormControl*/}
-          {/*  className={clsx(classes.margin, classes.textField)}*/}
-          {/*  variant="outlined"*/}
-          {/*  size="small"*/}
-          {/*  color="secondary"*/}
-          {/*>*/}
-          {/*  <InputLabel color="secondary">Phase</InputLabel>*/}
-          {/*  <Select*/}
-          {/*    label="phase"*/}
-          {/*    value={values.phase_id}*/}
-          {/*    onChange={handleChange("phase_id")}*/}
-          {/*  >*/}
-          {/*    <MenuItem value={"1"}>1</MenuItem>*/}
-          {/*    <MenuItem value={"2"}>2</MenuItem>*/}
-          {/*  </Select>*/}
-          {/*</FormControl>*/}
-
           <TextField
             className={classes.textField}
             variant="outlined"

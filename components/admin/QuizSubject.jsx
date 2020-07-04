@@ -45,13 +45,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Quiz(props) {
+export default function Quiz({questions}) {
   const classes = useStyles();
 
   return (
     <>
-      {props.questions ? (
-        props.questions.map((item, index) => (
+      {questions ? (
+        questions.map((item, index) => (
           <Grid key={index} container spacing={0}>
             <Grid item className={classes.number}>
               <Typography className={classes.question}>{index + 1}.</Typography>
@@ -62,10 +62,8 @@ export default function Quiz(props) {
               </Typography>
             </Grid>
             <div className={classes.grow} />
-            <Grid item lg={1} sm={1} className={classes.delete}>
               <EditQuiz ID={item.id} question={item.question} />
               <DeleteQuestion ID={item.id} />
-            </Grid>
           </Grid>
         ))
       ) : (

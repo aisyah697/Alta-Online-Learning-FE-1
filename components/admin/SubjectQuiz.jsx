@@ -12,6 +12,7 @@ import { Divider } from "@material-ui/core";
 import dynamic from "next/dynamic";
 
 const Quiz = dynamic(() => import("./QuizSubject"));
+const AddQuiz = dynamic(() => import("./AddQuiz"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,27 +99,35 @@ function StyledRadio(props) {
   );
 }
 
-export default function QuizContent(props) {
+export default function QuizContent({quiz}) {
   const classes = useStyles();
+
   return (
     <main className={classes.content}>
       <div className={classes.spacing}>
+        <br/>
         <Typography className={classes.allText}>
           <strong>Name: </strong>
         </Typography>
-        <Typography className={classes.allText}>{props.quiz.name}</Typography>
+        <Typography className={classes.allText}>
+          {quiz.name}
+        </Typography>
       </div>
       <Divider />
       <div className={classes.spacing}>
+        <br/>
         <Typography className={classes.allText}>
           <strong>Description: </strong>
         </Typography>
         <Typography className={classes.allText}>
-          {props.quiz.description}
+          {quiz.description}
         </Typography>
       </div>
       <Divider />
-      <Quiz questions={props.quiz.question} />
+      <br/>
+      <AddQuiz quizID={quiz.id} />
+      <br/>
+      <Quiz questions={quiz.question} />
     </main>
   );
 }

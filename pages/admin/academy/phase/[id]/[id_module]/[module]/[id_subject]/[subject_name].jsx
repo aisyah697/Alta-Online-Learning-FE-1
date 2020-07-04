@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react";
-import Head from "next/head";
+import {useRouter} from "next/router";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import axios from "axios";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,24 +11,15 @@ import AppBar from "@material-ui/core/AppBar";
 import { useCookies } from "react-cookie";
 import Grid from "@material-ui/core/Grid";
 
-const Loading = dynamic(() => import("../../../../../../components/Loading"));
-const Footer = dynamic(() => import("../../../../../../components/FooterBar"));
-const NavigationAdminBar = dynamic(() =>
-  import("../../../../../../components/admin/NavigationBarAdmin")
-);
-const DeleteSubject = dynamic(() =>
-  import("../../../../../../components/admin/DeleteSubject")
-);
-const EditSubject = dynamic(() =>
-  import("../../../../../../components/admin/EditSubject")
-);
-const SubjectAdmin = dynamic(() =>
-  import("../../../../../../components/admin/Subject")
-);
-const SideBarr = dynamic(() =>
-  import("../../../../../../components/admin/SideBarr")
-);
+const NavigationAdminBar = dynamic(() => import("../../../../../../../../components/admin/NavigationBarAdmin"));
+const DeleteSubject = dynamic(() => import("../../../../../../../../components/admin/DeleteSubject"));
+const EditSubject = dynamic(() => import("../../../../../../../../components/admin/EditSubject"));
+const SubjectAdmin = dynamic(() => import("../../../../../../../../components/admin/Subject"));
+const SideBarr = dynamic(() => import("../../../../../../../../components/admin/SideBarr"));
+const Footer = dynamic(() => import("../../../../../../../../components/FooterBar"));
+const Loading = dynamic(() => import("../../../../../../../../components/Loading"));
 
+import AdminContext from "../../../../../../../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -73,25 +65,30 @@ const useStyles = makeStyles((theme) => ({
 export default function Subject() {
   const classes = useStyles();
   const [open] = React.useState(false);
-  const [subject, setsubject] = React.useState();
-  const [loading, setLoading] = React.useState();
-  const [cookies] = useCookies();
-  const { load_ } = useContext(AdminContext);
-  const [load, setLoad] = load_;
+  const router = useRouter();
+  const { id, id_module, module, id_subject } = router.query;
 
-  useEffect(() => {
-    const urlsubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested/1";
+  const [subject, setSubject] = React.useState();
+  const [loading, setLoading] = React.useState();
+
+  const [cookies] = useCookies();
+  const { load_, trigger_ } = React.useContext(AdminContext);
+  const [load, setLoad] = load_;
+  const [trigger, setTrigger] = trigger_
+
+  React.useEffect(() => {
+    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested";
     const fetchData = async function () {
       try {
         setLoading(true);
-        const response = await axios.get(urlsubject, {
+        const response = await axios.get(urlSubject, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + cookies.admin.token,
+            "Authorization": "Bearer " + cookies.admin.token,
           },
         });
         if (response.status === 200) {
-          setsubject(response.data);
+          setSubject(response.data);
         }
       } catch (error) {
         throw error;
@@ -100,29 +97,27 @@ export default function Subject() {
       }
     };
     fetchData();
-  }, [load]);
+  }, [load, trigger]);
 
-  if (!subject) {
-    return <Loading />;
-  } else {
-    return (
+  return (
       <React.Fragment>
         <Head>
           <title>Admin | Academy</title>
         </Head>
         <div className={classes.page}>
           <div className={classes.root}>
-            <CssBaseline />
+            <CssBaseline/>
             <AppBar className={classes.appBar}>
-              <NavigationAdminBar />
+              <NavigationAdminBar/>
             </AppBar>
-            <SideBarr />
+            <SideBarr/>
             <main className={classes.content}>
               {subject ?
-                  <React.Fragment>
+                  subject.filter(map => map.id == id_subject).map((item, index) => (
+                  <React.Fragment key={index}>
                     <div className={classes.toolbar}/>
                     <Typography className={classes.titleInPage}>
-                      {subject.name}
+                      {item.name}
                     </Typography>
                     <Grid
                         container
@@ -130,21 +125,22 @@ export default function Subject() {
                         justify="flex-start"
                         alignItems="flex-start"
                     >
-                      <EditSubject subject={subject}/>
-                      <DeleteSubject ID={subject.id}/>
+                      <EditSubject subject={item} />
+                      <DeleteSubject ID={item.id} />
                     </Grid>
                     <div>
-                      <SubjectAdmin props={subject}/>
+                      <SubjectAdmin subject={item} />
                     </div>
                   </React.Fragment>
-              : null
+                ))
+                  : <Typography> No Data </Typography>
               }
             </main>
           </div>
           <div className={classes.footer}>
-            <Footer />
+            <Footer/>
           </div>
         </div>
       </React.Fragment>
-    );
+  );
 }

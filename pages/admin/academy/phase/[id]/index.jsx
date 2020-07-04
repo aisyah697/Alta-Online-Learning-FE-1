@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Module() {
   const classes = useStyles();
   const router = useRouter();
-  const { id } = router.query;
+  const { id, id_module, module, id_subject } = router.query;
   const [open] = React.useState(false);
 
   return (
