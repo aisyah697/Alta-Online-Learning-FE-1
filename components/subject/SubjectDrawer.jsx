@@ -1,21 +1,19 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import { useCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Toolbar from "@material-ui/core/Toolbar";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import Collapse from "@material-ui/core/Collapse";
-import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import SlideshowIcon from "@material-ui/icons/Slideshow";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-
-import PropTypes from "prop-types";
-import ListSubheader from "@material-ui/core/ListSubheader";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import LaptopMacIcon from "@material-ui/icons/LaptopMac";
+import LockIcon from "@material-ui/icons/Lock";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import UserContext from "../../store/userContext";
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -43,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     paddingRight: theme.spacing(2),
     paddingLeft: "18px",
+    color: theme.palette.secondary.secondary,
   },
   module: {
     textTransform: "uppercase",
@@ -55,146 +54,144 @@ const useStyles = makeStyles((theme) => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
+  accordion: {
+    WebkitBoxShadow: "none",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+  heading: {
+    color: theme.palette.secondary.secondary,
+  },
+  headingLock: {
+    color: "#7E7E7E",
+  },
+  detail: {
+    padding: theme.spacing(0, 3, 1, 3),
+    color: theme.palette.secondary.secondary,
+  },
+  detailLock: {
+    padding: theme.spacing(0, 3, 1, 3),
+    color: "#7E7E7E",
+  },
+  lastDetail: {
+    padding: theme.spacing(2, 3, 1, 3),
+    color: theme.palette.secondary.secondary,
+  },
+  lastDetailLock: {
+    padding: theme.spacing(2, 3, 1, 3),
+    color: "#7E7E7E",
+  },
+  icon: {
+    marginRight: theme.spacing(1.5),
+  },
 }));
 
-function getItems() {
-  var json = {
-    list: [
-      {
-        items: [
-          {
-            id: 1,
-            name: "Subject 01: Algorithm",
-            subitems: [
-              {
-                id: 1,
-                name: "Video",
-              },
-              {
-                id: 2,
-                name: "Presentation",
-              },
-              {
-                id: 3,
-                name: "Exam (Quiz)",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        items: [
-          {
-            id: 2,
-            name: "Subject 02: Basic Python",
-            subitems: [
-              {
-                id: 1,
-                name: "Video",
-              },
-              {
-                id: 2,
-                name: "Presentation",
-              },
-              {
-                id: 3,
-                name: "Exam (Contest)",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
-  return json;
-}
-
-export default function SubjectDrawer(props) {
+const SubjectDrawer = (props) => {
   const classes = useStyles();
-  const items = getItems();
+  const [cookies] = useCookies();
 
-  const [state, setState] = React.useState([]);
-  const handleClick = (e) => {
-    setState({ [e]: !state[e] });
-  };
+  const { mentee_, token_ } = useContext(UserContext);
+  const [mentee, setMentee] = mentee_;
+  const [tokenMentee, setTokenMentee] = token_;
+
+  const [course, setCourse] = React.useState();
+  const [loading, setLoading] = React.useState(true);
+
+  useEffect(() => {
+    const url =
+      process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/subject/" + "3";
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.token_mentee,
+          },
+        });
+        if (response.status === 200) {
+          setCourse(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
-      <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
-          <div className={classes.title}>
-            <h1 className={classes.module}>Basic Programming</h1>
-          </div>
-          <div>
-            {items.list.map((list) => {
-              return (
-                  <List
-                      className={classes.root}
-                      key={list.id}
-                      subheader={<ListSubheader>{list.title}</ListSubheader>}
-                  >
-                    {list.items.map((item) => {
-                      return (
-                          <div key={item.id}>
-                            {item.subitems != null ? (
-                                <div key={item.id}>
-                                  <ListItem
-                                      button
-                                      key={item.id}
-                                      onClick={handleClick.bind(item.name)}
-                                  >
-                                    <ListItemText primary={item.name} />
-                                    {state[item.name] ? <ExpandLess /> : <ExpandMore />}
-                                  </ListItem>
-                                  <Collapse
-                                      key={list.items.id}
-                                      component="li"
-                                      in={state[item.name]}
-                                      timeout="auto"
-                                      unmountOnExit
-                                  >
-                                    <List disablePadding>
-                                      {item.subitems.map((value) => {
-                                        return (
-                                            <ListItem
-                                                button
-                                                key={value.id}
-                                                className={classes.nested}
-                                            >
-                                              <ListItemText
-                                                  key={value.id}
-                                                  primary={value.name}
-                                              />
-                                            </ListItem>
-                                        );
-                                      })}
-                                    </List>
-                                  </Collapse>{" "}
-                                </div>
-                            ) : (
-                                <ListItem
-                                    button
-                                    onClick={handleClick.bind(item.name)}
-                                    key={item.id}
-                                >
-                                  <ListItemText primary={item.name} />
-                                </ListItem>
-                            )}
-                          </div>
-                      );
-                    })}
-                    <Divider key={list.id} absolute />
-                  </List>
-              );
-            })}
-          </div>
+    <Drawer
+      className={classes.drawer}
+      variant="permanent"
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+    >
+      <Toolbar />
+      <div className={classes.drawerContainer}>
+        <div className={classes.title}>
+          <h1 className={classes.module}>Basic Programming</h1>
         </div>
-      </Drawer>
+        <div>
+          {course
+            ? course.map((value, index) => (
+                <div>
+                  {value.lock_key ? (
+                    <div key={index}>
+                      <Accordion className={classes.accordion}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                        >
+                          <Typography className={classes.heading}>
+                            {value.subject.name}
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails className={classes.detail}>
+                          <LibraryBooksIcon className={classes.icon} />
+                          <Typography>Materi</Typography>
+                        </AccordionDetails>
+                        <AccordionDetails className={classes.lastDetail}>
+                          <LaptopMacIcon className={classes.icon} />
+                          <Typography>Exam</Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Divider />
+                    </div>
+                  ) : (
+                    <div key={index}>
+                      <Accordion className={classes.accordion}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                        >
+                          <Typography className={classes.headingLock}>
+                            {value.subject.name}
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails className={classes.detailLock}>
+                          <LockIcon className={classes.icon} />
+                          <Typography>Materi</Typography>
+                        </AccordionDetails>
+                        <AccordionDetails className={classes.lastDetailLock}>
+                          <LockIcon className={classes.icon} />
+                          <Typography>Exam</Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Divider />
+                    </div>
+                  )}
+                </div>
+              ))
+            : null}
+        </div>
+      </div>
+    </Drawer>
   );
-}
+};
+
+export default SubjectDrawer;
