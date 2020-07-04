@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import Head from "next/head";
 import dynamic from 'next/dynamic'
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import UserContext from "../store/userContext";
 
 const NavigationBar = dynamic(() => import('../components/NavigationBar'))
 const HomePhaseMenu = dynamic(() => import('../components/home/HomePhaseMenu'))
@@ -13,7 +14,7 @@ const SubFooter = dynamic(() => import('../components/SubFooter'))
 const Footer = dynamic(() => import('../components/FooterBar'))
 
 const Home = () => {
-    const [cookies] = useCookies()
+    const [cookies, setCookies] = useCookies()
     
     const [phase, setPhase] = React.useState()
     
@@ -51,7 +52,7 @@ const Home = () => {
                 }
                 <HomeTestimony/>
                 <FrequentQuestion/>
-                <SubFooter phase={phase}/>
+                <SubFooter/>
                 <Footer/>
             </main>
         </div>

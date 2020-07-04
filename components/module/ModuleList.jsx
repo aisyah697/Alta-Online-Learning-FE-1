@@ -86,8 +86,6 @@ const ModuleList = (props) => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log("INI ID APAAAA", id);
-
   const [cookies] = useCookies();
   const { mentee_, token_ } = useContext(UserContext);
   const [mentee, setMentee] = mentee_;
@@ -96,10 +94,8 @@ const ModuleList = (props) => {
   const [module, setModule] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
-    console.log("AAAA");
-    const url =
-      process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/subject/" + `${id}`;
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/subject/" + `${id}`;
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -118,13 +114,8 @@ const ModuleList = (props) => {
         setLoading(false);
       }
     };
-    if (id) {
-      fetchData();
-    }
+    fetchData();
   }, []);
-
-  console.log("CEK MODULE", module);
-  console.log("CEK MENTEE", mentee);
 
   if (!id) {
     return null;
@@ -133,7 +124,7 @@ const ModuleList = (props) => {
       <div>
         {module
           ? module.map((value, index) => (
-              <div>
+              <div key={index}>
                 {value.lock_key ? (
                   <div key={index} className={classes.root}>
                     <Grid container className={classes.betweenModule}>
