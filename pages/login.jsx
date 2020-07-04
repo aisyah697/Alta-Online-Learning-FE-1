@@ -42,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: theme.spacing(4),
     },
   },
+  container: {
+    minHeight: `calc(100vh)`,
+    display: 'flex',
+    alignItems: 'center'
+  },
   margin: {
     margin: theme.spacing(1),
     width: "90%",
@@ -103,10 +108,7 @@ const Login = (data) => {
   const [cookie, setCookie] = useCookies()
   const [message, setMessage] = React.useState('')
   const [values, setValues] = React.useState({
-    username: "",
-    password: "",
-    showPassword: false,
-    token: ""
+    username: "", password: "", showPassword: false, token: ""
   });
 
   const {login_, mentee_} = useContext(UserContext);
@@ -149,7 +151,6 @@ const Login = (data) => {
       }
     } catch (error) {
       console.error("Something Wrong, Please Try Again!", error);
-      throw new Error(error);
     }
   }
 
@@ -171,8 +172,8 @@ const Login = (data) => {
         <title>Login | Alta Online Learning</title>
       </Head>
       <main>
-        <NavigationBar />
-        <Grid container justify="center">
+        <div className={classes.container}>
+          <Grid container justify="center">
           <Card className={classes.root} variant="outlined">
             <Grid container>
               <Grid item lg={5} xs={12}>
@@ -277,7 +278,7 @@ const Login = (data) => {
             </Grid>
           </Card>
         </Grid>
-        <Footer />
+        </div>
       </main>
     </div>
   );
