@@ -12,7 +12,8 @@ import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import { Done } from "@material-ui/icons";
 import dynamic from "next/dynamic";
-const Link = dynamic(() => import("../../utils/link"));
+import Loading from "../Loading";
+const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -105,92 +106,75 @@ const useStyles = makeStyles((theme) => ({
   phaseFont: {
     fontSize: `calc(2em + 0.5vw)`,
     color: theme.palette.secondary.secondary,
-    fontWeight: 600,
-  },
-}));
+    fontWeight: 600
+  }
 
-const CustomCard = ({ classes, title, status }) => {
+}))
+
+
+const CustomCard = ({ classes, phase, lock, disabled, style }) => {
+  const myStyle = useStyles();
   return (
     <Card className={classes.card}>
-      <Typography className={classes.title}> {title} </Typography>
+      <Typography className={classes.title}> Phase {phase} </Typography>
       <CardContent className={classes.content}>
-        {status ? (
-          <AssignmentTurnedInIcon style={{ fontSize: "40px" }} />
-        ) : (
-          <PlayCircleFilledWhiteIcon style={{ fontSize: "40px" }} />
-        )}
+        {!lock ?
+          <PlayCircleFilledWhiteIcon style={{ fontSize: '40px' }} /> :
+          <LockIcon />
+        }
       </CardContent>
       <CardActions className={classes.action}>
-        {status ? (
-          <Link href={"/courses/phase/[id]"} as={"/courses/phase/1"}>
-            <Button
-              size="small"
-              variant={"outlined"}
-              className={classes.button}
-              endIcon={<Done />}
-            >
-              Done
-            </Button>
-          </Link>
-        ) : (
-          <Link href={"/courses/phase/[id]"} as={"/courses/phase/2"}>
-            <Button
-              size="small"
-              variant={"outlined"}
-              className={classes.button2}
-              startIcon={<PlayCircleOutlineIcon />}
-            >
+        {phase == 3 ?
+          <Button disabled={lock} size="small" variant={'outlined'} className={style}
+            startIcon={<LockIcon />}
+            style={{ backgroundColor: '#788896', color: '#fff' }}
+          >
+            Offline Class
+                    </Button>
+          :
+          (lock ?
+            <Link href={'/courses/phase/[id]'} as={`/courses/phase/${phase}`}>
+              <Button disabled={!lock} size="small" variant={'outlined'} className={style}
+                startIcon={<PlayCircleOutlineIcon />}>
+                Start
+              </Button>
+            </Link> :
+            <Button disabled={!lock} size="small" variant={'outlined'} className={style}
+              startIcon={<LockIcon />}
+              style={{ backgroundColor: '#788896', color: '#fff' }} >
               Start
             </Button>
-          </Link>
-        )}
+          )
+        }
       </CardActions>
     </Card>
   );
 };
 
-const HomePhaseMenu = () => {
+const HomePhaseMenu = ({ phase }) => {
   const classes = useStyles();
+
   return (
     <div>
       <div className={classes.phaseTitle}>
-        <Typography className={classes.phaseFont}>
-          {" "}
-          Track Your Progress{" "}
-        </Typography>
+        <Typography className={classes.phaseFont}> Track Your Progress </Typography>
       </div>
       <Grid container className={classes.root}>
-        {[1, 2].map((item, index) => (
-          <Grid key={index} item xs={12} lg={3}>
-            <CustomCard
-              classes={classes}
-              title={"Phase " + (index + 1)}
-              status={!index}
-            />
-          </Grid>
-        ))}
-        <Grid item xs={12} lg={3}>
-          <Card className={classes.card}>
-            <Typography className={classes.title}> {"Phase 3"} </Typography>
-            <CardContent className={classes.content2}>
-              <LockIcon style={{ fontSize: "40px" }} />
-            </CardContent>
-            <CardActions className={classes.action}>
-              <Button
-                size="small"
-                className={classes.button}
-                variant={"outlined"}
-                disabled
-                style={{ backgroundColor: "#788896", color: "#fff" }}
-              >
-                Offline Class
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
+        {phase ?
+          (phase.map((items, index) => (
+            <Grid key={index} item xs={12} lg={3}>
+              <CustomCard
+                classes={classes}
+                phase={index + 1}
+                lock={items.lock_key}
+                disabled={false}
+                style={classes.button}
+              />
+            </Grid>
+          ))) : <Typography> Loading... </Typography>}
       </Grid>
     </div>
-  );
-};
+  )
+}
 
 export default HomePhaseMenu;

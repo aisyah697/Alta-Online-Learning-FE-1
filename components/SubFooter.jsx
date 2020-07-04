@@ -40,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SubFooter = () => {
+const SubFooter = ({phase}) => {
     const classes = useStyles();
-    const id = 'one'
+
     return (
         <div>
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
@@ -51,11 +51,16 @@ const SubFooter = () => {
                         <Typography variant={'h5'} className={classes.title}>
                             You can now access the course!
                         </Typography>
-                        <Link href={'/courses/phase/[id]'} as={`/courses/phase/${id}`}>
+                        {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 ?
+                            <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
+                                <Button variant={'outlined'} className={classes.button}>
+                                    View Course
+                                </Button>
+                            </Link> :
                             <Button variant={'outlined'} className={classes.button}>
-                                View Course
+                                Register
                             </Button>
-                        </Link>
+                        }
                     </Grid>
                 </Grid>
             </Box>
