@@ -6,33 +6,24 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import PostAddIcon from "@material-ui/icons/PostAdd";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
-import PostAddIcon from "@material-ui/icons/PostAdd";
 
 const useStyles = makeStyles((theme) => ({
+  buttonIcon: {
+    color: "white",
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
+  },
   title: {
     color: theme.palette.secondary.secondary,
   },
-  textFieldQuestion: {
+  textFieldliveCode: {
     width: "100%",
-    height: "50%",
-    marginTop: theme.spacing(2),
-    background: "white",
-    "&:hover label.Mui-focused": {
-      color: "darkBlue",
-    },
-    "& .MuiOutlinedInput-root": {
-      "&:hover fieldset": {
-        borderColor: "darkBlue",
-      },
-    },
-  },
-  textFieldChoice: {
-    width: "100%",
-    minWidth: "50vw",
-    marginTop: theme.spacing(-3),
+    marginTop: theme.spacing(5),
     background: "white",
     "&:hover label.Mui-focused": {
       color: "darkBlue",
@@ -75,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  isiQuestion: {
+  isiliveCode: {
     fontFamily: "Muli, sans-serif",
     fontSize: `calc(0.6em + 0.5vw)`,
     color: theme.palette.secondary.secondary,
@@ -85,17 +76,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddQuestion(props) {
+export default function AddLiveCode({ examID }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
-
-  const { load_, admin_, trigger_ } = useContext(AdminContext);
+  const { load_, admin_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
   const [admin, setAdmin] = admin_;
-  const [trigger, setTrigger] = trigger_;
 
-  const [values, setValues] = React.useState({ question: "" });
+  const [values, setValues] = React.useState({
+    name: "",
+    link: "",
+    description: "",
+  });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -109,14 +102,16 @@ export default function AddQuestion(props) {
     setOpen(false);
   };
 
-  const postAddQuestion = async () => {
+  const postAddliveCode = async () => {
     setOpen(false);
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz";
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/livecode";
     const auth = cookies.token_admin;
 
     const MyJOSN = JSON.stringify({
-      question: values.question,
-      quiz_id: props.quizID,
+      exam_id: examID,
+      name: values.name,
+      description: values.description,
+      link: values.link,
     });
 
     try {
@@ -129,17 +124,14 @@ export default function AddQuestion(props) {
 
       if (response.status === 200) {
         setLoad(true);
-        setTrigger(true);
       }
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
     } finally {
       setLoad(false);
-      setTrigger(false);
     }
   };
-
   return (
     <div>
       <Button
@@ -150,30 +142,53 @@ export default function AddQuestion(props) {
         className={classes.button}
         startIcon={<PostAddIcon />}
       >
-        Add Question
+        Add Live Code
       </Button>
 
       <Dialog
         className={classes.dialog}
         open={open}
         fullWidth
-        maxWidth={"sm"}
+        maxWidth={"md"}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Add Question"}
+          {"Add live Code"}
         </DialogTitle>
         <DialogContent>
           <TextField
             id="outlined-multiline-static"
-            label="Question"
+            label="Name"
             multiline
+            size="small"
             color="secondary"
-            className={classes.textFieldQuestion}
-            rows={6}
+            className={classes.textFieldliveCode}
+            rows={1}
             variant="outlined"
-            onChange={handleChange("question")}
+            onChange={handleChange("name")}
+          />
+          <TextField
+            id="outlined-multiline-static"
+            label="Description"
+            multiline
+            size="small"
+            color="secondary"
+            className={classes.textFieldliveCode}
+            rows={3}
+            variant="outlined"
+            onChange={handleChange("description")}
+          />
+          <TextField
+            id="outlined-multiline-static"
+            label="Link"
+            multiline
+            size="small"
+            color="secondary"
+            className={classes.textFieldliveCode}
+            rows={1}
+            variant="outlined"
+            onChange={handleChange("link")}
           />
         </DialogContent>
         <DialogActions>
@@ -188,7 +203,7 @@ export default function AddQuestion(props) {
           <Button
             variant="outlined"
             size="small"
-            onClick={postAddQuestion}
+            onClick={postAddliveCode}
             autoFocus
             className={classes.button}
           >
