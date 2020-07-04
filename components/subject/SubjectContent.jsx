@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import { useCookies } from "react-cookie";
+import { makeStyles } from "@material-ui/core/styles";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import CardMedia from "@material-ui/core/CardMedia";
 import Toolbar from "@material-ui/core/Toolbar";
 import Card from "@material-ui/core/Card";
+import ReactPlayer from "react-player";
+import UserContext from "../../store/userContext";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,62 +26,141 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textAlign: "center",
+    color: theme.palette.secondary.secondary,
   },
   media: {
     height: theme.spacing(30),
+  },
+  intro: {
+    color: theme.palette.secondary.secondary,
+  },
+  description: {
+    color: "#7E7E7E",
+  },
+  video: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: theme.spacing(7),
+  },
+  frame: {
+    border: "none",
+    marginTop: theme.spacing(4),
+  },
+  vidCaption: {
+    marginTop: theme.spacing(2),
+    textAlign: "center",
   },
 }));
 
 const SubjectContent = (props) => {
   const classes = useStyles();
+  const [cookies] = useCookies();
+
+  const { mentee_, token_ } = useContext(UserContext);
+  const [mentee, setMentee] = mentee_;
+  const [tokenMentee, setTokenMentee] = token_;
+
+  const [course, setCourse] = React.useState();
+  const [loading, setLoading] = React.useState(true);
+
+  useEffect(() => {
+    const url =
+      process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/subject/" + "3";
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.token_mentee,
+          },
+        });
+        if (response.status === 200) {
+          setCourse(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <main className={classes.content}>
       <Toolbar />
-      <h1 className={classes.title}>Algorithm</h1>
-      <h2>Introduction</h2>
-      <Typography paragraph>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
-        non enim praesent elementum facilisis leo vel. Risus at ultrices mi
-        tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non
-        tellus. Convallis convallis tellus id interdum velit laoreet id donec
-        ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl
-        suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod
-        quis viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet
-        proin fermentum leo. Mauris commodo quis imperdiet massa tincidunt. Cras
-        tincidunt lobortis feugiat vivamus at augue. At augue eget arcu dictum
-        varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt.
-        Lorem donec massa sapien faucibus et molestie ac.
-      </Typography>
-      <Card className={classes.root} elevation={0}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Video Part 1: Dasar-dasar algoritma
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-      <Card className={classes.root} elevation={0}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              PPT Part 1: Algoritma dalam pemrograman
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <div>
+        {course
+          ? course.map((value, index) => (
+              <div>
+                {value.lock_key ? (
+                  <div key={index}>
+                    <h1 className={classes.title}>{value.subject.name}</h1>
+                    <h2 className={classes.intro}>Introduction</h2>
+                    <Typography paragraph className={classes.description}>
+                      {value.subject.description}
+                    </Typography>
+                    <div>
+                      {value.file_subject.map((item, index) => (
+                        <div key={index}>
+                          {item.category_file === "presentation" ? (
+                            <div>
+                              <iframe
+                                src={`https://view.officeapps.live.com/op/embed.aspx?src=${item.content_file}`}
+                                width="100%"
+                                height="520px"
+                                frameBorder="0"
+                                className={classes.frame}
+                              ></iframe>
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                component="p"
+                                className={classes.vidCaption}
+                              >
+                                PPT: {item.name}
+                              </Typography>
+                            </div>
+                          ) : (
+                            <div>
+                              <div className={classes.video}>
+                                <ReactPlayer
+                                  playing={false}
+                                  width={800}
+                                  height={400}
+                                  config={{
+                                    file: {
+                                      attributes: {
+                                        onContextMenu: (e) =>
+                                          e.preventDefault(),
+                                      },
+                                    },
+                                  }}
+                                  controls={true}
+                                  url={item.content_file}
+                                />
+                              </div>
+                              <div className={classes.vidCaption}>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                  component="p"
+                                >
+                                  Video: {item.name}
+                                </Typography>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ))
+          : null}
+      </div>
     </main>
   );
 };

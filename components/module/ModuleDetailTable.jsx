@@ -16,10 +16,10 @@ const ModuleDetail = () => {
   return (
     <ListItem>
       <Grid container direction="row" justify="flex-start">
-        <Grid xs={1} align="right">
+        <Grid item xs={1} align="right">
           <FiberManualRecordIcon className={classes.markList} />
         </Grid>
-        <Grid xs={11} align="justify">
+        <Grid item xs={11} align="justify">
           Welcome to the LearnPython.org interactive Python tutorial. Whether
           you are an experienced programmer or not, this website is intended for
           everyone who wishes to learn the Python programming language.You are
@@ -30,6 +30,6 @@ const ModuleDetail = () => {
       </Grid>
     </ListItem>
   );
-}
+};
 
 export default ModuleDetail;
