@@ -1,22 +1,20 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { Divider, ListItem } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import dynamic from "next/dynamic";
 import EditQuizSubject from "./EditQuizSubject";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import AdminContext from "../../store/adminContext";
 
-const AddQuiz = dynamic(() => import("./AddQuiz"));
-const DeleteSubject = dynamic(() => import("./DeleteSubject"));
-const EditSubject = dynamic(() => import("./EditSubject"));
+const AddLiveCode = dynamic(() => import("./AddLivecode"));
 const SubjectVideo = dynamic(() => import("./SubjectVideo"));
 const SubjectPPT = dynamic(() => import("./SubjectPPT"));
 const SubjectQuiz = dynamic(() => import("./SubjectQuiz"));
-const EditQuiz = dynamic(() => import("./EditQuiz"));
 const EditLiveCode = dynamic(() => import("./EditLiveCode"));
 const Loading = dynamic(() => import("./../Loading"));
 const AddPostQuiz = dynamic(() => import("./AddPostQuiz"));
@@ -36,9 +34,11 @@ const useStyles = makeStyles((theme) => ({
   },
   headingField: {
     backgroundColor: theme.palette.secondary.secondary,
+    borderRadius: theme.spacing(1),
   },
   headingOfHeadField: {
     backgroundColor: theme.palette.secondary.secondary,
+    borderRadius: theme.spacing(1),
   },
   divider: {
     margin: theme.spacing(5, 0, 1, 0),
@@ -59,114 +59,203 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubjectAdmin({subject}) {
+export default function SubjectAdmin({ subject }) {
   const classes = useStyles();
+  const { load_ } = React.useContext(AdminContext);
+  const [cookies] = useCookies();
+  const [load, setLoad] = load_;
+  const [livecode, setLivecode] = React.useState();
+  const [loading, setLoading] = React.useState();
 
-  return (
-    <div className={classes.root}>
-      <ExpansionPanelSummary
-        aria-controls="panel1bh-content"
-        id="panel1bh-header-4"
-        className={classes.headingOfHeadField}
-      >
-        <Typography variant="body1" className={classes.heading}>
-          Subject Description:
-        </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={classes.panelUtama}>
-        <List component="nav">
-          <Typography className={classes.allText}>
-            {subject.description}
-          </Typography>
-        </List>
-      </ExpansionPanelDetails>
-
-      <ExpansionPanelSummary
-        aria-controls="panel1bh-content"
-        id="panel1bh-header-3"
-        className={classes.headingField}
-      >
-        <Typography variant="body1" className={classes.heading}>
-          Video
-        </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        {subject.video ?
-          (subject.video.map((element, num) => (
-          <SubjectVideo
-            key={num}
-            name={element.name}
-            video={element.content_file}
-          />
-          ))) : <Typography> No Data </Typography> }
-      </ExpansionPanelDetails>
-        <List component="nav"/>
-
-      <ExpansionPanelSummary
-        aria-controls="panel1bh-content"
-        id="panel1bh-header-2"
-        className={classes.headingField}
-      >
-        <Typography variant="body1" className={classes.heading}>
-          Presentation
-        </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        {subject.presentation ?
-          (subject.presentation.map((element, num) => (
-              <SubjectPPT
-                  key={num}
-                  name={element.name}
-                  press={element.content_file}
-              />
-          ))) : <Typography>No Data</Typography> }
-      </ExpansionPanelDetails>
-
-      {subject.exam[0] ? (
-        <div>
-          {subject.exam[0].type_exam === "quiz" ? (
-            <div>
-              <ExpansionPanelSummary
-                aria-controls="panel1bh-content"
-                id="panel1bh-header-1"
-                className={classes.headingField}
-              >
-                <Typography variant="body1" className={classes.heading}>
-                  Quiz: {subject.name}
-                </Typography>
-                 {subject.exam[0].quiz[0]?
-                     <> <EditQuizSubject quiz={subject.exam[0].quiz[0]} />
-                    <DeleteQuiz ID={subject.exam[0].quiz[0].id}/></> :
-                     <AddPostQuiz exam={subject.exam[0]}/> }
-              </ExpansionPanelSummary>
-                {subject.exam[0].quiz[0]?
-                    (<>
-                        <SubjectQuiz quiz={subject.exam[0].quiz[0]} />
-                    </>) : null }
-            </div>
-          ) : (
-            <div>
-              <ExpansionPanelSummary
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                className={classes.headingField}
-              >
-                <Typography variant="body1" className={classes.heading}>
-                  Live Code
-                </Typography>
-                <EditLiveCode />
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography className={classes.allText}>
-                  Algorithm Live Code: https://hackerrank.com/alta/livecode
-                </Typography>
-              </ExpansionPanelDetails>
-            </div>
-          )}
-        </div>
-      ) : null
+  React.useEffect(() => {
+    const urlLivecode = process.env.NEXT_PUBLIC_BASE_URL + "/livecode";
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(urlLivecode, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.admin.token,
+          },
+        });
+        if (response.status === 200) {
+          if (response.data) {
+            setLivecode(
+              response.data.filter(
+                (item) => item.exam_id === subject.exam[0].id
+              )
+            );
+          }
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
       }
-      <List component="nav"/>
-    </div>
-  );
+    };
+    fetchData();
+  }, [load]);
+
+  if (loading) {
+    return <Loading />;
+  } else {
+    return (
+      <div className={classes.root}>
+        <ExpansionPanelSummary
+          aria-controls="panel1bh-content"
+          id="panel1bh-header-4"
+          className={classes.headingOfHeadField}
+        >
+          <Typography variant="body1" className={classes.heading}>
+            Subject Description:
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className={classes.panelUtama}>
+          <List component="nav">
+            <Typography className={classes.allText}>
+              {subject.description}
+            </Typography>
+          </List>
+        </ExpansionPanelDetails>
+
+        <ExpansionPanelSummary
+          aria-controls="panel1bh-content"
+          id="panel1bh-header-3"
+          className={classes.headingField}
+        >
+          <Typography variant="body1" className={classes.heading}>
+            Video
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          {subject.video ? (
+            subject.video.map((element, num) => (
+              <SubjectVideo
+                key={num}
+                name={element.name}
+                video={element.content_file}
+              />
+            ))
+          ) : (
+            <Typography> No Data </Typography>
+          )}
+        </ExpansionPanelDetails>
+        <List component="nav" />
+
+        <ExpansionPanelSummary
+          aria-controls="panel1bh-content"
+          id="panel1bh-header-2"
+          className={classes.headingField}
+        >
+          <Typography variant="body1" className={classes.heading}>
+            Presentation
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          {subject.presentation ? (
+            subject.presentation.map((element, num) => (
+              <SubjectPPT
+                key={num}
+                name={element.name}
+                press={element.content_file}
+              />
+            ))
+          ) : (
+            <Typography>No Data</Typography>
+          )}
+        </ExpansionPanelDetails>
+
+        {subject.exam[0] ? (
+          <div>
+            {subject.exam[0].type_exam === "quiz" ? (
+              <div>
+                <ExpansionPanelSummary
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header-1"
+                  className={classes.headingField}
+                >
+                  <Typography variant="body1" className={classes.heading}>
+                    Quiz: {subject.name}
+                  </Typography>
+                  {subject.exam[0].quiz[0] ? (
+                    <>
+                      <EditQuizSubject quiz={subject.exam[0].quiz[0]} />
+                      <DeleteQuiz ID={subject.exam[0].quiz[0].id} />
+                    </>
+                  ) : (
+                    <AddPostQuiz exam={subject.exam[0]} />
+                  )}
+                </ExpansionPanelSummary>
+                {subject.exam[0].quiz[0] ? (
+                  <>
+                    <SubjectQuiz quiz={subject.exam[0].quiz[0]} />
+                  </>
+                ) : null}
+              </div>
+            ) : (
+              <div>
+                <ExpansionPanelSummary
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                  className={classes.headingField}
+                >
+                  <Typography variant="body1" className={classes.heading}>
+                    Live Code
+                  </Typography>
+                  {livecode ? (
+                    <div>
+                      {livecode[0] ? (
+                        <EditLiveCode livecode={livecode[0]} />
+                      ) : null}
+                    </div>
+                  ) : null}
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  {livecode ? (
+                    <div>
+                      {livecode[0] ? (
+                        <div>
+                          <Typography className={classes.allText}>
+                            <strong>Name :</strong>
+                          </Typography>
+                          <Typography className={classes.allText}>
+                            {livecode[0].name}
+                          </Typography>
+                          <br />
+                          <Divider />
+                          <br />
+                          <Typography className={classes.allText}>
+                            <strong>Description:</strong>
+                          </Typography>
+                          <Typography className={classes.allText}>
+                            {livecode[0].description}
+                          </Typography>
+                          <br />
+                          <Divider />
+                          <br />
+                          <Typography className={classes.allText}>
+                            <strong>Link:</strong>
+                          </Typography>
+                          <a href={livecode[0].link}>
+                            <Typography className={classes.allText}>
+                              {livecode[0].link}
+                            </Typography>
+                          </a>
+                        </div>
+                      ) : (
+                        <AddLiveCode examID={subject.exam[0].id} />
+                      )}
+                    </div>
+                  ) : (
+                    <AddLiveCode examID={subject.exam[0].id} />
+                  )}
+                </ExpansionPanelDetails>
+              </div>
+            )}
+          </div>
+        ) : null}
+        <List component="nav" />
+      </div>
+    );
+  }
 }

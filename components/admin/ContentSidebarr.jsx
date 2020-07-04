@@ -28,27 +28,30 @@ const useStyles = makeStyles((theme) => ({
     height: "3",
   },
   expansummar: {
-    margin: theme.spacing(0, 0, 3, -1),
+    margin: theme.spacing(0, 0, 3, -3),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(0, 0, 0, -3),
     },
   },
   expansummar2: {
-    margin: theme.spacing(-6, 0, 0, 3),
+    margin: theme.spacing(-6, 0, 0, 1),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(-6, 0, 0, 1.5),
     },
   },
   expandMenu: {
-    margin: theme.spacing(0, 0, 0, 0),
+    [theme.breakpoints.up("lg")]: {
+      margin: theme.spacing(0, 0, 0, 0),
+    },
+    margin: theme.spacing(0, 0, 0, -1),
   },
   expandMenu1: {
     margin: theme.spacing(-1, 0, 0, -5.5),
   },
   expandMenu2: {
-    margin: theme.spacing(-1, 0, 0, 0),
+    margin: theme.spacing(-1, 0, 0, -1),
     [theme.breakpoints.down("sm")]: {
-      margin: theme.spacing(-1, 0, 0, -1),
+      margin: theme.spacing(-1, 0, 0, 0),
     },
   },
   textJudul: {

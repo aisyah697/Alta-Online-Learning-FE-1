@@ -90,16 +90,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PostQuiz({exam}) {
+export default function PostQuiz({ exam }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
 
   const { load_, trigger_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
-  const [trigger, setTrigger] = trigger_
+  const [trigger, setTrigger] = trigger_;
 
-  const [values, setValues] = React.useState({name: "", description: "" });
+  const [values, setValues] = React.useState({ name: "", description: "" });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -128,20 +128,20 @@ export default function PostQuiz({exam}) {
       const response = await axios.post(url, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
 
       if (response.status === 200) {
         setLoad(true);
-        setTrigger(true)
+        setTrigger(true);
       }
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
     } finally {
-      setLoad(false)
-      setTrigger(false)
+      setLoad(false);
+      setTrigger(false);
     }
   };
 
@@ -152,50 +152,50 @@ export default function PostQuiz({exam}) {
       </IconButton>
 
       <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
       >
         <DialogTitle className={classes.allText} id="form-dialog-title">
           Add Quiz
         </DialogTitle>
         <DialogContent>
           <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="Quiz Name"
-              size="small"
-              value={values.name}
-              onChange={handleChange("name")}
+            className={classes.textField}
+            variant="outlined"
+            color="secondary"
+            label="Quiz Name"
+            size="small"
+            value={values.name}
+            onChange={handleChange("name")}
           />
 
           <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              rows={7}
-              multiline
-              label="Quiz Description"
-              size="small"
-              value={values.description}
-              onChange={handleChange("description")}
+            className={classes.textField}
+            variant="outlined"
+            color="secondary"
+            rows={7}
+            multiline
+            label="Quiz Description"
+            size="small"
+            value={values.description}
+            onChange={handleChange("description")}
           />
         </DialogContent>
         <DialogActions>
           <Button
-              onClick={handleClose}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
+            onClick={handleClose}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
           >
             Cancel
           </Button>
           <Button
-              onClick={postQuiz}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
+            onClick={postQuiz}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
           >
             Submit
           </Button>

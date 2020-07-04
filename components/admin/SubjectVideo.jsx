@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SubjectVideo = (props) => {
   const classes = useStyles();
-
   return (
     <main className={classes.content}>
       <Card className={classes.root}>

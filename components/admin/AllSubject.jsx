@@ -23,7 +23,7 @@ import Link from "next/link";
 const AddPresentation = dynamic(() => import("./AddPresentation"));
 const AddSubject = dynamic(() => import("./AddSubject"));
 const AddVideo = dynamic(() => import("./AddVideo"));
-const Loading = dynamic(() => import("./../Loading"))
+const Loading = dynamic(() => import("./../Loading"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   headingField: {
     backgroundColor: theme.palette.secondary.secondary,
+    borderRadius: theme.spacing(1),
   },
   divider: {
     margin: theme.spacing(5, 0, 1, 0),
@@ -133,164 +134,166 @@ export default function AllSubject(props) {
   }, [load]);
 
   return (
-      <div className={classes.root}>
-        <AddSubject ID={id_module} />
-        {subject
-            ? subject.filter(mod => mod.module_id == id_module).map((value, index) => (
-                <div key={index} className={classes.margins}>
-                  <ExpansionPanel
-                      expanded={expanded === value.id.toString()}
-                      onChange={handleChange(value.id.toString())}
-                      onClick={(event) => event.stopPropagation()}
+    <div className={classes.root}>
+      <AddSubject ID={id_module} />
+      {subject
+        ? subject
+            .filter((mod) => mod.module_id == id_module)
+            .map((value, index) => (
+              <div key={index} className={classes.margins}>
+                <ExpansionPanel
+                  expanded={expanded === value.id.toString()}
+                  onChange={handleChange(value.id.toString())}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                    className={classes.headingField}
+                    onClick={(event) => event.stopPropagation()}
                   >
-                    <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                        className={classes.headingField}
-                        onClick={(event) => event.stopPropagation()}
+                    <Link
+                      href={
+                        "/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"
+                      }
+                      as={`/admin/academy/phase/${id}/${id_module}/${module}/${
+                        value.id
+                      }/${value.name.split(" ").join("-")}`}
                     >
-                      <Link href={'/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}
-                            as={`/admin/academy/phase/${id}/${id_module}/${module}/${value.id}/${value.name.split(" ").join("-")}`}>
-                        <Typography
-                            onClick={(event) => event.stopPropagation()}
+                      <Typography
+                        onClick={(event) => event.stopPropagation()}
+                        variant="body1"
+                        className={classes.heading}
+                      >
+                        <strong>Subject {index + 1}: </strong>
+                        {value.name}
+                      </Typography>
+                    </Link>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <List component="nav" className={classes.list}>
+                      <Typography className={classes.allText}>
+                        <strong>Description subject :</strong>{" "}
+                      </Typography>
+                      <Typography className={classes.allText}>
+                        {value.description}
+                      </Typography>
+                      <Divider className={classes.divider} />
+                      <Typography variant="body1" className={classes.allText}>
+                        <strong> Quisioner : </strong>
+                        {value.quesioner}
+                      </Typography>
+                      <Divider className={classes.divider} />
+                      <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                      >
+                        <Grid item md={4} sm={12}>
+                          <Typography
                             variant="body1"
-                            className={classes.heading}
-                        >
-                          <strong>Subject {index + 1}: </strong>
-                          {value.name}
-                        </Typography>
-                      </Link>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                      <List component="nav" className={classes.list}>
-                        <Typography className={classes.allText}>
-                          <strong>Description subject :</strong>{" "}
-                        </Typography>
-                        <Typography className={classes.allText}>
-                          {value.description}
-                        </Typography>
-                        <Divider className={classes.divider} />
-                        <Typography variant="body1" className={classes.allText}>
-                          <strong> Quisioner : </strong>
-                          {value.quesioner}
-                        </Typography>
-                        <Divider className={classes.divider} />
-                        <Grid
-                            container
-                            direction="row"
-                            justify="center"
-                            alignItems="center"
-                        >
-                          <Grid item md={4} sm={12}>
-                            <Typography
-                                variant="body1"
-                                className={classes.allText}
-                            >
-                              <strong>Video :</strong>
-                            </Typography>
-                            {value.video[0] ? (
-                                <div>
-                                  <Typography
-                                      variant="body1"
-                                      className={classes.allText}
-                                  >
-                                    {value.video[0].name}
-                                  </Typography>
-                                  <CheckCircleOutlineIcon
-                                      className={classes.iconDone}
-                                  />
-                                </div>
-                            ) : (
-                                <div>
-                                  <Typography
-                                      variant="body1"
-                                      className={classes.allText}
-                                  >
-                                    No File Video
-                                  </Typography>
-                                  <AddVideo ID={value.id} />
-                                </div>
-                            )}
-                          </Grid>
-                          <Grid item
-                                md={4}
-                                sm={12}
+                            className={classes.allText}
                           >
-                            <Typography
+                            <strong>Video :</strong>
+                          </Typography>
+                          {value.video[0] ? (
+                            <div>
+                              <Typography
                                 variant="body1"
                                 className={classes.allText}
-                            >
-                              <strong>Presentation :</strong>
-                            </Typography>
-                            {value.presentation[0] ? (
-                                <div>
-                                  <Typography
-                                      variant="body1"
-                                      className={classes.allText}
-                                  >
-                                    {value.presentation[0].name}
-                                  </Typography>
-                                  <CheckCircleOutlineIcon
-                                      className={classes.iconDone}
-                                  />
-                                </div>
-                            ) : (
-                                <div>
-                                  <Typography
-                                      variant="body1"
-                                      className={classes.allText}
-                                  >
-                                    No File Presentation
-                                  </Typography>
-                                  <AddPresentation ID={value.id} />
-                                </div>
-                            )}
-                          </Grid>
-                          <Grid item
-                                md={4}
-                                sm={12}
-                          >
-                            <Typography
+                              >
+                                {value.video[0].name}
+                              </Typography>
+                              <CheckCircleOutlineIcon
+                                className={classes.iconDone}
+                              />
+                            </div>
+                          ) : (
+                            <div>
+                              <Typography
                                 variant="body1"
                                 className={classes.allText}
-                            >
-                              <strong>Exam :</strong>
-                            </Typography>
-                            {value.exam[0] ? (
-                                <div>
-                                  <Typography
-                                      variant="body1"
-                                      className={classes.allText}
-                                  >
-                                    <strong>Type Exam :</strong>
-                                    {value.exam[0].type_exam}
-                                  </Typography>
-                                  <CheckCircleOutlineIcon
-                                      className={classes.iconDone}
-                                  />
-                                </div>
-                            ) : (
-                                <div>
-                                  <Typography
-                                      variant="body1"
-                                      className={classes.allText}
-                                  >
-                                    No Exam Found
-                                  </Typography>
-                                  <HighlightOffIcon
-                                      className={classes.iconNoFile}
-                                  />
-                                </div>
-                            )}
-                          </Grid>
+                              >
+                                No File Video
+                              </Typography>
+                              <AddVideo ID={value.id} />
+                            </div>
+                          )}
                         </Grid>
-                      </List>
-                    </ExpansionPanelDetails>
-                  </ExpansionPanel>
-                </div>
+                        <Grid item md={4} sm={12}>
+                          <Typography
+                            variant="body1"
+                            className={classes.allText}
+                          >
+                            <strong>Presentation :</strong>
+                          </Typography>
+                          {value.presentation[0] ? (
+                            <div>
+                              <Typography
+                                variant="body1"
+                                className={classes.allText}
+                              >
+                                {value.presentation[0].name}
+                              </Typography>
+                              <CheckCircleOutlineIcon
+                                className={classes.iconDone}
+                              />
+                            </div>
+                          ) : (
+                            <div>
+                              <Typography
+                                variant="body1"
+                                className={classes.allText}
+                              >
+                                No File Presentation
+                              </Typography>
+                              <AddPresentation ID={value.id} />
+                            </div>
+                          )}
+                        </Grid>
+                        <Grid item md={4} sm={12}>
+                          <Typography
+                            variant="body1"
+                            className={classes.allText}
+                          >
+                            <strong>Exam :</strong>
+                          </Typography>
+                          {value.exam[0] ? (
+                            <div>
+                              <Typography
+                                variant="body1"
+                                className={classes.allText}
+                              >
+                                <strong>Type Exam :</strong>
+                                {value.exam[0].type_exam}
+                              </Typography>
+                              <CheckCircleOutlineIcon
+                                className={classes.iconDone}
+                              />
+                            </div>
+                          ) : (
+                            <div>
+                              <Typography
+                                variant="body1"
+                                className={classes.allText}
+                              >
+                                No Exam Found
+                              </Typography>
+                              <HighlightOffIcon
+                                className={classes.iconNoFile}
+                              />
+                            </div>
+                          )}
+                        </Grid>
+                      </Grid>
+                    </List>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </div>
             ))
-            : null}
-      </div>
+        : null}
+    </div>
   );
 }
