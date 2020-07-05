@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AvailableSubjects({subject}) {
   const classes = useStyles();
   const router = useRouter();
-  const { id, id_module } = router.query;
+  const { id, id_module, module } = router.query;
 
   const [cookies] = useCookies();
 
@@ -107,6 +107,8 @@ export default function AvailableSubjects({subject}) {
       fetchData();
     }
   }, [id]);
+
+  console.log(course)
 
   return (
     <React.Fragment>
@@ -157,8 +159,8 @@ export default function AvailableSubjects({subject}) {
                       ) : (
                         <Grid item xs={12} sm={2} className={classes.button}>
                           <Link
-                            href={"/courses/phase/[id]/[module]/[subject_name]"}
-                            as={`/courses/phase/${id}/${module}/01-Introduction`}
+                            href={"/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
+                            as={`/courses/phase/${id}/${id_module}/${module}/${value.subject_id}/${value.subject.name.split(" ").join("-")}`}
                           >
                             <Button
                               className={classes.unfinish}
