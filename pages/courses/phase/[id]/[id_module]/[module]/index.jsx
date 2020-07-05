@@ -221,6 +221,9 @@ export default function Detail() {
         }
     }, [id]);
 
+
+    console.log(subject)
+
     return (
         <React.Fragment>
             <Head>
@@ -230,7 +233,7 @@ export default function Detail() {
                 <NavigationBar />
                 <div className={classes.main}>
                 {subject ?
-                    subject.filter(mod => mod.id == id_module).map((item, index) => (
+                    subject.filter(mod => mod.module_id == id_module).map((item, index) => (
                 <div key={index} className={classes.root}>
                     <div className={classes.textPengantar}>
                         <Typography className={classes.judulModule}>

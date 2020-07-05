@@ -69,12 +69,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const data = { name: "01-Introduction-to-Python" };
-
-export default function AvailableSubjects(props) {
+export default function AvailableSubjects({subject}) {
   const classes = useStyles();
   const router = useRouter();
-  const { id, module } = router.query;
+  const { id, id_module } = router.query;
 
   const [cookies] = useCookies();
 
@@ -85,16 +83,15 @@ export default function AvailableSubjects(props) {
   const [course, setCourse] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
-    const url =
-      process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/subject/" + "3";
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
     const fetchData = async function () {
       try {
         setLoading(true);
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + cookies.token_mentee,
+            "Authorization": "Bearer " + cookies.token_mentee,
           },
         });
         if (response.status === 200) {
@@ -106,8 +103,10 @@ export default function AvailableSubjects(props) {
         setLoading(false);
       }
     };
-    fetchData();
-  }, []);
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
   return (
     <React.Fragment>

@@ -138,7 +138,7 @@ const ModuleList = (props) => {
                           >
                             <Link
                                 href={"/courses/phase/[id]/[id_module]/[module]"}
-                                as={`/courses/phase/${id}/${value.id}/${value.module.name.split(" ").join("-")}`}
+                                as={`/courses/phase/${id}/${value.module_id}/${value.module.name.split(" ").join("-")}`}
                             >
                               <img
                                   className={classes.modulePicture}
@@ -155,7 +155,7 @@ const ModuleList = (props) => {
                           <Grid className={classes.textInPage} item sm={7} xs={12}>
                             <Link
                                 href={"/courses/phase/[id]/[id_module]/[module]"}
-                                as={`/courses/phase/${id}/${value.id}/${value.module.name.split(" ").join("-")}`}
+                                as={`/courses/phase/${id}/${value.module_id}/${value.module.name.split(" ").join("-")}`}
                             >
                               <Typography className={classes.judulModule}>
                                 <strong>Module 0{index + 1}: </strong>
