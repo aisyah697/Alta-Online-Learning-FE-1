@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -11,12 +11,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import RadioGroup from '@material-ui/core/RadioGroup';
+import RadioGroup from "@material-ui/core/RadioGroup";
 import Divider from "@material-ui/core/Divider";
 import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import Radio from '@material-ui/core/Radio';
+import Radio from "@material-ui/core/Radio";
 
 import AdminContext from "../../store/adminContext";
 
@@ -86,15 +86,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditSubject({subject}) {
+export default function EditSubject({ subject }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  
+
   const router = useRouter();
   const { id, id_module, module, id_subject } = router.query;
-  
+
   const [cookies] = useCookies();
-  const {load_} = useContext(AdminContext);
+  const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
 
   const handleClickOpen = () => {
@@ -119,7 +119,7 @@ export default function EditSubject({subject}) {
 
   if (subject.video[0]) {
     var videoName = subject.video[0].name;
-    var videoFile = subject.video[0].content_file;
+    var videoFile = subject.video[0];
   } else {
     var videoName = "";
     var videoFile = "";
@@ -142,7 +142,7 @@ export default function EditSubject({subject}) {
   }
 
   const [presentation, setPresentation] = React.useState(pptFile);
-  
+
   const handlePresentation = (e) => {
     if (e.target.files.length) {
       setPresentation(e.target.files[0]);
@@ -152,7 +152,7 @@ export default function EditSubject({subject}) {
   if (subject.exam[0]) {
     var type_exam = subject.exam[0].type_exam;
   } else {
-    var type_exam = ""
+    var type_exam = "";
   }
 
   const [exam, setExam] = React.useState(type_exam);
@@ -165,20 +165,21 @@ export default function EditSubject({subject}) {
 
   const postEditSubject = async () => {
     setOpen(false);
-    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + subject.id;
+    const urlSubject =
+      process.env.NEXT_PUBLIC_BASE_URL + "/subject/" + subject.id;
     const auth = cookies.admin.token;
 
     const MyJOSN = JSON.stringify({
       name: values.name,
       description: values.description,
-      quesioner: values.quesioner
+      quesioner: values.quesioner,
     });
 
     try {
       const response = await axios.patch(urlSubject, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
       if (response.status === 200) {
@@ -187,10 +188,10 @@ export default function EditSubject({subject}) {
     } catch (error) {
       console.error("Please Try Again!", error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
   };
-  
+
   const postVideo = async () => {
     const urlVideo = process.env.NEXT_PUBLIC_BASE_URL + "/filesubject";
     const auth = cookies.admin.token;
@@ -205,7 +206,7 @@ export default function EditSubject({subject}) {
       const response = await axios.post(urlVideo, formDataVideo, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
 
@@ -213,14 +214,14 @@ export default function EditSubject({subject}) {
         setLoad(true);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
   };
-
   const postEditVideo = async () => {
-    const urlVideo = process.env.NEXT_PUBLIC_BASE_URL + `/filesubject/${subject.presentation[0].id}`;
+    const urlVideo =
+      process.env.NEXT_PUBLIC_BASE_URL + `/filesubject/${subject.video[0].id}`;
     const auth = cookies.admin.token;
 
     const formDataVideo = new FormData();
@@ -232,7 +233,7 @@ export default function EditSubject({subject}) {
       const response = await axios.patch(urlVideo, formDataVideo, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
 
@@ -240,9 +241,9 @@ export default function EditSubject({subject}) {
         setLoad(true);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
   };
 
@@ -260,7 +261,7 @@ export default function EditSubject({subject}) {
       const response = await axios.post(urlPPT, formDataPPT, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
 
@@ -268,14 +269,16 @@ export default function EditSubject({subject}) {
         setLoad(true);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
   };
 
   const postEditPresentation = async () => {
-    const urlPPT = process.env.NEXT_PUBLIC_BASE_URL + `/filesubject/${subject.presentation[0].id}`;
+    const urlPPT =
+      process.env.NEXT_PUBLIC_BASE_URL +
+      `/filesubject/${subject.presentation[0].id}`;
     const auth = cookies.admin.token;
 
     const formDataPPT = new FormData();
@@ -287,7 +290,7 @@ export default function EditSubject({subject}) {
       const response = await axios.patch(urlPPT, formDataPPT, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
 
@@ -295,9 +298,9 @@ export default function EditSubject({subject}) {
         setLoad(true);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
   };
 
@@ -314,7 +317,7 @@ export default function EditSubject({subject}) {
       const response = await axios.post(urlExam, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
 
@@ -322,14 +325,15 @@ export default function EditSubject({subject}) {
         setLoad(true);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
   };
 
   const postEditExam = async () => {
-    const urlExam = process.env.NEXT_PUBLIC_BASE_URL + `/exam/${subject.exam[0].id}`;
+    const urlExam =
+      process.env.NEXT_PUBLIC_BASE_URL + `/exam/${subject.exam[0].id}`;
     const auth = cookies.admin.token;
 
     const MyJOSN = JSON.stringify({
@@ -341,7 +345,7 @@ export default function EditSubject({subject}) {
       const response = await axios.patch(urlExam, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
 
@@ -349,9 +353,9 @@ export default function EditSubject({subject}) {
         setLoad(true);
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
   };
 
@@ -386,7 +390,7 @@ export default function EditSubject({subject}) {
             className={classes.textFieldFile}
             variant="outlined"
             defaultValue={subject.name}
-            size={'small'}
+            size={"small"}
             onChange={handleChange("name")}
           />
           <TextField
@@ -400,14 +404,14 @@ export default function EditSubject({subject}) {
             onChange={handleChange("description")}
           />
           <TextField
-              id="outlined-multiline-static3"
-              label="Subject Quesioner"
-              color="secondary"
-              className={classes.textFieldFile}
-              variant="outlined"
-              defaultValue={subject.quesioner}
-              size={'small'}
-              onChange={handleChange("quesioner")}
+            id="outlined-multiline-static3"
+            label="Subject Quesioner"
+            color="secondary"
+            className={classes.textFieldFile}
+            variant="outlined"
+            defaultValue={subject.quesioner}
+            size={"small"}
+            onChange={handleChange("quesioner")}
           />
           <Divider />
           <Divider />
@@ -415,14 +419,14 @@ export default function EditSubject({subject}) {
             <InputLabel htmlFor="outlined-adornment-file444">
               Choose Video File
             </InputLabel>
-            <br/>
+            <br />
             <input
-                accept="video/*"
-                className={classes.input}
-                id="upload-video"
-                style={{display: "none", marginTop: '20px'}}
-                type="file"
-                onChange={handleVideo}
+              accept="video/*"
+              className={classes.input}
+              id="upload-video"
+              style={{ display: "none", marginTop: "20px" }}
+              type="file"
+              onChange={handleVideo}
             />
             <label htmlFor="upload-video">
               <Button variant="contained" color="primary" component="span">
@@ -430,36 +434,49 @@ export default function EditSubject({subject}) {
               </Button>
             </label>
             <TextField
-                id="outlined-multiline-static33"
-                label="Video Name"
-                color="secondary"
-                style={{marginLeft: '10px', marginRight: '10px'}}
-                variant="outlined"
-                size={'small'}
-                onChange={handleChange("videoName")}
+              id="outlined-multiline-static33"
+              label="Video Name"
+              color="secondary"
+              style={{ marginLeft: "10px", marginRight: "10px" }}
+              variant="outlined"
+              size={"small"}
+              onChange={handleChange("videoTitle")}
             />
-            {!video ?
-                <Button onClick={postVideo} variant="contained" color="secondary" component="span" style={{color: '#fff'}}>
-                  Upload
-                </Button>
-                :
-                <Button onClick={postEditVideo} variant="contained" color="secondary" component="span" style={{color: '#fff'}}>
-                  Change
-                </Button>
-            }
+
+            {subject.video[0] ? (
+              <Button
+                onClick={postEditVideo}
+                variant="contained"
+                color="secondary"
+                component="span"
+                style={{ color: "#fff" }}
+              >
+                Change
+              </Button>
+            ) : (
+              <Button
+                onClick={postVideo}
+                variant="contained"
+                color="secondary"
+                component="span"
+                style={{ color: "#fff" }}
+              >
+                Upload
+              </Button>
+            )}
           </div>
           <div className={classes.inputFile}>
             <InputLabel htmlFor="outlined-adornment-file">
               Choose Presentation File
             </InputLabel>
-            <br/>
+            <br />
             <input
-                accept="application/*"
-                className={classes.input}
-                id="upload-ppt"
-                style={{display: "none", marginTop: '20px'}}
-                type="file"
-                onChange={handlePresentation}
+              accept="application/*"
+              className={classes.input}
+              id="upload-ppt"
+              style={{ display: "none", marginTop: "20px" }}
+              type="file"
+              onChange={handlePresentation}
             />
             <label htmlFor="upload-ppt">
               <Button variant="contained" color="primary" component="span">
@@ -467,43 +484,81 @@ export default function EditSubject({subject}) {
               </Button>
             </label>
             <TextField
-                id="outlined-multiline-static5"
-                label="Presentation Name"
-                color="secondary"
-                style={{marginLeft: '10px', marginRight: '10px'}}
-                variant="outlined"
-                size={'small'}
-                onChange={handleChange("presentationName")}
+              id="outlined-multiline-static5"
+              label="Presentation Name"
+              color="secondary"
+              style={{ marginLeft: "10px", marginRight: "10px" }}
+              variant="outlined"
+              size={"small"}
+              onChange={handleChange("presentationName")}
             />
-            {!presentation ?
-                <Button onClick={postPresentation} variant="contained" color="secondary" component="span" style={{color: '#fff'}}>
-                  Upload
-                </Button>
-                :
-                <Button onClick={postEditPresentation} variant="contained" color="secondary" component="span" style={{color: '#fff'}}>
-                  Change
-                </Button>
-            }
+            {!presentation ? (
+              <Button
+                onClick={postPresentation}
+                variant="contained"
+                color="secondary"
+                component="span"
+                style={{ color: "#fff" }}
+              >
+                Upload
+              </Button>
+            ) : (
+              <Button
+                onClick={postEditPresentation}
+                variant="contained"
+                color="secondary"
+                component="span"
+                style={{ color: "#fff" }}
+              >
+                Change
+              </Button>
+            )}
           </div>
           <div className={classes.inputFile}>
             <InputLabel htmlFor="outlined-adornment-file">
               Choose Type Exam
             </InputLabel>
-            <br/>
-            <div style={{display: 'flex'}}>
-            <RadioGroup style={{display: 'flex', flexDirection: 'row'}} aria-label="quiz" name="quiz" value={exam} onChange={handleChangeRadio}>
-              <FormControlLabel value="quiz" control={<Radio />} label="Quiz" />
-              <FormControlLabel value="livecode" control={<Radio />} label="Livecode" />
-            </RadioGroup>
-              {!type_exam?
-                <Button onClick={postExam} variant="contained" color="secondary" component="span" style={{color: '#fff', marginLeft: '150px'}}>
+            <br />
+            <div style={{ display: "flex" }}>
+              <RadioGroup
+                style={{ display: "flex", flexDirection: "row" }}
+                aria-label="quiz"
+                name="quiz"
+                value={exam}
+                onChange={handleChangeRadio}
+              >
+                <FormControlLabel
+                  value="quiz"
+                  control={<Radio />}
+                  label="Quiz"
+                />
+                <FormControlLabel
+                  value="livecode"
+                  control={<Radio />}
+                  label="Livecode"
+                />
+              </RadioGroup>
+              {!type_exam ? (
+                <Button
+                  onClick={postExam}
+                  variant="contained"
+                  color="secondary"
+                  component="span"
+                  style={{ color: "#fff", marginLeft: "150px" }}
+                >
                   Add
                 </Button>
-                  :
-                <Button onClick={postEditExam} variant="contained" color="secondary" component="span" style={{color: '#fff', marginLeft: '150px'}}>
+              ) : (
+                <Button
+                  onClick={postEditExam}
+                  variant="contained"
+                  color="secondary"
+                  component="span"
+                  style={{ color: "#fff", marginLeft: "150px" }}
+                >
                   Change
                 </Button>
-              }
+              )}
             </div>
           </div>
         </DialogContent>
