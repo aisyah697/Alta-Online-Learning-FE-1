@@ -109,14 +109,11 @@ export default function AvailableSubjects(props) {
     fetchData();
   }, []);
 
-  console.log("cek mentee", mentee);
-  console.log("cek tembak course", course);
-
   return (
     <React.Fragment>
       {course
         ? course.map((value, index) => (
-            <div>
+            <div key={index}>
               {value.lock_key ? (
                 <div key={index}>
                   <Paper elevation={0} className={classes.paper}>

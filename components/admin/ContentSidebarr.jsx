@@ -190,7 +190,7 @@ export default function ContentSide(props) {
               <AccordionDetails className={classes.expandMenu2}>
                 <List>
                   {item.subject.map((items, indexsub)=>(
-                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
+                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[module]/[subject_name]"}
                             as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}/${items.id}/${items.name.split(" ").join("-")}`}>
                         <ListItem button>
                           <ListItemIcon>

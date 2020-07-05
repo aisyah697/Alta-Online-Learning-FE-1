@@ -1,13 +1,12 @@
 import React from "react";
+import { AccordionSummary, AccordionDetails, Accordion } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Divider, ListItem } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import dynamic from "next/dynamic";
+
 import EditQuizSubject from "./EditQuizSubject";
 
 const AddQuiz = dynamic(() => import("./AddQuiz"));
@@ -64,7 +63,7 @@ export default function SubjectAdmin({subject}) {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanelSummary
+      <AccordionSummary
         aria-controls="panel1bh-content"
         id="panel1bh-header-4"
         className={classes.headingOfHeadField}
@@ -72,16 +71,16 @@ export default function SubjectAdmin({subject}) {
         <Typography variant="body1" className={classes.heading}>
           Subject Description:
         </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={classes.panelUtama}>
+      </AccordionSummary>
+      <AccordionDetails className={classes.panelUtama}>
         <List component="nav">
           <Typography className={classes.allText}>
             {subject.description}
           </Typography>
         </List>
-      </ExpansionPanelDetails>
+      </AccordionDetails>
 
-      <ExpansionPanelSummary
+      <AccordionSummary
         aria-controls="panel1bh-content"
         id="panel1bh-header-3"
         className={classes.headingField}
@@ -89,8 +88,8 @@ export default function SubjectAdmin({subject}) {
         <Typography variant="body1" className={classes.heading}>
           Video
         </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         {subject.video ?
           (subject.video.map((element, num) => (
           <SubjectVideo
@@ -99,10 +98,10 @@ export default function SubjectAdmin({subject}) {
             video={element.content_file}
           />
           ))) : <Typography> No Data </Typography> }
-      </ExpansionPanelDetails>
+      </AccordionDetails>
         <List component="nav"/>
 
-      <ExpansionPanelSummary
+      <AccordionSummary
         aria-controls="panel1bh-content"
         id="panel1bh-header-2"
         className={classes.headingField}
@@ -110,8 +109,8 @@ export default function SubjectAdmin({subject}) {
         <Typography variant="body1" className={classes.heading}>
           Presentation
         </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      </AccordionSummary>
+      <AccordionDetails>
         {subject.presentation ?
           (subject.presentation.map((element, num) => (
               <SubjectPPT
@@ -120,13 +119,13 @@ export default function SubjectAdmin({subject}) {
                   press={element.content_file}
               />
           ))) : <Typography>No Data</Typography> }
-      </ExpansionPanelDetails>
+      </AccordionDetails>
 
       {subject.exam[0] ? (
         <div>
           {subject.exam[0].type_exam === "quiz" ? (
             <div>
-              <ExpansionPanelSummary
+              <AccordionSummary
                 aria-controls="panel1bh-content"
                 id="panel1bh-header-1"
                 className={classes.headingField}
@@ -138,7 +137,7 @@ export default function SubjectAdmin({subject}) {
                      <> <EditQuizSubject quiz={subject.exam[0].quiz[0]} />
                     <DeleteQuiz ID={subject.exam[0].quiz[0].id}/></> :
                      <AddPostQuiz exam={subject.exam[0]}/> }
-              </ExpansionPanelSummary>
+              </AccordionSummary>
                 {subject.exam[0].quiz[0]?
                     (<>
                         <SubjectQuiz quiz={subject.exam[0].quiz[0]} />
@@ -146,7 +145,7 @@ export default function SubjectAdmin({subject}) {
             </div>
           ) : (
             <div>
-              <ExpansionPanelSummary
+              <AccordionSummary
                 aria-controls="panel1bh-content"
                 id="panel1bh-header"
                 className={classes.headingField}
@@ -155,12 +154,12 @@ export default function SubjectAdmin({subject}) {
                   Live Code
                 </Typography>
                 <EditLiveCode />
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
+              </AccordionSummary>
+              <AccordionDetails>
                 <Typography className={classes.allText}>
                   Algorithm Live Code: https://hackerrank.com/alta/livecode
                 </Typography>
-              </ExpansionPanelDetails>
+              </AccordionDetails>
             </div>
           )}
         </div>

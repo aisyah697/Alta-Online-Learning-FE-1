@@ -23,6 +23,7 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import UserContext from "../store/userContext";
 import AdminContext from "../store/adminContext";
+import axios from "axios";
 
 const NavigationBar = dynamic(() => import('../components/NavigationBar'))
 const Footer = dynamic(() => import('../components/FooterBar'))
@@ -105,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = (data) => {
   const classes = useStyles();
   const { signIn } = useContext(UserContext);
-  const [cookie, setCookie] = useCookies()
+  const [cookie, setCookie] = useCookies();
   const [message, setMessage] = React.useState('')
   const [values, setValues] = React.useState({
     username: "", password: "", showPassword: false, token: ""
@@ -126,6 +127,26 @@ const Login = (data) => {
     }
   }
 
+  const fetchData = async function (auth) {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      });
+      const phase = response.data
+      if (phase != "undefined" && phase != null && phase.length != null && phase.length > 0) {
+        setCookie('registered', true);
+      } else {
+        setCookie('registered', false)
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const Login = async (username, password) => {
     const signInUrl = process.env.NEXT_PUBLIC_BASE_URL + '/auth/mentee';
     try {
@@ -143,6 +164,7 @@ const Login = (data) => {
         setCookie('mentee', data);
         setCookie('token_mentee', data.token);
         setLogin(true);
+        await fetchData(data.token);
         Router.replace('/');
       } else {
         let error = new Error(response.statusText);

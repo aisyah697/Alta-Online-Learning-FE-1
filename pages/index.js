@@ -14,7 +14,7 @@ const SubFooter = dynamic(() => import('../components/SubFooter'))
 const Footer = dynamic(() => import('../components/FooterBar'))
 
 const Home = () => {
-    const [cookies] = useCookies();
+    const [cookies, setCookies] = useCookies()
     
     const [phase, setPhase] = React.useState();
 
@@ -112,8 +112,6 @@ const Home = () => {
             setLoad(false);
         }
     }
-    
-    console.log('CEK', phase)
 
     return (
         <div>
@@ -128,7 +126,7 @@ const Home = () => {
                 }
                 <HomeTestimony/>
                 <FrequentQuestion/>
-                <SubFooter phase={phase}/>
+                <SubFooter/>
                 <Footer/>
             </main>
         </div>
