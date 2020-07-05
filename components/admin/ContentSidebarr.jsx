@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
-import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
-import BookIcon from "@material-ui/icons/Book";
-import { Divider } from "@material-ui/core";
-import Link from "../../utils/link";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import axios from "axios";
+
+import { Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
+import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import ListItem from "@material-ui/core/ListItem";
+import BookIcon from "@material-ui/icons/Book";
+import { Divider } from "@material-ui/core";
+import List from "@material-ui/core/List";
+
+const Link = dynamic(() => import('../../utils/link'))
+
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
@@ -127,14 +129,14 @@ export default function ContentSide(props) {
 
   return (
     <div>
-      <ExpansionPanelDetails className={classes.expandMenu}>
-        <ExpansionPanel
+      <AccordionDetails className={classes.expandMenu}>
+        <Accordion
           elevation={0}
           className={classes.expandTitle}
           expanded={expanded === "panel1"}
           onChange={handleChange("panel1")}
         >
-          <ExpansionPanelSummary
+          <AccordionSummary
             className={classes.expansummar}
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1bh-content"
@@ -156,16 +158,16 @@ export default function ContentSide(props) {
                 </Typography>
               </Link>
             </ListItem>
-          </ExpansionPanelSummary>
+          </AccordionSummary>
             {props.module.map((item, idx)=>(
-          <ExpansionPanelDetails key={idx} className={classes.expandMenu1}>
-            <ExpansionPanel
+          <AccordionDetails key={idx} className={classes.expandMenu1}>
+            <Accordion
               elevation={0}
               className={classes.expandTitle2}
               expanded={expanded2 === idx.toString()}
               onChange={handleChange2(idx.toString())}
             >
-              <ExpansionPanelSummary
+              <AccordionSummary
                 className={classes.expansummar2}
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1bh-content"
@@ -187,11 +189,11 @@ export default function ContentSide(props) {
                     </Link>
                   </ListItem>
                 </List>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails className={classes.expandMenu2}>
+              </AccordionSummary>
+              <AccordionDetails className={classes.expandMenu2}>
                 <List>
                   {item.subject.map((items, indexsub)=>(
-                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
+                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[module]/[subject_name]"}
                             as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}/${items.id}/${items.name.split(" ").join("-")}`}>
                         <ListItem button>
                           <ListItemIcon>
@@ -207,12 +209,12 @@ export default function ContentSide(props) {
                       </Link>
                     ))}
                   </List>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            </ExpansionPanelDetails>
+                </AccordionDetails>
+              </Accordion>
+            </AccordionDetails>
           ))}
-        </ExpansionPanel>
-      </ExpansionPanelDetails>
+        </Accordion>
+      </AccordionDetails>
       <Divider />
     </div>
   );

@@ -8,10 +8,11 @@ const useStyles = makeStyles((theme) => ({
   markList: {
     fontSize: "medium",
     color: theme.palette.secondary.main,
+    marginRight: '20px'
   },
 }));
 
-const ModuleDetail = () => {
+const ModuleDetail = ({subject}) => {
   const classes = useStyles();
   return (
     <ListItem>
@@ -19,14 +20,11 @@ const ModuleDetail = () => {
         <Grid item xs={1} align="right">
           <FiberManualRecordIcon className={classes.markList} />
         </Grid>
+        <br/>
+        {subject ?
         <Grid item xs={11} align="justify">
-          Welcome to the LearnPython.org interactive Python tutorial. Whether
-          you are an experienced programmer or not, this website is intended for
-          everyone who wishes to learn the Python programming language.You are
-          welcome to join our group on Facebook for questions, discussions and
-          updates. Just click on the chapter you wish to begin from, and follow
-          the instructions. Good luck!
-        </Grid>
+          {subject.name}
+        </Grid> : null }
       </Grid>
     </ListItem>
   );

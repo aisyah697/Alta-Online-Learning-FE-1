@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const HomeBanner = ({phase}) => {
+const HomeBanner = ({phase, register}) => {
     const classes = useStyles();
 
     return (
@@ -97,7 +97,7 @@ const HomeBanner = ({phase}) => {
                                             View Course
                                         </Button>
                                     </Link> :
-                                    <Button variant={'outlined'} className={classes.button}>
+                                    <Button onClick={() => register()} variant={'outlined'} className={classes.button}>
                                         Register
                                     </Button>
                                 }

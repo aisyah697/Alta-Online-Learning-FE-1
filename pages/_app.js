@@ -20,11 +20,13 @@ export default function MyApp(props) {
   const [loginMentee, setLoginMentee] = useState([]);
   const [tokenMentee, setTokenMentee] = useState([]);
   const [mentee, setMentee] = useState([]);
+  const [regist, setRegist] = useState(false);
 
   const store_mentee = {
     login_: [loginMentee, setLoginMentee],
     token_: [tokenMentee, setTokenMentee],
     mentee_: [mentee, setMentee],
+    register_: [regist, setRegist]
   };
 
   React.useEffect(() => {
@@ -41,6 +43,13 @@ export default function MyApp(props) {
       setMentee(data_mentee);
     } else {
       setMentee(data_mentee);
+    }
+
+    const regist = cookies.registered;
+    if (regist) {
+      setRegist(true)
+    } else {
+      setRegist(false)
     }
   }, []);
 

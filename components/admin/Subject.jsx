@@ -1,11 +1,11 @@
 import React from "react";
+import { AccordionSummary, AccordionDetails, Accordion } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
 import { Divider } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import dynamic from "next/dynamic";
+
 import EditQuizSubject from "./EditQuizSubject";
 import axios from "axios";
 import { useCookies } from "react-cookie";

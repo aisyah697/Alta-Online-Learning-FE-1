@@ -1,10 +1,13 @@
-import React from 'react';
-import {makeStyles} from "@material-ui/core/styles";
+import React, { useContext } from 'react';
+import dynamic from "next/dynamic";
+
 import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import UserContext from "../store/userContext";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import dynamic from "next/dynamic";
+import Box from "@material-ui/core/Box";;
+
 const Link = dynamic(() => import('../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
@@ -40,8 +43,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SubFooter = ({phase}) => {
+const SubFooter = () => {
     const classes = useStyles();
+
+    const {register_} = useContext(UserContext);
+    const [regist, setRegist] = register_
 
     return (
         <div>
@@ -51,7 +57,7 @@ const SubFooter = ({phase}) => {
                         <Typography variant={'h5'} className={classes.title}>
                             You can now access the course!
                         </Typography>
-                        {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 ?
+                        {regist ?
                             <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
                                 <Button variant={'outlined'} className={classes.button}>
                                     View Course

@@ -69,12 +69,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const data = { name: "01-Introduction-to-Python" };
-
-export default function AvailableSubjects(props) {
+export default function AvailableSubjects({subject}) {
   const classes = useStyles();
   const router = useRouter();
-  const { id, module } = router.query;
+  const { id, id_module, module } = router.query;
 
   const [cookies] = useCookies();
 
@@ -85,16 +83,15 @@ export default function AvailableSubjects(props) {
   const [course, setCourse] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
-    const url =
-      process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/subject/" + "3";
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
     const fetchData = async function () {
       try {
         setLoading(true);
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + cookies.token_mentee,
+            "Authorization": "Bearer " + cookies.token_mentee,
           },
         });
         if (response.status === 200) {
@@ -106,17 +103,18 @@ export default function AvailableSubjects(props) {
         setLoading(false);
       }
     };
-    fetchData();
-  }, []);
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
-  console.log("cek mentee", mentee);
-  console.log("cek tembak course", course);
+  console.log(course)
 
   return (
     <React.Fragment>
       {course
         ? course.map((value, index) => (
-            <div>
+            <div key={index}>
               {value.lock_key ? (
                 <div key={index}>
                   <Paper elevation={0} className={classes.paper}>
@@ -161,8 +159,8 @@ export default function AvailableSubjects(props) {
                       ) : (
                         <Grid item xs={12} sm={2} className={classes.button}>
                           <Link
-                            href={"/courses/phase/[id]/[module]/[subject_name]"}
-                            as={`/courses/phase/${id}/${module}/01-Introduction`}
+                            href={"/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
+                            as={`/courses/phase/${id}/${id_module}/${module}/${value.subject_id}/${value.subject.name.split(" ").join("-")}`}
                           >
                             <Button
                               className={classes.unfinish}

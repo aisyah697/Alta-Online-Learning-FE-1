@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
@@ -13,6 +13,7 @@ import Grid from "@material-ui/core/Grid";
 import { Done } from "@material-ui/icons";
 import dynamic from "next/dynamic";
 import Loading from "../Loading";
+import UserContext from "../../store/userContext";
 const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
@@ -118,16 +119,16 @@ const CustomCard = ({ classes, phase, lock, disabled, style }) => {
     <Card className={classes.card}>
       <Typography className={classes.title}> Phase {phase} </Typography>
       <CardContent className={classes.content}>
-        {!lock ?
+        {lock ?
           <PlayCircleFilledWhiteIcon style={{ fontSize: '40px' }} /> :
           <LockIcon />
         }
       </CardContent>
       <CardActions className={classes.action}>
         {phase == 3 ?
-          <Button disabled={lock} size="small" variant={'outlined'} className={style}
+          <Button disabled={!lock} size="small" variant={'outlined'} className={style}
             startIcon={<LockIcon />}
-            style={{ backgroundColor: '#788896', color: '#fff' }}
+            style={{ backgroundColor: '#788896', color: '#fff', borderColor: '#788896' }}
           >
             Offline Class
                     </Button>
@@ -153,6 +154,9 @@ const CustomCard = ({ classes, phase, lock, disabled, style }) => {
 
 const HomePhaseMenu = ({ phase }) => {
   const classes = useStyles();
+
+  const {register_} = useContext(UserContext);
+  const [regist, setRegist] = register_
 
   return (
     <div>

@@ -1,14 +1,18 @@
 import React from "react";
 import Head from "next/head";
 import { useContext } from 'react';
-import { makeStyles } from "@material-ui/core/styles";
-import NavigationBar from "../../../components/NavigationBar";
-import FooterBar from "../../../components/FooterBar";
-import ProfileMentee from "../../../components/mentee/ProfileMentee";
-import CourseHistory from "../../../components/mentee/CourseHistory";
-import UserContext from '../../../store/userContext';
 import Router from "next/router";
 import ErrorPage from 'next/error'
+import dynamic from "next/dynamic";
+import { makeStyles } from "@material-ui/core/styles";
+
+const ProfileMentee = dynamic(() => import('../../../components/mentee/ProfileMentee'));
+const CourseHistory = dynamic(() => import('../../../components/mentee/CourseHistory'))
+const NavigationBar = dynamic(() => import('../../../components/NavigationBar'));
+const FooterBar = dynamic(() => import('../../../components/FooterBar'));
+
+import UserContext from '../../../store/userContext';
+
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -20,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Index() {
+export default function IndexPage() {
     const classes = useStyles();
     const {login_} = useContext(UserContext);
     const [login, setLogin] = login_
