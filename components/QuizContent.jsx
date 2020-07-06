@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import AdminContext from "../store/adminContext";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -82,65 +85,84 @@ function StyledRadio(props) {
   );
 }
 
-export default function QuizContent(props) {
+export default function QuizContent({ quiz }) {
   const classes = useStyles();
+  const { load_ } = useContext(AdminContext);
+  const [load, setLoad] = load_;
+  const [cookies, setCookie] = useCookies();
 
+  const [answer, setAnswer] = React.useState();
+  const handleChange = () => (event) => {
+    setAnswer(event.target.value);
+    // postAnswer(event.target.value);
+  };
+
+  const postAnswer = async (myAnswer) => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/";
+    const auth = cookies.token_mentee;
+    const MyJOSN = JSON.stringify({
+      history_altatest_id: props.id,
+      answer_id: myAnswer,
+      question_altatest_id: props.question.id,
+    });
+
+    try {
+      const response = await axios.post(url, MyJOSN, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      });
+
+      if (response.status === 200) {
+        setLoad(true);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    } finally {
+      setLoad(false);
+    }
+  };
+  console.log(quiz);
   return (
     <main className={classes.content}>
       <Toolbar />
       <h1 className={classes.title}>Basic Programming Quiz</h1>
-
-      <Typography paragraph>
-        <Grid container spacing={0}>
-          <Grid item xs={1}>
-            1.
+      {quiz.question.map((item, key) => (
+        <div key={key}>
+          <Grid container spacing={0}>
+            <Grid item xs={1}>
+              <Typography>{key + 1}.</Typography>
+            </Grid>
+            <Grid item xs={11}>
+              <Typography>{item.question}</Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={11}>
-            numbers = [1, 1, 2, 3, 5, 8, 13]
-            <br />
-            print(list[list[4]])
-            <br />
-            What is the output of the code above?
-            <br />
+          <Grid container spacing={0}>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={11}>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  defaultValue="None"
+                  aria-label="answer"
+                  name="customized-radios"
+                  onChange={handleChange()}
+                >
+                  {item.choice.map((item, key) => (
+                    <FormControlLabel
+                      key={key}
+                      value={item.id.toString()}
+                      control={<StyledRadio />}
+                      label={item.choice}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </Grid>
           </Grid>
-        </Grid>
-
-        <Grid container spacing={0}>
-          <Grid item xs={1}>
-            {"   "}
-          </Grid>
-          <Grid item xs={11}>
-            <FormControl component="fieldset">
-              <RadioGroup
-                defaultValue="None"
-                aria-label="answer"
-                name="customized-radios"
-              >
-                <FormControlLabel
-                  value="2"
-                  control={<StyledRadio />}
-                  label="2"
-                />
-                <FormControlLabel
-                  value="3"
-                  control={<StyledRadio />}
-                  label="3"
-                />
-                <FormControlLabel
-                  value="8"
-                  control={<StyledRadio />}
-                  label="8"
-                />
-                <FormControlLabel
-                  value="13"
-                  control={<StyledRadio />}
-                  label="13"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-        </Grid>
-      </Typography>
+        </div>
+      ))}
     </main>
   );
 }
