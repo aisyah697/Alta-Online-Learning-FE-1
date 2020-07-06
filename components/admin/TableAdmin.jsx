@@ -1,6 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import { useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -29,12 +29,14 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     backgroundColor: "#F4F7FC",
+    borderRadius: "10px",
   },
   headerTable: {
     color: "white",
     height: "60px",
     fontSize: `calc(0.5em + 0.5vw)`,
     backgroundColor: theme.palette.secondary.secondary,
+    padding: theme.spacing(0, 3, 0, 3),
   },
   paperTable: {
     width: "100vw",
@@ -44,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     height: "60px",
     fontSize: `calc(0.5em + 0.5vw)`,
     color: theme.palette.secondary.secondary,
+    padding: theme.spacing(0, 3, 0, 3),
   },
   taskTextField: {
     height: "20px",
@@ -79,7 +82,7 @@ export default function TableMentee() {
 
   React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/admin";
-    const auth = cookies.token_admin
+    const auth = cookies.token_admin;
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -110,7 +113,7 @@ export default function TableMentee() {
     "Address",
     "Birth Place",
     "Birth Date",
-    "Github",
+    "GitHub",
     "Delete",
   ];
 
@@ -132,25 +135,26 @@ export default function TableMentee() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {list ?
-                    (list.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {index + 1}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.full_name}
-                      </TableCell>
-                    </TableRow>
-                  ))) : null }
+                  {list
+                    ? list.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {index + 1}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.full_name}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    : null}
                 </TableBody>
               </Table>
             </Paper>
@@ -177,75 +181,80 @@ export default function TableMentee() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {list ?
-                    (list.map((row, key) => (
-                    <TableRow key={key}>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.username}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.role}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.email}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.phone}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.address}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.place_birth}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.date_birth}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.github}
-                      </TableCell>
+                  {list
+                    ? list.map((row, key) => (
+                        <TableRow key={key}>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.username}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.role}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.email}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.phone}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.address}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.place_birth}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.date_birth}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.github}
+                          </TableCell>
 
-                      <TableCell
-                        className={classes.deleteMentee}
-                        component="th"
-                        scope="row"
-                      >
-                        <DeleteUserPopUp ID={row.id} username={row.username} />
-                      </TableCell>
-                    </TableRow>
-                  ))) : null }
+                          <TableCell
+                            className={classes.deleteMentee}
+                            component="th"
+                            scope="row"
+                            align="center"
+                          >
+                            <DeleteUserPopUp
+                              ID={row.id}
+                              username={row.username}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    : null}
                 </TableBody>
               </Table>
             </Paper>
