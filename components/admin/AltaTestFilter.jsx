@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: "50%",
     backgroundColor: "white",
+    borderRadius: "10px",
     "& .MuiOutlinedInput-root": {
+      borderRadius: "10px",
       "&:hover fieldset": {
         borderColor: theme.palette.secondary.main,
       },
@@ -39,7 +41,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: "20%",
     backgroundColor: "white",
+    borderRadius: "10px",
     "& .MuiOutlinedInput-root": {
+      borderRadius: "10px",
       "&:hover fieldset": {
         borderColor: theme.palette.secondary.main,
       },
@@ -55,15 +59,21 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#F4F7FC",
     margin: theme.spacing(0, 0, 5, 0),
   },
+  item: {
+    color: theme.palette.secondary.secondary,
+  },
+  iconSearch: {
+    color: "silver",
+  },
 }));
 
 export default function AltaTestFilter(props) {
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
-    keyword: '',
-    sort: '' 
-  })
+    keyword: "",
+    sort: "",
+  });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -83,8 +93,8 @@ export default function AltaTestFilter(props) {
             size="small"
             variant="outlined"
             id="mui-theme-provider-outlined-input"
-            placeholder="search"
-            onChange={handleChange('keyword')}
+            placeholder="Search"
+            onChange={handleChange("keyword")}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -98,18 +108,24 @@ export default function AltaTestFilter(props) {
             size="small"
             className={classes.dropDown}
           >
-            <InputLabel color="secondary">Sort By</InputLabel>
+            <InputLabel color="secondary">Sort by</InputLabel>
             <Select
-                label="phase"
-                value={values.sort}
-                onChange={handleChange('sort')}
+              label="phase"
+              value={values.sort}
+              onChange={handleChange("sort")}
             >
-              <MenuItem value="">
+              <MenuItem value="" className={classes.item}>
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={"name"}>Name</MenuItem>
-              <MenuItem value={"progress"}>Progress</MenuItem>
-              <MenuItem value={"id"}>Id</MenuItem>
+              <MenuItem value={"name"} className={classes.item}>
+                Name
+              </MenuItem>
+              <MenuItem value={"progress"} className={classes.item}>
+                Progress
+              </MenuItem>
+              <MenuItem value={"id"} className={classes.item}>
+                IdF
+              </MenuItem>
             </Select>
           </FormControl>
           <AddAltaTest className={classes.button} />

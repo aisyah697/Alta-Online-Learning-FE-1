@@ -47,16 +47,18 @@ const useStyles = makeStyles((theme) => ({
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(3),
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(12),
     textTransform: "none",
+    fontSize: "16px",
+    cursor: "pointer",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   buttonAddChoice: {
@@ -85,11 +87,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function AddQuestion(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [cookies, setCookie] = useCookies();
 
+  const [cookies, setCookie] = useCookies();
   const { load_, admin_, trigger_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
   const [admin, setAdmin] = admin_;

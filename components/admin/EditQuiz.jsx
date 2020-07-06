@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   textFieldChoice: {
     width: "100%",
-    marginTop: theme.spacing(-3),
+    marginTop: theme.spacing(3),
     background: "white",
     "&:hover label.Mui-focused": {
       color: "darkBlue",
@@ -60,30 +60,36 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
+    marginRight: theme.spacing(2),
     marginBottom: theme.spacing(1),
     minWidth: theme.spacing(12),
     textTransform: "none",
+    fontSize: "16px",
+    transition: "0.3s",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   buttonAddChoice: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
-    borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(1),
+    border: "1px solid #f4752e",
+    borderRadius: theme.spacing(2),
     color: theme.palette.common.white,
-    margin: theme.spacing(5, 0, 5, 0),
+    margin: theme.spacing(3, 0, 3, 0),
     minWidth: theme.spacing(12),
     textTransform: "none",
+    WebkitBoxShadow: "none",
+    transition: "0.3s",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      border: "1px solid #f4752e",
+      WebkitBoxShadow: "none",
     },
   },
   isiQuestion: {
@@ -106,7 +112,8 @@ export default function EditQuiz(props) {
   const [choices, setChoices] = useState("");
 
   const [values, setValues] = React.useState({
-    question: props.question, choice: "",
+    question: props.question,
+    choice: "",
   });
 
   const handleChange = (prop) => (event) => {
@@ -145,7 +152,7 @@ export default function EditQuiz(props) {
       console.error("Please Try Again!", error);
       throw new Error(error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
   };
 
@@ -172,7 +179,7 @@ export default function EditQuiz(props) {
       console.error("Please Try Again!", error);
       throw new Error(error);
     } finally {
-      setLoad(false)
+      setLoad(false);
     }
 
     setValues({ ...values, choice: "" });
@@ -200,90 +207,90 @@ export default function EditQuiz(props) {
     fetchData();
   }, [load]);
 
-    return (
-      <div>
-        <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-          <EditIcon className={classes.buttonIcon} fontSize="small" />
-        </IconButton>
+  return (
+    <div>
+      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+        <EditIcon className={classes.buttonIcon} fontSize="small" />
+      </IconButton>
 
-        <Dialog
-          open={open}
-          fullWidth
-          maxWidth={"md"}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle className={classes.title} id="alert-dialog-title">
-            {"Edit Question Quiz"}
-          </DialogTitle>
-          <DialogContent>
-            <Typography className={classes.isiQuestion}>
-              {props.question}
-            </Typography>
-            <TextField
-              id="outlined-multiline-static"
-              label="Edit Question"
-              multiline
-              color="secondary"
-              className={classes.textFieldQuestion}
-              rows={4}
-              variant="outlined"
-              defaultValue={props.question}
-              onChange={handleChange("question")}
-            />
-            <div>
-              {choices
-                ? choices.map((item, index) => (
-                    <EditChoice
-                      key={index}
-                      choice={item.choice}
-                      ID={item.id}
-                      correct={item.is_correct}
-                    />
-                  ))
-                : null}
-            </div>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.buttonAddChoice}
-              startIcon={<AddIcon />}
-              onClick={postAddChoice}
-            >
-              Add Multiple Choice
-            </Button>
-            <TextField
-              id="add-choices"
-              label="Add Choice"
-              multiline
-              color="secondary"
-              className={classes.textFieldChoice}
-              rows={2}
-              variant="outlined"
-              onChange={handleChange("choice")}
-              defaultValue={values.choice}
-            />
-          </DialogContent>
-          <DialogActions className={classes.action}>
-            <Button
-              className={classes.button}
-              variant="outlined"
-              size="small"
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={postEditQuestion}
-              autoFocus
-              className={classes.button}
-            >
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
+      <Dialog
+        open={open}
+        fullWidth
+        maxWidth={"md"}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle className={classes.title} id="alert-dialog-title">
+          {"Edit Question Quiz"}
+        </DialogTitle>
+        <DialogContent>
+          <Typography className={classes.isiQuestion}>
+            {props.question}
+          </Typography>
+          <TextField
+            id="outlined-multiline-static"
+            label="Edit Question"
+            multiline
+            color="secondary"
+            className={classes.textFieldQuestion}
+            rows={4}
+            variant="outlined"
+            defaultValue={props.question}
+            onChange={handleChange("question")}
+          />
+          <div>
+            {choices
+              ? choices.map((item, index) => (
+                  <EditChoice
+                    key={index}
+                    choice={item.choice}
+                    ID={item.id}
+                    correct={item.is_correct}
+                  />
+                ))
+              : null}
+          </div>
+          <TextField
+            id="add-choices"
+            label="Add Choices"
+            multiline
+            color="secondary"
+            className={classes.textFieldChoice}
+            rows={2}
+            variant="outlined"
+            onChange={handleChange("choice")}
+            defaultValue={values.choice}
+          />
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.buttonAddChoice}
+            startIcon={<AddIcon />}
+            onClick={postAddChoice}
+          >
+            Add Multiple Choice
+          </Button>
+        </DialogContent>
+        <DialogActions className={classes.action}>
+          <Button
+            className={classes.button}
+            variant="outlined"
+            size="small"
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={postEditQuestion}
+            autoFocus
+            className={classes.button}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }

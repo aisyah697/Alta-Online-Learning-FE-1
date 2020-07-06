@@ -15,7 +15,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 
-const NavigationAdminBar = dynamic(() =>  import("../../../components/admin/NavigationBarAdmin"));
+const NavigationAdminBar = dynamic(() =>
+  import("../../../components/admin/NavigationBarAdmin")
+);
 const AddModule = dynamic(() => import("../../../components/admin/AddModule"));
 const SideBarr = dynamic(() => import("../../../components/admin/SideBarr"));
 const Footer = dynamic(() => import("../../../components/FooterBar"));
@@ -90,9 +92,9 @@ const useStyles = makeStyles((theme) => ({
     width: "180px",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   monitoring: {
@@ -139,7 +141,10 @@ export default function Academy() {
                   </CardActionArea>
                   <CardActions>
                     <Grid container justify="center">
-                      <Link href={'/admin/academy/phase/[id]'} as={'/admin/academy/phase/1'}>
+                      <Link
+                        href={"/admin/academy/phase/[id]"}
+                        as={"/admin/academy/phase/1"}
+                      >
                         <Button
                           variant="outlined"
                           size="medium"
@@ -162,7 +167,10 @@ export default function Academy() {
                   </CardActionArea>
                   <CardActions>
                     <Grid container justify="center">
-                      <Link href={'/admin/academy/phase/[id]'} as={'/admin/academy/phase/2'}>
+                      <Link
+                        href={"/admin/academy/phase/[id]"}
+                        as={"/admin/academy/phase/2"}
+                      >
                         <Button
                           variant="outlined"
                           color="primary"

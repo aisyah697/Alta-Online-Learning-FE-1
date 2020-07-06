@@ -11,11 +11,11 @@ import Dialog from "@material-ui/core/Dialog";
 import { useCookies } from "react-cookie";
 
 import AdminContext from "../../store/adminContext";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Router from "next/router";
 import Link from "next/link";
 
-const Loading = dynamic(() => import('../Loading'))
+const Loading = dynamic(() => import("../Loading"));
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   button: {
@@ -49,16 +49,18 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(12),
     textTransform: "none",
+    fontSize: "15px",
+    transition: "all .3s",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
 }));
 
-export default function DeleteModule({ID}) {
+export default function DeleteModule({ ID }) {
   const classes = useStyles();
   const router = useRouter();
   const { id, id_module, module, id_subject } = router.query;
@@ -106,49 +108,51 @@ export default function DeleteModule({ID}) {
     }
   };
 
-    return (
-      <div>
-        <Button
-          onClick={handleClickOpen}
-          variant="outlined"
-          color="primary"
-          size="medium"
-          className={classes.button}
-          startIcon={<DeleteIcon />}
-        >
-          Delete Subject
-        </Button>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Are you sure want to delete this subject?"}
-          </DialogTitle>
-          <DialogActions>
+  return (
+    <div>
+      <Button
+        onClick={handleClickOpen}
+        variant="outlined"
+        color="primary"
+        size="medium"
+        className={classes.button}
+        startIcon={<DeleteIcon />}
+      >
+        Delete Subject
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
+          {"Are you sure want to delete this subject?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            onClick={handleClose}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
+          >
+            No
+          </Button>
+          <Link
+            href={"/admin/academy/phase/[id]/[id_module]/[module]"}
+            as={`/admin/academy/phase/${id}/${id_module}/${module}`}
+          >
             <Button
-              onClick={handleClose}
+              onClick={deleteQuestion}
               variant="outlined"
               size="medium"
               className={classes.buttonInPop}
             >
-              No
+              Yes
             </Button>
-            <Link href={'/admin/academy/phase/[id]/[id_module]/[module]'}
-                  as={`/admin/academy/phase/${id}/${id_module}/${module}`}>
-              <Button
-                onClick={deleteQuestion}
-                variant="outlined"
-                size="medium"
-                className={classes.buttonInPop}
-              >
-                Yes
-              </Button>
-            </Link>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
+          </Link>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }

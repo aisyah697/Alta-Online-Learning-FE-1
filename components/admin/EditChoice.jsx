@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -10,12 +10,12 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 import axios from "axios";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiOutlinedInput-root": {
       "&:hover fieldset": {
-        borderColor: "darkBlue",
+        borderColor: theme.palette.secondary.secondary,
       },
     },
   },
@@ -42,20 +42,20 @@ const useStyles = makeStyles((theme) => ({
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(2),
     margin: theme.spacing(0, 0, 0, 2),
     color: theme.palette.common.white,
-    marginBottom: theme.spacing(5),
-    minWidth: theme.spacing(8),
+    marginBottom: theme.spacing(4),
+    minWidth: theme.spacing(12),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
+      borderColor: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
     },
   },
-  isiChoice: {
+  inputChoice: {
     fontFamily: "Muli, sans-serif",
     fontSize: `calc(0.5em + 0.5vw)`,
     color: theme.palette.secondary.secondary,
@@ -66,22 +66,52 @@ const useStyles = makeStyles((theme) => ({
   buttonPosition: {
     marginLeft: theme.spacing(6),
   },
+  yesButton: {
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(10),
+    color: theme.palette.common.white,
+    minWidth: theme.spacing(10),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.main,
+    },
+  },
+  noButton: {
+    backgroundColor: theme.palette.secondary.secondary,
+    borderColor: theme.palette.secondary.secondary,
+    borderRadius: theme.spacing(10),
+    color: theme.palette.common.white,
+    minWidth: theme.spacing(10),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
+  },
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default function EditChoice(props) {
   const classes = useStyles();
-  const [cookies, setCookie] = useCookies()
+  const [cookies, setCookie] = useCookies();
 
   const [correct, setCorrect] = React.useState(props.correct);
   const [checked, setChecked] = React.useState(props.correct);
 
-  const {load_} = useContext(AdminContext);
-  const [load, setLoad] = load_
+  const { load_ } = useContext(AdminContext);
+  const [load, setLoad] = load_;
 
   const [open, setOpen] = React.useState(false);
 
   const [values, setValues] = React.useState({
-    choice: props.choice
+    choice: props.choice,
   });
 
   const handleInput = (prop) => (event) => {
@@ -90,7 +120,7 @@ export default function EditChoice(props) {
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
-    setCorrect(!correct)
+    setCorrect(!correct);
   };
 
   const handleOpen = () => {
@@ -102,20 +132,21 @@ export default function EditChoice(props) {
   };
 
   const postEditChoice = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/choicealtatest/' + props.ID
-    const auth = cookies.token_admin
+    const url =
+      process.env.NEXT_PUBLIC_BASE_URL + "/choicealtatest/" + props.ID;
+    const auth = cookies.token_admin;
 
     const MyJOSN = JSON.stringify({
       choice: values.choice,
-      is_correct: correct
-    })
+      is_correct: correct,
+    });
 
     try {
       const response = await axios.patch(url, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
-          'Authorization':'Bearer ' + auth
-        }
+          Authorization: "Bearer " + auth,
+        },
       });
       if (response.status === 200) {
         setLoad(true);
@@ -124,18 +155,19 @@ export default function EditChoice(props) {
       console.error("Please Try Again!", error);
       throw new Error(error);
     }
-  }
+  };
 
   const postDeleteChoice = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/choicealtatest/' + props.ID
-    const auth = cookies.token_admin
+    const url =
+      process.env.NEXT_PUBLIC_BASE_URL + "/choicealtatest/" + props.ID;
+    const auth = cookies.token_admin;
 
     try {
       const response = await axios.delete(url, {
         headers: {
           "Content-Type": "application/json",
-          'Authorization':'Bearer ' + auth
-        }
+          Authorization: "Bearer " + auth,
+        },
       });
       if (response.status === 200) {
         setLoad(true);
@@ -144,7 +176,7 @@ export default function EditChoice(props) {
       console.error("Please Try Again!", error);
       throw new Error(error);
     }
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -156,19 +188,18 @@ export default function EditChoice(props) {
           id="additional-actions1-header"
         >
           <FormControlLabel
-              control={
-                <Checkbox
-                    checked={checked}
-                    onChange={handleChange}
-                    onClick={(event) => event.stopPropagation()}
-                    onFocus={(event) => event.stopPropagation()}
-                    name="correct"
-                    color="secondary"
-                />
-              }
-              label={props.choice}
+            control={
+              <Checkbox
+                checked={checked}
+                onChange={handleChange}
+                onClick={(event) => event.stopPropagation()}
+                onFocus={(event) => event.stopPropagation()}
+                name="correct"
+                color="secondary"
+              />
+            }
+            label={props.choice}
           />
-          
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.expansionChoice}>
           <TextField
@@ -180,15 +211,15 @@ export default function EditChoice(props) {
             rows={2}
             variant="outlined"
             defaultValue={props.choice}
-            onChange={handleInput('choice')}
+            onChange={handleInput("choice")}
           />
         </ExpansionPanelDetails>
         <div className={classes.buttonPosition}>
           <Button
-              className={classes.button}
-              variant="outlined"
-              size="small"
-              onClick={postEditChoice}
+            className={classes.button}
+            variant="outlined"
+            size="small"
+            onClick={postEditChoice}
           >
             Submit Edit
           </Button>
@@ -205,24 +236,30 @@ export default function EditChoice(props) {
       </ExpansionPanel>
 
       <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title" style={{color: '#19355f'}}>
+        <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
           {`Are you sure want to delete this choice ?`}
         </DialogTitle>
         <DialogActions>
-          <Button variant="outlined" size="small" onClick={handleClose}>
+          <Button
+            className={classes.noButton}
+            variant="outlined"
+            size="small"
+            onClick={handleClose}
+          >
             No
           </Button>
           <Button
-              variant="outlined"
-              size="small"
-              onClick={postDeleteChoice}
-              autoFocus
-              color="secondary"
+            className={classes.yesButton}
+            variant="outlined"
+            size="small"
+            onClick={postDeleteChoice}
+            autoFocus
+            color="secondary"
           >
             Yes
           </Button>
