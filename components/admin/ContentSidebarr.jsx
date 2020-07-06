@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ContentSide(props) {
   const classes = useStyles();
   const router = useRouter();
-  const { id } = router.query;
+  const { id, id_module, id_subject } = router.query;
 
   const [expanded, setExpanded] = React.useState(true);
 
@@ -193,7 +193,7 @@ export default function ContentSide(props) {
               <AccordionDetails className={classes.expandMenu2}>
                 <List>
                   {item.subject.map((items, indexsub)=>(
-                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[module]/[subject_name]"}
+                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
                             as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}/${items.id}/${items.name.split(" ").join("-")}`}>
                         <ListItem button>
                           <ListItemIcon>

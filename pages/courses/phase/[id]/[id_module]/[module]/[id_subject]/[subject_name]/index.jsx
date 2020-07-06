@@ -2,13 +2,13 @@ import React from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import NavigationBar from "../../../../../../../components/NavigationBar";
+import NavigationBar from "../../../../../../../../components/NavigationBar";
 import { makeStyles } from "@material-ui/core/styles";
 const SubjectDrawer = dynamic(() =>
-  import("../../../../../../../components/subject/SubjectDrawer")
+  import("../../../../../../../../components/subject/SubjectDrawer")
 );
 const SubjectContent = dynamic(() =>
-  import("../../../../../../../components/subject/SubjectContent")
+  import("../../../../../../../../components/subject/SubjectContent")
 );
 
 const useStyles = makeStyles((theme) => ({

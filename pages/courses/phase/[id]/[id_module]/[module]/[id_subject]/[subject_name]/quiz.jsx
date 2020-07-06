@@ -2,9 +2,9 @@ import React from "react";
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import NavigationBar from "../components/NavigationBar";
-import SubjectDrawer from "../components/subject/SubjectDrawer";
-import QuizContent from "../components/QuizContent";
+import NavigationBar from "../../../../../../../../components/NavigationBar";
+import SubjectDrawer from "../../../../../../../../components/subject/SubjectDrawer";
+import QuizContent from "../../../../../../../../components/QuizContent";
 
 const useStyles = makeStyles((theme) => ({
   root: {

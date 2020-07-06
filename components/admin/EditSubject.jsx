@@ -157,8 +157,6 @@ export default function EditSubject({ subject }) {
 
   const [exam, setExam] = React.useState(type_exam);
 
-  // const [selectedValue, setSelectedValue] = React.useState('quiz');
-
   const handleChangeRadio = (event) => {
     setExam(event.target.value);
   };
@@ -219,6 +217,7 @@ export default function EditSubject({ subject }) {
       setLoad(false);
     }
   };
+
   const postEditVideo = async () => {
     const urlVideo =
       process.env.NEXT_PUBLIC_BASE_URL + `/filesubject/${subject.video[0].id}`;
@@ -359,6 +358,9 @@ export default function EditSubject({ subject }) {
     }
   };
 
+
+  console.log('aaa', subject)
+
   return (
     <div>
       <Button
@@ -471,7 +473,7 @@ export default function EditSubject({ subject }) {
             </InputLabel>
             <br />
             <input
-              accept="application/*"
+              accept=".odp,.ppt,.pptx"
               className={classes.input}
               id="upload-ppt"
               style={{ display: "none", marginTop: "20px" }}
@@ -492,7 +494,7 @@ export default function EditSubject({ subject }) {
               size={"small"}
               onChange={handleChange("presentationName")}
             />
-            {!presentation ? (
+            {!subject.video[0] ? (
               <Button
                 onClick={postPresentation}
                 variant="contained"
