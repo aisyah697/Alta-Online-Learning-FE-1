@@ -21,10 +21,11 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import axios from "axios";
 import Router from "next/router";
+import { useCookies } from "react-cookie";
 
-const NavigationBar = dynamic(() => import('../components/NavigationBar'))
-const Footer = dynamic(() => import('../components/FooterBar'))
-const Link = dynamic(() => import('../utils/link'))
+const NavigationBar = dynamic(() => import("../components/NavigationBar"));
+const Footer = dynamic(() => import("../components/FooterBar"));
+const Link = dynamic(() => import("../utils/link"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -126,9 +127,9 @@ const RegisterPage = () => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  const [images, setImages] = React.useState('')
+  const [images, setImages] = React.useState("");
 
-  const handleImage = e => {
+  const handleImage = (e) => {
     if (e.target.files.length) {
       setImages(e.target.files[0]);
     }
@@ -141,26 +142,36 @@ const RegisterPage = () => {
     event.preventDefault();
   };
 
+  const [token, setToken] = React.useState("");
+
   const postRegister = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee'
-    const formRegis = new FormData()
-    formRegis.append('full_name', values.fullName)
-    formRegis.append('username', values.username)
-    formRegis.append('password', values.password)
-    formRegis.append('email', values.email)
-    formRegis.append('place_birth', values.birthPlace)
-    formRegis.append('date_birth', values.birthDate)
-    formRegis.append('phone', values.phoneNumber)
-    formRegis.append('github', values.github)
-    formRegis.append('description', values.about)
-    formRegis.append('avatar', images)
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/mentee";
+    const urlAltatest = process.env.NEXT_PUBLIC_BASE_URL + "/altatest";
+    const formRegis = new FormData();
+    formRegis.append("full_name", values.fullName);
+    formRegis.append("username", values.username);
+    formRegis.append("password", values.password);
+    formRegis.append("email", values.email);
+    formRegis.append("place_birth", values.birthPlace);
+    formRegis.append("date_birth", values.birthDate);
+    formRegis.append("phone", values.phoneNumber);
+    formRegis.append("github", values.github);
+    formRegis.append("description", values.about);
+    formRegis.append("avatar", images);
 
     try {
-      const response = await axios.post(url, formRegis,{
+      const response = await axios.post(url, formRegis, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      axios.post(urlAltatest, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + response.data.token,
+        },
+      }),
+        console.log("response", response.data.token);
       if (response.status === 200) {
-        Router.replace('/login');
+        setToken(response.data.token);
       } else {
         let error = new Error(response.statusText);
         error.response = response;
@@ -169,8 +180,33 @@ const RegisterPage = () => {
     } catch (error) {
       console.error("Please Try Again!", error);
     }
-  }
+  };
+  const postAltatest = async () => {
+    const urlAltatest = process.env.NEXT_PUBLIC_BASE_URL + "/altatest";
+    console.log("tokeeennn", token);
+    try {
+      const response = await axios.post(urlAltatest, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (response.status === 200 || response.status === 500) {
+        Router.replace("/login");
+      } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        return Promise.reject(error);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+    }
+  };
 
+  const regisAndPostAltatest = async () => {
+    await postRegister();
+    // postAltatest();
+  };
   return (
     <div>
       <Head>
@@ -349,7 +385,7 @@ const RegisterPage = () => {
                     className={classes.button}
                     variant={"outlined"}
                     size="large"
-                    onClick={postRegister}
+                    onClick={regisAndPostAltatest}
                   >
                     Register
                   </Button>
@@ -368,6 +404,6 @@ const RegisterPage = () => {
       </main>
     </div>
   );
-}
+};
 
 export default RegisterPage;

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useCookies } from "react-cookie";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Head from "next/head";
@@ -19,350 +19,376 @@ import Table from "@material-ui/core/Table";
 import Grid from "@material-ui/core/Grid";
 import ListItem from "@material-ui/core/ListItem";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
-const ModuleDetailTable = dynamic(() => import('../../../../../../components/module/ModuleDetailTable'));
-const NavigationBar = dynamic(() => import('../../../../../../components/NavigationBar'));
-const SubFooter = dynamic(() => import('../../../../../../components/SubFooter'));
-const FooterBar = dynamic(() => import('../../../../../../components/FooterBar'));
+const ModuleDetailTable = dynamic(() =>
+  import("../../../../../../components/module/ModuleDetailTable")
+);
+const NavigationBar = dynamic(() =>
+  import("../../../../../../components/NavigationBar")
+);
+const SubFooter = dynamic(() =>
+  import("../../../../../../components/SubFooter")
+);
+const FooterBar = dynamic(() =>
+  import("../../../../../../components/FooterBar")
+);
 
 import UserContext from "../../../../../../store/userContext";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        marginTop: theme.spacing(4),
+  root: {
+    marginTop: theme.spacing(4),
+  },
+  main: {
+    minHeight: `calc(80vh - 5px)`,
+  },
+  textPengantar: {
+    margin: theme.spacing(0, 5, 0, 8),
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(0, 2, 0, 3),
     },
-    main: {
-        minHeight: `calc(80vh - 5px)`
+  },
+  judulModule: {
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(1.1em + 1.5vw)`,
+    textAlign: "left",
+    fontWeight: "bold",
+    color: theme.palette.secondary.secondary,
+  },
+  mentorName: {
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(0.8em + 0.5vw)`,
+    textAlign: "left",
+    fontWeight: "bold",
+    marginTop: theme.spacing(1),
+    color: theme.palette.secondary.secondary,
+  },
+  keteranganModule: {
+    fontFamily: "Muli, sans-serif",
+    color: "gray",
+    fontSize: `calc(0.7em + 0.4vw)`,
+    marginBottom: theme.spacing(5),
+  },
+  leftContent: {
+    backgroundColor: "#F4F7FC",
+    padding: theme.spacing(5, 4, 5, 8),
+    [theme.breakpoints.down("sm")]: {
+      backgroundColor: "#F4F7FC",
+      padding: theme.spacing(5, 4, 5, 3),
     },
-    textPengantar: {
-        margin: theme.spacing(0, 5, 0, 8),
-        [theme.breakpoints.down("sm")]: {
-            margin: theme.spacing(0, 2, 0, 3),
-        },
+  },
+  button: {
+    marginBottom: theme.spacing(2),
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+    padding: "7px 12%",
+    [theme.breakpoints.down("sm")]: {
+      padding: "7px 19%",
     },
-    judulModule: {
-        fontFamily: "Muli, sans-serif",
-        fontSize: `calc(1.1em + 1.5vw)`,
-        textAlign: "left",
-        fontWeight: "bold",
-        color: theme.palette.secondary.secondary,
+    [theme.breakpoints.down("xs")]: {
+      padding: "4px 5%",
     },
-    mentorName: {
-        fontFamily: "Muli, sans-serif",
-        fontSize: `calc(0.8em + 0.5vw)`,
-        textAlign: "left",
-        fontWeight: "bold",
-        marginTop: theme.spacing(1),
-        color: theme.palette.secondary.secondary,
+    textTransform: "none",
+    borderRadius: theme.spacing(10),
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.main,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.main,
     },
-    keteranganModule: {
-        fontFamily: "Muli, sans-serif",
-        color: "gray",
-        fontSize: `calc(0.7em + 0.4vw)`,
-        marginBottom: theme.spacing(5),
+  },
+  avatar: {
+    width: "50%",
+    borderRadius: "10px",
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: theme.spacing(2),
     },
-    leftContent: {
-        backgroundColor: "#F4F7FC",
-        padding: theme.spacing(5, 4, 5, 8),
-        [theme.breakpoints.down("sm")]: {
-            backgroundColor: "#F4F7FC",
-            padding: theme.spacing(5, 4, 5, 3),
-        },
+  },
+  mentorDescribe: {
+    textAlign: "justify",
+    fontFamily: "Muli, sans-serif",
+    color: theme.palette.secondary.secondary,
+    fontSize: `calc(0.6em + 0.4vw)`,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  github: {
+    fontFamily: "Muli, sans-serif",
+    color: theme.palette.secondary.secondary,
+    fontSize: `calc(0.7em + 0.4vw)`,
+    marginLeft: theme.spacing(1),
+  },
+  giticon: {
+    color: theme.palette.secondary.secondary,
+    fontSize: `calc(1.5em + 0.4vw)`,
+  },
+  divTableInPage: {
+    margin: theme.spacing(0, 3, 0, 8),
+    [theme.breakpoints.down("sm")]: {
+      backgroundColor: "#F4F7FC",
+      margin: theme.spacing(5, 0, 0, 0),
     },
-    button: {
-        marginBottom: theme.spacing(2),
-        backgroundColor: theme.palette.secondary.main,
-        borderColor: theme.palette.secondary.main,
-        color: theme.palette.common.white,
-        padding: "7px 12%",
-        [theme.breakpoints.down("sm")]: {
-            padding: "7px 19%",
-        },
-        [theme.breakpoints.down("xs")]: {
-            padding: "4px 5%",
-        },
-        textTransform: "none",
-        borderRadius: theme.spacing(10),
-        "&:hover": {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.secondary.main,
-            textDecoration: "none",
-            borderColor: theme.palette.secondary.main,
-        },
-    },
-    avatar: {
-        width: "50%",
-        borderRadius: "10px",
-        [theme.breakpoints.down("xs")]: {
-            marginBottom: theme.spacing(2),
-        },
-    },
-    mentorDescribe: {
-        textAlign: "justify",
-        fontFamily: "Muli, sans-serif",
-        color: theme.palette.secondary.secondary,
-        fontSize: `calc(0.6em + 0.4vw)`,
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-    },
-    github: {
-        fontFamily: "Muli, sans-serif",
-        color: theme.palette.secondary.secondary,
-        fontSize: `calc(0.7em + 0.4vw)`,
-        marginLeft: theme.spacing(1),
-    },
-    giticon: {
-        color: theme.palette.secondary.secondary,
-        fontSize: `calc(1.5em + 0.4vw)`,
-    },
-    divTableInPage: {
-        margin: theme.spacing(0, 3, 0, 8),
-        [theme.breakpoints.down("sm")]: {
-            backgroundColor: "#F4F7FC",
-            margin: theme.spacing(5, 0, 0, 0),
-        },
-    },
-    tables: {
-        marginBottom: theme.spacing(5),
-    },
+  },
+  tables: {
+    marginBottom: theme.spacing(5),
+  },
 
-    listItem2: {
-        marginLeft: theme.spacing(-3),
-    },
-    markList: {
-        fontSize: "medium",
-        color: theme.palette.secondary.main,
-        marginRight: '20px'
-    },
+  listItem2: {
+    marginLeft: theme.spacing(-3),
+  },
+  markList: {
+    fontSize: "medium",
+    color: theme.palette.secondary.main,
+    marginRight: "20px",
+  },
 }));
 
 const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.secondary.secondary,
-        color: theme.palette.common.white,
-        fontSize: `calc(0.6em + 0.5vw)`,
-        fontFamily: "Muli, sans-serif",
-    },
-    body: {
-        backgroundColor: theme.palette.common.white,
-        color: theme.palette.secondary.secondary,
-        textAlign: "justify",
-        fontSize: `calc(0.6em + 0.4vw)`,
-        fontFamily: "Muli, sans-serif",
-    },
+  head: {
+    backgroundColor: theme.palette.secondary.secondary,
+    color: theme.palette.common.white,
+    fontSize: `calc(0.6em + 0.5vw)`,
+    fontFamily: "Muli, sans-serif",
+  },
+  body: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.secondary.secondary,
+    textAlign: "justify",
+    fontSize: `calc(0.6em + 0.4vw)`,
+    fontFamily: "Muli, sans-serif",
+  },
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
-    root: {
-        "&:nth-of-type(odd)": {
-            backgroundColor: theme.palette.action.hover,
-        },
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
     },
+  },
 }))(TableRow);
 
-const ModuleDetailRequirement = ({require}) => {
-    const classes = useStyles();
-    return (
-        <ListItem>
-            <Grid container direction="row" justify="flex-start">
-                <Grid item xs={1} align="right">
-                    <FiberManualRecordIcon className={classes.markList} />
-                </Grid>
-                <br/>
-                {require ?
-                    <Grid item xs={11} align="justify">
-                        {require.description}
-                    </Grid> : null }
-            </Grid>
-        </ListItem>
-    );
+const ModuleDetailRequirement = ({ require }) => {
+  const classes = useStyles();
+  return (
+    <ListItem>
+      <Grid container direction="row" justify="flex-start">
+        <Grid item xs={1} align="right">
+          <FiberManualRecordIcon className={classes.markList} />
+        </Grid>
+        <br />
+        {require ? (
+          <Grid item xs={11} align="justify">
+            {require.description}
+          </Grid>
+        ) : null}
+      </Grid>
+    </ListItem>
+  );
 };
 
 const CourseRule = [
-    {
-        description: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-    }
-]
+  {
+    description:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+  },
+];
 
 export default function Detail() {
-    const classes = useStyles();
-    const router = useRouter();
-    const { id, id_module, module } = router.query;
+  const classes = useStyles();
+  const router = useRouter();
+  const { id, id_module, module } = router.query;
 
-    const [cookies] = useCookies();
-    const { mentee_, token_ } = useContext(UserContext);
-    const [mentee, setMentee] = mentee_;
-    const [tokenMentee, setTokenMentee] = token_;
+  const [cookies] = useCookies();
+  const { mentee_, token_ } = useContext(UserContext);
+  const [mentee, setMentee] = mentee_;
+  const [tokenMentee, setTokenMentee] = token_;
 
-    const [subject, setSubject] = React.useState();
-    const [loading, setLoading] = React.useState(true);
+  const [subject, setSubject] = React.useState();
+  const [loading, setLoading] = React.useState(true);
 
-    React.useEffect(() => {
-        const url = process.env.NEXT_PUBLIC_BASE_URL + `/historymodule/subject/${id}`;
-        const fetchData = async function () {
-            try {
-                setLoading(true);
-                const response = await axios.get(url, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: "Bearer " + cookies.token_mentee,
-                    },
-                });
-                if (response.status === 200) {
-                    setSubject(response.data);
-                }
-            } catch (error) {
-                throw error;
-            } finally {
-                setLoading(false);
-            }
-        };
-        if (id) {
-            fetchData();
+  React.useEffect(() => {
+    const url =
+      process.env.NEXT_PUBLIC_BASE_URL + `/historymodule/subject/${id}`;
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.token_mentee,
+          },
+        });
+        if (response.status === 200) {
+          setSubject(response.data);
         }
-    }, [id]);
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
+  console.log(subject);
 
-    console.log(subject)
-
-    return (
-        <React.Fragment>
-            <Head>
-                <title>Detail Module | Alta Online Learning</title>
-            </Head>
-            <main>
-                <NavigationBar />
-                <div className={classes.main}>
-                {subject ?
-                    subject.filter(mod => mod.module_id == id_module).map((item, index) => (
-                <div key={index} className={classes.root}>
+  return (
+    <React.Fragment>
+      <Head>
+        <title>Detail Module | Alta Online Learning</title>
+      </Head>
+      <main>
+        <NavigationBar />
+        <div className={classes.main}>
+          {subject
+            ? subject
+                .filter((mod) => mod.module_id == id_module)
+                .map((item, index) => (
+                  <div key={index} className={classes.root}>
                     <div className={classes.textPengantar}>
-                        <Typography className={classes.judulModule}>
-                            Module {index + 1}: {item.module.name}
-                        </Typography>
-                        <Typography className={classes.keteranganModule}>
-                            Introduction of {item.module.name}
-                        </Typography>
+                      <Typography className={classes.judulModule}>
+                        Module {index + 1}: {item.module.name}
+                      </Typography>
+                      <Typography className={classes.keteranganModule}>
+                        Introduction of {item.module.name}
+                      </Typography>
                     </div>
                     <Grid container className={classes.leftContent}>
-                        <Grid
-                            item
-                            md={3}
-                            xs={12}
-                            container
-                            direction="column"
-                            justify="flex-start"
-                            alignItems="flex-start"
+                      <Grid
+                        item
+                        md={3}
+                        xs={12}
+                        container
+                        direction="column"
+                        justify="flex-start"
+                        alignItems="flex-start"
+                      >
+                        <Link
+                          href={
+                            "/courses/phase/[id]/[id_module]/[module]/subject"
+                          }
+                          as={`/courses/phase/${id}/${id_module}/${module}/subject`}
                         >
-                            <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
-                                  as={`/courses/phase/${id}/${id_module}/${module}/subject`}>
-                                <Button
-                                    variant="outlined"
-                                    size="medium"
-                                    className={classes.button}
-                                >
-                                    Start Course
-                                </Button>
-                            </Link>
-                            <img
-                                alt="mentor-avatar"
-                                className={classes.avatar}
-                                src={item.module.admin.avatar}
-                            />
-                            <Typography className={classes.mentorName}>
-                                Mentor: {item.module.admin.full_name}
-                            </Typography>
-                            <Typography className={classes.mentorDescribe}>
-                                {item.module.admin.description}{" "}
-                            </Typography>
-                            <Grid
-                                container
-                                direction="row"
-                                justify="flex-start"
-                                alignItems="center"
-                            >
-                                <GitHubIcon className={classes.giticon} />
-                                <Typography className={classes.github}>
-                                    {item.module.admin.github}
-                                </Typography>
-                            </Grid>
+                          <Button
+                            variant="outlined"
+                            size="medium"
+                            className={classes.button}
+                          >
+                            Start Course
+                          </Button>
+                        </Link>
+                        <img
+                          alt="mentor-avatar"
+                          className={classes.avatar}
+                          src={item.module.admin.avatar}
+                        />
+                        <Typography className={classes.mentorName}>
+                          Mentor: {item.module.admin.full_name}
+                        </Typography>
+                        <Typography className={classes.mentorDescribe}>
+                          {item.module.admin.description}{" "}
+                        </Typography>
+                        <Grid
+                          container
+                          direction="row"
+                          justify="flex-start"
+                          alignItems="center"
+                        >
+                          <GitHubIcon className={classes.giticon} />
+                          <Typography className={classes.github}>
+                            {item.module.admin.github}
+                          </Typography>
                         </Grid>
-                        <Grid item md={9} xs={12}>
-                            <div className={classes.divTableInPage}>
-                                <TableContainer>
-                                    <Table className={classes.tables}>
-                                        <TableHead>
-                                            <TableRow>
-                                                <StyledTableCell align="left">
-                                                    What will you learn?
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow>
-                                                <StyledTableCell>
-                                                    {item.module.description}
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                    <Table className={classes.tables}>
-                                        <TableHead>
-                                            <TableRow>
-                                                <StyledTableCell align="left">
-                                                    Course Rules
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow>
-                                                <StyledTableCell>
-                                                    <div className={classes.listItem2}>
-                                                        {CourseRule.map((content, idx) =>(
-                                                            <ModuleDetailRequirement key={idx} require={content}/>
-                                                        ))}
-                                                    </div>
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                    <Table className={classes.tables}>
-                                        <TableHead>
-                                            <TableRow>
-                                                <StyledTableCell align="left">
-                                                    Subject in Module
-                                                </StyledTableCell>
-                                                <StyledTableCell align="left">
-                                                    System Requirements
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow>
-                                                <StyledTableCell>
-                                                    {/* maping subjek nanti mulai dari sini */}
-                                                    {item.subject.map((value, index) => (
-                                                        <ModuleDetailTable key={index} subject={value} />
-                                                    ))}
-                                                </StyledTableCell>
-                                                <StyledTableCell>
-                                                    {/* maping requirement nanti mulai dari sini */}
-                                                    {item.requirement.map((require, idx) => (
-                                                        <ModuleDetailRequirement key={idx} require={require} />
-                                                    ))}
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </div>
-                        </Grid>
+                      </Grid>
+                      <Grid item md={9} xs={12}>
+                        <div className={classes.divTableInPage}>
+                          <TableContainer>
+                            <Table className={classes.tables}>
+                              <TableHead>
+                                <TableRow>
+                                  <StyledTableCell align="left">
+                                    What will you learn?
+                                  </StyledTableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                <TableRow>
+                                  <StyledTableCell>
+                                    {item.module.description}
+                                  </StyledTableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                            <Table className={classes.tables}>
+                              <TableHead>
+                                <TableRow>
+                                  <StyledTableCell align="left">
+                                    Course Rules
+                                  </StyledTableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                <TableRow>
+                                  <StyledTableCell>
+                                    <div className={classes.listItem2}>
+                                      {CourseRule.map((content, idx) => (
+                                        <ModuleDetailRequirement
+                                          key={idx}
+                                          require={content}
+                                        />
+                                      ))}
+                                    </div>
+                                  </StyledTableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                            <Table className={classes.tables}>
+                              <TableHead>
+                                <TableRow>
+                                  <StyledTableCell align="left">
+                                    Subject in Module
+                                  </StyledTableCell>
+                                  <StyledTableCell align="left">
+                                    System Requirements
+                                  </StyledTableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                <TableRow>
+                                  <StyledTableCell>
+                                    {/* maping subjek nanti mulai dari sini */}
+                                    {item.subject.map((value, index) => (
+                                      <ModuleDetailTable
+                                        key={index}
+                                        subject={value}
+                                      />
+                                    ))}
+                                  </StyledTableCell>
+                                  <StyledTableCell>
+                                    {/* maping requirement nanti mulai dari sini */}
+                                    {item.requirement.map((require, idx) => (
+                                      <ModuleDetailRequirement
+                                        key={idx}
+                                        require={require}
+                                      />
+                                    ))}
+                                  </StyledTableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </div>
+                      </Grid>
                     </Grid>
                     <SubFooter />
-                </div>
-                    )) : null }
-                </div>
-                <FooterBar />
-            </main>
-        </React.Fragment>
-    );
+                  </div>
+                ))
+            : null}
+        </div>
+        <FooterBar />
+      </main>
+    </React.Fragment>
+  );
 }
