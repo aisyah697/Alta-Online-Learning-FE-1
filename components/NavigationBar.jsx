@@ -178,10 +178,10 @@ const NavigationBar = (props) => {
       </Card>
     </React.Fragment>
   );
-  }
+
   const MenuBar = (
     <React.Fragment>
-      <NextLink href={link1}>
+      <NextLink href={"/courses"}>
         <Typography className={classes.menu} variant="h6" noWrap>
           Courses
         </Typography>
@@ -189,7 +189,7 @@ const NavigationBar = (props) => {
       <Typography className={classes.menu} variant="h6" noWrap>
         Certification
       </Typography>
-      <NextLink href={link2} as={asLink2}>
+      <NextLink href={"/courses/phase/[id]"} as={`/courses/phase/${1}`}>
         <Typography className={classes.menu} variant="h6" noWrap>
           All Courses
         </Typography>
