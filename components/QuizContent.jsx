@@ -124,7 +124,6 @@ export default function QuizContent({ quiz }) {
       setLoad(false);
     }
   };
-  console.log(quiz);
   return (
     <main className={classes.content}>
       <Toolbar />

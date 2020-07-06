@@ -127,7 +127,6 @@ const SubjectDrawer = (props) => {
       fetchData();
     }
   }, [id_module]);
-  console.log(course);
   return (
     <Drawer
       className={classes.drawer}
