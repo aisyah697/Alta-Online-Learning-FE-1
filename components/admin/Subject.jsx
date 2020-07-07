@@ -98,12 +98,11 @@ export default function SubjectAdmin({ subject }) {
         setLoading(false);
       }
     };
-    fetchData();
+    if (subject.exam[0]){
+      fetchData();
+    }
   }, [load]);
 
-  if (loading) {
-    return <Loading />;
-  } else {
     return (
       <div className={classes.root}>
         <AccordionSummary
@@ -145,7 +144,7 @@ export default function SubjectAdmin({ subject }) {
             <Typography> No Data </Typography>
           )}
         </AccordionDetails>
-        {/* <List component="nav" /> */}
+        <List component="nav" />
 
         <AccordionSummary
           aria-controls="panel1bh-content"
@@ -262,5 +261,4 @@ export default function SubjectAdmin({ subject }) {
         <List component="nav" />
       </div>
     );
-  }
 }

@@ -97,7 +97,7 @@ export default function Subject() {
       }
     };
     fetchData();
-  }, [load, trigger]);
+  }, [load, trigger, id_subject]);
 
   return (
       <React.Fragment>
