@@ -222,8 +222,6 @@ export default function Detail() {
     }, [id]);
 
 
-    console.log(subject)
-
     return (
         <React.Fragment>
             <Head>

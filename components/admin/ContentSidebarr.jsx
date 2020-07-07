@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ContentSide(props) {
   const classes = useStyles();
   const router = useRouter();
-  const { id, id_module, id_subject } = router.query;
+  const {id, id_module, id_subject} = router.query;
 
   const [expanded, setExpanded] = React.useState(true);
 
@@ -131,88 +131,95 @@ export default function ContentSide(props) {
   };
 
   return (
-    <div>
-      <AccordionDetails className={classes.expandMenu}>
-        <Accordion
-          elevation={0}
-          className={classes.expandTitle}
-          expanded={expanded === "panel1"}
-          onChange={handleChange("panel1")}
-        >
-          <AccordionSummary
-            className={classes.expansummar}
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
+      <div>
+        <AccordionDetails className={classes.expandMenu}>
+          <Accordion
+              elevation={0}
+              className={classes.expandTitle}
+              expanded={expanded === "panel1"}
+              onChange={handleChange("panel1")}
           >
-            <ListItem button onClick={(event) => event.stopPropagation()}>
-              <ListItemIcon className={classes.iconPhase}>
-                <LibraryBooksIcon />
-                <Typography className={classes.noJudulPhase}>
-                  {props.idPhase}
-                </Typography>
-              </ListItemIcon>
-              <Link
-                href={"/admin/academy/phase/[id]"}
-                as={`/admin/academy/phase/${props.idPhase}`}
-              >
-                <Typography className={classes.textJudulPhase}>
-                  {props.name}
-                </Typography>
-              </Link>
-            </ListItem>
-          </AccordionSummary>
-          {props.module.map((item, idx) => (
-            <AccordionDetails key={idx} className={classes.expandMenu1}>
-              <Accordion
-                elevation={0}
-                className={classes.expandTitle2}
-                expanded={expanded2 === idx.toString()}
-                onChange={handleChange2(idx.toString())}
-              >
-                <List>
-                  <ListItem button onClick={(event) => event.stopPropagation()}>
-                    <ListItemIcon>
-                      <CollectionsBookmarkIcon className={classes.iconPhase} />
-                      <Typography className={classes.noJudulModule}>
-                        {idx+1}
-                      </Typography>
-                    </ListItemIcon>
-                    <Link href={"/admin/academy/phase/[id]/[id_module]/[module]"}
-                          as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}`}>
-                      <Typography className={classes.textJudulModule}>
-                        Module {idx+1}
-                      </Typography>
-                    </Link>
-                  </ListItem>
-                </List>
-              </AccordionSummary>
-              <AccordionDetails className={classes.expandMenu2}>
-                <List>
-                  {item.subject.map((items, indexsub)=>(
-                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
-                            as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}/${items.id}/${items.name.split(" ").join("-")}`}>
-                        <ListItem button>
+            <AccordionSummary
+                className={classes.expansummar}
+                expandIcon={<ExpandMoreIcon/>}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+            >
+              <ListItem button onClick={(event) => event.stopPropagation()}>
+                <ListItemIcon className={classes.iconPhase}>
+                  <LibraryBooksIcon/>
+                  <Typography className={classes.noJudulPhase}>
+                    {props.idPhase}
+                  </Typography>
+                </ListItemIcon>
+                <Link
+                    href={"/admin/academy/phase/[id]"}
+                    as={`/admin/academy/phase/${props.idPhase}`}
+                >
+                  <Typography className={classes.textJudulPhase}>
+                    {props.name}
+                  </Typography>
+                </Link>
+              </ListItem>
+            </AccordionSummary>
+            {props.module.map((item, idx) => (
+                <AccordionDetails key={idx} className={classes.expandMenu1}>
+                  <Accordion
+                      elevation={0}
+                      className={classes.expandTitle2}
+                      expanded={expanded2 === idx.toString()}
+                      onChange={handleChange2(idx.toString())}
+                  >
+                    <AccordionSummary
+                        className={classes.expansummar2}
+                        expandIcon={<ExpandMoreIcon/>}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                    >
+                      <List>
+                        <ListItem button onClick={(event) => event.stopPropagation()}>
                           <ListItemIcon>
-                            <BookIcon className={classes.iconSubject} />
-                            <Typography className={classes.noJudulSubject}>
-                              {indexsub + 1}
+                            <CollectionsBookmarkIcon className={classes.iconPhase}/>
+                            <Typography className={classes.noJudulModule}>
+                              {idx + 1}
                             </Typography>
                           </ListItemIcon>
-                          <Typography className={classes.textJudulSubject}>
-                            {items.name}
-                          </Typography>
+                          <Link href={"/admin/academy/phase/[id]/[id_module]/[module]"}
+                                as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}`}>
+                            <Typography className={classes.textJudulModule}>
+                              Module {idx + 1}
+                            </Typography>
+                          </Link>
                         </ListItem>
-                      </Link>
-                    ))}
-                  </List>
+                      </List>
+                    </AccordionSummary>
+                    <AccordionDetails className={classes.expandMenu2}>
+                      <List>
+                        {item.subject.map((items, indexsub) => (
+                            <Link key={indexsub}
+                                  href={"/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
+                                  as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}/${items.id}/${items.name.split(" ").join("-")}`}>
+                              <ListItem button>
+                                <ListItemIcon>
+                                  <BookIcon className={classes.iconSubject}/>
+                                  <Typography className={classes.noJudulSubject}>
+                                    {indexsub + 1}
+                                  </Typography>
+                                </ListItemIcon>
+                                <Typography className={classes.textJudulSubject}>
+                                  {items.name}
+                                </Typography>
+                              </ListItem>
+                            </Link>
+                        ))}
+                      </List>
+                    </AccordionDetails>
+                  </Accordion>
                 </AccordionDetails>
-              </Accordion>
-            </AccordionDetails>
-          ))}
-        </Accordion>
-      </AccordionDetails>
-      <Divider />
-    </div>
-  );
+            ))}
+          </Accordion>
+        </AccordionDetails>
+        <Divider/>
+      </div>
+  )
 }
