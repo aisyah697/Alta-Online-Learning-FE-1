@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: theme.spacing(30),
   },
-  judulVideo: {
+  title: {
     fontSize: `calc(0.6em + 1.2vw)`,
     marginTop: theme.spacing(-4),
     color: theme.palette.secondary.secondary,
@@ -70,7 +70,7 @@ const SubjectVideo = (props) => {
           />
         </Grid>
       </Card>
-      <Typography className={classes.judulVideo} variant="h6">
+      <Typography className={classes.title} variant="h6">
         Title: {props.name}
       </Typography>
     </main>

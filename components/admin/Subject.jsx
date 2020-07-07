@@ -1,10 +1,15 @@
 import React from "react";
-import { AccordionSummary, AccordionDetails, Accordion } from '@material-ui/core';
+import {
+  AccordionSummary,
+  AccordionDetails,
+  Accordion,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Divider } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import dynamic from "next/dynamic";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 
 import EditQuizSubject from "./EditQuizSubject";
 import axios from "axios";

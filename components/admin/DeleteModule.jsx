@@ -10,6 +10,8 @@ import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -29,33 +31,49 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function DeleteModule(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [cookies, setCookie] = useCookies();
 
+  const [open, setOpen] = React.useState(false);
+  const [openBar, setOpenBar] = React.useState(false);
+
+  const [cookies, setCookie] = useCookies();
   const { admin_, token_, load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
   const [loading, setLoading] = React.useState(false);
 
   const handleClickOpen = (e) => {
     setOpen(true);
-    e.stopPropagation()
+    e.stopPropagation();
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleOpenBar = () => {
+    setOpenBar(true);
+  };
+
+  const handleCloseBar = () => {
+    setOpenBar(false);
+  };
+
   const deleteModule = async () => {
     setOpen(false);
     setLoading(true);
+    setOpenBar(true);
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/module/" + props.id_module;
     const auth = cookies.token_admin;
 
@@ -99,7 +117,7 @@ export default function DeleteModule(props) {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">
+          <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
             {`Are you sure want to delete this module?`}
           </DialogTitle>
           <DialogActions>
@@ -121,6 +139,19 @@ export default function DeleteModule(props) {
             </Button>
           </DialogActions>
         </Dialog>
+        <Snackbar
+          open={openBar}
+          autoHideDuration={6000}
+          onClose={handleCloseBar}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          <Alert onClose={handleCloseBar} severity="success">
+            Module deleted!
+          </Alert>
+        </Snackbar>
       </div>
     );
   }

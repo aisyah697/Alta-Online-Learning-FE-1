@@ -30,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
 }));
@@ -80,44 +80,44 @@ export default function DeleteQestion(props) {
       console.error("Something Wrong, Please Try Again!", error);
       throw new Error(error);
     } finally {
-      setTrigger(false)
+      setTrigger(false);
     }
   };
 
-    return (
-      <div>
-        <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
-          <DeleteIcon className={classes.buttonIcon} fontSize="default" />
-        </IconButton>
+  return (
+    <div>
+      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+        <DeleteIcon className={classes.buttonIcon} fontSize="default" />
+      </IconButton>
 
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Are you sure want to delete this alta test?"}
-          </DialogTitle>
-          <DialogActions>
-            <Button
-              onClick={handleClose}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
-            >
-              No
-            </Button>
-            <Button
-              onClick={deleteQuestion}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
-            >
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
+          {"Are you sure want to delete this alta test?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            onClick={handleClose}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
+          >
+            No
+          </Button>
+          <Button
+            onClick={deleteQuestion}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
 }

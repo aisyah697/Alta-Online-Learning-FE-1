@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 0),
   },
   title: {
-    textAlign: "center",
+    fontSize: `calc(0.6em + 1.2vw)`,
+    marginTop: theme.spacing(-4),
+    color: theme.palette.secondary.secondary,
+    fontWeight: "bold",
   },
   media: {
     height: theme.spacing(30),
@@ -41,7 +44,7 @@ const SubjectPPT = (props) => {
           />
         </CardActionArea>
       </Card>
-      <Typography variant="body2" color="textSecondary" component="p">
+      <Typography className={classes.title} variant="h6">
         Title: {props.name}
       </Typography>
     </main>

@@ -4,7 +4,11 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import axios from "axios";
 
-import { Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@material-ui/core";
 import CollectionsBookmarkIcon from "@material-ui/icons/CollectionsBookmark";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -16,8 +20,7 @@ import BookIcon from "@material-ui/icons/Book";
 import { Divider } from "@material-ui/core";
 import List from "@material-ui/core/List";
 
-const Link = dynamic(() => import('../../utils/link'))
-
+const Link = dynamic(() => import("../../utils/link"));
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
@@ -106,8 +109,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: `calc(0.7em + 0.5vw)`,
   },
   rootList: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
 }));
 
@@ -159,19 +162,13 @@ export default function ContentSide(props) {
               </Link>
             </ListItem>
           </AccordionSummary>
-            {props.module.map((item, idx)=>(
-          <AccordionDetails key={idx} className={classes.expandMenu1}>
-            <Accordion
-              elevation={0}
-              className={classes.expandTitle2}
-              expanded={expanded2 === idx.toString()}
-              onChange={handleChange2(idx.toString())}
-            >
-              <AccordionSummary
-                className={classes.expansummar2}
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
+          {props.module.map((item, idx) => (
+            <AccordionDetails key={idx} className={classes.expandMenu1}>
+              <Accordion
+                elevation={0}
+                className={classes.expandTitle2}
+                expanded={expanded2 === idx.toString()}
+                onChange={handleChange2(idx.toString())}
               >
                 <List>
                   <ListItem button onClick={(event) => event.stopPropagation()}>
