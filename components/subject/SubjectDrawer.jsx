@@ -144,6 +144,7 @@ const SubjectDrawer = (props) => {
           {course
             ? course.map((value, index) => (
                 <div>
+                  {console.log("course", value)}
                   {value.lock_key ? (
                     <div key={index}>
                       <Accordion className={classes.accordion}>
