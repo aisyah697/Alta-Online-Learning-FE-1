@@ -61,8 +61,6 @@ export default function ModuleDetailOverview() {
         }
     }, [id]);
 
-    console.log(subject)
-
     return (
         <React.Fragment>
             <Head>
@@ -74,7 +72,7 @@ export default function ModuleDetailOverview() {
                 <br/>
                 {subject ?
                     subject.filter(mod => mod.module_id == id_module).map((value, index) => (
-                <ModuleOverview key={index} module={value} />)) : <p>Loading...</p> }
+                <ModuleOverview key={index} modules={value} />)) : <p>Loading...</p> }
                 <br/>
                 <h1 className={classes.h1}>Available Subjects</h1>
                 <AvailableSubjects />

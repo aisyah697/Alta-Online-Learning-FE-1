@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import UserContext from "../../store/userContext";
 import axios from "axios";
+import {useRouter} from "next/router";
 
 const drawerWidth = 240;
 
@@ -90,6 +91,9 @@ const SubjectDrawer = (props) => {
   const classes = useStyles();
   const [cookies] = useCookies();
 
+  const router = useRouter();
+  const { id, id_module, module, id_subject, subject_name } = router.query;
+
   const { mentee_, token_ } = useContext(UserContext);
   const [mentee, setMentee] = mentee_;
   const [tokenMentee, setTokenMentee] = token_;
@@ -99,7 +103,7 @@ const SubjectDrawer = (props) => {
 
   useEffect(() => {
     const url =
-      process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/subject/" + "3";
+      process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -118,8 +122,10 @@ const SubjectDrawer = (props) => {
         setLoading(false);
       }
     };
-    fetchData();
-  }, []);
+    if (id_module) {
+      fetchData();
+    }
+  }, [id_module]);
 
   return (
     <Drawer
@@ -132,14 +138,14 @@ const SubjectDrawer = (props) => {
       <Toolbar />
       <div className={classes.drawerContainer}>
         <div className={classes.title}>
-          <h1 className={classes.module}>Basic Programming</h1>
+          <h1 className={classes.module}>{module? module.split("-").join(" ") : null}</h1>
         </div>
         <div>
           {course
             ? course.map((value, index) => (
-                <div>
+                <div key={index}>
                   {value.lock_key ? (
-                    <div key={index}>
+                    <div>
                       <Accordion className={classes.accordion}>
                         <AccordionSummary
                           expandIcon={<ExpandMoreIcon />}

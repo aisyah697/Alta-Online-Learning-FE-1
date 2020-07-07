@@ -10,6 +10,7 @@ import Card from "@material-ui/core/Card";
 import ReactPlayer from "react-player";
 import UserContext from "../../store/userContext";
 import axios from "axios";
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +57,9 @@ const SubjectContent = (props) => {
   const classes = useStyles();
   const [cookies] = useCookies();
 
+  const router = useRouter();
+  const { id, id_module, module, id_subject, subject_name } = router.query;
+
   const { mentee_, token_ } = useContext(UserContext);
   const [mentee, setMentee] = mentee_;
   const [tokenMentee, setTokenMentee] = token_;
@@ -65,7 +69,7 @@ const SubjectContent = (props) => {
 
   useEffect(() => {
     const url =
-      process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/subject/" + "3";
+      process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -84,8 +88,10 @@ const SubjectContent = (props) => {
         setLoading(false);
       }
     };
-    fetchData();
-  }, []);
+    if (id_module) {
+      fetchData();
+    }
+  }, [id_module]);
 
   return (
     <main className={classes.content}>
@@ -93,7 +99,7 @@ const SubjectContent = (props) => {
       <div>
         {course
           ? course.map((value, index) => (
-              <div>
+              <div key={index}>
                 {value.lock_key ? (
                   <div key={index}>
                     <h1 className={classes.title}>{value.subject.name}</h1>
