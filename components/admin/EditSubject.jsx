@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -52,11 +51,13 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(12),
     textTransform: "none",
+    fontSize: "15px",
+    transition: "all .3s",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   buttonInpuFile: {
@@ -68,14 +69,15 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(10),
     textTransform: "none",
+    WebkitBoxShadow: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
+      WebkitBoxShadow: "none",
     },
   },
-
   inputFile: {
     margin: theme.spacing(3, 0, 0, 0),
   },
@@ -83,6 +85,16 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
     margin: theme.spacing(3, 0, -3, 0),
+  },
+  browse: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.secondary,
+    border: "1px solid #19355f",
+    WebkitBoxShadow: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      WebkitBoxShadow: "none",
+    },
   },
 }));
 
@@ -429,7 +441,12 @@ export default function EditSubject({ subject }) {
               onChange={handleVideo}
             />
             <label htmlFor="upload-video">
-              <Button variant="contained" color="primary" component="span">
+              <Button
+                variant="contained"
+                color="primary"
+                component="span"
+                className={classes.browse}
+              >
                 Browse
               </Button>
             </label>
@@ -449,7 +466,7 @@ export default function EditSubject({ subject }) {
                 variant="contained"
                 color="secondary"
                 component="span"
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", WebkitBoxShadow: "none" }}
               >
                 Change
               </Button>
@@ -479,7 +496,12 @@ export default function EditSubject({ subject }) {
               onChange={handlePresentation}
             />
             <label htmlFor="upload-ppt">
-              <Button variant="contained" color="primary" component="span">
+              <Button
+                variant="contained"
+                color="primary"
+                component="span"
+                className={classes.browse}
+              >
                 Browse
               </Button>
             </label>
@@ -498,7 +520,7 @@ export default function EditSubject({ subject }) {
                 variant="contained"
                 color="secondary"
                 component="span"
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", WebkitBoxShadow: "none" }}
               >
                 Upload
               </Button>
@@ -508,7 +530,7 @@ export default function EditSubject({ subject }) {
                 variant="contained"
                 color="secondary"
                 component="span"
-                style={{ color: "#fff" }}
+                style={{ color: "#fff", WebkitBoxShadow: "none" }}
               >
                 Change
               </Button>
@@ -554,7 +576,11 @@ export default function EditSubject({ subject }) {
                   variant="contained"
                   color="secondary"
                   component="span"
-                  style={{ color: "#fff", marginLeft: "150px" }}
+                  style={{
+                    color: "#fff",
+                    marginLeft: "150px",
+                    WebkitBoxShadow: "none",
+                  }}
                 >
                   Change
                 </Button>
