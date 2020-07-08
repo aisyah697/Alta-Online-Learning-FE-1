@@ -63,9 +63,11 @@ const SubFooter = () => {
                                     View Course
                                 </Button>
                             </Link> :
-                            <Button variant={'outlined'} className={classes.button}>
-                                Register
-                            </Button>
+                            <Link href={'/'}>
+                                <Button variant={'outlined'} className={classes.button}>
+                                    Register
+                                </Button>
+                            </Link>
                         }
                     </Grid>
                 </Grid>

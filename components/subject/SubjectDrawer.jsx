@@ -15,6 +15,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import UserContext from "../../store/userContext";
 import axios from "axios";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
 const drawerWidth = 240;
 
@@ -69,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
   detail: {
     padding: theme.spacing(0, 3, 1, 3),
     color: theme.palette.secondary.secondary,
+    cursor: 'pointer'
   },
   detailLock: {
     padding: theme.spacing(0, 3, 1, 3),
@@ -156,10 +158,14 @@ const SubjectDrawer = (props) => {
                             {value.subject.name}
                           </Typography>
                         </AccordionSummary>
+                        <Link href={'/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}
+                              as={`/courses/phase/${id}/${id_module}/${module}/${value.subject_id}/${value.subject.name.split(" ").join("-")}`}
+                        >
                         <AccordionDetails className={classes.detail}>
                           <LibraryBooksIcon className={classes.icon} />
                           <Typography>Materi</Typography>
                         </AccordionDetails>
+                        </Link>
                         <AccordionDetails className={classes.lastDetail}>
                           <LaptopMacIcon className={classes.icon} />
                           <Typography>Exam</Typography>

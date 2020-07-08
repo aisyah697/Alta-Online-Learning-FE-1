@@ -98,7 +98,7 @@ const SubjectContent = (props) => {
       <Toolbar />
       <div>
         {course
-          ? course.map((value, index) => (
+          ? course.filter(mod => mod.subject_id == id_subject).map((value, index) => (
               <div key={index}>
                 {value.lock_key ? (
                   <div key={index}>
@@ -118,7 +118,7 @@ const SubjectContent = (props) => {
                                 height="520px"
                                 frameBorder="0"
                                 className={classes.frame}
-                              ></iframe>
+                              />
                               <Typography
                                 variant="body2"
                                 color="textSecondary"
