@@ -198,13 +198,7 @@ export default function NavigationAdminBar(props) {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Popper
-      open={isMenuOpen}
-      anchorEl={anchorEl}
-      role={undefined}
-      transition
-      disablePortal
-    >
+    <Popper open={isMenuOpen} anchorEl={anchorEl} role={undefined} transition>
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}
