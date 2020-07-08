@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   toolbar: {
+    container: "body",
     [theme.breakpoints.up("lg")]: {
       paddingLeft: theme.spacing(8),
       paddingRight: theme.spacing(8),
@@ -201,13 +202,7 @@ const NavigationBar = (props) => {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Popper
-      open={isMenuOpen}
-      anchorEl={anchorEl}
-      role={undefined}
-      transition
-      disablePortal
-    >
+    <Popper open={isMenuOpen} anchorEl={anchorEl} role={undefined} transition>
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}

@@ -19,9 +19,19 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   nested: {
-    // paddingLeft: theme.spacing.unit * 4
+    borderBottomRightRadius: theme.spacing(2),
   },
-  pastList: {},
+  head: {
+    backgroundColor: theme.palette.secondary.secondary,
+    color: theme.palette.primary.main,
+    marginBottom: theme.spacing(1),
+    borderRadius: theme.spacing(1),
+    padding: theme.spacing(2),
+  },
+  list: {
+    padding: "0",
+    borderRadius: theme.spacing(2),
+  },
   grow: {
     flexGrow: 1,
   },
@@ -39,7 +49,7 @@ class NestedList extends React.Component {
     const { lists, module, classes } = this.props;
     return (
       <div className={classes.root}>
-        <List component="nav">
+        <List component="nav" className={classes.list}>
           {module.map(({ key, module, subject }) => {
             {
               console.log("subjeccttt", subject);
@@ -47,24 +57,29 @@ class NestedList extends React.Component {
             const open = this.state[key] || false;
             return (
               <div className={classes.pastList} key={key}>
-                <hr />
-                <List onClick={this.handleClick(key)}>
+                <ListItem
+                  onClick={this.handleClick(key)}
+                  className={classes.head}
+                >
                   <Grid container onClick={this.handleClick(key)}>
                     <Grid container xs={5}>
                       <Grid xs={1}>
                         {open ? <ExpandLess /> : <ExpandMore />}
                       </Grid>
-                      <Typography>{module.name}</Typography>
+                      <Grid xs={4}>
+                        <Typography>{module.name}</Typography>
+                      </Grid>
                     </Grid>
                     <Grid xs={2}>
-                      <Typography>{subject.length} Subject</Typography>
+                      <Typography align="center">
+                        {subject.length} Subjects
+                      </Typography>
                     </Grid>
                     <Grid xs={5}>
-                      <Typography>Feedback Form</Typography>
+                      <Typography align="center">Feedback Form</Typography>
                     </Grid>
                   </Grid>
-                </List>
-                <hr />
+                </ListItem>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     {subject.map(
@@ -74,16 +89,23 @@ class NestedList extends React.Component {
                       ) => (
                         <ListItem key={name} className={classes.nested}>
                           <Grid container>
-                            <Grid xs={4}>
-                              <Typography>{name}</Typography>
+                            <Grid container xs={5}>
+                              <Grid xs={1} />
+                              <Grid xs={4}>
+                                <Typography>{name}</Typography>
+                              </Grid>
                             </Grid>
-                            <Grid xs={1}>
-                              <Typography align="right">{idx + 1}</Typography>
+                            <Grid xs={2}>
+                              <Typography align="center">{idx + 1}</Typography>
                             </Grid>
-                            <Grid xs={1}></Grid>
                             <Grid xs={5}>
                               <a href={quesioner}>
-                                <ListItemText inset primary={quesioner} />
+                                <ListItemText
+                                  inset
+                                  primary={quesioner}
+                                  align="center"
+                                  style={{ paddingLeft: "0px" }}
+                                />
                               </a>
                             </Grid>
                           </Grid>
