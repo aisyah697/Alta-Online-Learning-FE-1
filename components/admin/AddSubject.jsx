@@ -2,7 +2,6 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import clsx from "clsx";
-
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import FormControl from "@material-ui/core/FormControl";
@@ -15,6 +14,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 import AdminContext from "../../store/adminContext";
 
@@ -41,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-
   button: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
@@ -49,13 +49,17 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 0),
+    marginBottom: theme.spacing(3),
     minWidth: theme.spacing(12),
+    padding: "7px 20px",
+    width: "180px",
     textTransform: "none",
+    transition: "0.3s",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   buttonInpuFile: {
@@ -92,9 +96,16 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 0, 0),
   },
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function AddSubject(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openBar, setOpenBar] = React.useState(false);
+
   const { admin_, token_, load_ } = React.useContext(AdminContext);
   const [admin, setAdmin] = admin_;
   const [token, setToken] = token_;
@@ -103,7 +114,9 @@ export default function AddSubject(props) {
 
   const [subject, setSubject] = React.useState();
   const [values, setValues] = React.useState({
-    name: "", description: "", quesioner: "",
+    name: "",
+    description: "",
+    quesioner: "",
   });
 
   const handleClickOpen = () => {
@@ -114,6 +127,14 @@ export default function AddSubject(props) {
     setOpen(false);
   };
 
+  const handleOpenBar = () => {
+    setOpenBar(true);
+  };
+
+  const handleCloseBar = () => {
+    setOpenBar(false);
+  };
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -121,6 +142,8 @@ export default function AddSubject(props) {
   const postAddSubject = async (e) => {
     e.preventDefault();
     setOpen(false);
+    setOpenBar(true);
+
     const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject";
     const auth = cookies.token_admin;
 
@@ -218,6 +241,19 @@ export default function AddSubject(props) {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={openBar}
+        autoHideDuration={6000}
+        onClose={handleCloseBar}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseBar} severity="success">
+          Subject has been added!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

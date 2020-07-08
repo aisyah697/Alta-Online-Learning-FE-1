@@ -16,6 +16,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Router, { useRouter } from "next/router";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -26,14 +28,15 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
     minWidth: theme.spacing(8),
     padding: "7px 20px",
+    marginBottom: theme.spacing(2),
     textTransform: "none",
     width: "180px",
     transition: "0.3s",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   buttonIcon: {
@@ -111,11 +114,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function AddModule() {
   const classes = useStyles();
   const router = useRouter();
   const { id } = router.query;
+
   const [open, setOpen] = useState(false);
+  const [openBar, setOpenBar] = React.useState(false);
+
   const [message, setMessage] = useState("");
   const { admin_, token_, load_ } = useContext(AdminContext);
   const [admin, setAdmin] = admin_;
@@ -148,6 +158,14 @@ export default function AddModule() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenBar = () => {
+    setOpenBar(true);
+  };
+
+  const handleCloseBar = () => {
+    setOpenBar(false);
   };
 
   const postModule = async (name, description, image, phase_id) => {
@@ -191,6 +209,7 @@ export default function AddModule() {
     handleClose();
     setLoad(true);
     postModule(values.name, values.description, values.image);
+    setOpenBar(true);
   };
 
   return (
@@ -279,7 +298,19 @@ export default function AddModule() {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={openBar}
+        autoHideDuration={6000}
+        onClose={handleCloseBar}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseBar} severity="success">
+          {values.name} has been added!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
-// }

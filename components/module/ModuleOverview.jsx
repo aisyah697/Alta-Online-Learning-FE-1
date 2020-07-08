@@ -45,10 +45,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ModuleOverview({module}) {
+export default function ModuleOverview({modules}) {
     const classes = useStyles();
     const router = useRouter();
-    const {id, id_module} = router.query;
+    const {id, id_module, module} = router.query;
 
     const [cookies] = useCookies();
 
@@ -79,15 +79,16 @@ export default function ModuleOverview({module}) {
     }, []);
 
     let save = new Array();
-    if (module){
-        module.subject.map((mod) => (save.push(mod.id)))
+    if (modules){
+        modules.subject.map((mod) => (save.push(mod.id)))
     }
 
     let accumulate = 0
     if (subject) {
         const result = subject.filter(mod => save.includes(mod.subject_id));
         const sum = result.filter(res => res.is_complete == true);
-        let accumulate = sum.length
+        const lastArr = result.filter(res => res.is_complete == false);
+        var lastSubject = lastArr[0];
     }
 
     return (
@@ -99,7 +100,7 @@ export default function ModuleOverview({module}) {
                             className={classes.media}
                             component="img"
                             alt="module"
-                            image={module.module.image}
+                            image={modules.module.image}
                             title="Contemplative Reptile"
                         />
                     </Grid>
@@ -111,7 +112,7 @@ export default function ModuleOverview({module}) {
                             variant="h5"
                             component="h2"
                         >
-                            {module.module.name}
+                            {modules.module.name}
                         </Typography>
                         <Typography
                             className={classes.description}
@@ -119,7 +120,7 @@ export default function ModuleOverview({module}) {
                             color="textSecondary"
                             component="p"
                         >
-                            Learn the fundamentals of {module.module.name}
+                            Learn the fundamentals of {modules.module.name}
                         </Typography>
                         <Typography variant="body1" color="textSecondary" component="p">
                             Currently on:
@@ -130,9 +131,11 @@ export default function ModuleOverview({module}) {
                             </Typography>
                         )): null }
                         <Typography variant="subtitle1" color="textSecondary" component="p">
-                            {accumulate} of {module.subject.length} subjects completed
+                            {accumulate} of {modules.subject.length} subjects completed
                         </Typography>
-                        <Link href={'/courses/phase/[id]/[module]/[subject_name]'} as={`/courses/phase/${id}/${module}/01-Introduction`}>
+                        {lastSubject ?
+                        <Link href={'/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}
+                              as={`/courses/phase/${id}/${id_module}/${module}/${lastSubject.subject.id}/${lastSubject.subject.name.split(" ").join("-")}`}>
                             <Button
                                 className={classes.button}
                                 variant="contained"
@@ -140,7 +143,7 @@ export default function ModuleOverview({module}) {
                             >
                                 Go to class
                             </Button>
-                        </Link>
+                        </Link> : null}
                     </Grid>
                 </Grid>
             </Paper>

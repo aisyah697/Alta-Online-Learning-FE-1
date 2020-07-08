@@ -3,7 +3,6 @@ import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavigationBar from "../../../../../../../../components/NavigationBar";
-import SubjectDrawer from "../../../../../../../../components/subject/SubjectDrawer";
 import QuizContent from "../../../../../../../../components/QuizContent";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -12,7 +11,6 @@ import Loading from "../../../../../../../../components/Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
     margin: "30px 24px",
   },
 }));
@@ -32,7 +30,7 @@ export default function Quiz() {
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + cookies.token_mentee,
+            Authorization: "Bearer " + cookies.mentee.token,
           },
         });
         if (response.status === 200) {
@@ -41,7 +39,6 @@ export default function Quiz() {
               (item) => item.subject_id === parseInt(id_subject)
             )
           );
-          setLoading(true);
         }
       } catch (error) {
         throw error;
@@ -57,7 +54,6 @@ export default function Quiz() {
   if (loading) {
     return <Loading />;
   } else {
-    const quiz = exam[0].exam[0].quiz[0];
     return (
       <React.Fragment>
         <Head>
@@ -66,11 +62,15 @@ export default function Quiz() {
         <div className={classes.root}>
           <CssBaseline />
           <NavigationBar className={classes.appBar} />
-          {/* <SubjectDrawer /> */}
-          {exam[0].exam[0].type_exam === "quiz" ? (
-            <div>
-              <QuizContent quiz={quiz} />
-            </div>
+          {exam ? (
+            exam[0].exam[0].type_exam === "quiz" ? (
+              <div>
+                <QuizContent
+                  examID={exam[0].exam[0].id}
+                  quiz={exam[0].exam[0].quiz[0]}
+                />
+              </div>
+            ) : null
           ) : null}
         </div>
       </React.Fragment>

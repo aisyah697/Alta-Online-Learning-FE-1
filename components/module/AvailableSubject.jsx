@@ -60,6 +60,11 @@ const useStyles = makeStyles((theme) => ({
   },
   moduleLocked: {
     color: "#BDBDBD",
+
+  },
+  gridOf: {
+    display: 'flex',
+    alignItems: 'center'
   },
   paper: {
     marginBottom: theme.spacing(3),
@@ -108,8 +113,6 @@ export default function AvailableSubjects({subject}) {
     }
   }, [id]);
 
-  console.log(course)
-
   return (
     <React.Fragment>
       {course
@@ -131,16 +134,9 @@ export default function AvailableSubjects({subject}) {
                           {value.subject.description}
                         </Typography>
                       </Grid>
-                      <Grid item xs={12} sm={3}>
+                      <Grid item xs={12} sm={3} className={classes.gridOf}>
                         <Typography gutterBottom variant="h6" component="h2">
-                          5 of 5
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          subjects completed
+                          {index + 1} of {course.length}
                         </Typography>
                       </Grid>
                       {value.is_complete ? (
@@ -197,21 +193,14 @@ export default function AvailableSubjects({subject}) {
                           {value.subject.description}
                         </Typography>
                       </Grid>
-                      <Grid item xs={12} sm={3}>
+                      <Grid item xs={12} sm={3} className={classes.gridOf}>
                         <Typography
                           className={classes.moduleLocked}
                           gutterBottom
                           variant="h6"
                           component="h2"
                         >
-                          0 of 5
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          subjects completed
+                          {index + 1} of {course.length}
                         </Typography>
                       </Grid>
                       <Grid item xs={12} sm={2} className={classes.button}>

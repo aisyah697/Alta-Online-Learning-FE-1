@@ -53,21 +53,22 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   textField: {
     width: "100%",
     margin: theme.spacing(1, 0, 1, 0),
     background: "white",
+    borderRadius: theme.spacing(3),
     "&:hover label.Mui-focused": {
-      color: "darkBlue",
+      color: theme.palette.secondary.secondary,
     },
     "& .MuiOutlinedInput-root": {
       "&:hover fieldset": {
-        borderColor: "darkBlue",
+        borderColor: theme.palette.secondary.secondary,
       },
     },
   },
@@ -85,18 +86,19 @@ const useStyles = makeStyles((theme) => ({
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(3),
     color: theme.palette.common.white,
     minWidth: theme.spacing(8),
     padding: "7px 20px",
     textTransform: "none",
     width: "250px",
+    marginTop: theme.spacing(1),
     marginBottom: theme.spacing(3),
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   divButton: {
@@ -115,6 +117,7 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #19355f",
     WebkitBorderRadius: "20px",
     textTransform: "capitalize",
+    marginBottom: theme.spacing(1),
     "&:hover": {
       backgroundColor: "#ffffff",
       boxShadow: "none",
@@ -153,7 +156,7 @@ export default function EditModule(props) {
 
   const handleClickOpen = (e) => {
     setOpen(true);
-    e.stopPropagation()
+    e.stopPropagation();
   };
 
   const handleClose = () => {
@@ -265,7 +268,7 @@ export default function EditModule(props) {
             color="secondary"
             rows={7}
             multiline
-            label="Index Description"
+            label="Description"
             size="small"
             defaultValue={props.description}
             onChange={handleChange("description_module")}
@@ -300,9 +303,8 @@ export default function EditModule(props) {
             color="secondary"
             rows={2}
             multiline
-            label="System Requirements Index"
+            label="System Requirements"
             size="small"
-            // defaultValue={props.description}
             onChange={handleChange("description")}
           />
           <Button

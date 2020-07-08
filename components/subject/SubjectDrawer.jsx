@@ -15,6 +15,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import UserContext from "../../store/userContext";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Link from "../../utils/link";
 
 const drawerWidth = 240;
 
@@ -85,13 +86,19 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(1.5),
   },
+  allText: {
+    color: theme.palette.secondary.secondary,
+    fontSize: `calc(0.6em + 0.4vw)`,
+    fontFamily: "Muli, sans-serif",
+  },
 }));
 
 const SubjectDrawer = (props) => {
   const classes = useStyles();
   const [cookies] = useCookies();
+
   const router = useRouter();
-  const { id, id_module, module } = router.query;
+  const { id, id_module, module, id_subject, subject_name } = router.query;
 
   const { mentee_, token_ } = useContext(UserContext);
   const [mentee, setMentee] = mentee_;
@@ -102,9 +109,7 @@ const SubjectDrawer = (props) => {
 
   useEffect(() => {
     const url =
-      process.env.NEXT_PUBLIC_BASE_URL +
-      "/historysubject/subject/" +
-      `${id_module}`;
+      process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
     const fetchData = async function () {
       try {
         setLoading(true);
@@ -127,6 +132,7 @@ const SubjectDrawer = (props) => {
       fetchData();
     }
   }, [id_module]);
+  // console.log("sub", subject);
   return (
     <Drawer
       className={classes.drawer}
@@ -138,15 +144,16 @@ const SubjectDrawer = (props) => {
       <Toolbar />
       <div className={classes.drawerContainer}>
         <div className={classes.title}>
-          <h1 className={classes.module}>Basic Programming</h1>
+          <h1 className={classes.module}>
+            {module ? module.split("-").join(" ") : null}
+          </h1>
         </div>
         <div>
           {course
             ? course.map((value, index) => (
-                <div>
-                  {console.log("course", value)}
+                <div key={index}>
                   {value.lock_key ? (
-                    <div key={index}>
+                    <div>
                       <Accordion className={classes.accordion}>
                         <AccordionSummary
                           expandIcon={<ExpandMoreIcon />}
@@ -159,11 +166,25 @@ const SubjectDrawer = (props) => {
                         </AccordionSummary>
                         <AccordionDetails className={classes.detail}>
                           <LibraryBooksIcon className={classes.icon} />
-                          <Typography>Materi</Typography>
+                          <Link
+                            href={`/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]`}
+                            as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}`}
+                          >
+                            <Typography className={classes.allText}>
+                              Materi
+                            </Typography>
+                          </Link>
                         </AccordionDetails>
                         <AccordionDetails className={classes.lastDetail}>
                           <LaptopMacIcon className={classes.icon} />
-                          <Typography>Exam</Typography>
+                          <Link
+                            href={`/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]/quiz`}
+                            as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}/quiz`}
+                          >
+                            <Typography className={classes.allText}>
+                              Exam
+                            </Typography>
+                          </Link>
                         </AccordionDetails>
                       </Accordion>
                       <Divider />

@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { Divider } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import dynamic from "next/dynamic";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 
 import EditQuizSubject from "./EditQuizSubject";
 import axios from "axios";
@@ -97,12 +98,11 @@ export default function SubjectAdmin({ subject }) {
         setLoading(false);
       }
     };
-    fetchData();
+    if (subject.exam[0]){
+      fetchData();
+    }
   }, [load]);
 
-  if (loading) {
-    return <Loading />;
-  } else {
     return (
       <div className={classes.root}>
         <AccordionSummary
@@ -261,5 +261,4 @@ export default function SubjectAdmin({ subject }) {
         <List component="nav" />
       </div>
     );
-  }
 }

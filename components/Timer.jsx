@@ -34,7 +34,6 @@ export default function Timers(props) {
   if (hours === 0 && minutes === 0 && seconds === 0) {
     props.endTest("end");
   }
-  // console.log("teeeessssttt", props.statusTest);
   return (
     <div>
       {props.statusTest === "start" ? (
