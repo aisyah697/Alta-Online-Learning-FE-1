@@ -198,7 +198,6 @@ const NavigationBar = (props) => {
       </Typography>
     </React.Fragment>
   );
-  console.log("USER", user);
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
