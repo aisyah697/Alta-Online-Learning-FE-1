@@ -83,11 +83,8 @@ export default function ModuleOverview({modules}) {
         modules.subject.map((mod) => (save.push(mod.id)))
     }
 
-    let accumulate = 0
     if (subject) {
-        const result = subject.filter(mod => save.includes(mod.subject_id));
-        const sum = result.filter(res => res.is_complete == true);
-        const lastArr = result.filter(res => res.is_complete == false);
+        const lastArr = subject.filter(res => res.is_complete == false);
         var lastSubject = lastArr[0];
     }
 
@@ -122,16 +119,15 @@ export default function ModuleOverview({modules}) {
                         >
                             Learn the fundamentals of {modules.module.name}
                         </Typography>
-                        <Typography variant="body1" color="textSecondary" component="p">
+                        <Typography variant="subtitle1" color="textSecondary" component="p">
+                            {subject? subject.filter(mod => mod.is_complete === true && mod.subject.module_id == id_module).length : 0} of {modules.subject.length} subjects completed
+                        </Typography>
+                        <br/>
+                        <Typography style={{fontWeight: 'bold'}} variant="body1" color="textSecondary" component="p">
                             Currently on:
                         </Typography>
-                        {subject? subject.filter(mod => mod.lock_key == true).map((subjectFiltered, index) => (
-                            <Typography key={index} variant="h6" color="textSecondary" component="p">
-                                {subjectFiltered.subject.name}
-                            </Typography>
-                        )): null }
-                        <Typography variant="subtitle1" color="textSecondary" component="p">
-                            {accumulate} of {modules.subject.length} subjects completed
+                        <Typography variant="h6" color="textSecondary" component="p">
+                            Subject: {subject? subject.filter(mod => mod.is_complete === false)[0].subject.name : null}
                         </Typography>
                         {lastSubject ?
                         <Link href={'/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}

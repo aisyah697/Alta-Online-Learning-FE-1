@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
@@ -6,6 +6,10 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import {useRouter} from "next/router";
 import dynamic from "next/dynamic";
+import axios from "axios";
+import {useCookies} from "react-cookie";
+import AdminContext from "../../store/adminContext";
+
 const Link = dynamic(() => import('../../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
@@ -78,6 +82,34 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeBanner = ({phase, register}) => {
     const classes = useStyles();
+    const [cookies, setCookies] = useCookies();
+    const [history, setHistory] = React.useState('');
+
+    const {load_} = useContext(AdminContext);
+    const [load, setLoad] = load_
+
+    React.useEffect(() => {
+        const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
+        const auth = cookies.token_mentee
+        const fetchData = async function () {
+            try {
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + auth,
+                    },
+                });
+                if (response.status === 200) {
+                    setHistory(response.data);
+                }
+            } catch (error) {
+                throw error;
+            }
+        };
+        if (cookies.registered){
+            fetchData();
+        }
+    }, [load]);
 
     return (
         <div>
@@ -92,14 +124,33 @@ const HomeBanner = ({phase, register}) => {
                             <Typography> Alterra Online Learning is a online tech talent learning that gives everyone (even non-IT background) a chance to be a professional Tech Talent. </Typography>
                             <React.Fragment>
                                 {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 ?
-                                    <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
-                                        <Button variant={'outlined'} className={classes.button}>
-                                            View Course
-                                        </Button>
-                                    </Link> :
+                                    (history ?
+                                        (history.score !== 0? (
+                                            <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
+                                                <Button variant={'outlined'} className={classes.button}>
+                                                    View Course
+                                                </Button>
+                                            </Link>
+                                        ) : (
+                                            <Link href={'/altatest'}>
+                                                <Button variant={'outlined'} className={classes.button}>
+                                                    Take Altatest
+                                                </Button>
+                                            </Link>
+                                        ))
+                                        :
+                                        (
+                                            <Link href={'/altatest'}>
+                                                <Button variant={'outlined'} className={classes.button}>
+                                                    Take Altatest
+                                                </Button>
+                                            </Link>
+                                        ))
+                                    :
                                     <Button onClick={() => register()} variant={'outlined'} className={classes.button}>
                                         Register
                                     </Button>
+
                                 }
                             </React.Fragment>
                         </div>
