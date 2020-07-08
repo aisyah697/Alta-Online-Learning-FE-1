@@ -35,6 +35,18 @@ const useStyles = makeStyles((theme) => ({
       WebkitBoxShadow: "none",
     },
   },
+  doneFeedback: {
+    color: theme.palette.primary.main,
+    textTransform: "capitalize",
+    borderRadius: theme.spacing(3),
+    padding: theme.spacing(1, 2),
+    WebkitBoxShadow: "none",
+    backgroundColor: theme.palette.secondary.secondary,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.secondary,
+      WebkitBoxShadow: "none",
+    },
+  },
   unfinish: {
     backgroundColor: theme.palette.secondary.secondary,
     color: theme.palette.primary.main,
@@ -136,7 +148,7 @@ export default function AvailableSubjects({subject}) {
                       </Grid>
                       <Grid item xs={12} sm={3} className={classes.gridOf}>
                         <Typography gutterBottom variant="h6" component="h2">
-                          {index + 1} of {course.length} Subject
+                          {index + 1} of {course.length} Subjects
                         </Typography>
                       </Grid>
                       {value.is_complete ? (
@@ -223,6 +235,40 @@ export default function AvailableSubjects({subject}) {
             </div>
           ))
         : null}
+      <div>
+        <Paper elevation={0} className={classes.paper}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={7}>
+              <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="h2"
+              >
+                Feedback Module
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={3} className={classes.gridOf}>
+              <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="h2"
+              >
+                Form
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={2} className={classes.button}>
+              <Button
+                  className={classes.doneFeedback}
+                  variant="contained"
+                  color="secondary"
+              >
+                <DoneAllIcon />
+                Done
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </div>
     </React.Fragment>
   );
 }
