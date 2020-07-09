@@ -131,7 +131,6 @@ export default function TableMentee() {
     fetchData();
   }, [load]);
 
-  console.log("cek mentee", listMentee);
   return (
     <div>
       <Grid container>
