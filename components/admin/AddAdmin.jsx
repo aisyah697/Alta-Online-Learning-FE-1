@@ -161,7 +161,6 @@ export default function AddAdmin() {
     }
   };
 
-  console.log("VALUES RIGHT", values);
 
   const handleSubmit = async () => {
     handleClose();

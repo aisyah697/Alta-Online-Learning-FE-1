@@ -370,9 +370,6 @@ export default function EditSubject({ subject }) {
     }
   };
 
-
-  console.log('aaa', subject)
-
   return (
     <div>
       <Button

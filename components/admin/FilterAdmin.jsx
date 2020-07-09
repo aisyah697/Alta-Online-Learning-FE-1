@@ -75,7 +75,6 @@ export default function FilterAdmin() {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  console.log("CEK VALUES", values);
   return (
     <Card variant="outlined" className={classes.root}>
       <CardActions>

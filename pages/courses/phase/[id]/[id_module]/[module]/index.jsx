@@ -231,9 +231,6 @@ export default function Detail() {
       fetchData();
     }
   }, [id]);
-
-  console.log(subject);
-
   return (
     <React.Fragment>
       <Head>

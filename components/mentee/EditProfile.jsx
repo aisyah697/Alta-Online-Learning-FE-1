@@ -1,18 +1,18 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import dynamic from "next/dynamic";
-import Router, {useRouter} from "next/router";
-import { useCookies } from 'react-cookie';
-import axios from 'axios';
+import Router, { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 import UserContext from "../../store/userContext";
 
-const Link = dynamic(() => import('../../utils/link'))
+const Link = dynamic(() => import("../../utils/link"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -120,9 +120,9 @@ const FormProfile = () => {
 
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
-  const {mentee_, login_, token_} = useContext(UserContext);
-  const [user, setUser] = mentee_
-  const [tokenMentee, setTokenMentee] = token_
+  const { mentee_, login_, token_ } = useContext(UserContext);
+  const [user, setUser] = mentee_;
+  const [tokenMentee, setTokenMentee] = token_;
 
   const [values, setValues] = React.useState({
     fullName: user.full_name,
@@ -136,7 +136,7 @@ const FormProfile = () => {
     about: user.description,
   });
 
-  const [images, setImages] = React.useState(user.avatar)
+  const [images, setImages] = React.useState(user.avatar);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -146,46 +146,44 @@ const FormProfile = () => {
     setOpen(false);
   };
 
-  const handleImage = e => {
+  const handleImage = (e) => {
     if (e.target.files.length) {
       setImages(e.target.files[0]);
     }
   };
 
   const postEditProfile = async () => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee/' + user.id
-    const auth = cookies.token_mentee
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/mentee/" + user.id;
+    const auth = cookies.token_mentee;
 
-    const formData = new FormData()
-    formData.append('full_name', values.fullName)
-    formData.append('email', values.email)
-    formData.append('place_birth', values.birthPlace)
-    formData.append('date_birth', values.birthDate)
-    formData.append('phone', values.phoneNumber)
-    formData.append('github', values.github)
-    formData.append('background_education', values.background_education)
-    formData.append('address', values.address)
-    formData.append('description', values.about)
-    formData.append('avatar', images)
+    const formData = new FormData();
+    formData.append("full_name", values.fullName);
+    formData.append("email", values.email);
+    formData.append("place_birth", values.birthPlace);
+    formData.append("date_birth", values.birthDate);
+    formData.append("phone", values.phoneNumber);
+    formData.append("github", values.github);
+    formData.append("background_education", values.background_education);
+    formData.append("address", values.address);
+    formData.append("description", values.about);
+    formData.append("avatar", images);
 
     try {
-      const response = await axios.patch(url, formData,{
+      const response = await axios.patch(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          'Authorization':'Bearer ' + auth
+          Authorization: "Bearer " + auth,
         },
-
       });
-      setCookie('mentee', response.data);
+      setCookie("mentee", response.data);
       setUser(response.data);
-      setOpen(true)
+      setOpen(true);
       window.scrollTo(0, 0);
-
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
     }
-  }
+  };
 
   return (
     <div>
@@ -194,7 +192,10 @@ const FormProfile = () => {
           <h1 className={classes.h1}>Edit Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={'/mentee/[profile]'} as={`/mentee/${user.username}`}>
+          <Link
+            href={"/mentee/[id]/[profile]"}
+            as={`/mentee/${user.id}/${user.username}`}
+          >
             <Button
               className={classes.buttonProfile}
               variant="contained"
@@ -245,7 +246,7 @@ const FormProfile = () => {
               size="medium"
               name="fullName"
               defaultValue={user.full_name}
-              onChange={handleChange('fullName')}
+              onChange={handleChange("fullName")}
             />
             <TextField
               className={classes.textField}
@@ -255,7 +256,7 @@ const FormProfile = () => {
               size="medium"
               name="email"
               defaultValue={user.email}
-              onChange={handleChange('email')}
+              onChange={handleChange("email")}
             />
             <TextField
               className={classes.textField}
@@ -265,7 +266,7 @@ const FormProfile = () => {
               size="medium"
               name="birthPlace"
               defaultValue={user.place_birth}
-              onChange={handleChange('birthPlace')}
+              onChange={handleChange("birthPlace")}
             />
             <TextField
               className={classes.textField}
@@ -277,7 +278,7 @@ const FormProfile = () => {
               // type="date"
               name="birthDate"
               defaultValue={user.date_birth}
-              onChange={handleChange('birthDate')}
+              onChange={handleChange("birthDate")}
             />
             <TextField
               className={classes.textField}
@@ -288,7 +289,7 @@ const FormProfile = () => {
               size="medium"
               name="phoneNumber"
               defaultValue={user.phone}
-              onChange={handleChange('phoneNumber')}
+              onChange={handleChange("phoneNumber")}
             />
             <TextField
               className={classes.textField}
@@ -299,7 +300,7 @@ const FormProfile = () => {
               size="medium"
               name="address"
               defaultValue={user.address}
-              onChange={handleChange('address')}
+              onChange={handleChange("address")}
             />
             <TextField
               className={classes.textField}
@@ -310,7 +311,7 @@ const FormProfile = () => {
               size="medium"
               name="background_education"
               defaultValue={user.background_education}
-              onChange={handleChange('background_education')}
+              onChange={handleChange("background_education")}
             />
             <TextField
               className={classes.textField}
@@ -321,7 +322,7 @@ const FormProfile = () => {
               size="medium"
               name="github"
               defaultValue={user.github}
-              onChange={handleChange('github')}
+              onChange={handleChange("github")}
             />
             <TextField
               className={classes.textField}
@@ -334,7 +335,7 @@ const FormProfile = () => {
               rowsMax={4}
               name="about"
               defaultValue={user.description}
-              onChange={handleChange('about')}
+              onChange={handleChange("about")}
             />
           </form>
           <Button
@@ -348,13 +349,14 @@ const FormProfile = () => {
         </Grid>
         <Grid item xs={1} md={2} />
       </Grid>
-      <Snackbar open={open}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
-                }}
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
       >
         <Alert onClose={handleClose} severity="success">
           Your profile was successfully updated!
@@ -362,6 +364,6 @@ const FormProfile = () => {
       </Snackbar>
     </div>
   );
-}
+};
 
 export default FormProfile;
