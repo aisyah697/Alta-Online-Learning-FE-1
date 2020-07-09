@@ -166,6 +166,7 @@ const NavigationBar = (props) => {
     Router.push("/login");
     removeCookie("token_mentee");
     removeCookie("mentee");
+    removeCookie("registered");
   };
 
   const NavBarLogo = (
@@ -180,14 +181,12 @@ const NavigationBar = (props) => {
 
   const MenuBar = (
     <React.Fragment>
-      <NextLink href={"/courses"}>
+      {cookies.registered === true ? <>
+          <NextLink href={"/courses"}>
         <Typography className={classes.menu} variant="h6" noWrap>
-          Courses
+          My Progress
         </Typography>
       </NextLink>
-      <Typography className={classes.menu} variant="h6" noWrap>
-        Certification
-      </Typography>
       <NextLink href={"/courses/phase/[id]"} as={`/courses/phase/${1}`}>
         <Typography className={classes.menu} variant="h6" noWrap>
           All Courses
@@ -195,7 +194,10 @@ const NavigationBar = (props) => {
       </NextLink>
       <Typography className={classes.menu} variant="h6" noWrap>
         Help
-      </Typography>
+      </Typography> </>:
+        <Typography className={classes.menu} variant="h6" noWrap>
+        Help
+        </Typography> }
     </React.Fragment>
   );
 

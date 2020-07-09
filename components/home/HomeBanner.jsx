@@ -106,7 +106,7 @@ const HomeBanner = ({phase, register}) => {
                 throw error;
             }
         };
-        if (cookies.registered){
+        if (cookies.registered === true){
             fetchData();
         }
     }, [load]);

@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(2.5, 2),
       fontSize: "14px",
     },
+      minHeight: `calc(100vh - 320px)`
   },
 }));
 
