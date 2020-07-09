@@ -153,9 +153,6 @@ export default function AvailableSubjects({subject}) {
     }
   }, [id_module])
 
-
-  console.log('AAA', review)
-
   return (
     <React.Fragment>
       {course
@@ -267,6 +264,7 @@ export default function AvailableSubjects({subject}) {
           ))
         : null}
       <div>
+        {course? course.filter(mod => mod.is_complete === true).length === course.length ?
         <Paper elevation={0} className={classes.paper}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={7}>
@@ -315,6 +313,7 @@ export default function AvailableSubjects({subject}) {
             </Grid>
           </Grid>
         </Paper>
+            : null : null}
       </div>
     </React.Fragment>
   );
