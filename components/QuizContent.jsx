@@ -12,7 +12,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
-import { useRouter, Router } from "next/router";
+import Router, { useRouter } from "next/router";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -410,6 +410,7 @@ export default function QuizContent({ quiz, examID }) {
   const goToMyCourses = () => {
     Router.push("/courses");
   };
+
   const posthistoryExam = async (examID) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyexam";
     const MyJOSN = JSON.stringify({
