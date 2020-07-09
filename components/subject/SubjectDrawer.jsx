@@ -14,8 +14,9 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import UserContext from "../../store/userContext";
 import axios from "axios";
-import {useRouter} from "next/router";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import Link from "../../utils/link";
+
 
 const drawerWidth = 240;
 
@@ -87,6 +88,11 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(1.5),
   },
+  allText: {
+    color: theme.palette.secondary.secondary,
+    fontSize: `calc(0.6em + 0.4vw)`,
+    fontFamily: "Muli, sans-serif",
+  },
 }));
 
 const SubjectDrawer = (props) => {
@@ -128,7 +134,6 @@ const SubjectDrawer = (props) => {
       fetchData();
     }
   }, [id_module]);
-
   return (
     <Drawer
       className={classes.drawer}
@@ -140,7 +145,9 @@ const SubjectDrawer = (props) => {
       <Toolbar />
       <div className={classes.drawerContainer}>
         <div className={classes.title}>
-          <h1 className={classes.module}>{module? module.split("-").join(" ") : null}</h1>
+          <h1 className={classes.module}>
+            {module ? module.split("-").join(" ") : null}
+          </h1>
         </div>
         <div>
           {course
@@ -163,12 +170,26 @@ const SubjectDrawer = (props) => {
                         >
                         <AccordionDetails className={classes.detail}>
                           <LibraryBooksIcon className={classes.icon} />
-                          <Typography>Materi</Typography>
+                          <Link
+                            href={`/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]`}
+                            as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}`}
+                          >
+                            <Typography className={classes.allText}>
+                              Materi
+                            </Typography>
+                          </Link>
                         </AccordionDetails>
                         </Link>
                         <AccordionDetails className={classes.lastDetail}>
                           <LaptopMacIcon className={classes.icon} />
-                          <Typography>Exam</Typography>
+                          <Link
+                            href={`/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]/quiz`}
+                            as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}/quiz`}
+                          >
+                            <Typography className={classes.allText}>
+                              Exam
+                            </Typography>
+                          </Link>
                         </AccordionDetails>
                       </Accordion>
                       <Divider />
