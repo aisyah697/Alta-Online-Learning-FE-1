@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import {useCookies} from "react-cookie";
 import AdminContext from "../../store/adminContext";
+import {Remove} from "@material-ui/icons";
 
 const Link = dynamic(() => import('../../utils/link'))
 
@@ -82,11 +83,67 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeBanner = ({phase, register}) => {
     const classes = useStyles();
-    const [cookies, setCookies] = useCookies();
-    const [history, setHistory] = React.useState('');
+    const router = useRouter();
+    const {id, id_module, module} = router.query;
 
     const {load_} = useContext(AdminContext);
     const [load, setLoad] = load_
+
+    const [cookies, setCookies, removeCookies] = useCookies();
+    const [history, setHistory] = React.useState();
+    const [subject, setSubject] = React.useState();
+    const [modules, setModule] = React.useState();
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const url = process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/mentee`;
+        const fetchData = async function () {
+            try {
+                setLoading(true);
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + cookies.token_mentee,
+                    },
+                });
+                if (response.status === 200) {
+                    setSubject(response.data);
+                }
+            } catch (error) {
+                throw error;
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (cookies.registered === "true") {
+            fetchData();
+        }
+    }, []);
+
+    React.useEffect(() => {
+        const url = process.env.NEXT_PUBLIC_BASE_URL + `/historymodule/mentee`;
+        const fetchData = async function () {
+            try {
+                setLoading(true);
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + cookies.token_mentee,
+                    },
+                });
+                if (response.status === 200) {
+                    setModule(response.data);
+                }
+            } catch (error) {
+                throw error;
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (cookies.registered === "true") {
+            fetchData();
+        }
+    }, []);
 
     React.useEffect(() => {
         const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
@@ -101,15 +158,33 @@ const HomeBanner = ({phase, register}) => {
                 });
                 if (response.status === 200) {
                     setHistory(response.data);
+                    if (!cookies.altatest){
+                        setCookies('altatest', true)
+                    }
                 }
             } catch (error) {
                 throw error;
             }
         };
-        if (cookies.registered === true){
+        if (cookies.registered === "true"){
             fetchData();
         }
     }, [load]);
+
+    if (phase) {
+        const lastArray = phase.filter(phase => phase.lock_key == true);
+        var lastPhase = lastArray[lastArray.length - 1];
+    }
+
+    if (subject) {
+        const lastArr = subject.filter(res => res.is_complete == false);
+        var lastSubject = lastArr[0];
+    }
+
+    if (modules) {
+        const lasyArs = modules.filter(mod => mod.lock_key == true);
+        var lastModule = lasyArs[lasyArs.length - 1];
+    }
 
     return (
         <div>
@@ -126,7 +201,8 @@ const HomeBanner = ({phase, register}) => {
                                 {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 ?
                                     (history ?
                                         (history.score !== 0? (
-                                            <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
+                                            <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
+                                                  as={`/courses/phase/${lastPhase.phase_id}/${lastSubject? lastSubject.subject.module_id : 'empty'}/${lastModule? lastModule.module.name.split(" ").join("-") : null}/subject`}>
                                                 <Button variant={'outlined'} className={classes.button}>
                                                     View Course
                                                 </Button>

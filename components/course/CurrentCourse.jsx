@@ -265,10 +265,8 @@ const CurrentCourse = ({ currentModule, no }) => {
   if (loading) {
     return <Loading />;
   } else {
-    console.log("subjeekk", subject);
     const MAX = subject.length;
-    const currentProgress = subject.filter((item) => item.is_complete === true)
-      .length;
+    const currentProgress = subject.filter((item) => item.is_complete === true).length;
     const normalise = (value) => ((value - 0) * 100) / MAX;
     return (
       <React.Fragment>

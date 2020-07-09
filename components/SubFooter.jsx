@@ -58,15 +58,29 @@ const SubFooter = () => {
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} className={classes.container}>
-                        {cookies.registered === true ? <>
-                            <Typography variant={'h5'} className={classes.title}>
-                                You can now access the course!
-                            </Typography>
-                            <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
-                                <Button variant={'outlined'} className={classes.button}>
-                                    View Course
-                                </Button>
-                            </Link> </>: <>
+                        {cookies.registered === "true" ? (
+                            cookies.altatest === "true" ? (
+                                <>
+                                    <Typography variant={'h5'} className={classes.title}>
+                                        You can now access the course!
+                                    </Typography>
+                                    <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
+                                        <Button variant={'outlined'} className={classes.button}>
+                                            View Course
+                                        </Button>
+                                    </Link> </>
+                            ):(
+                                <>
+                                    <Typography variant={'h5'} className={classes.title}>
+                                        Take Altatest to enter the course!
+                                    </Typography>
+                                    <Link href={'/altatest'}>
+                                        <Button variant={'outlined'} className={classes.button}>
+                                            Take Altatest
+                                        </Button>
+                                    </Link> </>
+                            )
+                        ) : <>
                             <Typography variant={'h5'} className={classes.title}>
                                 Register the course now!
                             </Typography>

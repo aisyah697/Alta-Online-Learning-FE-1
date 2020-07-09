@@ -159,8 +159,7 @@ export default function NavigationAdminBar(props) {
     handleMenuClose();
     setLogin(false);
     Router.push("/admin/login");
-    removeCookie("token_admin");
-    removeCookie("admin");
+    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
   };
 
   const NavBarLogo = (

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     margin: "30px 30px",
-    paddingBottom: "50vh",
+    minHeight: `calc(100vh - 250px)`
   },
 }));
 
