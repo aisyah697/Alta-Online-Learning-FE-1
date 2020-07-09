@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     minHeight: "100vh",
     backgroundColor: "#F4F7FC",
+    color: theme.palette.secondary.secondary,
   },
   bodyContent: {
     marginTop: theme.spacing(2),
@@ -160,7 +161,7 @@ const CoursePage = () => {
     return (
       <div>
         <Head>
-          <title>Module | Alta Online Learning</title>
+          <title>Courses | Alta Online Learning</title>
         </Head>
         <main className={classes.root}>
           <NavigationBar />
@@ -187,7 +188,7 @@ const CoursePage = () => {
               <PastCourses module={pastModule} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-              Certificate
+              <Typography>Certificate</Typography>
             </TabPanel>
           </div>
           <footer className={classes.footer}>

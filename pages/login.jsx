@@ -133,7 +133,7 @@ const Login = (data) => {
       const response = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
+          "Authorization": "Bearer " + auth,
         },
       });
       const phase = response.data

@@ -14,7 +14,7 @@ const SubFooter = dynamic(() => import('../components/SubFooter'))
 const Footer = dynamic(() => import('../components/FooterBar'))
 
 const Home = () => {
-    const [cookies, setCookies] = useCookies()
+    const [cookies, setCookies] = useCookies();
     
     const [phase, setPhase] = React.useState();
 
@@ -118,10 +118,12 @@ const Home = () => {
             <Head>
                 <title>Home | Alta Online Learning</title>
             </Head>
+
             <main>
                 <NavigationBar/>
                 <HomeBanner phase={phase} register={() => RegisterHistory()}/>
-                {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 ?
+                { phase != "undefined" && phase != null && phase.length != null &&
+                    phase.length > 0 ?
                     <HomePhaseMenu phase={phase}/> : <></>
                 }
                 <HomeTestimony/>

@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import Typography from "@material-ui/core/Typography";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import axios from "axios";
+
+import { AccordionSummary, Accordion, AccordionDetails } from '@material-ui/core';
+import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import ListItem from "@material-ui/core/ListItem";
+import Avatar from "@material-ui/core/Avatar";
 import { Divider } from "@material-ui/core";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import Grid from "@material-ui/core/Grid";
-import Avatar from "@material-ui/core/Avatar";
-import dynamic from "next/dynamic";
+
 import AdminContext from "../../store/adminContext";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import { useRouter } from "next/router";
-import Link from "next/link";
 
 const DeleteModule = dynamic(() => import("./DeleteModule"));
 const EditModule = dynamic(() => import("./EditModule"));
@@ -128,12 +128,12 @@ export default function ModuleAdmin() {
             .filter((mod) => mod.phase_id == id)
             .map((value, index) => (
               <div className={classes.margins} key={index}>
-                <ExpansionPanel
+                <Accordion
                   expanded={expanded === value.id.toString()}
                   onChange={handleChange(value.id.toString())}
                   onClick={(event) => event.stopPropagation()}
                 >
-                  <ExpansionPanelSummary
+                  <AccordionSummary
                     expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
@@ -156,8 +156,8 @@ export default function ModuleAdmin() {
                     </Link>
                     <EditModule {...value} id_module={value.id} />
                     <DeleteModule id_module={value.id} />
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
+                  </AccordionSummary>
+                  <AccordionDetails>
                     <List component="nav" className={classes.list}>
                       <Grid container className={classes.root} spacing={2}>
                         <Grid item xs={12} sm={4} md={3}>
@@ -204,8 +204,8 @@ export default function ModuleAdmin() {
                         ))}
                       </List>
                     </List>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
+                  </AccordionDetails>
+                </Accordion>
               </div>
             ))
         : null}

@@ -1,23 +1,26 @@
-import React, { useContext } from "react";
+import React from "react";
 import Head from "next/head";
+import { useContext } from "react";
+import Router from "next/router";
 import ErrorPage from "next/error";
 import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/core/styles";
 
 const NavigationAdminBar = dynamic(() =>
-  import("../../../../components/admin/NavigationBarAdmin")
+  import("../../../../../../components/admin/NavigationBarAdmin")
 );
-const FormEditProfileAdmin = dynamic(() =>
-  import("../../../../components/admin/EditProfileAdmin")
+const CourseHistory = dynamic(() =>
+  import("../../../../../../components/mentee/CourseHistory")
 );
-const FooterBar = dynamic(() => import("../../../../components/FooterBar"));
-const Loading = dynamic(() => import("../../../../components/Loading"));
+const FooterBar = dynamic(() =>
+  import("../../../../../../components/FooterBar")
+);
 
-import AdminContext from "../../../../store/adminContext";
+import AdminContext from "../../../../../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    margin: theme.spacing(3, 8),
+    margin: theme.spacing(3, 8, 20, 8),
     [theme.breakpoints.down("xs")]: {
       margin: theme.spacing(2.5, 2),
       fontSize: "14px",
@@ -25,23 +28,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditProfileAdmin() {
+export default function IndexPage() {
   const classes = useStyles();
-
   const { login_ } = useContext(AdminContext);
   const [login, setLogin] = login_;
 
   if (!login) {
-    return <Loading />;
+    return <ErrorPage statusCode={404} />;
   } else {
     return (
       <React.Fragment>
         <Head>
-          <title>Admin | Edit Profile</title>
+          <title>Mentee History | Alta Online Learning</title>
         </Head>
         <NavigationAdminBar />
         <main className={classes.main}>
-          <FormEditProfileAdmin />
+          <CourseHistory />
         </main>
         <FooterBar />
       </React.Fragment>

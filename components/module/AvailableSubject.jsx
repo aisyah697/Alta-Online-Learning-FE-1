@@ -28,10 +28,22 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     textTransform: "capitalize",
     borderRadius: theme.spacing(3),
-    padding: theme.spacing(1, 2.5),
+    padding: theme.spacing(1, 2),
     WebkitBoxShadow: "none",
     "&:hover": {
       backgroundColor: theme.palette.secondary.main,
+      WebkitBoxShadow: "none",
+    },
+  },
+  doneFeedback: {
+    color: theme.palette.primary.main,
+    textTransform: "capitalize",
+    borderRadius: theme.spacing(3),
+    padding: theme.spacing(1, 2),
+    WebkitBoxShadow: "none",
+    backgroundColor: theme.palette.secondary.secondary,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.secondary,
       WebkitBoxShadow: "none",
     },
   },
@@ -136,12 +148,15 @@ export default function AvailableSubjects({subject}) {
                       </Grid>
                       <Grid item xs={12} sm={3} className={classes.gridOf}>
                         <Typography gutterBottom variant="h6" component="h2">
-                          {index + 1} of {course.length}
+                          {index + 1} of {course.length} Subjects
                         </Typography>
                       </Grid>
                       {value.is_complete ? (
-                        <div>
                           <Grid item xs={12} sm={2} className={classes.button}>
+                            <Link
+                                href={"/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
+                                as={`/courses/phase/${id}/${id_module}/${module}/${value.subject_id}/${value.subject.name.split(" ").join("-")}`}
+                            >
                             <Button
                               className={classes.done}
                               variant="contained"
@@ -150,8 +165,8 @@ export default function AvailableSubjects({subject}) {
                               <DoneAllIcon />
                               Done
                             </Button>
+                            </Link>
                           </Grid>
-                        </div>
                       ) : (
                         <Grid item xs={12} sm={2} className={classes.button}>
                           <Link
@@ -220,6 +235,40 @@ export default function AvailableSubjects({subject}) {
             </div>
           ))
         : null}
+      <div>
+        <Paper elevation={0} className={classes.paper}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={7}>
+              <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="h2"
+              >
+                Feedback Module
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={3} className={classes.gridOf}>
+              <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="h2"
+              >
+                Form
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={2} className={classes.button}>
+              <Button
+                  className={classes.doneFeedback}
+                  variant="contained"
+                  color="secondary"
+              >
+                <DoneAllIcon />
+                Done
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </div>
     </React.Fragment>
   );
 }

@@ -4,11 +4,9 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import { AccordionSummary, Accordion, AccordionDetails } from '@material-ui/core';
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -141,12 +139,12 @@ export default function AllSubject(props) {
             .filter((mod) => mod.module_id == id_module)
             .map((value, index) => (
               <div key={index} className={classes.margins}>
-                <ExpansionPanel
+                <Accordion
                   expanded={expanded === value.id.toString()}
                   onChange={handleChange(value.id.toString())}
                   onClick={(event) => event.stopPropagation()}
                 >
-                  <ExpansionPanelSummary
+                  <AccordionSummary
                     expandIcon={<ExpandMoreIcon className={classes.iconDown} />}
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
@@ -170,8 +168,8 @@ export default function AllSubject(props) {
                         {value.name}
                       </Typography>
                     </Link>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
+                  </AccordionSummary>
+                  <AccordionDetails>
                     <List component="nav" className={classes.list}>
                       <Typography className={classes.allText}>
                         <strong>Description subject :</strong>{" "}
@@ -289,8 +287,8 @@ export default function AllSubject(props) {
                         </Grid>
                       </Grid>
                     </List>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
+                  </AccordionDetails>
+                </Accordion>
               </div>
             ))
         : null}
