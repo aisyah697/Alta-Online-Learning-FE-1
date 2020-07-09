@@ -1,18 +1,20 @@
 import React, { useEffect, useContext } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import OpenInNewIcon from "@material-ui/icons/OpenInNew";
-import LockIcon from "@material-ui/icons/Lock";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-import Paper from "@material-ui/core/Paper";
-import UserContext from "../../store/userContext";
 import axios from "axios";
 import Link from "next/link";
+
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import LockIcon from "@material-ui/icons/Lock";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+
+import UserContext from "../../store/userContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,6 +100,7 @@ export default function AvailableSubjects({subject}) {
   const [tokenMentee, setTokenMentee] = token_;
 
   const [course, setCourse] = React.useState();
+  const [review, setReview] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -124,6 +127,31 @@ export default function AvailableSubjects({subject}) {
       fetchData();
     }
   }, [id]);
+
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + `/reviewmodule/all`;
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + cookies.token_mentee,
+          },
+        });
+        if (response.status === 200) {
+          setReview(response.data.filter(mod => mod.module_id == id_module));
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id_module){
+      fetchData();
+    }
+  }, [id_module])
 
   return (
     <React.Fragment>
@@ -215,7 +243,7 @@ export default function AvailableSubjects({subject}) {
                           variant="h6"
                           component="h2"
                         >
-                          {index + 1} of {course.length}
+                          {index + 1} of {course.length} Subjects
                         </Typography>
                       </Grid>
                       <Grid item xs={12} sm={2} className={classes.button}>
@@ -236,6 +264,7 @@ export default function AvailableSubjects({subject}) {
           ))
         : null}
       <div>
+        {course? course.filter(mod => mod.is_complete === true).length === course.length ?
         <Paper elevation={0} className={classes.paper}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={7}>
@@ -257,17 +286,34 @@ export default function AvailableSubjects({subject}) {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={2} className={classes.button}>
-              <Button
-                  className={classes.doneFeedback}
-                  variant="contained"
-                  color="secondary"
-              >
-                <DoneAllIcon />
-                Done
-              </Button>
+              {review != "undefined" && review != null && review.length != null &&
+              review.length > 0 ?
+                  <Button
+                      className={classes.doneFeedback}
+                      variant="contained"
+                      color="secondary"
+                  >
+                    <DoneAllIcon />
+                    Done
+                  </Button>
+                  :
+                  <Link href={'/courses/phase/[id]/[id_module]/[module]/feedback'}
+                        as={`/courses/phase/${id}/${id_module}/${module}/feedback`}
+                  >
+                    <Button
+                        className={classes.doneFeedback}
+                        variant="contained"
+                        color="secondary"
+                    >
+                      Give Review
+                    </Button>
+                  </Link>
+              }
+
             </Grid>
           </Grid>
         </Paper>
+            : null : null}
       </div>
     </React.Fragment>
   );

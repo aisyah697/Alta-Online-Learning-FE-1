@@ -6,7 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import UserContext from "../store/userContext";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";;
+import Box from "@material-ui/core/Box";
+import {useCookies} from "react-cookie";
+
+;
 
 const Link = dynamic(() => import('../utils/link'))
 
@@ -45,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SubFooter = () => {
     const classes = useStyles();
+    const [cookies] = useCookies("");
 
     const {register_} = useContext(UserContext);
     const [regist, setRegist] = register_
@@ -54,20 +58,23 @@ const SubFooter = () => {
             <Box width={'100%'} padding={0} className={classes.bannerBox}>
                 <Grid container spacing={0}>
                     <Grid item xs={12} className={classes.container}>
-                        <Typography variant={'h5'} className={classes.title}>
-                            You can now access the course!
-                        </Typography>
-                        {regist ?
+                        {cookies.registered === true ? <>
+                            <Typography variant={'h5'} className={classes.title}>
+                                You can now access the course!
+                            </Typography>
                             <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
                                 <Button variant={'outlined'} className={classes.button}>
                                     View Course
                                 </Button>
-                            </Link> :
+                            </Link> </>: <>
+                            <Typography variant={'h5'} className={classes.title}>
+                                Register the course now!
+                            </Typography>
                             <Link href={'/'}>
                                 <Button variant={'outlined'} className={classes.button}>
                                     Register
                                 </Button>
-                            </Link>
+                            </Link> </>
                         }
                     </Grid>
                 </Grid>
