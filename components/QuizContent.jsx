@@ -12,11 +12,12 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
-import { useRouter, Router } from "next/router";
+import Router, { useRouter } from "next/router";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -402,14 +403,13 @@ export default function QuizContent({ quiz, examID }) {
   const handleClose = () => {
     setOpen(false);
   };
-  const goToClass = () => {
-    Router.push(
-      `/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]`
-    );
-  };
   const goToMyCourses = () => {
     Router.push("/courses");
   };
+  const goToHome = () => {
+    Router.push("/");
+  };
+
   const posthistoryExam = async (examID) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyexam";
     const MyJOSN = JSON.stringify({
@@ -500,6 +500,7 @@ export default function QuizContent({ quiz, examID }) {
         <Typography variant="h4" className={classes.title}>
           {quiz.name}
         </Typography>
+
         {examDone ? (
           <div>
             <Dialog
@@ -518,6 +519,17 @@ export default function QuizContent({ quiz, examID }) {
                     <div>
                       <Typography className={classes.ketscore}>
                         Congratulation! Your Score is :
+                      </Typography>
+                      <Typography className={classes.score}>
+                        {examDone[examDone.length - 1].score}
+                      </Typography>
+                    </div>
+                  ) : examDone.length === 2 ? (
+                    <div>
+                      <Typography className={classes.ketscore}>
+                        You have one chance again to get score more than 80, if
+                        you can't get score 80 or more, you will go back to
+                        first leason again
                       </Typography>
                       <Typography className={classes.score}>
                         {examDone[examDone.length - 1].score}
@@ -542,24 +554,39 @@ export default function QuizContent({ quiz, examID }) {
               <DialogActions>
                 {examDone[examDone.length - 1] != undefined ? (
                   examDone[examDone.length - 1].score < 80 ? (
-                    <div>
+                    examDone.length === 2 ? (
                       <Button
-                        onClick={handleClose}
+                        onClick={goToHome}
                         variant="outlined"
                         size="medium"
                         className={classes.buttonInPop}
                       >
-                        Try Again?
+                        OK
                       </Button>
-                      <Button
-                        onClick={goToClass}
-                        variant="outlined"
-                        size="medium"
-                        className={classes.buttonInPop}
-                      >
-                        Go to class
-                      </Button>
-                    </div>
+                    ) : (
+                      <div>
+                        <Button
+                          onClick={handleClose}
+                          variant="outlined"
+                          size="medium"
+                          className={classes.buttonInPop}
+                        >
+                          Try Again?
+                        </Button>
+                        <Link
+                          href={`/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]`}
+                          as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}`}
+                        >
+                          <Button
+                            variant="outlined"
+                            size="medium"
+                            className={classes.buttonInPop}
+                          >
+                            Go to class
+                          </Button>
+                        </Link>
+                      </div>
+                    )
                   ) : (
                     <Button
                       onClick={goToMyCourses}
