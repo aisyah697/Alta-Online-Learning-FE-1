@@ -86,7 +86,6 @@ const headTable = [
   "Birth Date",
   "Background",
   "Github",
-  "Current Progress",
   "Task 1",
   "Task 2",
   "Task 3",
@@ -259,13 +258,6 @@ export default function TableMentee() {
                             scope="row"
                           >
                             {row.github}
-                          </TableCell>
-                          <TableCell
-                            className={classes.textInTable}
-                            component="th"
-                            scope="row"
-                          >
-                            {row.progress}
                           </TableCell>
                           <TableCell
                             className={classes.textInTable}

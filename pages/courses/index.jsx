@@ -17,6 +17,9 @@ const CurrentCourse = dynamic(() =>
 );
 const PastCourses = dynamic(() => import("../../components/course/PastCourse"));
 const NavigationBar = dynamic(() => import("../../components/NavigationBar"));
+const Certificate = dynamic(() =>
+  import("../../components/course/Certificate")
+);
 const FooterBar = dynamic(() => import("../../components/FooterBar"));
 const Loading = dynamic(() => import("../../components/Loading"));
 
@@ -189,6 +192,7 @@ const CoursePage = () => {
             </TabPanel>
             <TabPanel value={value} index={2}>
               <Typography>Certificate</Typography>
+              <Certificate />
             </TabPanel>
           </div>
           <footer className={classes.footer}>
