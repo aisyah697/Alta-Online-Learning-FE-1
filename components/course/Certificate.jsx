@@ -58,8 +58,6 @@ export default function Certificate(props) {
 
   const id = cookies.mentee.id;
 
-  console.log("COOKIES", cookies);
-
   const { mentee_, token_ } = useContext(UserContext);
   const [mentee, setMentee] = mentee_;
   const [tokenMentee, setTokenMentee] = token_;
