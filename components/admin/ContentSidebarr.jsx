@@ -32,14 +32,16 @@ const useStyles = makeStyles((theme) => ({
     width: "200px",
     height: "3",
   },
+  // ini yg phase posisi
   expansummar: {
-    margin: theme.spacing(0, 0, 3, -3),
+    margin: theme.spacing(0, 0, 3, -4.5),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(0, 0, 0, -3),
     },
   },
+  // ini yg module posisi
   expansummar2: {
-    margin: theme.spacing(-6, 0, 0, 1),
+    margin: theme.spacing(-6, 0, 0, -0.5),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(-6, 0, 0, 1.5),
     },
@@ -51,10 +53,11 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, 0, 0, -1),
   },
   expandMenu1: {
-    margin: theme.spacing(-1, 0, 0, -5.5),
+    margin: theme.spacing(-1, 0, 0, -4.5),
   },
+  // ini yg subject posisi
   expandMenu2: {
-    margin: theme.spacing(-1, 0, 0, -1),
+    margin: theme.spacing(-4, 0, 0, -2),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(-1, 0, 0, 0),
     },

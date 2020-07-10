@@ -229,7 +229,6 @@ export default function EditModule(props) {
           Edit Module
         </DialogTitle>
         <DialogContent>
-          <Typography className={classes.allText}>Module Title</Typography>
           <TextField
             className={classes.textField}
             variant="outlined"
@@ -239,29 +238,7 @@ export default function EditModule(props) {
             defaultValue={props.name}
             onChange={handleChange("name")}
           />
-          <Typography className={classes.allText}>Mentor's Name</Typography>
-          <FormControl
-            className={clsx(classes.margin, classes.textField)}
-            variant="outlined"
-            size="small"
-            color="secondary"
-          >
-            <InputLabel color="secondary">Mentor</InputLabel>
-            <Select label="Mentor" value={1}>
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"1"}>
-                Prof. Kobar Septianus S.Pd, M.Komp
-              </MenuItem>
-              <MenuItem value={"2"}>Dinsyah</MenuItem>
-              <MenuItem value={"3"}>Razin</MenuItem>
-              <MenuItem value={"4"}>Faris</MenuItem>
-            </Select>
-          </FormControl>
-          <Typography className={classes.allText}>
-            {props.description}
-          </Typography>
+          <br/>
           <TextField
             className={classes.textField}
             variant="outlined"
@@ -273,7 +250,6 @@ export default function EditModule(props) {
             defaultValue={props.description}
             onChange={handleChange("description_module")}
           />
-
           <div className={classes.divButton}>
             <input
               accept="image/*"
