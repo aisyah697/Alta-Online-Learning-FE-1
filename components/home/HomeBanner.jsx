@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
+import {Remove} from "@material-ui/icons";
 
 const Link = dynamic(() => import("../../utils/link"));
 

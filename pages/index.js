@@ -15,7 +15,6 @@ const Footer = dynamic(() => import('../components/FooterBar'))
 
 const Home = () => {
     const [cookies, setCookies] = useCookies();
-    
     const [phase, setPhase] = React.useState();
 
     const {load_} = useContext(AdminContext);
@@ -89,6 +88,7 @@ const Home = () => {
 
                                     if (responseAltatest) {
                                         setLoad(true);
+                                        setCookies('registered', true)
                                     }
 
                                 } catch (e) {
@@ -123,7 +123,7 @@ const Home = () => {
                 <NavigationBar/>
                 <HomeBanner phase={phase} register={() => RegisterHistory()}/>
                 { phase != "undefined" && phase != null && phase.length != null &&
-                    phase.length > 0 ?
+                    phase.length > 0 && cookies.altatest === "true" ?
                     <HomePhaseMenu phase={phase}/> : <></>
                 }
                 <HomeTestimony/>

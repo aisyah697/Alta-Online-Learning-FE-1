@@ -26,6 +26,7 @@ import Router from "next/router";
 import UserContext from "../store/userContext";
 import { useCookies } from "react-cookie";
 import AdminContext from "../store/adminContext";
+import axios from "axios";
 
 const ScrollTop = dynamic(() => import("../utils/scrollTop"));
 const Link = dynamic(() => import("../utils/link"));
@@ -127,6 +128,7 @@ const useStyles = makeStyles((theme) => ({
 const NavigationBar = (props) => {
   const classes = useStyles();
   const [cookies, setCookies, removeCookie] = useCookies("");
+  const [phase, setPhase] = React.useState();
 
   const { mentee_, login_ } = useContext(UserContext);
   const [user, setUser] = mentee_;
@@ -164,10 +166,36 @@ const NavigationBar = (props) => {
     handleMenuClose();
     setLogin(false);
     Router.push("/login");
-    removeCookie("token_mentee");
-    removeCookie("mentee");
-    removeCookie("registered");
+    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
   };
+
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
+    const auth = cookies.token_mentee
+    const fetchData = async function () {
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth,
+          },
+        });
+        if (response.status === 200) {
+          setPhase(response.data);
+        }
+      } catch (error) {
+        throw error;
+      }
+    };
+    if (cookies.token_mentee){
+      fetchData();
+    }
+  }, []);
+
+  if (phase) {
+    const lastArray = phase.filter(phase => phase.lock_key == true);
+    var lastPhase = lastArray[lastArray.length - 1];
+  }
 
   const NavBarLogo = (
     <React.Fragment>
@@ -176,28 +204,6 @@ const NavigationBar = (props) => {
           <img height="60" src={"/images/logo_navbar.png"} alt="Logo NavBar" />
         </Link>
       </Card>
-    </React.Fragment>
-  );
-
-  const MenuBar = (
-    <React.Fragment>
-      {cookies.registered === true ? <>
-          <NextLink href={"/courses"}>
-        <Typography className={classes.menu} variant="h6" noWrap>
-          My Progress
-        </Typography>
-      </NextLink>
-      <NextLink href={"/courses/phase/[id]"} as={`/courses/phase/${1}`}>
-        <Typography className={classes.menu} variant="h6" noWrap>
-          All Courses
-        </Typography>
-      </NextLink>
-      <Typography className={classes.menu} variant="h6" noWrap>
-        Help
-      </Typography> </>:
-        <Typography className={classes.menu} variant="h6" noWrap>
-        Help
-        </Typography> }
     </React.Fragment>
   );
 
@@ -305,7 +311,23 @@ const NavigationBar = (props) => {
           {NavBarLogo}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {MenuBar}
+              {cookies.altatest === 'true'? <>
+              <NextLink href={"/courses"}>
+                <Typography className={classes.menu} variant="h6" noWrap>
+                  {`My Progress`}
+                </Typography>
+              </NextLink>
+              <NextLink href={"/courses/phase/[id]"} as={`/courses/phase/${lastPhase? lastPhase.phase_id : 'empty'}`}>
+                <Typography className={classes.menu} variant="h6" noWrap>
+                  {`All Courses`}
+                </Typography>
+              </NextLink>
+              <Typography className={classes.menu} variant="h6" noWrap>
+                {`Help`}
+              </Typography> </>:
+            <Typography className={classes.menu} variant="h6" noWrap>
+              {`Help`}
+            </Typography> }
             <div className={"menuButton"}>
               {login ? (
                 <IconButton

@@ -22,6 +22,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
 import { makeStyles } from "@material-ui/core/styles";
 import dynamic from "next/dynamic";
+import Link from 'next/link'
 
 const Loading = dynamic(() => import("./../Loading"));
 
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         : theme.palette.grey[800],
   },
   tabPanel: {
-    minWidth: "85vw",
+    minWidth: "80vw",
     textAlign: "justify",
     [theme.breakpoints.down("sm")]: {
       width: "auto",
@@ -235,11 +236,91 @@ const CurrentCourse = ({ currentModule, no }) => {
   const [load, setLoad] = load_;
   const [subject, setSubject] = useState();
 
-  useEffect(() => {
-    const url =
-      process.env.NEXT_PUBLIC_BASE_URL +
-      "/historysubject/subject/" +
-      currentModule.module_id;
+  const [phase, setPhase] = React.useState();
+  const [subjects, setSubjects] = React.useState();
+  const [modules, setModule] = React.useState();
+
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/mentee`;
+    const fetchData = async function () {
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + cookies.token_mentee,
+          },
+        });
+        if (response.status === 200) {
+          setSubjects(response.data);
+        }
+      } catch (error) {
+        throw error;
+      }
+    };
+    if (cookies.registered === "true") {
+      fetchData();
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + `/historymodule/mentee`;
+    const fetchData = async function () {
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + cookies.token_mentee,
+          },
+        });
+        if (response.status === 200) {
+          setModule(response.data);
+        }
+      } catch (error) {
+        throw error;
+      }
+    };
+    if (cookies.registered === "true") {
+      fetchData();
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
+    const fetchData = async function () {
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + cookies.token_mentee,
+          },
+        });
+        if (response.status === 200) {
+          setPhase(response.data);
+        }
+      } catch (error) {
+        throw error;
+      }
+    };
+    if (cookies.registered === "true") {
+      fetchData();
+    }
+  }, []);
+
+  if (phase) {
+    const lastArray = phase.filter(phase => phase.lock_key == true);
+    var lastPhase = lastArray[lastArray.length - 1];
+  }
+  if (subjects) {
+    const lastArr = subjects.filter(res => res.is_complete == false);
+    var lastSubject = lastArr[0];
+  }
+  if (modules) {
+    const lasyArs = modules.filter(mod => mod.lock_key == true);
+    var lastModule = lasyArs[lasyArs.length - 1];
+  }
+
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/subject/" + currentModule.module_id;
     const auth = cookies.mentee.token;
     const fetchData = async function () {
       try {
@@ -262,13 +343,12 @@ const CurrentCourse = ({ currentModule, no }) => {
     };
     fetchData();
   }, [load]);
+
   if (loading) {
     return <Loading />;
   } else {
-    console.log("subjeekk", subject);
     const MAX = subject.length;
-    const currentProgress = subject.filter((item) => item.is_complete === true)
-      .length;
+    const currentProgress = subject.filter((item) => item.is_complete === true).length;
     const normalise = (value) => ((value - 0) * 100) / MAX;
     return (
       <React.Fragment>
@@ -312,9 +392,12 @@ const CurrentCourse = ({ currentModule, no }) => {
                     </List>
                   </Grid>
                   <Grid item xs={12} lg={6} className={classes.box3}>
+                    <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
+                          as={`/courses/phase/${lastPhase? lastPhase.phase_id : null}/${lastSubject? lastSubject.subject.module_id : 'empty'}/${lastModule? lastModule.module.name.split(" ").join("-") : null}/subject`}>
                     <Button className={classes.button} variant={"outlined"}>
                       Go to course
                     </Button>
+                    </Link>
                   </Grid>
                 </Grid>
               </div>

@@ -78,11 +78,6 @@ export default function ModuleOverview({modules}) {
         fetchData();
     }, []);
 
-    // let save = new Array();
-    // if (modules){
-    //     modules.subject.map((mod) => (save.push(mod.id)))
-    // }
-
     if (subject) {
         const lastArr = subject.filter(res => res.is_complete == false);
         var lastSubject = lastArr[0];

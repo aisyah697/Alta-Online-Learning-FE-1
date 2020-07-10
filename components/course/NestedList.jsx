@@ -41,7 +41,6 @@ class NestedList extends React.Component {
   state = { open: {} };
 
   handleClick = (key) => () => {
-    console.log(key);
     this.setState({ [key]: !this.state[key] });
   };
 
@@ -50,32 +49,29 @@ class NestedList extends React.Component {
     return (
       <div className={classes.root}>
         <List component="nav" className={classes.list}>
-          {module.map(({ key, module, subject }) => {
-            {
-              console.log("subjeccttt", subject);
-            }
+          {module.map(({ key, module, subject }, index) => {
             const open = this.state[key] || false;
             return (
-              <div className={classes.pastList} key={key}>
+              <div className={classes.pastList} key={index}>
                 <ListItem
-                  onClick={this.handleClick(key)}
+                  onClick={this.handleClick(index)}
                   className={classes.head}
                 >
                   <Grid container onClick={this.handleClick(key)}>
-                    <Grid container xs={5}>
-                      <Grid xs={1}>
+                    <Grid item xs={5} style={{display: 'flex'}}>
+                      <Grid item xs={1}>
                         {open ? <ExpandLess /> : <ExpandMore />}
                       </Grid>
-                      <Grid xs={4}>
+                      <Grid item xs={4}>
                         <Typography>{module.name}</Typography>
                       </Grid>
                     </Grid>
-                    <Grid xs={2}>
+                    <Grid item xs={2}>
                       <Typography align="center">
                         {subject.length} Subjects
                       </Typography>
                     </Grid>
-                    <Grid xs={5}>
+                    <Grid item xs={5}>
                       <Typography align="center">Feedback Form</Typography>
                     </Grid>
                   </Grid>
@@ -89,16 +85,16 @@ class NestedList extends React.Component {
                       ) => (
                         <ListItem key={name} className={classes.nested}>
                           <Grid container>
-                            <Grid container xs={5}>
-                              <Grid xs={1} />
-                              <Grid xs={4}>
+                            <Grid item xs={5}>
+                              <Grid item xs={1} />
+                              <Grid item xs={4}>
                                 <Typography>{name}</Typography>
                               </Grid>
                             </Grid>
-                            <Grid xs={2}>
+                            <Grid item xs={2}>
                               <Typography align="center">{idx + 1}</Typography>
                             </Grid>
-                            <Grid xs={5}>
+                            <Grid item xs={5}>
                               <a href={quesioner}>
                                 <ListItemText
                                   inset
