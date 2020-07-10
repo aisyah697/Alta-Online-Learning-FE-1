@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("lg")]: {
       display: "flex",
     },
+    overflowX: 'hidden'
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,

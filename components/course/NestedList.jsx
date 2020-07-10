@@ -54,7 +54,7 @@ class NestedList extends React.Component {
             return (
               <div className={classes.pastList} key={index}>
                 <ListItem
-                  onClick={this.handleClick(key)}
+                  onClick={this.handleClick(index)}
                   className={classes.head}
                 >
                   <Grid container onClick={this.handleClick(key)}>

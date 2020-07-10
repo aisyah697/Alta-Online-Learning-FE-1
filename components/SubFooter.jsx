@@ -8,8 +8,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import {useCookies} from "react-cookie";
-
-;
+import axios from "axios";
 
 const Link = dynamic(() => import('../utils/link'))
 
@@ -50,8 +49,101 @@ const SubFooter = () => {
     const classes = useStyles();
     const [cookies] = useCookies("");
 
-    const {register_} = useContext(UserContext);
+    const {register_, phase_, module_, subject_} = useContext(UserContext);
     const [regist, setRegist] = register_
+
+    const [phase, setPhase] = React.useState();
+    const [subject, setSubject] = React.useState();
+    const [modules, setModule] = React.useState();
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const url = process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/mentee`;
+        const fetchData = async function () {
+            try {
+                setLoading(true);
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + cookies.token_mentee,
+                    },
+                });
+                if (response.status === 200) {
+                    setSubject(response.data);
+                }
+            } catch (error) {
+                throw error;
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (cookies.registered === "true") {
+            fetchData();
+        }
+    }, []);
+
+    React.useEffect(() => {
+        const url = process.env.NEXT_PUBLIC_BASE_URL + `/historymodule/mentee`;
+        const fetchData = async function () {
+            try {
+                setLoading(true);
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + cookies.token_mentee,
+                    },
+                });
+                if (response.status === 200) {
+                    setModule(response.data);
+                }
+            } catch (error) {
+                throw error;
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (cookies.registered === "true") {
+            fetchData();
+        }
+    }, []);
+
+    React.useEffect(() => {
+        const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
+        const fetchData = async function () {
+            try {
+                setLoading(true);
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + cookies.token_mentee,
+                    },
+                });
+                if (response.status === 200) {
+                    setPhase(response.data);
+                }
+            } catch (error) {
+                throw error;
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (cookies.registered === "true") {
+            fetchData();
+        }
+    }, []);
+
+    if (phase) {
+        const lastArray = phase.filter(phase => phase.lock_key == true);
+        var lastPhase = lastArray[lastArray.length - 1];
+    }
+    if (subject) {
+        const lastArr = subject.filter(res => res.is_complete == false);
+        var lastSubject = lastArr[0];
+    }
+    if (modules) {
+        const lasyArs = modules.filter(mod => mod.lock_key == true);
+        var lastModule = lasyArs[lasyArs.length - 1];
+    }
 
     return (
         <div>
@@ -64,7 +156,8 @@ const SubFooter = () => {
                                     <Typography variant={'h5'} className={classes.title}>
                                         You can now access the course!
                                     </Typography>
-                                    <Link href={'/courses/phase/[id]'} as={`/courses/phase/1`}>
+                                    <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
+                                          as={`/courses/phase/${lastPhase? lastPhase.phase_id : null}/${lastSubject? lastSubject.subject.module_id : 'empty'}/${lastModule? lastModule.module.name.split(" ").join("-") : null}/subject`}>
                                         <Button variant={'outlined'} className={classes.button}>
                                             View Course
                                         </Button>

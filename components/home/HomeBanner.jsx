@@ -103,7 +103,7 @@ const HomeBanner = ({phase, register}) => {
                 const response = await axios.get(url, {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + cookies.token_mentee,
+                        "Authorization": "Bearer " + cookies.token_mentee,
                     },
                 });
                 if (response.status === 200) {
@@ -128,7 +128,7 @@ const HomeBanner = ({phase, register}) => {
                 const response = await axios.get(url, {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + cookies.token_mentee,
+                        "Authorization": "Bearer " + cookies.token_mentee,
                     },
                 });
                 if (response.status === 200) {
@@ -175,12 +175,10 @@ const HomeBanner = ({phase, register}) => {
         const lastArray = phase.filter(phase => phase.lock_key == true);
         var lastPhase = lastArray[lastArray.length - 1];
     }
-
     if (subject) {
         const lastArr = subject.filter(res => res.is_complete == false);
         var lastSubject = lastArr[0];
     }
-
     if (modules) {
         const lasyArs = modules.filter(mod => mod.lock_key == true);
         var lastModule = lasyArs[lasyArs.length - 1];
