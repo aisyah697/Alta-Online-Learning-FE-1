@@ -11,6 +11,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,22 +92,20 @@ export default function Certificate(props) {
     }
   }, [id]);
 
-  console.log("SUBJECT", subject);
-
   return (
     <React.Fragment>
       {subject
         ? subject.phase.map((item, index) => (
-            <div>
+            <div key={index}>
               {item.certificate ? (
                 <Card className={classes.root}>
                   <CardActionArea>
                     <CardContent>
                       <Grid container spacing={2}>
-                        <Grid item xs={6}></Grid>
+                        <Grid item xs={6}/>
                         <Grid item xs={6}>
                           <img
-                            src="/images/logo_header.png"
+                            src={"/images/logo_header.png"}
                             alt="logo"
                             className={classes.logo}
                             align="right"
@@ -158,8 +157,7 @@ export default function Certificate(props) {
                             className={classes.issued}
                             align="left"
                           >
-                            Issued on
-                            {item.date_certificate}
+                            Issued on {moment(item.date_certificate).format('LL')}
                           </Typography>
                         </Grid>
                         <Grid item xs={6}>
