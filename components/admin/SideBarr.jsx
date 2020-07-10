@@ -146,7 +146,7 @@ export default function SideBarr() {
         <MenuOpenIcon />
       </Button>
       <div className={classes.sideBarr}>
-        <Link href="/admin/academy/altatest">
+        <Link href={"/admin/academy/altatest"}>
           <ListItem button>
             <ListItemIcon>
               <AssignmentIcon className={classes.iconAltaTest} />
