@@ -100,7 +100,7 @@ export default function AvailableSubjects({subject}) {
   const [tokenMentee, setTokenMentee] = token_;
 
   const [course, setCourse] = React.useState();
-  const [review, setReview] = React.useState();
+  const [review, setReview] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -141,6 +141,8 @@ export default function AvailableSubjects({subject}) {
         });
         if (response.status === 200) {
           setReview(response.data.filter(mod => mod.module_id == id_module));
+        } else{
+          setReview(null)
         }
       } catch (error) {
         throw error;

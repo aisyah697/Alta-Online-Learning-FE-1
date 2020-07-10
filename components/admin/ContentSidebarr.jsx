@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     height: "3",
   },
   expansummar: {
-    margin: theme.spacing(0, 0, 3, -3),
+    margin: theme.spacing(0, 0, 3, -4.5),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(0, 0, 0, -3),
     },
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(-1, 0, 0, -5.5),
   },
   expandMenu2: {
-    margin: theme.spacing(-1, 0, 0, -1),
+    margin: theme.spacing(-5, 0, 0, -1),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(-1, 0, 0, 0),
     },
