@@ -220,7 +220,7 @@ export default function EditModule(props) {
   };
 
   return (
-    <div>
+    <div onClick={(event) => event.stopPropagation()}>
       <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
         <EditIcon className={classes.buttonIcon} fontSize="default" />
       </IconButton>

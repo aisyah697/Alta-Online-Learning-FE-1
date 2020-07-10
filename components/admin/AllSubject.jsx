@@ -4,7 +4,11 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-import { AccordionSummary, Accordion, AccordionDetails } from '@material-ui/core';
+import {
+  AccordionSummary,
+  Accordion,
+  AccordionDetails,
+} from "@material-ui/core";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -214,7 +218,7 @@ export default function AllSubject(props) {
                                 variant="body1"
                                 className={classes.allText}
                               >
-                                No File Video
+                                No Video
                               </Typography>
                               <AddVideo ID={value.id} />
                             </div>
@@ -245,7 +249,7 @@ export default function AllSubject(props) {
                                 variant="body1"
                                 className={classes.allText}
                               >
-                                No File Presentation
+                                No Presentation
                               </Typography>
                               <AddPresentation ID={value.id} />
                             </div>
