@@ -57,8 +57,6 @@ export default function Certificate(props) {
 
   const id = cookies.mentee.id;
 
-  console.log("COOKIES", cookies);
-
   const { mentee_, token_ } = useContext(UserContext);
   const [mentee, setMentee] = mentee_;
   const [tokenMentee, setTokenMentee] = token_;
@@ -90,8 +88,6 @@ export default function Certificate(props) {
       fetchData();
     }
   }, [id]);
-
-  console.log("SUBJECT", subject);
 
   return (
     <React.Fragment>
