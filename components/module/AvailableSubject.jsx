@@ -74,11 +74,10 @@ const useStyles = makeStyles((theme) => ({
   },
   moduleLocked: {
     color: "#BDBDBD",
-
   },
   gridOf: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
   },
   paper: {
     marginBottom: theme.spacing(3),
@@ -88,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AvailableSubjects({subject}) {
+export default function AvailableSubjects({ subject }) {
   const classes = useStyles();
   const router = useRouter();
   const { id, id_module, module } = router.query;
@@ -104,14 +103,15 @@ export default function AvailableSubjects({subject}) {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
+    const url =
+      process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
     const fetchData = async function () {
       try {
         setLoading(true);
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + cookies.token_mentee,
+            Authorization: "Bearer " + cookies.token_mentee,
           },
         });
         if (response.status === 200) {
@@ -136,13 +136,15 @@ export default function AvailableSubjects({subject}) {
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + cookies.token_mentee,
+            Authorization: "Bearer " + cookies.token_mentee,
           },
         });
         if (response.status === 200) {
-          setReview(response.data.filter(mod => mod.module_id == id_module));
-        } else{
-          setReview(null)
+          if (response.data.status === "undefined") {
+            setReview("undefined");
+          } else {
+            setReview(response.data);
+          }
         }
       } catch (error) {
         throw error;
@@ -150,10 +152,10 @@ export default function AvailableSubjects({subject}) {
         setLoading(false);
       }
     };
-    if (id_module){
+    if (id_module) {
       fetchData();
     }
-  }, [id_module])
+  }, [id_module]);
 
   return (
     <React.Fragment>
@@ -182,11 +184,15 @@ export default function AvailableSubjects({subject}) {
                         </Typography>
                       </Grid>
                       {value.is_complete ? (
-                          <Grid item xs={12} sm={2} className={classes.button}>
-                            <Link
-                                href={"/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
-                                as={`/courses/phase/${id}/${id_module}/${module}/${value.subject_id}/${value.subject.name.split(" ").join("-")}`}
-                            >
+                        <Grid item xs={12} sm={2} className={classes.button}>
+                          <Link
+                            href={
+                              "/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"
+                            }
+                            as={`/courses/phase/${id}/${id_module}/${module}/${
+                              value.subject_id
+                            }/${value.subject.name.split(" ").join("-")}`}
+                          >
                             <Button
                               className={classes.done}
                               variant="contained"
@@ -195,13 +201,17 @@ export default function AvailableSubjects({subject}) {
                               <DoneAllIcon />
                               Done
                             </Button>
-                            </Link>
-                          </Grid>
+                          </Link>
+                        </Grid>
                       ) : (
                         <Grid item xs={12} sm={2} className={classes.button}>
                           <Link
-                            href={"/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
-                            as={`/courses/phase/${id}/${id_module}/${module}/${value.subject_id}/${value.subject.name.split(" ").join("-")}`}
+                            href={
+                              "/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"
+                            }
+                            as={`/courses/phase/${id}/${id_module}/${module}/${
+                              value.subject_id
+                            }/${value.subject.name.split(" ").join("-")}`}
                           >
                             <Button
                               className={classes.unfinish}
@@ -266,56 +276,57 @@ export default function AvailableSubjects({subject}) {
           ))
         : null}
       <div>
-        {course? course.filter(mod => mod.is_complete === true).length === course.length ?
-        <Paper elevation={0} className={classes.paper}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={7}>
-              <Typography
-                  gutterBottom
-                  variant="h6"
-                  component="h2"
-              >
-                Feedback Module
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={3} className={classes.gridOf}>
-              <Typography
-                  gutterBottom
-                  variant="h6"
-                  component="h2"
-              >
-                Form
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={2} className={classes.button}>
-              {review != "undefined" && review != null && review.length != null &&
-              review.length > 0 ?
-                  <Button
-                      className={classes.doneFeedback}
-                      variant="contained"
-                      color="secondary"
-                  >
-                    <DoneAllIcon />
-                    Done
-                  </Button>
-                  :
-                  <Link href={'/courses/phase/[id]/[id_module]/[module]/feedback'}
-                        as={`/courses/phase/${id}/${id_module}/${module}/feedback`}
-                  >
-                    <Button
+        {course ? (
+          course.filter((mod) => mod.is_complete === true).length ===
+          course.length ? (
+            <Paper elevation={0} className={classes.paper}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={7}>
+                  <Typography gutterBottom variant="h6" component="h2">
+                    Feedback Module
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={3} className={classes.gridOf}>
+                  <Typography gutterBottom variant="h6" component="h2">
+                    Form
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={2} className={classes.button}>
+                  {review ? (
+                    review != "undefined" &&
+                    review != null &&
+                    review.length != null &&
+                    review.length > 0 ? (
+                      <Button
                         className={classes.doneFeedback}
                         variant="contained"
                         color="secondary"
-                    >
-                      Give Review
-                    </Button>
-                  </Link>
-              }
-
-            </Grid>
-          </Grid>
-        </Paper>
-            : null : null}
+                      >
+                        <DoneAllIcon />
+                        Done
+                      </Button>
+                    ) : (
+                      <Link
+                        href={
+                          "/courses/phase/[id]/[id_module]/[module]/feedback"
+                        }
+                        as={`/courses/phase/${id}/${id_module}/${module}/feedback`}
+                      >
+                        <Button
+                          className={classes.doneFeedback}
+                          variant="contained"
+                          color="secondary"
+                        >
+                          Give Review
+                        </Button>
+                      </Link>
+                    )
+                  ) : null}
+                </Grid>
+              </Grid>
+            </Paper>
+          ) : null
+        ) : null}
       </div>
     </React.Fragment>
   );
