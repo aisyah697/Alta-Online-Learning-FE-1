@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   textFieldFile: {
     width: "100%",
-    margin: theme.spacing(5, 0, 2, 0),
+    margin: theme.spacing(3, 0, 2, 0),
     background: "white",
     "&:hover label.Mui-focused": {
       color: "darkBlue",
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  buttonInpuFile: {
+  buttonInputFile: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-
   inputFile: {
     margin: theme.spacing(3, 0, 0, 0),
   },
@@ -68,6 +67,36 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.secondary.main,
     },
     fontSize: `calc(2em + 4vw)`,
+  },
+  button: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
+    borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(2),
+    padding: theme.spacing(0.5, 2),
+    textTransform: "none",
+    fontSize: "14px",
+    "&:hover": {
+      color: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.main,
+    },
+  },
+  buttonCancel: {
+    backgroundColor: theme.palette.secondary.secondary,
+    color: theme.palette.primary.main,
+    borderColor: theme.palette.secondary.secondary,
+    borderRadius: theme.spacing(2),
+    padding: theme.spacing(0.5, 2),
+    textTransform: "none",
+    fontSize: "14px",
+    "&:hover": {
+      color: theme.palette.secondary.secondary,
+      backgroundColor: theme.palette.primary.main,
+    },
+  },
+  actions: {
+    marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
 }));
 export default function AddPresentation(props) {
@@ -144,9 +173,9 @@ export default function AddPresentation(props) {
         <DialogContent>
           <div className={classes.inputFile}>
             <InputLabel htmlFor="outlined-adornment-file">
-              Chose Presentation FIle
+              Choose Presentation File
             </InputLabel>
-            <Button variant="outlined" className={classes.buttonInpuFile}>
+            <Button variant="outlined" className={classes.buttonInputFile}>
               <input
                 className={classes.textFieldFile}
                 accept="presentation/*"
@@ -160,16 +189,17 @@ export default function AddPresentation(props) {
           </div>
           <TextField
             id="outlined-multiline-static"
-            label="presentation Name"
+            label="Presentation Name"
             color="secondary"
             className={classes.textFieldFile}
             variant="outlined"
             onChange={handleChange("presentationName")}
+            size={"small"}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions className={classes.actions}>
           <Button
-            className={classes.button}
+            className={classes.buttonCancel}
             variant="outlined"
             size="small"
             onClick={handleClose}
