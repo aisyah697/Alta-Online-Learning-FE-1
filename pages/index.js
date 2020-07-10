@@ -28,7 +28,7 @@ const Home = () => {
                 const response = await axios.get(url, {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + auth,
+                        "Authorization": "Bearer " + auth,
                     },
                 });
                 if (response.status === 200) {

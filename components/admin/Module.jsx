@@ -85,9 +85,6 @@ export default function ModuleAdmin() {
   const router = useRouter();
   const { id } = router.query;
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
   const [cookies] = useCookies();
 
   const { admin_, load_ } = useContext(AdminContext);
@@ -129,8 +126,6 @@ export default function ModuleAdmin() {
             .map((value, index) => (
               <div className={classes.margins} key={index}>
                 <Accordion
-                  expanded={expanded === value.id.toString()}
-                  onChange={handleChange(value.id.toString())}
                   onClick={(event) => event.stopPropagation()}
                 >
                   <AccordionSummary

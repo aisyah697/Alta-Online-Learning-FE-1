@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     position: "relative",
+    marginTop: theme.spacing(20)
   },
 }));
 
