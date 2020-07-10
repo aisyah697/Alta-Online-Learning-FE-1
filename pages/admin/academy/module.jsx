@@ -6,9 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import dynamic from "next/dynamic";
 import Typography from "@material-ui/core/Typography";
 
-const EditSubject = dynamic(() =>
-  import("../../../components/admin/EditSubject")
-);
+const AddModule = dynamic(() => import("../../../components/admin/AddModule"));
 const Footer = dynamic(() => import("../../../components/FooterBar"));
 const NavigationAdminBar = dynamic(() =>
   import("../../../components/admin/NavigationBarAdmin")
@@ -77,15 +75,8 @@ export default function Module() {
             <Typography className={classes.titleInPage}>
               Module In Phase 1
             </Typography>
-            <EditSubject />
+            <AddModule />
             <div>
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
               <ModuleAdmin />
             </div>
           </main>
