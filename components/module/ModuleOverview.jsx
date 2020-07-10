@@ -1,13 +1,17 @@
 import React from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import dynamic from "next/dynamic";
+import Grid from "@material-ui/core/Grid";
+import {useCookies} from "react-cookie";
+import axios from "axios";
+
 const Link = dynamic(() => import('../../utils/link'))
-import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,10 +45,49 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ModuleOverview(props) {
+export default function ModuleOverview({modules}) {
     const classes = useStyles();
     const router = useRouter();
-    const {id, module} = router.query;
+    const {id, id_module, module} = router.query;
+
+    const [cookies] = useCookies();
+
+    const [subject, setSubject] = React.useState();
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const url = process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/mentee`;
+        const fetchData = async function () {
+            try {
+                setLoading(true);
+                const response = await axios.get(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + cookies.token_mentee,
+                    },
+                });
+                if (response.status === 200) {
+                    setSubject(response.data);
+                }
+            } catch (error) {
+                throw error;
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // let save = new Array();
+    // if (modules){
+    //     modules.subject.map((mod) => (save.push(mod.id)))
+    // }
+
+    if (subject) {
+        const lastArr = subject.filter(res => res.is_complete == false);
+        var lastSubject = lastArr[0];
+    }
+
     return (
         <React.Fragment>
             <Paper elevation={0}>
@@ -54,18 +97,19 @@ export default function ModuleOverview(props) {
                             className={classes.media}
                             component="img"
                             alt="module"
-                            image="/images/dummy.png"
+                            image={modules.module.image}
                             title="Contemplative Reptile"
                         />
                     </Grid>
-                    <Grid item xs={12} sm={9}>
+                    <Grid item sm={1}/>
+                    <Grid item xs={12} sm={8}>
                         <Typography
                             className={classes.module}
                             gutterBottom
                             variant="h5"
                             component="h2"
                         >
-                            Basic Programming
+                            {modules.module.name}
                         </Typography>
                         <Typography
                             className={classes.description}
@@ -73,18 +117,21 @@ export default function ModuleOverview(props) {
                             color="textSecondary"
                             component="p"
                         >
-                            Learn the fundamentals of python
+                            Learn the fundamentals of {modules.module.name}
                         </Typography>
-                        <Typography variant="body1" color="textSecondary" component="p">
+                        <Typography variant="subtitle1" color="textSecondary" component="p">
+                            {subject? subject.filter(mod => mod.is_complete === true && mod.subject.module_id == id_module).length : 0} of {modules.subject.length} subjects completed
+                        </Typography>
+                        <br/>
+                        <Typography style={{fontWeight: 'bold'}} variant="body1" color="textSecondary" component="p">
                             Currently on:
                         </Typography>
                         <Typography variant="h6" color="textSecondary" component="p">
-                            Subject 02: Basic Python
+                            Subject: {subject? subject.filter(mod => mod.is_complete === false)[0].subject.name : null}
                         </Typography>
-                        <Typography variant="subtitle1" color="textSecondary" component="p">
-                            2 of 5 subjects completed
-                        </Typography>
-                        <Link href={'/courses/phase/[id]/[module]/[subject_name]'} as={`/courses/phase/${id}/${module}/01-Introduction`}>
+                        {lastSubject ?
+                        <Link href={'/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}
+                              as={`/courses/phase/${id}/${id_module}/${module}/${lastSubject.subject.id}/${lastSubject.subject.name.split(" ").join("-")}`}>
                             <Button
                                 className={classes.button}
                                 variant="contained"
@@ -92,7 +139,7 @@ export default function ModuleOverview(props) {
                             >
                                 Go to class
                             </Button>
-                        </Link>
+                        </Link> : null}
                     </Grid>
                 </Grid>
             </Paper>

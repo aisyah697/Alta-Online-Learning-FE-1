@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@material-ui/core";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
+import { useCookies } from "react-cookie";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import LockIcon from "@material-ui/icons/Lock";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
+import axios from "axios";
+import { useRouter } from "next/router";
+import UserContext from "../../store/userContext";
+import ClearIcon from "@material-ui/icons/Clear";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,15 +33,33 @@ const useStyles = makeStyles((theme) => ({
   },
   h2: {
     marginBottom: "0px",
+    color: theme.palette.secondary.secondary,
+  },
+  h3: {
+    color: theme.palette.secondary.secondary,
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: theme.typography.pxToRem(16),
     flexBasis: "33.33%",
     flexShrink: 0,
+    color: theme.palette.primary.main,
+  },
+  accordion: {
+    borderRadius: theme.spacing(1),
+    marginBottom: theme.spacing(2),
   },
   headerPanel: {
     borderBottom: "1px solid rgba(0, 0, 0, .125)",
-    marginBottom: theme.spacing(1.5),
+    backgroundColor: theme.palette.secondary.secondary,
+    color: theme.palette.primary.main,
+    borderTopLeftRadius: theme.spacing(1),
+    borderTopRightRadius: theme.spacing(1),
+    borderBottomLeftRadius: theme.spacing(1),
+    borderBottomRightRadius: theme.spacing(1),
+  },
+  details: {
+    borderBottomLeftRadius: theme.spacing(1),
+    borderTopLeftRadius: theme.spacing(1),
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
@@ -45,43 +75,84 @@ const useStyles = makeStyles((theme) => ({
   checklist: {
     display: "block",
     margin: "auto",
+    color: theme.palette.secondary.secondary,
   },
   notyet: {
-    backgroundColor: "#BDBDBD",
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    textTransform: "none",
+    borderRadius: theme.spacing(3),
+    padding: theme.spacing(1, 2),
     WebkitBoxShadow: "none",
+    marginTop: theme.spacing(2),
     "&:hover": {
-      backgroundColor: "#BDBDBD",
+      color: theme.palette.primary.main,
+      backgroundColor: theme.palette.secondary.main,
+      borderColor: theme.palette.secondary.main,
       WebkitBoxShadow: "none",
     },
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "12px",
-    },
   },
-  failed: {
-    backgroundColor: "red",
-    color: theme.palette.primary.main,
+  exam: {
+    backgroundColor: theme.palette.primary.main,
+    border: "1px solid #f4752e",
+    color: theme.palette.secondary.main,
     marginRight: theme.spacing(1),
     marginBottom: theme.spacing(1),
     WebkitBoxShadow: "none",
+    borderRadius: theme.spacing(3),
+    cursor: "default",
     "&:hover": {
-      backgroundColor: "red",
+      backgroundColor: theme.palette.primary.main,
       WebkitBoxShadow: "none",
     },
   },
   passed: {
-    backgroundColor: "green",
-    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
+    color: "green",
+    border: "1px solid green",
     marginRight: theme.spacing(1),
     marginBottom: theme.spacing(1),
     WebkitBoxShadow: "none",
-    borderRadius: "5px",
+    borderRadius: theme.spacing(3),
+    cursor: "default",
     "&:hover": {
-      backgroundColor: "green",
+      backgroundColor: theme.palette.primary.main,
       WebkitBoxShadow: "none",
     },
   },
+  done: {
+    color: theme.palette.primary.main,
+    textTransform: "capitalize",
+    borderRadius: theme.spacing(3),
+    padding: theme.spacing(1, 2.5),
+    WebkitBoxShadow: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.main,
+      WebkitBoxShadow: "none",
+    },
+  },
+  unfinish: {
+    backgroundColor: theme.palette.secondary.secondary,
+    color: theme.palette.primary.main,
+    textTransform: "capitalize",
+    borderRadius: theme.spacing(3),
+    padding: theme.spacing(1, 1.5),
+    WebkitBoxShadow: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.secondary,
+      WebkitBoxShadow: "none",
+    },
+  },
+  space: {
+    margin: "auto",
+    marginTop: theme.spacing(2),
+  },
   icon: {
-    marginBottom: theme.spacing(1.5),
+    marginTop: theme.spacing(2),
+  },
+  iconDown: {
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -89,114 +160,212 @@ const CourseHistory = (props) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const [cookies] = useCookies();
+
+  const router = useRouter();
+  const { id, mentee_name } = router.query;
+
+  const { mentee_, token_ } = useContext(UserContext);
+  const [mentee, setMentee] = mentee_;
+  const [tokenMentee, setTokenMentee] = token_;
+
+  const [subject, setSubject] = React.useState();
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + `/mentee/score/${id}`;
+    const fetchData = async function (token) {
+      try {
+        setLoading(true);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        });
+        if (response.status === 200) {
+          setSubject(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id) {
+      if (cookies.token_admin) {
+        fetchData(cookies.token_admin);
+      } else {
+        if (cookies.registered === true){
+          fetchData(cookies.token_mentee);
+        }
+      }
+    }
+  }, [id]);
+
   return (
     <div>
-      <h1 className={classes.h1}>My Course History</h1>
-      <h2 className={classes.h2}>Phase 1</h2>
-      <h3>Basic Programming Python</h3>
-      <div className={classes.root}>
-        <ExpansionPanel
-          expanded={expanded === "panel1"}
-          onChange={handleChange("panel1")}
-        >
-          <ExpansionPanelSummary
-            className={classes.headerPanel}
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Typography className={classes.heading}>Subject 1</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <div className={classes.checklist}>
-                  <Typography>Video</Typography>
-                  <br />
-                  <Typography>Presentation</Typography>
+      <h1 className={classes.h1}>Course History</h1>
+      {subject
+        ? subject.phase.map((item, index) => (
+            <div>
+              {item.lock_key ? (
+                <div>
+                  <h2 className={classes.h2}>Phase {index + 1}</h2>
+                  {item.module
+                    ? item.module.map((item, index) => (
+                        <div>
+                          {item.lock_key ? (
+                            <div>
+                              <h3 className={classes.h3}>
+                                Module {index + 1}: {item.name_module.name}
+                              </h3>
+                              {item.subject
+                                ? item.subject.map((item, index) => (
+                                    <div>
+                                      {item.lock_key ? (
+                                        <div className={classes.root}>
+                                          <Accordion
+                                            className={classes.accordion}
+                                          >
+                                            <AccordionSummary
+                                              className={classes.headerPanel}
+                                              expandIcon={
+                                                <ExpandMoreIcon
+                                                  className={classes.iconDown}
+                                                />
+                                              }
+                                              aria-controls="panel1bh-content"
+                                              id="panel1bh-header"
+                                            >
+                                              <Typography
+                                                className={classes.heading}
+                                              >
+                                                {item.name_subject.name}
+                                              </Typography>
+                                            </AccordionSummary>
+                                            <AccordionDetails
+                                              className={classes.details}
+                                            >
+                                              <Grid container spacing={3}>
+                                                <Grid item xs={6}>
+                                                  <div
+                                                    className={
+                                                      classes.checklist
+                                                    }
+                                                  >
+                                                    <Typography>
+                                                      Status
+                                                    </Typography>
+                                                    <br />
+                                                    <Typography
+                                                      className={classes.space}
+                                                    >
+                                                      Quiz
+                                                    </Typography>
+                                                  </div>
+                                                </Grid>
+                                                {item.is_complete ? (
+                                                  <Grid item xs={6}>
+                                                    <Button
+                                                      className={classes.done}
+                                                      variant="contained"
+                                                      color="secondary"
+                                                    >
+                                                      <DoneAllIcon />
+                                                      Completed
+                                                    </Button>
+                                                    <br />
+                                                    {item.score_exam.map(
+                                                      (score, index) => (
+                                                        <div
+                                                          className={
+                                                            classes.icon
+                                                          }
+                                                        >
+                                                          <Button
+                                                            className={
+                                                              classes.exam
+                                                            }
+                                                            variant="contained"
+                                                            color="secondary"
+                                                          >
+                                                            {score}
+                                                          </Button>
+                                                        </div>
+                                                      )
+                                                    )}
+                                                  </Grid>
+                                                ) : (
+                                                  <Grid item xs={6}>
+                                                    <Button
+                                                      className={
+                                                        classes.unfinish
+                                                      }
+                                                      variant="contained"
+                                                      color="primary"
+                                                    >
+                                                      <HourglassEmptyIcon />
+                                                      Running
+                                                    </Button>
+                                                    <br />
+                                                    {item.score_exam.length !==
+                                                    0 ? (
+                                                      <div>
+                                                        {item.score_exam.map(
+                                                          (score, index) => (
+                                                            <div
+                                                              className={
+                                                                classes.icon
+                                                              }
+                                                            >
+                                                              <Button
+                                                                className={
+                                                                  classes.exam
+                                                                }
+                                                                variant="contained"
+                                                                color="secondary"
+                                                              >
+                                                                {score}
+                                                              </Button>
+                                                            </div>
+                                                          )
+                                                        )}
+                                                      </div>
+                                                    ) : (
+                                                      <Button
+                                                        className={
+                                                          classes.notyet
+                                                        }
+                                                        variant="contained"
+                                                        color="primary"
+                                                      >
+                                                        <ClearIcon />
+                                                        Not yet
+                                                      </Button>
+                                                    )}
+                                                  </Grid>
+                                                )}
+                                              </Grid>
+                                            </AccordionDetails>
+                                          </Accordion>
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  ))
+                                : null}
+                            </div>
+                          ) : null}
+                        </div>
+                      ))
+                    : null}
                 </div>
-                <br />
-                <Typography>Quiz</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <CheckCircleOutlineIcon className={classes.icon} />
-                <br />
-                <CheckCircleOutlineIcon className={classes.icon} />
-                <br />
-                <div className={classes.icon}>
-                  <Button
-                    className={classes.failed}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    50
-                  </Button>
-                  <Button
-                    className={classes.failed}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    40
-                  </Button>
-                  <Button
-                    className={classes.passed}
-                    variant="contained"
-                    color="primary"
-                  >
-                    90
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel
-          expanded={expanded === "panel2"}
-          onChange={handleChange("panel2")}
-        >
-          <ExpansionPanelSummary
-            className={classes.headerPanel}
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Typography className={classes.heading}>Subject 2</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <div className={classes.checklist}>
-                  <Typography>Video</Typography>
-                  <br />
-                  <Typography>Presentation</Typography>
-                </div>
-                <br />
-                <Typography>Quiz</Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <CheckCircleOutlineIcon className={classes.icon} />
-                <br />
-                <RadioButtonUncheckedIcon className={classes.icon} />
-                <br />
-                <div className={classes.icon}>
-                  <Button
-                    className={classes.notyet}
-                    variant="contained"
-                    color="primary"
-                  >
-                    locked
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </div>
+              ) : null}
+            </div>
+          ))
+          : <p>No Data</p>}
     </div>
   );
-}
+};
 
 export default CourseHistory;

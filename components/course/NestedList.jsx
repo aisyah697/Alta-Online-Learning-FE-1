@@ -11,75 +11,120 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
-const styles = theme => ({
-    root: {
-        width: "100%",
-        backgroundColor: theme.palette.background.paper
-    },
-    nested: {
-        // paddingLeft: theme.spacing.unit * 4
-    },
-    pastList: {
-    },
-    grow: {
-        flexGrow: 1
-    }
+const styles = (theme) => ({
+  root: {
+    width: "100%",
+    backgroundColor: theme.palette.background.paper,
+  },
+  nested: {
+    borderBottomRightRadius: theme.spacing(2),
+  },
+  head: {
+    backgroundColor: theme.palette.secondary.secondary,
+    color: theme.palette.primary.main,
+    marginBottom: theme.spacing(1),
+    borderRadius: theme.spacing(1),
+    padding: theme.spacing(2),
+  },
+  list: {
+    padding: "0",
+    borderRadius: theme.spacing(2),
+  },
+  grow: {
+    flexGrow: 1,
+  },
 });
 
 class NestedList extends React.Component {
-    state = { open: {} };
+  state = { open: {} };
 
-    handleClick = key => () => {
-        console.log(key);
-        this.setState({ [key]: !this.state[key] });
-    };
+  handleClick = (key) => () => {
+    console.log(key);
+    this.setState({ [key]: !this.state[key] });
+  };
 
-    render() {
-        const { lists, classes } = this.props;
-
-        return (
-            <div className={classes.root}>
-                <List
-                    component="nav"
+  render() {
+    const { lists, module, classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <List component="nav" className={classes.list}>
+          {module.map(({ key, module, subject }) => {
+            {
+              console.log("subjeccttt", subject);
+            }
+            const open = this.state[key] || false;
+            return (
+              <div className={classes.pastList} key={key}>
+                <ListItem
+                  onClick={this.handleClick(key)}
+                  className={classes.head}
                 >
-                    {lists.map(({ key, label, icon: Icon, items }) => {
-                        const open = this.state[key] || false;
-                        return (
-                            <div className={classes.pastList} key={key}>
-                                <ListItem onClick={this.handleClick(key)}>
-                                    <Typography>{label}</Typography>
-                                    <div className={classes.grow}/>
-                                    <Typography>5 of 5 completed</Typography>
-                                    <div className={classes.grow}/>
-                                    <Button variant={'outlined'}>Feedback Form</Button>
-                                    {open ? <ExpandLess /> : <ExpandMore />}
-                                </ListItem>
-                                <hr/>
-                                <Collapse in={open} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        {items.map(({ key: childKey, label: childLabel, icon: ChildIcon }) => (
-                                            <ListItem key={childKey} className={classes.nested}>
-                                                <Typography>{childKey}</Typography>
-                                                <div className={classes.grow}/>
-                                                <Typography>{childLabel}</Typography>
-                                                <div className={classes.grow}/>
-                                                <ListItemText inset primary={ChildIcon} />
-                                            </ListItem>
-                                        ))}
-                                    </List>
-                                </Collapse>
-                            </div>
-                        );
-                    })}
-                </List>
-            </div>
-        );
-    }
+                  <Grid container onClick={this.handleClick(key)}>
+                    <Grid container xs={5}>
+                      <Grid xs={1}>
+                        {open ? <ExpandLess /> : <ExpandMore />}
+                      </Grid>
+                      <Grid xs={4}>
+                        <Typography>{module.name}</Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid xs={2}>
+                      <Typography align="center">
+                        {subject.length} Subjects
+                      </Typography>
+                    </Grid>
+                    <Grid xs={5}>
+                      <Typography align="center">Feedback Form</Typography>
+                    </Grid>
+                  </Grid>
+                </ListItem>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {subject.map(
+                      (
+                        { name: name, label: childLabel, quesioner: quesioner },
+                        idx
+                      ) => (
+                        <ListItem key={name} className={classes.nested}>
+                          <Grid container>
+                            <Grid container xs={5}>
+                              <Grid xs={1} />
+                              <Grid xs={4}>
+                                <Typography>{name}</Typography>
+                              </Grid>
+                            </Grid>
+                            <Grid xs={2}>
+                              <Typography align="center">{idx + 1}</Typography>
+                            </Grid>
+                            <Grid xs={5}>
+                              <a href={quesioner}>
+                                <ListItemText
+                                  inset
+                                  primary={quesioner}
+                                  align="center"
+                                  style={{ paddingLeft: "0px" }}
+                                />
+                              </a>
+                            </Grid>
+                          </Grid>
+                        </ListItem>
+                      )
+                    )}
+                  </List>
+                </Collapse>
+              </div>
+            );
+          })}
+        </List>
+      </div>
+    );
+  }
 }
 
 NestedList.propTypes = {
-    classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(NestedList);

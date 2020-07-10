@@ -1,13 +1,23 @@
 import React from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import clsx from "clsx";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import FormControl from "@material-ui/core/FormControl";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import PostAddIcon from "@material-ui/icons/PostAdd";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import PostAddIcon from "@material-ui/icons/PostAdd";
-import InputLabel from "@material-ui/core/InputLabel";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+
+import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -32,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-
   button: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
@@ -40,13 +49,18 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 0),
+    marginBottom: theme.spacing(3),
     minWidth: theme.spacing(12),
+    padding: "7px 20px",
+    width: "180px",
     textTransform: "none",
+    transition: "0.3s",
+    fontSize: "14px",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
-      color: theme.palette.secondary.secondary,
+      color: theme.palette.secondary.main,
       textDecoration: "none",
-      borderColor: theme.palette.secondary.secondary,
+      borderColor: theme.palette.secondary.main,
     },
   },
   buttonInpuFile: {
@@ -65,14 +79,46 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
+  textField: {
+    width: "100%",
+    margin: theme.spacing(1, 0, 1, 0),
+    background: "white",
+    "&:hover label.Mui-focused": {
+      color: "darkBlue",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "darkBlue",
+      },
+    },
+  },
 
   inputFile: {
     margin: theme.spacing(3, 0, 0, 0),
   },
 }));
-export default function AddSubject() {
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+export default function AddSubject(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openBar, setOpenBar] = React.useState(false);
+
+  const { admin_, token_, load_ } = React.useContext(AdminContext);
+  const [admin, setAdmin] = admin_;
+  const [token, setToken] = token_;
+  const [load, setLoad] = load_;
+  const [cookies] = useCookies();
+
+  const [subject, setSubject] = React.useState();
+  const [values, setValues] = React.useState({
+    name: "",
+    description: "",
+    quesioner: "",
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -80,6 +126,51 @@ export default function AddSubject() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenBar = () => {
+    setOpenBar(true);
+  };
+
+  const handleCloseBar = () => {
+    setOpenBar(false);
+  };
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const postAddSubject = async (e) => {
+    e.preventDefault();
+    setOpen(false);
+    setOpenBar(true);
+
+    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject";
+    const auth = cookies.token_admin;
+
+    const DataSubject = JSON.stringify({
+      name: values.name,
+      description: values.description,
+      module_id: props.ID,
+      quesioner: values.quesioner,
+    });
+
+    try {
+      const response = await axios.post(urlSubject, DataSubject, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      });
+
+      if (response.status === 200) {
+        setLoad(true);
+        setSubject(response.data);
+      }
+    } catch (error) {
+      console.error("Please Try Again!", error);
+      throw new Error(error);
+    }
   };
 
   return (
@@ -105,52 +196,30 @@ export default function AddSubject() {
         </DialogTitle>
         <DialogContent>
           <TextField
-            id="outlined-multiline-static"
+            id="outlined-multiline-static1"
             label="Subject Name"
             color="secondary"
             className={classes.textFieldFile}
             variant="outlined"
+            onChange={handleChange("name")}
           />
-          <div className={classes.inputFile}>
-            <InputLabel htmlFor="outlined-adornment-file">
-              Chose Video FIle
-            </InputLabel>
-            <Button variant="outlined" className={classes.buttonInpuFile}>
-              <input
-                className={classes.textFieldFile}
-                accept="video/*"
-                className={classes.input}
-                id="contained-button-file"
-                multiple
-                row={3}
-                type="file"
-              />
-            </Button>
-          </div>
-          <div className={classes.inputFile}>
-            <InputLabel htmlFor="outlined-adornment-file">
-              Chose Presentation File
-            </InputLabel>
-            <Button variant="outlined" className={classes.buttonInpuFile}>
-              <input
-                className={classes.textFieldFile}
-                accept="application/*"
-                className={classes.input}
-                id="contained-button-file"
-                multiple
-                row={3}
-                type="file"
-              />
-            </Button>
-          </div>
           <TextField
-            id="outlined-multiline-static"
+            id="outlined-multiline-static2"
+            label="Quesioner"
+            color="secondary"
+            className={classes.textFieldFile}
+            variant="outlined"
+            onChange={handleChange("quesioner")}
+          />
+          <TextField
+            id="outlined-multiline-static3"
             label="Subject Description"
             multiline
             color="secondary"
             className={classes.textFieldFile}
             rows={4}
             variant="outlined"
+            onChange={handleChange("decription")}
           />
         </DialogContent>
         <DialogActions>
@@ -165,7 +234,7 @@ export default function AddSubject() {
           <Button
             variant="outlined"
             size="small"
-            onClick={handleClose}
+            onClick={(e) => postAddSubject(e)}
             autoFocus
             className={classes.button}
           >
@@ -173,6 +242,19 @@ export default function AddSubject() {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={openBar}
+        autoHideDuration={6000}
+        onClose={handleCloseBar}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseBar} severity="success">
+          Subject has been added!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

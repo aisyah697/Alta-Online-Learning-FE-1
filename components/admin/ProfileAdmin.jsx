@@ -1,4 +1,5 @@
 import React, {useContext} from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -10,6 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Avatar from "@material-ui/core/Avatar";
 import Link from "../../utils/link";
 import Typography from "@material-ui/core/Typography";
+
 import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,15 +67,15 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     large: {
-        width: theme.spacing(30),
-        height: theme.spacing(30),
+        width: theme.spacing(20),
+        height: theme.spacing(20),
         [theme.breakpoints.down("xs")]: {
             width: theme.spacing(18),
             height: theme.spacing(18),
         },
         [theme.breakpoints.down("md")]: {
-            width: theme.spacing(22),
-            height: theme.spacing(22),
+            width: theme.spacing(18),
+            height: theme.spacing(18),
         },
     },
     size: {
@@ -113,10 +115,12 @@ export default function ProfileAdmin(props) {
 
     const rows = [
         createData("Role", `: ${admin.role}`),
+        createData("Username", `: ${admin.username}`),
         createData("Birth Day", `: ${admin.place_birth}, ${admin.date_birth}`),
         createData("Telephone", `: ${admin.phone}`),
         createData("GitHub", `: ${admin.github}`),
-        createData("Background", `: ${admin.description}`),
+        createData("Address", `: ${admin.address}`),
+        createData("Bio", `: ${admin.description}`),
     ];
 
     return (
@@ -155,7 +159,8 @@ export default function ProfileAdmin(props) {
                     <TableContainer>
                         <Table className={classes.size} aria-label="a dense table">
                             <TableBody>
-                                {rows.map((row) => (
+                                {admin.role ?
+                                    (rows.map((row) => (
                                     <TableRow key={row.key}>
                                         <TableCell className={classes.tableBody} scope="row">
                                             {row.key}
@@ -164,7 +169,7 @@ export default function ProfileAdmin(props) {
                                             {row.data}
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                ))) : null}
                             </TableBody>
                         </Table>
                     </TableContainer>

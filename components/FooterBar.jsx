@@ -6,7 +6,7 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import dynamic from "next/dynamic";
 
-const Link = dynamic(() => import('../utils/link'));
+const Link = dynamic(() => import("../utils/link"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1.5, 0.5),
     backgroundColor: theme.palette.secondary.secondary,
   },
-  p: {
+  paragraph: {
     fontSize: "16px",
     margin: "10px",
     color: "white",
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     justifyContent: "center",
-    cursor: 'pointer'
+    cursor: "pointer",
   },
   typography: {
     color: "white",
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FooterBar(props) {
+const FooterBar = (props) => {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -93,7 +93,7 @@ export default function FooterBar(props) {
               }}
             >
               <Container>
-                <p className={classes.p}>Social Media:</p>
+                <p className={classes.paragraph}>Social Media:</p>
                 <Container className={classes.container}>
                   <img
                     className={classes.img}
@@ -139,4 +139,6 @@ export default function FooterBar(props) {
       </footer>
     </React.Fragment>
   );
-}
+};
+
+export default FooterBar;

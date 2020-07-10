@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useCookies } from 'react-cookie'
 import dynamic from "next/dynamic";
 import Router from "next/router";
 import Head from "next/head";
@@ -20,18 +21,17 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 
-import { useCookies } from 'react-cookie'
 import AdminContext from "../../store/adminContext";
 
 const GoogleIcon = dynamic(() => import('../../utils/customIcon'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 700,
-    margin: theme.spacing(1),
-    marginTop: theme.spacing(5),
     marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(5),
+    margin: theme.spacing(1),
     alignContent: "center",
+    maxWidth: 700,
     minHeight: 300,
     [theme.breakpoints.up("lg")]: {
       marginTop: theme.spacing(6),
@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     width: "90%",
     background: "white",
-
     "&:hover label.Mui-focused": {
       color: "darkBlue",
     },
@@ -53,16 +52,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   textLogin: {
-    fontWeight: "bold",
-    paddingBottom: "20px",
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
+    paddingBottom: "20px",
+    fontWeight: "bold",
   },
   loginImage: {
     background: theme.palette.secondary.secondary,
-    padding: 20,
     paddingTop: "30%",
     minHeight: "100%",
+    padding: 20,
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
@@ -72,11 +71,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.secondary,
     borderColor: theme.palette.secondary.secondary,
     color: theme.palette.common.white,
-    margin: "20px",
-    padding: "5px 20px",
-    textTransform: "none",
     borderRadius: theme.spacing(1),
     minWidth: theme.spacing(12),
+    textTransform: "none",
+    padding: "5px 20px",
+    margin: "20px",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.secondary,
@@ -92,25 +91,26 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Muli, sans-serif",
   },
   container: {
-    display: "flex",
     justifyContent: 'center',
     alignItems: "center",
-    height: "100vh"
+    height: "100vh",
+    display: "flex"
   }
 }));
 
 export default function LoginPage() {
   const classes = useStyles();
-  const[message, setMessage] = React.useState('')
+
+  const [message, setMessage] = React.useState('')
   const [cookies, setCookie, removeCookie] = useCookies(['admin']);
-  const [values, setValues] = React.useState({
-    password: "",
-    showPassword: false,
-  });
 
   const {admin_, login_} = useContext(AdminContext);
   const [admin, setAdmin] = admin_
   const [login, setLogin] = login_
+
+  const [values, setValues] = React.useState({
+    password: "", showPassword: false,
+  });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -119,6 +119,7 @@ export default function LoginPage() {
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };

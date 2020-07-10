@@ -5,16 +5,12 @@ import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import dynamic from "next/dynamic";
 import Typography from "@material-ui/core/Typography";
+import { useRouter } from "next/router";
 
-const EditSubject = dynamic(() =>
-  import("../../../components/admin/EditSubject")
-);
-const Footer = dynamic(() => import("../../../components/FooterBar"));
-const NavigationAdminBar = dynamic(() =>
-  import("../../../components/admin/NavigationBarAdmin")
-);
-const ModuleAdmin = dynamic(() => import("../../../components/admin/Module"));
-const SideBarr = dynamic(() => import("../../../components/admin/SideBarr"));
+const Footer = dynamic(() => import("../../../../../../../components/FooterBar"));
+const NavigationAdminBar = dynamic(() => import("../../../../../../../components/admin/NavigationBarAdmin"));
+const AllSubject = dynamic(() => import("../../../../../../../components/admin/AllSubject"));
+const SideBarr = dynamic(() => import("../../../../../../../components/admin/SideBarr"));
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -42,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
+    minHeight: `calc(100vh - 145px)`,
   },
   titleInPage: {
     textAlign: "center",
@@ -56,8 +53,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Module() {
+export default function Index() {
   const classes = useStyles();
+  const router = useRouter();
+  const { id, id_module, module, id_subject } = router.query;
   const [open] = React.useState(false);
 
   return (
@@ -75,18 +74,13 @@ export default function Module() {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Typography className={classes.titleInPage}>
-              Module In Phase 1
+              {module ?
+              `Subject In ${module.split("-").join(" ")}`
+              : null }
             </Typography>
-            <EditSubject />
+
             <div>
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
-              <ModuleAdmin />
+              <AllSubject />
             </div>
           </main>
         </div>

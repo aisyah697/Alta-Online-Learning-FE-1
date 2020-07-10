@@ -23,6 +23,7 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import UserContext from "../store/userContext";
 import AdminContext from "../store/adminContext";
+import axios from "axios";
 
 const NavigationBar = dynamic(() => import('../components/NavigationBar'))
 const Footer = dynamic(() => import('../components/FooterBar'))
@@ -41,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(4),
     },
+  },
+  container: {
+    minHeight: `calc(100vh)`,
+    display: 'flex',
+    alignItems: 'center'
   },
   margin: {
     margin: theme.spacing(1),
@@ -100,13 +106,10 @@ const useStyles = makeStyles((theme) => ({
 const Login = (data) => {
   const classes = useStyles();
   const { signIn } = useContext(UserContext);
-  const [cookie, setCookie] = useCookies()
+  const [cookie, setCookie] = useCookies();
   const [message, setMessage] = React.useState('')
   const [values, setValues] = React.useState({
-    username: "",
-    password: "",
-    showPassword: false,
-    token: ""
+    username: "", password: "", showPassword: false, token: ""
   });
 
   const {login_, mentee_} = useContext(UserContext);
@@ -123,6 +126,26 @@ const Login = (data) => {
       setMessage('Please enter your username and password');
     }
   }
+
+  const fetchData = async function (auth) {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + auth,
+        },
+      });
+      const phase = response.data
+      if (phase != "undefined" && phase != null && phase.length != null && phase.length > 0) {
+        setCookie('registered', true);
+      } else {
+        setCookie('registered', false)
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
 
   const Login = async (username, password) => {
     const signInUrl = process.env.NEXT_PUBLIC_BASE_URL + '/auth/mentee';
@@ -141,6 +164,7 @@ const Login = (data) => {
         setCookie('mentee', data);
         setCookie('token_mentee', data.token);
         setLogin(true);
+        await fetchData(data.token);
         Router.replace('/');
       } else {
         let error = new Error(response.statusText);
@@ -149,7 +173,6 @@ const Login = (data) => {
       }
     } catch (error) {
       console.error("Something Wrong, Please Try Again!", error);
-      throw new Error(error);
     }
   }
 
@@ -171,8 +194,8 @@ const Login = (data) => {
         <title>Login | Alta Online Learning</title>
       </Head>
       <main>
-        <NavigationBar />
-        <Grid container justify="center">
+        <div className={classes.container}>
+          <Grid container justify="center">
           <Card className={classes.root} variant="outlined">
             <Grid container>
               <Grid item lg={5} xs={12}>
@@ -277,7 +300,7 @@ const Login = (data) => {
             </Grid>
           </Card>
         </Grid>
-        <Footer />
+        </div>
       </main>
     </div>
   );
