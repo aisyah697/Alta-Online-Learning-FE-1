@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Register = () => {
+const RegisterPage = () => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     password: "",
@@ -370,4 +370,4 @@ const Register = () => {
   );
 }
 
-export default Register;
+export default RegisterPage;

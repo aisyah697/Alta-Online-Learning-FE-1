@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,7 +12,11 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-const DeleteUserPopUp = dynamic(() => import("./DeleteUser"));
+import Link from "next/link";
+
+import AdminContext from "../../store/adminContext";
+
+const DeleteUserPopUp = dynamic(() => import("./DeleteMentee"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +45,20 @@ const useStyles = makeStyles((theme) => ({
     fontSize: `calc(0.5em + 0.5vw)`,
     color: theme.palette.secondary.secondary,
   },
+  link: {
+    fontFamily: "Muli, sans-serif",
+    height: "60px",
+    fontSize: `calc(0.5em + 0.5vw)`,
+    color: theme.palette.secondary.secondary,
+    cursor: "pointer",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "none",
+    },
+    "&:-webkit-any-link": {
+      textDecoration: "none",
+    },
+  },
   taskTextField: {
     height: "20px",
     width: "60px",
@@ -57,194 +77,61 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(
-  id,
-  name,
-  username,
-  email,
-  phoneNumber,
-  alamat,
-  tempatLahir,
-  tanggalLahir,
-  pendidikanTerakhir,
-  githubLink,
-  progress,
-  task1,
-  task2,
-  task3,
-  deleteMentee
-) {
-  return {
-    id,
-    name,
-    username,
-    email,
-    phoneNumber,
-    alamat,
-    tempatLahir,
-    tanggalLahir,
-    pendidikanTerakhir,
-    githubLink,
-    progress,
-    task1,
-    task2,
-    task3,
-    deleteMentee,
-  };
-}
-
 const headTable = [
-  // "id",
-  // "name",
   "Username",
   "Email",
-  "Phone number",
-  "Alamat",
-  "Tempat lahir",
-  "Tanggal lahir",
-  "Pendidikan Terakhir",
-  "Github Link",
-  "Progress Course",
+  "Phone",
+  "Address",
+  "Birth Place",
+  "Birth Date",
+  "Background",
+  "Github",
+  "Current Progress",
   "Task 1",
   "Task 2",
   "Task 3",
   "",
 ];
 
-const rows = [
-  createData(
-    1,
-    "Aji Pangestu",
-    "ajip",
-    "ahmadajip@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Klaten",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "",
-    85,
-    ""
-  ),
-  createData(
-    2,
-    "Yopi Ragil",
-    "yopiragil",
-    "yopiragil@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Jombang",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    3,
-    "Agus Dwi S",
-    "suga",
-    "agus.suga@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Solo",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    4,
-    "Aisyah",
-    "aisy",
-    "umi.aisyah@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Depok",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    5,
-    "SyahRizal S",
-    "badboy",
-    "iam.badboy@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Mojokerto",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    5,
-    "SyahRizal Pamungkas",
-    "badboy",
-    "iam.badboy@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Mojokerto",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    5,
-    "SyahRizal",
-    "badboy",
-    "iam.badboy@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Mojokerto",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-  createData(
-    5,
-    "SyahRizals",
-    "badboy",
-    "iam.badboy@gmail.com",
-    "081992828282828",
-    "Malang",
-    "Mojokerto",
-    "11/11/20000",
-    "S1 Geologi",
-    "githubLink.com/ajay",
-    "Phase 1 (Module 3: Subjek 5)",
-    "85",
-    "85",
-    "85"
-  ),
-];
-
 export default function TableMentee() {
   const classes = useStyles();
+  const [cookies] = useCookies();
 
+  const { admin_, list_, load_, listMentee_, token_ } = useContext(
+    AdminContext
+  );
+  const [load, setLoad] = load_;
+  const [listMentee, setListMentee] = listMentee_;
+  const [token, setToken] = token_;
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/mentee";
+    const auth = cookies.token_admin;
+    const fetchData = async function () {
+      try {
+        setLoading(true);
+        const response = await axios.get(url, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + auth,
+          },
+        });
+        if (response.status === 200) {
+          setListMentee(response.data);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+        setLoad(false);
+      }
+    };
+    fetchData();
+  }, [load]);
+
+  console.log("cek mentee", listMentee);
   return (
     <div>
       <Grid container>
@@ -263,24 +150,32 @@ export default function TableMentee() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.id}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.name}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {listMentee
+                    ? listMentee.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {index + 1}
+                          </TableCell>
+                          <Link
+                            className={classes.link}
+                            href={"/admin/manage/mentee/[id]/[mentee_name]"}
+                            as={`/admin/manage/mentee/${row.id}/${row.username}`}
+                          >
+                            <TableCell
+                              className={classes.link}
+                              component="th"
+                              scope="row"
+                            >
+                              {row.full_name}
+                            </TableCell>
+                          </Link>
+                        </TableRow>
+                      ))
+                    : null}
                 </TableBody>
               </Table>
             </Paper>
@@ -307,125 +202,127 @@ export default function TableMentee() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row, key) => (
-                    <TableRow key={key}>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.username}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.email}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.phoneNumber}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.alamat}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.tempatLahir}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.tanggalLahir}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.pendidikanTerakhir}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.githubLink}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        {row.progress}
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        <TextField
-                          className={classes.taskTextField}
-                          size="small"
-                          variant="outlined"
-                          id="standard-basic"
-                          label={row.task1}
-                          placeholder="nilai"
-                          color="secondary"
-                        />
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        <TextField
-                          className={classes.taskTextField}
-                          size="small"
-                          variant="outlined"
-                          id="standard-basic"
-                          label={row.task2}
-                          placeholder="nilai"
-                          color="secondary"
-                        />
-                      </TableCell>
-                      <TableCell
-                        className={classes.textInTable}
-                        component="th"
-                        scope="row"
-                      >
-                        <TextField
-                          className={classes.taskTextField}
-                          size="small"
-                          variant="outlined"
-                          id="standard-basic"
-                          label={row.task3}
-                          placeholder="nilai"
-                          color="secondary"
-                        />
-                      </TableCell>
-                      <TableCell
-                        className={classes.deleteMentee}
-                        component="th"
-                        scope="row"
-                      >
-                        <DeleteUserPopUp />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {listMentee
+                    ? listMentee.map((row, key) => (
+                        <TableRow key={key}>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.username}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.email}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.phone}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.address}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.place_birth}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.date_birth}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.background_education}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.github}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            {row.progress}
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            <TextField
+                              className={classes.taskTextField}
+                              size="small"
+                              variant="outlined"
+                              label={row.task1}
+                              placeholder="nilai"
+                              color="secondary"
+                            />
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            <TextField
+                              className={classes.taskTextField}
+                              size="small"
+                              variant="outlined"
+                              label={row.task2}
+                              placeholder="nilai"
+                              color="secondary"
+                            />
+                          </TableCell>
+                          <TableCell
+                            className={classes.textInTable}
+                            component="th"
+                            scope="row"
+                          >
+                            <TextField
+                              className={classes.taskTextField}
+                              size="small"
+                              variant="outlined"
+                              label={row.task3}
+                              placeholder="nilai"
+                              color="secondary"
+                            />
+                          </TableCell>
+                          <TableCell
+                            className={classes.deleteMentee}
+                            component="th"
+                            scope="row"
+                          >
+                            <DeleteUserPopUp
+                              ID={row.id}
+                              username={row.username}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    : null}
                 </TableBody>
               </Table>
             </Paper>

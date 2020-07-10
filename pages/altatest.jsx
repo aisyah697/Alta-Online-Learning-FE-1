@@ -9,23 +9,23 @@ import Footer from "../components/FooterBar";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    margin: "30px 24px",
+    margin: "30px 30px",
+    paddingBottom: "50vh",
   },
 }));
 
 export default function AltaTest() {
   const classes = useStyles();
-
   return (
     <React.Fragment>
       <Head>
         <title>Exam | Alta Online Learning</title>
       </Head>
-      <div className={classes.root}>
-        <CssBaseline />
-        <NavigationBar className={classes.appBar} />
+      <CssBaseline />
+      <NavigationBar className={classes.appBar} />
+      <main className={classes.root}>
         <AltaTestQuestion />
-      </div>
+      </main>
       <Footer />
     </React.Fragment>
   );

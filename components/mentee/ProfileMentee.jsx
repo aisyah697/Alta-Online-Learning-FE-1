@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import TableContainer from "@material-ui/core/TableContainer";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,9 +9,9 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import Grid from "@material-ui/core/Grid";
-import {useRouter} from "next/router";
-import {Cookies, useCookies } from 'react-cookie';
-import axios from 'axios';
+import { useRouter } from "next/router";
+import { Cookies, useCookies } from "react-cookie";
+import axios from "axios";
 import UserContext from "../../store/userContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "none",
     fontSize: "16px",
     padding: "6px 10px 10px 0px",
-    color: theme.palette.secondary.secondary
+    color: theme.palette.secondary.secondary,
   },
   h1: {
     color: theme.palette.secondary.secondary,
@@ -67,15 +67,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   large: {
-    width: theme.spacing(30),
-    height: theme.spacing(30),
+    width: theme.spacing(35),
+    height: theme.spacing(35),
     [theme.breakpoints.down("xs")]: {
       width: theme.spacing(18),
       height: theme.spacing(18),
     },
     [theme.breakpoints.down("md")]: {
-      width: theme.spacing(22),
-      height: theme.spacing(22),
+      width: theme.spacing(25),
+      height: theme.spacing(25),
     },
   },
   size: {
@@ -83,28 +83,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileMentee = ({mentee}) => {
+const ProfileMentee = ({ mentee }) => {
   const classes = useStyles();
   const router = useRouter();
   const { profile } = router.query;
 
-  const {mentee_, login_} = useContext(UserContext);
-  const [user, setUser] = mentee_
-  const [login, setLogin] = login_
+  const { mentee_, login_ } = useContext(UserContext);
+  const [user, setUser] = mentee_;
+  const [login, setLogin] = login_;
 
   function createData(key, data) {
     return { key, data };
   }
 
-  const rows = [ 
+  const rows = [
+    createData("Username", `: ${user.username}`),
     createData("Full Name", `: ${user.full_name}`),
     createData("Email", `: ${user.email}`),
     createData("Birthday", `: ${user.place_birth}, ${user.date_birth}`),
     createData("Telephone", `: ${user.phone}`),
-    createData("GitHub", `: github.com/${user.github}`),
+    createData("Address", `: ${user.address}`),
+    createData("Education", `: ${user.background_education}`),
+    createData("GitHub", `: ${user.github}`),
     createData("About", `: ${user.description}`),
   ];
-
   return (
     <div>
       <Grid container spacing={3}>
@@ -112,7 +114,10 @@ const ProfileMentee = ({mentee}) => {
           <h1 className={classes.h1}>My Profile</h1>
         </Grid>
         <Grid item xs={6} className={classes.viewProfile}>
-          <Link href={"/mentee/[profile]/edit"} as={`/mentee/${user.username}/edit`}>
+          <Link
+            href={"/mentee/[id]/[profile]/edit"}
+            as={`/mentee/${user.id}/${user.username}/edit`}
+          >
             <Button
               className={classes.buttonProfile}
               variant="contained"
@@ -126,7 +131,7 @@ const ProfileMentee = ({mentee}) => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4} style={{ margin: "auto" }}>
           <div className={classes.avatars}>
-            <Avatar className={classes.large} src={user.avatar}/>
+            <Avatar className={classes.large} src={user.avatar} />
           </div>
         </Grid>
         <Grid item xs={12} sm={8}>
@@ -134,14 +139,14 @@ const ProfileMentee = ({mentee}) => {
             <Table className={classes.size} aria-label="a dense table">
               <TableBody>
                 {rows.map((row) => (
-                    <TableRow key={row.key}>
-                      <TableCell className={classes.tableBody} scope="row">
-                        {row.key}
-                      </TableCell>
-                      <TableCell className={classes.tableBody}>
-                        {row.data}
-                      </TableCell>
-                    </TableRow>
+                  <TableRow key={row.key}>
+                    <TableCell className={classes.tableBody} scope="row">
+                      {row.key}
+                    </TableCell>
+                    <TableCell className={classes.tableBody}>
+                      {row.data}
+                    </TableCell>
+                  </TableRow>
                 ))}
               </TableBody>
             </Table>
@@ -150,6 +155,6 @@ const ProfileMentee = ({mentee}) => {
       </Grid>
     </div>
   );
-}
+};
 
 export default ProfileMentee;

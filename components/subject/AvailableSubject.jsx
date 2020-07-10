@@ -118,7 +118,8 @@ export default function AvailableSubjects(props) {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={2} className={classes.button}>
-            <Link href={'/courses/phase/[id]/[module]/[subject_name]/'} as={`/courses/phase/${id}/${module}/01-Introduction`}>
+            <Link href={'/courses/phase/[id]/[module]/[subject_name]/'}
+                  as={`/courses/phase/${id}/${module}/01-Introduction`}>
               <Button
                 className={classes.unfinish}
                 variant="contained"
