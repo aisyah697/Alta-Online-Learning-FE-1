@@ -113,8 +113,9 @@ const FormProfile = () => {
   const { profile } = router.query;
 
   const [cookies, setCookie] = useCookies(['user']);
-  const {mentee_, login_} = useContext(UserContext);
+  const {mentee_, login_, token_} = useContext(UserContext);
   const [user, setUser] = mentee_
+  const [tokenMentee, setTokenMentee] = token_
 
   const [values, setValues] = React.useState({
     fullName: user.full_name,
@@ -152,7 +153,11 @@ const FormProfile = () => {
 
     try {
       const response = await axios.patch(url, formData,{
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          'Authorization':'Bearer ' + tokenMentee
+        },
+
       });
       setCookie('mentee', response.data);
       setUser(response.data);
@@ -294,7 +299,7 @@ const FormProfile = () => {
             className={classes.buttonProfile}
             variant="contained"
             color="primary"
-            onClick={() => postEditProfile()}
+            onClick={postEditProfile}
           >
             Save Changes
           </Button>

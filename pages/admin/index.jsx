@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Head from "next/head";
 import FooterBar from "../../components/FooterBar";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,6 +14,7 @@ import GroupWorkSharpIcon from "@material-ui/icons/GroupWorkSharp";
 import NavigationBarAdmin from "../../components/admin/NavigationBarAdmin";
 import Typography from "@material-ui/core/Typography";
 import Link from 'next/link'
+import AdminContext from "../../store/adminContext";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +64,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const classes = useStyles();
+
+  const {admin_, token_} = useContext(AdminContext);
+  const [admin, setAdmin] = admin_
+  const [token, setToken] = token_
 
   return (
     <React.Fragment>
@@ -131,17 +136,30 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Link href={"/admin/manage/admin"}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="medium"
-                      className={classes.button}
-                      startIcon={<PeopleAltSharpIcon />}
-                    >
-                      Our Admin
-                    </Button>
-                  </Link>
+                  {admin.role === 'super' ?
+                      <Link href={"/admin/manage/admin"}>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            size="medium"
+                            className={classes.button}
+                            startIcon={<PeopleAltSharpIcon/>}
+                        >
+                          Our Admin
+                        </Button>
+                      </Link>
+                      :
+                      <Button
+                          variant="outlined"
+                          color="primary"
+                          size="medium"
+                          disabled
+                          className={classes.button}
+                          startIcon={<PeopleAltSharpIcon/>}
+                      >
+                        Our Admin
+                      </Button>
+                  }
                 </Grid>
               </CardActions>
             </Card>

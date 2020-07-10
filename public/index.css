@@ -15,5 +15,5 @@
 /* Width */
 ::-webkit-scrollbar {
     width: 7px;
-    height: 0;
+    height: 12px;
 }
