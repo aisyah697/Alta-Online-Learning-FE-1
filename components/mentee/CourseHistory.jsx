@@ -196,12 +196,13 @@ const CourseHistory = (props) => {
       if (cookies.token_admin) {
         fetchData(cookies.token_admin);
       } else {
-        fetchData(cookies.token_mentee);
+        if (cookies.registered === true){
+          fetchData(cookies.token_mentee);
+        }
       }
     }
   }, [id]);
 
-  console.log("CEK SUBJECT", subject);
   return (
     <div>
       <h1 className={classes.h1}>Course History</h1>
@@ -362,7 +363,7 @@ const CourseHistory = (props) => {
               ) : null}
             </div>
           ))
-        : null}
+          : <p>No Data</p>}
     </div>
   );
 };

@@ -132,7 +132,17 @@ const useStyles = makeStyles((theme) => ({
   tables: {
     marginBottom: theme.spacing(5),
   },
-
+  head: {
+    borderTopLeftRadius: theme.spacing(1),
+    borderTopRightRadius: theme.spacing(1),
+  },
+  bottom: {
+    borderBottomLeftRadius: theme.spacing(1),
+    borderBottomRighttRadius: theme.spacing(1),
+  },
+  tableBody: {
+    borderRadius: theme.spacing(2),
+  },
   listItem2: {
     marginLeft: theme.spacing(-3),
   },
@@ -231,6 +241,9 @@ export default function Detail() {
       fetchData();
     }
   }, [id]);
+
+  console.log("ITEM", subject);
+
   return (
     <React.Fragment>
       <Head>
@@ -305,30 +318,36 @@ export default function Detail() {
                             <Table className={classes.tables}>
                               <TableHead>
                                 <TableRow>
-                                  <StyledTableCell align="left">
+                                  <StyledTableCell
+                                    align="left"
+                                    className={classes.head}
+                                  >
                                     What will you learn?
                                   </StyledTableCell>
                                 </TableRow>
                               </TableHead>
                               <TableBody>
                                 <TableRow>
-                                  <StyledTableCell>
+                                  <StyledTableCell className={classes.bottom}>
                                     {item.module.description}
                                   </StyledTableCell>
                                 </TableRow>
                               </TableBody>
                             </Table>
                             <Table className={classes.tables}>
-                              <TableHead>
+                              <TableHead style={{ borderRadius: "8px" }}>
                                 <TableRow>
-                                  <StyledTableCell align="left">
+                                  <StyledTableCell
+                                    align="left"
+                                    className={classes.head}
+                                  >
                                     Course Rules
                                   </StyledTableCell>
                                 </TableRow>
                               </TableHead>
                               <TableBody>
                                 <TableRow>
-                                  <StyledTableCell>
+                                  <StyledTableCell className={classes.bottom}>
                                     <div className={classes.listItem2}>
                                       {CourseRule.map((content, idx) => (
                                         <ModuleDetailRequirement
@@ -344,17 +363,17 @@ export default function Detail() {
                             <Table className={classes.tables}>
                               <TableHead>
                                 <TableRow>
-                                  <StyledTableCell align="left">
+                                  <StyledTableCell
+                                    align="left"
+                                    className={classes.head}
+                                  >
                                     Subject in Module
-                                  </StyledTableCell>
-                                  <StyledTableCell align="left">
-                                    System Requirements
                                   </StyledTableCell>
                                 </TableRow>
                               </TableHead>
                               <TableBody>
                                 <TableRow>
-                                  <StyledTableCell>
+                                  <StyledTableCell className={classes.bottom}>
                                     {/* maping subjek nanti mulai dari sini */}
                                     {item.subject.map((value, index) => (
                                       <ModuleDetailTable
@@ -363,7 +382,23 @@ export default function Detail() {
                                       />
                                     ))}
                                   </StyledTableCell>
-                                  <StyledTableCell>
+                                </TableRow>
+                              </TableBody>
+                            </Table>
+                            <Table className={classes.tables}>
+                              <TableHead>
+                                <TableRow>
+                                  <StyledTableCell
+                                    align="left"
+                                    className={classes.head}
+                                  >
+                                    System Requirements
+                                  </StyledTableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                <TableRow>
+                                  <StyledTableCell className={classes.bottom}>
                                     {/* maping requirement nanti mulai dari sini */}
                                     {item.requirement.map((require, idx) => (
                                       <ModuleDetailRequirement

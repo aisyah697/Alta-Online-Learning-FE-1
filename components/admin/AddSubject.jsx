@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     width: "180px",
     textTransform: "none",
     transition: "0.3s",
+    fontSize: "14px",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.main,
