@@ -151,8 +151,9 @@ export default function EditModule(props) {
     }
   };
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (e) => {
     setOpen(true);
+    e.stopPropagation()
   };
 
   const handleClose = () => {
@@ -225,17 +226,17 @@ export default function EditModule(props) {
           Edit Module
         </DialogTitle>
         <DialogContent>
-          <Typography className={classes.allText}>Nama Module</Typography>
+          <Typography className={classes.allText}>Module Title</Typography>
           <TextField
             className={classes.textField}
             variant="outlined"
             color="secondary"
-            label="Module Name"
+            label="Module Title"
             size="small"
             defaultValue={props.name}
             onChange={handleChange("name")}
           />
-          <Typography className={classes.allText}>Nama Mentor</Typography>
+          <Typography className={classes.allText}>Mentor's Name</Typography>
           <FormControl
             className={clsx(classes.margin, classes.textField)}
             variant="outlined"
@@ -264,7 +265,7 @@ export default function EditModule(props) {
             color="secondary"
             rows={7}
             multiline
-            label="Module Description"
+            label="Index Description"
             size="small"
             defaultValue={props.description}
             onChange={handleChange("description_module")}
@@ -299,7 +300,7 @@ export default function EditModule(props) {
             color="secondary"
             rows={2}
             multiline
-            label="System Requirements Module"
+            label="System Requirements Index"
             size="small"
             // defaultValue={props.description}
             onChange={handleChange("description")}
@@ -319,7 +320,7 @@ export default function EditModule(props) {
           </Typography>
           <List>
             {props.requirement.map((item, index) => (
-              <ListItem>
+              <ListItem key={index}>
                 <DeleteRequirement id_requirement={item.id} color="secondary" />
                 <Typography className={classes.allText}>
                   {item.description}

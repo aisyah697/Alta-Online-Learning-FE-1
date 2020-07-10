@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DeleteAltaTest(props) {
+export default function DeleteQuiz({ID}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
@@ -50,9 +50,9 @@ export default function DeleteAltaTest(props) {
     setOpen(false);
   };
 
-  const deleteQuestion = async () => {
+  const DeleteQuiz = async () => {
     setOpen(false);
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/questionaltatest/' + props.ID
+    const url = process.env.NEXT_PUBLIC_BASE_URL + '/quiz/' + ID
     const auth = cookies.token_admin
 
     const MyJOSN = JSON.stringify({
@@ -60,7 +60,7 @@ export default function DeleteAltaTest(props) {
     })
 
     try {
-      const response = await axios.put(url, MyJOSN,{
+      const response = await axios.delete(url, MyJOSN,{
         headers: {
           "Content-Type": "application/json",
           'Authorization':'Bearer ' + auth
@@ -93,7 +93,7 @@ export default function DeleteAltaTest(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Are you sure want to delete this alta test?"}
+          {"Are you sure want to delete this Quiz?"}
         </DialogTitle>
         <DialogActions>
           <Button
@@ -105,7 +105,7 @@ export default function DeleteAltaTest(props) {
             No
           </Button>
           <Button
-            onClick={deleteQuestion}
+            onClick={DeleteQuiz}
             variant="outlined"
             size="medium"
             className={classes.buttonInPop}

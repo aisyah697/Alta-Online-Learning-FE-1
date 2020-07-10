@@ -15,8 +15,7 @@ import { Divider } from "@material-ui/core";
 import Link from "../../utils/link";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-
-
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   expandTitle: {
@@ -29,27 +28,30 @@ const useStyles = makeStyles((theme) => ({
     height: "3",
   },
   expansummar: {
-    margin: theme.spacing(0, 0, 3, -1),
+    margin: theme.spacing(0, 0, 3, -3),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(0, 0, 0, -3),
     },
   },
   expansummar2: {
-    margin: theme.spacing(-6, 0, 0, 3),
+    margin: theme.spacing(-6, 0, 0, 1),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(-6, 0, 0, 1.5),
     },
   },
   expandMenu: {
-    margin: theme.spacing(0, 0, 0, 0),
+    [theme.breakpoints.up("lg")]: {
+      margin: theme.spacing(0, 0, 0, 0),
+    },
+    margin: theme.spacing(0, 0, 0, -1),
   },
   expandMenu1: {
     margin: theme.spacing(-1, 0, 0, -5.5),
   },
   expandMenu2: {
-    margin: theme.spacing(-1, 0, 0, 0),
+    margin: theme.spacing(-1, 0, 0, -1),
     [theme.breakpoints.down("sm")]: {
-      margin: theme.spacing(-1, 0, 0, -1),
+      margin: theme.spacing(-1, 0, 0, 0),
     },
   },
   textJudul: {
@@ -101,10 +103,16 @@ const useStyles = makeStyles((theme) => ({
     ontFamily: "Muli, sans-serif",
     fontSize: `calc(0.7em + 0.5vw)`,
   },
+  rootList: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
 }));
 
 export default function ContentSide(props) {
   const classes = useStyles();
+  const router = useRouter();
+  const { id } = router.query;
 
   const [expanded, setExpanded] = React.useState(true);
 
@@ -132,14 +140,17 @@ export default function ContentSide(props) {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <ListItem button>
+            <ListItem button onClick={(event) => event.stopPropagation()}>
               <ListItemIcon className={classes.iconPhase}>
                 <LibraryBooksIcon />
                 <Typography className={classes.noJudulPhase}>
                   {props.idPhase}
                 </Typography>
               </ListItemIcon>
-              <Link href="/admin/academy/module">
+              <Link
+                href={"/admin/academy/phase/[id]"}
+                as={`/admin/academy/phase/${props.idPhase}`}
+              >
                 <Typography className={classes.textJudulPhase}>
                   {props.name}
                 </Typography>
@@ -147,7 +158,7 @@ export default function ContentSide(props) {
             </ListItem>
           </ExpansionPanelSummary>
             {props.module.map((item, idx)=>(
-          <ExpansionPanelDetails className={classes.expandMenu1}>
+          <ExpansionPanelDetails key={idx} className={classes.expandMenu1}>
             <ExpansionPanel
               elevation={0}
               className={classes.expandTitle2}
@@ -161,43 +172,46 @@ export default function ContentSide(props) {
                 id="panel1bh-header"
               >
                 <List>
-                  <ListItem button>
+                  <ListItem button onClick={(event) => event.stopPropagation()}>
                     <ListItemIcon>
                       <CollectionsBookmarkIcon className={classes.iconPhase} />
                       <Typography className={classes.noJudulModule}>
                         {idx+1}
                       </Typography>
                     </ListItemIcon>
-                    <Typography className={classes.textJudulModule}>
-                      Module {idx+1}
-                    </Typography>
+                    <Link href={"/admin/academy/phase/[id]/[id_module]/[module]"}
+                          as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}`}>
+                      <Typography className={classes.textJudulModule}>
+                        Module {idx+1}
+                      </Typography>
+                    </Link>
                   </ListItem>
                 </List>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.expandMenu2}>
                 <List>
-                  <ListItemIcon button="true" className={classes.moduleName}>
-                    {item.name}
-                  </ListItemIcon>
-                  {item.subject.map((item, indexsub)=>(
-                  <ListItem button>
-                    <ListItemIcon>
-                      <BookIcon className={classes.iconSubject} />
-                      <Typography className={classes.noJudulSubject}>
-                        {indexsub+1}
-                      </Typography>
-                    </ListItemIcon>
-                    <Typography className={classes.textJudulSubject}>
-                      {item.name}
-                    </Typography>
-                  </ListItem>
-                  ))}
-                </List>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          </ExpansionPanelDetails>
+                  {item.subject.map((items, indexsub)=>(
+                      <Link key={indexsub} href={"/admin/academy/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]"}
+                            as={`/admin/academy/phase/${props.idPhase}/${item.id}/${item.name.split(" ").join("-")}/${items.id}/${items.name.split(" ").join("-")}`}>
+                        <ListItem button>
+                          <ListItemIcon>
+                            <BookIcon className={classes.iconSubject} />
+                            <Typography className={classes.noJudulSubject}>
+                              {indexsub + 1}
+                            </Typography>
+                          </ListItemIcon>
+                          <Typography className={classes.textJudulSubject}>
+                            {items.name}
+                          </Typography>
+                        </ListItem>
+                      </Link>
+                    ))}
+                  </List>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            </ExpansionPanelDetails>
           ))}
-          </ExpansionPanel>
+        </ExpansionPanel>
       </ExpansionPanelDetails>
       <Divider />
     </div>

@@ -6,52 +6,26 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import dynamic from "next/dynamic";
+import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import PostAddIcon from "@material-ui/icons/PostAdd";
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    color: theme.palette.secondary.secondary,
-  },
-  textFieldQuestion: {
-    width: "100%",
-    height: "50%",
-    marginTop: theme.spacing(2),
-    background: "white",
-    "&:hover label.Mui-focused": {
-      color: "darkBlue",
-    },
-    "& .MuiOutlinedInput-root": {
-      "&:hover fieldset": {
-        borderColor: "darkBlue",
-      },
-    },
-  },
-  textFieldChoice: {
-    width: "100%",
-    minWidth: "50vw",
-    marginTop: theme.spacing(-3),
-    background: "white",
-    "&:hover label.Mui-focused": {
-      color: "darkBlue",
-    },
-    "& .MuiOutlinedInput-root": {
-      "&:hover fieldset": {
-        borderColor: "darkBlue",
-      },
-    },
-  },
   button: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(1),
+    borderRadius: theme.spacing(10),
     color: theme.palette.common.white,
-    margin: theme.spacing(2, 2, 2, 0),
-    minWidth: theme.spacing(12),
+    minWidth: theme.spacing(8),
+    padding: "7px 20px",
     textTransform: "none",
+    width: "180px",
+    transition: "0.3s",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.secondary,
@@ -59,13 +33,27 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  buttonAddChoice: {
+  buttonIcon: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(1),
     color: theme.palette.common.white,
-    margin: theme.spacing(5, 0, 5, 0),
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
+  },
+  buttonInPop: {
+    background: "#3364ff",
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(10),
+    color: theme.palette.common.white,
+    margin: theme.spacing(2),
     minWidth: theme.spacing(12),
     textTransform: "none",
     "&:hover": {
@@ -75,27 +63,43 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  isiQuestion: {
-    fontFamily: "Muli, sans-serif",
-    fontSize: `calc(0.6em + 0.5vw)`,
-    color: theme.palette.secondary.secondary,
+  textField: {
+    width: "100%",
+    margin: theme.spacing(1, 0, 1, 0),
+    background: "white",
+    "&:hover label.Mui-focused": {
+      color: "darkBlue",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "darkBlue",
+      },
+    },
   },
-  dialog: {
-    minWidth: "50vw",
+  allText: {
+    color: theme.palette.secondary.secondary,
+    fontFamily: "Muli, sans-serif",
+  },
+  divButton: {
+    display: "flex",
+    justifyContent: "left",
+    marginTop: "20px",
+  },
+  input: {
+    display: "none",
   },
 }));
 
-export default function AddQuestion(props) {
+export default function PostQuiz({ exam }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
 
-  const { load_, admin_, trigger_ } = useContext(AdminContext);
+  const { load_, trigger_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
-  const [admin, setAdmin] = admin_;
   const [trigger, setTrigger] = trigger_;
 
-  const [values, setValues] = React.useState({ question: "" });
+  const [values, setValues] = React.useState({ name: "", description: "" });
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -109,14 +113,15 @@ export default function AddQuestion(props) {
     setOpen(false);
   };
 
-  const postAddQuestion = async () => {
+  const postQuiz = async () => {
     setOpen(false);
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionquiz";
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/quiz";
     const auth = cookies.token_admin;
 
     const MyJOSN = JSON.stringify({
-      question: values.question,
-      quiz_id: props.quizID,
+      exam_id: exam.id,
+      name: values.name,
+      description: values.description,
     });
 
     try {
@@ -142,55 +147,55 @@ export default function AddQuestion(props) {
 
   return (
     <div>
-      <Button
-        onClick={handleClickOpen}
-        variant="outlined"
-        color="primary"
-        size="medium"
-        className={classes.button}
-        startIcon={<PostAddIcon />}
-      >
-        Add Question
-      </Button>
+      <IconButton variant="outlined" size="small" onClick={handleClickOpen}>
+        <AddIcon className={classes.buttonIcon} fontSize="default" />
+      </IconButton>
 
       <Dialog
-        className={classes.dialog}
         open={open}
-        fullWidth
-        maxWidth={"sm"}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
       >
-        <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Add Question"}
+        <DialogTitle className={classes.allText} id="form-dialog-title">
+          Add Quiz
         </DialogTitle>
         <DialogContent>
           <TextField
-            id="outlined-multiline-static"
-            label="Question"
-            multiline
-            color="secondary"
-            className={classes.textFieldQuestion}
-            rows={6}
+            className={classes.textField}
             variant="outlined"
-            onChange={handleChange("question")}
+            color="secondary"
+            label="Quiz Name"
+            size="small"
+            value={values.name}
+            onChange={handleChange("name")}
+          />
+
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            color="secondary"
+            rows={7}
+            multiline
+            label="Quiz Description"
+            size="small"
+            value={values.description}
+            onChange={handleChange("description")}
           />
         </DialogContent>
         <DialogActions>
           <Button
-            className={classes.button}
-            variant="outlined"
-            size="small"
             onClick={handleClose}
+            variant="outlined"
+            size="medium"
+            className={classes.buttonInPop}
           >
             Cancel
           </Button>
           <Button
+            onClick={postQuiz}
             variant="outlined"
-            size="small"
-            onClick={postAddQuestion}
-            autoFocus
-            className={classes.button}
+            size="medium"
+            className={classes.buttonInPop}
           >
             Submit
           </Button>

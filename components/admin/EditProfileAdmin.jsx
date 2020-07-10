@@ -1,13 +1,17 @@
 import React, {useContext} from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import Link from "../../utils/link";
+
 import AdminContext from "../../store/adminContext";
-import axios from "axios";
-import {useCookies} from "react-cookie";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,9 +108,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function FormProfileAdmin(props) {
   const classes = useStyles();
   const [cookies, setCookie] = useCookies();
+  const [open, setOpen] = React.useState(false);
 
   const {admin_, login_, token_} = useContext(AdminContext);
   const [admin, setAdmin] = admin_
@@ -120,6 +129,7 @@ export default function FormProfileAdmin(props) {
     birthDate: admin.date_birth,
     phoneNumber: admin.phone,
     github: admin.github,
+    address: admin.address,
     about: admin.description,
   });
 
@@ -127,6 +137,10 @@ export default function FormProfileAdmin(props) {
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleImage = e => {
@@ -144,6 +158,7 @@ export default function FormProfileAdmin(props) {
     formData.append('date_birth', values.birthDate)
     formData.append('phone', values.phoneNumber)
     formData.append('github', values.github)
+    formData.append('address', values.address)
     formData.append('description', values.about)
     formData.append('avatar', images)
 
@@ -156,6 +171,8 @@ export default function FormProfileAdmin(props) {
       });
       setCookie('admin', response.data);
       setAdmin(response.data);
+      setOpen(true)
+      window.scrollTo(0, 0);
 
     } catch (error) {
       console.error("Please Try Again!", error);
@@ -274,6 +291,16 @@ export default function FormProfileAdmin(props) {
               className={classes.textField}
               variant="outlined"
               color="secondary"
+              label="Address"
+              placeholder="Jl. Tidar No.123"
+              size="medium"
+              defaultValue={admin.address}
+              onChange={handleChange('address')}
+            />
+            <TextField
+              className={classes.textField}
+              variant="outlined"
+              color="secondary"
               label="About Me"
               size="medium"
               multiline
@@ -294,6 +321,18 @@ export default function FormProfileAdmin(props) {
         </Grid>
         <Grid item xs={1} md={2} />
       </Grid>
+      <Snackbar open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          Your profile was successfully updated!
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }

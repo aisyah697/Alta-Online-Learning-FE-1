@@ -1,21 +1,14 @@
-import React from "react";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import clsx from "clsx";
-
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import FormControl from "@material-ui/core/FormControl";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import PostAddIcon from "@material-ui/icons/PostAdd";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import React, { useContext } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import PostAddIcon from "@material-ui/icons/PostAdd";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: theme.palette.secondary.secondary,
   },
-  textFieldFile: {
+  textFieldliveCode: {
     width: "100%",
     marginTop: theme.spacing(5),
     background: "white",
@@ -41,12 +34,11 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-
   button: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
-    borderRadius: theme.spacing(10),
+    borderRadius: theme.spacing(1),
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 0),
     minWidth: theme.spacing(12),
@@ -58,14 +50,14 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  buttonInpuFile: {
+  buttonAddChoice: {
     background: "#3364ff",
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(1),
     color: theme.palette.common.white,
-    margin: theme.spacing(2, 2, 2, 0),
-    minWidth: theme.spacing(10),
+    margin: theme.spacing(5, 0, 5, 0),
+    minWidth: theme.spacing(12),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -74,37 +66,33 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.secondary.secondary,
     },
   },
-  textField: {
-    width: "100%",
-    margin: theme.spacing(1, 0, 1, 0),
-    background: "white",
-    "&:hover label.Mui-focused": {
-      color: "darkBlue",
-    },
-    "& .MuiOutlinedInput-root": {
-      "&:hover fieldset": {
-        borderColor: "darkBlue",
-      },
-    },
+  isiliveCode: {
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(0.6em + 0.5vw)`,
+    color: theme.palette.secondary.secondary,
   },
-
-  inputFile: {
-    margin: theme.spacing(3, 0, 0, 0),
+  dialog: {
+    minWidth: "50vw",
   },
 }));
-export default function AddSubject(props) {
+
+export default function AddLiveCode({ examID }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const { admin_, token_, load_ } = React.useContext(AdminContext);
-  const [admin, setAdmin] = admin_;
-  const [token, setToken] = token_;
+  const [cookies, setCookie] = useCookies();
+  const { load_, admin_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
-  const [cookies] = useCookies();
+  const [admin, setAdmin] = admin_;
 
-  const [subject, setSubject] = React.useState();
   const [values, setValues] = React.useState({
-    name: "", description: "", quesioner: "",
+    name: "",
+    link: "",
+    description: "",
   });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -114,25 +102,20 @@ export default function AddSubject(props) {
     setOpen(false);
   };
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const postAddSubject = async (e) => {
-    e.preventDefault();
+  const postAddliveCode = async () => {
     setOpen(false);
-    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject";
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/livecode";
     const auth = cookies.token_admin;
 
-    const DataSubject = JSON.stringify({
+    const MyJOSN = JSON.stringify({
+      exam_id: examID,
       name: values.name,
       description: values.description,
-      module_id: props.ID,
-      quesioner: values.quesioner,
+      link: values.link,
     });
 
     try {
-      const response = await axios.post(urlSubject, DataSubject, {
+      const response = await axios.post(url, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + auth,
@@ -141,14 +124,14 @@ export default function AddSubject(props) {
 
       if (response.status === 200) {
         setLoad(true);
-        setSubject(response.data);
       }
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
+    } finally {
+      setLoad(false);
     }
   };
-
   return (
     <div>
       <Button
@@ -159,43 +142,53 @@ export default function AddSubject(props) {
         className={classes.button}
         startIcon={<PostAddIcon />}
       >
-        Add Subject
+        Add Live Code
       </Button>
 
       <Dialog
+        className={classes.dialog}
         open={open}
+        fullWidth
+        maxWidth={"md"}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle className={classes.title} id="alert-dialog-title">
-          {"Add Subject"}
+          {"Add live Code"}
         </DialogTitle>
         <DialogContent>
           <TextField
-            id="outlined-multiline-static1"
-            label="Subject Name"
+            id="outlined-multiline-static"
+            label="Name"
+            multiline
+            size="small"
             color="secondary"
-            className={classes.textFieldFile}
+            className={classes.textFieldliveCode}
+            rows={1}
             variant="outlined"
             onChange={handleChange("name")}
           />
           <TextField
-            id="outlined-multiline-static2"
-            label="Quesioner"
+            id="outlined-multiline-static"
+            label="Description"
+            multiline
+            size="small"
             color="secondary"
-            className={classes.textFieldFile}
+            className={classes.textFieldliveCode}
+            rows={3}
             variant="outlined"
-            onChange={handleChange("quesioner")}
+            onChange={handleChange("description")}
           />
           <TextField
-            id="outlined-multiline-static3"
-            label="Subject Description"
+            id="outlined-multiline-static"
+            label="Link"
             multiline
+            size="small"
             color="secondary"
-            className={classes.textFieldFile}
-            rows={4}
+            className={classes.textFieldliveCode}
+            rows={1}
             variant="outlined"
-            onChange={handleChange("decription")}
+            onChange={handleChange("link")}
           />
         </DialogContent>
         <DialogActions>
@@ -210,7 +203,7 @@ export default function AddSubject(props) {
           <Button
             variant="outlined"
             size="small"
-            onClick={(e) => postAddSubject(e)}
+            onClick={postAddliveCode}
             autoFocus
             className={classes.button}
           >

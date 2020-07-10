@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 const lists = [
     {
         key: 1,
-        label: "Module 01: Python",
+        label: "Index 01: Python",
         icon: InboxIcon,
         items: [
             {
@@ -40,7 +40,7 @@ const lists = [
     },
     {
         key: 2,
-        label: "Module 02: JavaScript",
+        label: "Index 02: JavaScript",
         icon: DraftsIcon,
         items: [
             {

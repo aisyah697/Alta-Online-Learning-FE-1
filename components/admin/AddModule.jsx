@@ -13,7 +13,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import MenuItem from "@material-ui/core/MenuItem";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
 
@@ -113,6 +113,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddModule() {
   const classes = useStyles();
+  const router = useRouter();
+  const { id } = router.query;
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const { admin_, token_, load_ } = useContext(AdminContext);
@@ -126,8 +128,6 @@ export default function AddModule() {
   const [values, setValues] = useState({
     name: "",
     description: "",
-    phase_id: "",
-    // image: "",
   });
 
   const [images, setImages] = useState(values.image);
@@ -158,7 +158,7 @@ export default function AddModule() {
       formData.append("name", values.name);
       formData.append("description", values.description);
       formData.append("admin_id", admin.id);
-      formData.append("phase_id", values.phase_id);
+      formData.append("phase_id", id);
       formData.append("image", images);
 
       try {
@@ -192,11 +192,7 @@ export default function AddModule() {
     setLoad(true);
     postModule(values.name, values.description, values.image);
   };
-  console.log("admin", admin);
-  console.log("add module", values);
-  // if (!module) {
-  //   return <div></div>;
-  // } else {
+
   return (
     <div>
       {admin.role === "super" || "academic" ? (
@@ -229,23 +225,6 @@ export default function AddModule() {
             value={values.name}
             onChange={handleChange("name")}
           />
-
-          <FormControl
-            className={clsx(classes.margin, classes.textField)}
-            variant="outlined"
-            size="small"
-            color="secondary"
-          >
-            <InputLabel color="secondary">Phase</InputLabel>
-            <Select
-              label="phase"
-              value={values.phase_id}
-              onChange={handleChange("phase_id")}
-            >
-              <MenuItem value={"1"}>1</MenuItem>
-              <MenuItem value={"2"}>2</MenuItem>
-            </Select>
-          </FormControl>
 
           <TextField
             className={classes.textField}
