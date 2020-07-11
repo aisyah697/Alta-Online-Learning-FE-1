@@ -124,7 +124,7 @@ const CustomPaper = ({ classes }) => {
     <div>
       {Testimony
         ? Testimony.list.map((item, index) => (
-            <Card elevation={0} className={classes.root}>
+            <Card key={index} elevation={0} className={classes.root}>
               <CardContent className={classes.content}>
                 <Avatar className={classes.avatar} src={item.avatar} />
                 <div className={classes.text}>

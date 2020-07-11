@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
+import axios from "axios";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import AdminContext from "../store/adminContext";
 
