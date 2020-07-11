@@ -52,7 +52,7 @@ export default function AltaTest(props) {
     return (
         <> {props.questions ?
             (props.questions.map((item, index) => (
-                <Grid key={index} container spacing={0}>
+                <Grid key={index} container spacing={0} style={{marginBottom: '15px'}}>
                     <Grid item className={classes.number}>
                         <Typography className={classes.question}>{index+1}.</Typography>
                     </Grid>

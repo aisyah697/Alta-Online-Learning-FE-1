@@ -278,7 +278,7 @@ const CourseHistory = (props) => {
                                                     <br />
                                                     {item.score_exam.map(
                                                       (score, index) => (
-                                                        <div
+                                                        <div key={index}
                                                           className={
                                                             classes.icon
                                                           }
