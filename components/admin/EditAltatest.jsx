@@ -146,7 +146,6 @@ export default function EditAltaTest(props) {
 
       if (response.status === 200) {
         setLoad(true);
-        setOpenBar(true);
       }
     } catch (error) {
       console.error("Please Try Again!", error);

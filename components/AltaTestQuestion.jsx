@@ -95,15 +95,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function QuizContent(props) {
   const classes = useStyles();
+
   const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
+
   const { test_ } = useContext(MateriContext);
   const [test, setTest] = test_;
-  const [cookies] = useCookies();
+
+  const [cookies, setCookies] = useCookies();
   const [loading, setLoading] = useState(true);
+
   const redirectToProgress = () => {
+    setCookies('altatest', true)
     Router.push("/");
   };
+
   const changeStatusTest = async (status) => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
     const auth = cookies.mentee.token;

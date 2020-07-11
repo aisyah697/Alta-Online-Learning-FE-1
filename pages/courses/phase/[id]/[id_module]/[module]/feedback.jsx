@@ -4,6 +4,7 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 import {useRouter} from "next/router";
 import {useCookies} from "react-cookie";
+import Link from 'next/link'
 
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,6 +14,13 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 
 const NavigationBar = dynamic(() => import('../../../../../../components/NavigationBar'));
 const Footer = dynamic(() => import('../../../../../../components/FooterBar'));
@@ -98,6 +106,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const labels = {
   1: 'Bad',
   2: 'Poor',
@@ -117,12 +129,12 @@ const useStyles2 = makeStyles({
 export default function FeedbackModule() {
   const classes = useStyles();
   const classes2 = useStyles2();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(3);
   const [hover, setHover] = React.useState(-1);
   const [cookies, setCookie] = useCookies();
 
   const router = useRouter();
-  const {id_module, module} = router.query;
+  const {id, id_module, module} = router.query;
 
   const [values, setValues] = React.useState({
     content: ""});
@@ -151,13 +163,24 @@ export default function FeedbackModule() {
       });
 
       if (response.status === 200) {
-        alert('OK')
+        setOpen(true);
       }
     } catch (error) {
       console.error("Please Try Again!", error);
       throw new Error(error);
     }
-  }
+    document.getElementById("feedback-content").value = "";
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
@@ -201,6 +224,7 @@ export default function FeedbackModule() {
             <TextField
               className={classes.textField}
               variant="outlined"
+              id="feedback-content"
               color="secondary"
               size="medium"
               multiline
@@ -220,6 +244,35 @@ export default function FeedbackModule() {
             </div>
           </div>
         </Paper>
+        <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle style={{fontWeight: 'bold', color: '#19355f'}}>{"Thanks for your review!"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Thank you for your feedback on this module, the review you provide will be used to improve the quality of the future course.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
+                  as={`/courses/phase/${id}/${id_module}/${module}/subject`}
+            >
+            <Button onClick={handleClose} color="secondary" style={{textTransform: 'none'}}>
+              Back to Class
+            </Button>
+            </Link>
+            <Link href={'/courses'}>
+              <Button onClick={handleClose} color="secondary" style={{textTransform: 'none'}}>
+                My Progress
+              </Button>
+            </Link>
+          </DialogActions>
+        </Dialog>
       </div>
       <Footer />
     </React.Fragment>

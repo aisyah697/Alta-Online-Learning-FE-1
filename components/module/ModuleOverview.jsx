@@ -78,11 +78,6 @@ export default function ModuleOverview({modules}) {
         fetchData();
     }, []);
 
-    // let save = new Array();
-    // if (modules){
-    //     modules.subject.map((mod) => (save.push(mod.id)))
-    // }
-
     if (subject) {
         const lastArr = subject.filter(res => res.is_complete == false);
         var lastSubject = lastArr[0];
@@ -127,7 +122,7 @@ export default function ModuleOverview({modules}) {
                             Currently on:
                         </Typography>
                         <Typography variant="h6" color="textSecondary" component="p">
-                            Subject: {subject? subject.filter(mod => mod.is_complete === false)[0].subject.name : null}
+                            Subject: {subject? (subject.filter(mod => mod.is_complete === true)[0]? subject.filter(mod => mod.is_complete === true)[0].subject.name: null) : null}
                         </Typography>
                         {lastSubject ?
                         <Link href={'/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}

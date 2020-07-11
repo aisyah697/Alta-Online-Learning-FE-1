@@ -10,8 +10,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     margin: "30px 30px",
-    paddingBottom: "50vh",
+    minHeight: `calc(100vh - 250px)`
   },
+    footer: {
+      marginTop: theme.spacing(20)
+    }
 }));
 
 export default function AltaTest() {
@@ -26,7 +29,7 @@ export default function AltaTest() {
       <main className={classes.root}>
         <AltaTestQuestion />
       </main>
-      <Footer />
+      <Footer className={classes.footer} />
     </React.Fragment>
   );
 }

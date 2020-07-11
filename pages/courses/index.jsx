@@ -15,13 +15,14 @@ import axios from "axios";
 const CurrentCourse = dynamic(() =>
   import("../../components/course/CurrentCourse")
 );
-const PastCourses = dynamic(() => import("../../components/course/PastCourse"));
 const NavigationBar = dynamic(() => import("../../components/NavigationBar"));
 const Certificate = dynamic(() =>
   import("../../components/course/Certificate")
 );
 const FooterBar = dynamic(() => import("../../components/FooterBar"));
 const Loading = dynamic(() => import("../../components/Loading"));
+
+const PastCourses = dynamic(() => import("../../components/course/PastCourse"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("lg")]: {
       display: "flex",
     },
+    overflowX: "hidden",
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   footer: {
-    marginTop: "auto",
+    marginTop: theme.spacing(20),
     backgroundColor:
       theme.palette.type === "light"
         ? theme.palette.grey[200]
@@ -188,7 +190,7 @@ const CoursePage = () => {
               />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <PastCourses module={pastModule} />
+              <PastCourses />
             </TabPanel>
             <TabPanel value={value} index={2}>
               <Typography>Certificate</Typography>
