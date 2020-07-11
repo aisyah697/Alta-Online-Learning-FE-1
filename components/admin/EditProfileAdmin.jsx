@@ -166,7 +166,7 @@ export default function FormProfileAdmin(props) {
       const response = await axios.patch(url, formData,{
         headers: {
           "Content-Type": "multipart/form-data",
-          'Authorization':'Bearer ' + token
+          'Authorization':'Bearer ' + cookies.token_admin
         },
       });
       setCookie('admin', response.data);
