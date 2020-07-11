@@ -56,7 +56,7 @@ const SubFooter = () => {
       <Box width={"100%"} padding={0} className={classes.bannerBox}>
         <Grid container spacing={0}>
           <Grid item xs={12} className={classes.container}>
-            {cookies.registered === true ? (
+            {cookies.registered === "true" ? (
               <>
                 <Typography variant={"h5"} className={classes.title}>
                   You can now access the course!
