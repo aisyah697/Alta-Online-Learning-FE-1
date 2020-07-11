@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
   // ini yg subject posisi
   expandMenu2: {
-    margin: theme.spacing(-4, 0, 0, -2),
+    margin: theme.spacing(-5, 0, 0, -1),
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(-1, 0, 0, 0),
     },
