@@ -166,12 +166,16 @@ const NavigationBar = (props) => {
     handleMenuClose();
     setLogin(false);
     Router.push("/login");
-    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+    document.cookie.split(";").forEach(function (c) {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
   };
 
   React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
-    const auth = cookies.token_mentee
+    const auth = cookies.token_mentee;
     const fetchData = async function () {
       try {
         const response = await axios.get(url, {
@@ -187,13 +191,13 @@ const NavigationBar = (props) => {
         throw error;
       }
     };
-    if (cookies.token_mentee){
+    if (cookies.token_mentee) {
       fetchData();
     }
   }, []);
 
   if (phase) {
-    const lastArray = phase.filter(phase => phase.lock_key == true);
+    const lastArray = phase.filter((phase) => phase.lock_key == true);
     var lastPhase = lastArray[lastArray.length - 1];
   }
 
@@ -311,23 +315,32 @@ const NavigationBar = (props) => {
           {NavBarLogo}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-              {cookies.altatest === 'true'? <>
-              <NextLink href={"/courses"}>
+            {cookies.altatest === "true" ? (
+              <>
+                <NextLink href={"/courses"}>
+                  <Typography className={classes.menu} variant="h6" noWrap>
+                    {`My Progress`}
+                  </Typography>
+                </NextLink>
+                <NextLink
+                  href={"/courses/phase/[id]"}
+                  as={`/courses/phase/${
+                    lastPhase ? lastPhase.phase_id : "empty"
+                  }`}
+                >
+                  <Typography className={classes.menu} variant="h6" noWrap>
+                    {`All Courses`}
+                  </Typography>
+                </NextLink>
                 <Typography className={classes.menu} variant="h6" noWrap>
-                  {`My Progress`}
-                </Typography>
-              </NextLink>
-              <NextLink href={"/courses/phase/[id]"} as={`/courses/phase/${lastPhase? lastPhase.phase_id : 'empty'}`}>
-                <Typography className={classes.menu} variant="h6" noWrap>
-                  {`All Courses`}
-                </Typography>
-              </NextLink>
+                  {`Help`}
+                </Typography>{" "}
+              </>
+            ) : (
               <Typography className={classes.menu} variant="h6" noWrap>
                 {`Help`}
-              </Typography> </>:
-            <Typography className={classes.menu} variant="h6" noWrap>
-              {`Help`}
-            </Typography> }
+              </Typography>
+            )}
             <div className={"menuButton"}>
               {login ? (
                 <IconButton
