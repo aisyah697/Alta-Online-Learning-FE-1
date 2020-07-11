@@ -122,7 +122,7 @@ export default function ModuleOverview({modules}) {
                             Currently on:
                         </Typography>
                         <Typography variant="h6" color="textSecondary" component="p">
-                            Subject: {subject? (subject.filter(mod => mod.is_complete === true)[0]? subject.filter(mod => mod.is_complete === true)[0].subject.name: null) : null}
+                            Subject: {subject && subject.length > 1 ? subject.filter(mod => mod.is_complete === false)[0].subject.name : null}
                         </Typography>
                         {lastSubject ?
                         <Link href={'/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}

@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
-import {Remove} from "@material-ui/icons";
+import { Remove } from "@material-ui/icons";
 
 const Link = dynamic(() => import("../../utils/link"));
 
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeBanner = ({ phase, register }) => {
   const classes = useStyles();
-  const [cookies, setCookies] = useCookies();
+  const [cookies, setCookies, removeCookies] = useCookies();
   const [history, setHistory] = React.useState("");
 
   const { load_ } = useContext(AdminContext);
@@ -102,12 +102,16 @@ const HomeBanner = ({ phase, register }) => {
         });
         if (response.status === 200) {
           setHistory(response.data);
+          if (response.data.is_complete === "end") {
+            removeCookies("altatest");
+            setCookies("altatest", "true");
+          }
         }
       } catch (error) {
         throw error;
       }
     };
-    if (cookies.registered === true) {
+    if (cookies.registered === "true") {
       fetchData();
     }
   }, [load]);
@@ -154,7 +158,7 @@ const HomeBanner = ({ phase, register }) => {
                 phase.length != null &&
                 phase.length > 0 ? (
                   history ? (
-                    history.score !== 0 ? (
+                    history.is_complete === "end" ? (
                       <Link
                         href={"/courses/phase/[id]"}
                         as={`/courses/phase/1`}
@@ -173,7 +177,7 @@ const HomeBanner = ({ phase, register }) => {
                   ) : (
                     <Link href={"/altatest"}>
                       <Button variant={"outlined"} className={classes.button}>
-                        Take Altatest
+                        Take Altatest1
                       </Button>
                     </Link>
                   )
