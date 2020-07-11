@@ -123,10 +123,10 @@ export default function AvailableSubjects({ subject }) {
         setLoading(false);
       }
     };
-    if (id) {
+    if (id_module) {
       fetchData();
     }
-  }, [id]);
+  }, [id_module]);
 
   React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + `/reviewmodule/all`;
@@ -136,14 +136,15 @@ export default function AvailableSubjects({ subject }) {
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + cookies.token_mentee,
+            "Authorization": "Bearer " + cookies.token_mentee,
           },
         });
         if (response.status === 200) {
           if (response.data.status === "undefined") {
             setReview("undefined");
           } else {
-            setReview(response.data);
+            // setReview(response.data.filter(rev => rev.module_id == id_module));
+            setReview(response.data.filter(item => item.mentee_id == mentee.id && item.module_id == id_module));
           }
         }
       } catch (error) {
