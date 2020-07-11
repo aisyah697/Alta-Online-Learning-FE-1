@@ -392,12 +392,12 @@ const CurrentCourse = ({ currentModule, no }) => {
                     </List>
                   </Grid>
                   <Grid item xs={12} lg={6} className={classes.box3}>
-                    <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
-                          as={`/courses/phase/${lastPhase? lastPhase.phase_id : null}/${lastSubject? lastSubject.subject.module_id : 'empty'}/${lastModule? lastModule.module.name.split(" ").join("-") : null}/subject`}>
+                    {/*<Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}*/}
+                    {/*      as={`/courses/phase/${lastPhase? lastPhase.phase_id : null}/${lastSubject? lastSubject.subject.module_id : 'empty'}/${lastModule? lastModule.module.name.split(" ").join("-") : null}/subject`}>*/}
                     <Button className={classes.button} variant={"outlined"}>
                       Go to course
                     </Button>
-                    </Link>
+                    {/*</Link>*/}
                   </Grid>
                 </Grid>
               </div>

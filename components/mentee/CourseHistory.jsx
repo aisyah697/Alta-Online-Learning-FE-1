@@ -196,7 +196,7 @@ const CourseHistory = (props) => {
       if (cookies.token_admin) {
         fetchData(cookies.token_admin);
       } else {
-        if (cookies.registered === true){
+        if (cookies.registered === "true"){
           fetchData(cookies.token_mentee);
         }
       }

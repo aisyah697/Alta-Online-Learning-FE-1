@@ -137,7 +137,7 @@ const HomeBanner = ({ phase, register }) => {
                 style={{ fontWeight: "bold" }}
               >
                 {" "}
-                What is Alta{" "}
+                What is Alterra Academy{" "}
               </Typography>
               <Typography
                 className={classes.bannerTitle}
@@ -177,7 +177,7 @@ const HomeBanner = ({ phase, register }) => {
                   ) : (
                     <Link href={"/altatest"}>
                       <Button variant={"outlined"} className={classes.button}>
-                        Take Altatest1
+                        Take Altatest
                       </Button>
                     </Link>
                   )

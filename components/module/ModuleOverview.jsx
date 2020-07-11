@@ -76,7 +76,7 @@ export default function ModuleOverview({modules}) {
             }
         };
         fetchData();
-    }, []);
+    }, [id]);
 
     if (subject) {
         const lastArr = subject.filter(res => res.is_complete == false);
@@ -119,10 +119,12 @@ export default function ModuleOverview({modules}) {
                         </Typography>
                         <br/>
                         <Typography style={{fontWeight: 'bold'}} variant="body1" color="textSecondary" component="p">
-                            Currently on:
+                            {lastSubject?
+                            ('Currently on:') : null }
                         </Typography>
                         <Typography variant="h6" color="textSecondary" component="p">
-                            Subject: {subject && subject.length > 1 ? subject.filter(mod => mod.is_complete === false)[0].subject.name : null}
+                            {/*Subject: {subject && subject.length > 1 ? subject.filter(mod => mod.is_complete === false)[0].subject.name : null}*/}
+                            {lastSubject? lastSubject.subject.name : null}
                         </Typography>
                         {lastSubject ?
                         <Link href={'/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]'}
