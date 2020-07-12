@@ -5,20 +5,23 @@ import dynamic from "next/dynamic";
 import { useCookies } from "react-cookie";
 import AdminContext from "../store/adminContext";
 
-const NavigationBar = dynamic(() => import("../components/NavigationBar"));
+// Import Dynamic Component
 const HomePhaseMenu = dynamic(() => import("../components/home/HomePhaseMenu"));
 const HomeTestimony = dynamic(() => import("../components/home/HomeTestimony"));
-const HomeBanner = dynamic(() => import("../components/home/HomeBanner"));
 const FrequentQuestion = dynamic(() => import("../components/home/HomeFAQ"));
+const NavigationBar = dynamic(() => import("../components/NavigationBar"));
+const HomeBanner = dynamic(() => import("../components/home/HomeBanner"));
 const SubFooter = dynamic(() => import("../components/SubFooter"));
 const Footer = dynamic(() => import("../components/FooterBar"));
 
 const Home = () => {
-  const [cookies, setCookies] = useCookies();
-  const [phase, setPhase] = React.useState();
-
-  const { load_ } = useContext(AdminContext);
+  // Import Context
+  const {load_} = useContext(AdminContext);
   const [load, setLoad] = load_;
+
+  // Set State
+  const [phase, setPhase] = React.useState();
+  const [cookies, setCookies] = useCookies();
 
   React.useEffect(() => {
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
@@ -38,24 +41,21 @@ const Home = () => {
         throw error;
       }
     };
-    if (cookies.token_mentee) {
+    if (auth) {
       fetchData();
     }
   }, [load]);
 
   const RegisterHistory = async () => {
+    // Const
     const token = cookies.token_mentee;
-
-    const UrlPhase = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
-    const UrlModule =
-      process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/mentee";
-    const UrlSubject =
-      process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/mentee";
-    const UrlAltatest = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
+    const urlPhase = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
+    const urlModule = process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/mentee";
+    const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/mentee";
+    const urlAltatest = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
 
     try {
-      const responsePhase = await axios.post(
-        UrlPhase,
+      const responsePhase = await axios.post(urlPhase,
         {},
         {
           headers: {
@@ -68,7 +68,7 @@ const Home = () => {
       if (responsePhase.status === 200) {
         try {
           const responseModule = await axios.post(
-            UrlModule,
+            urlModule,
             {},
             {
               headers: {
@@ -81,7 +81,7 @@ const Home = () => {
           if (responseModule.status === 200) {
             try {
               const responseSubject = await axios.post(
-                UrlSubject,
+                urlSubject,
                 {},
                 {
                   headers: {
@@ -94,7 +94,7 @@ const Home = () => {
               if (responseSubject.status === 200) {
                 try {
                   const responseAltatest = await axios.post(
-                    UrlAltatest,
+                    urlAltatest,
                     {},
                     {
                       headers: {
@@ -132,15 +132,10 @@ const Home = () => {
       <Head>
         <title>Home | Alta Online Learning</title>
       </Head>
-
       <main>
         <NavigationBar />
         <HomeBanner phase={phase} register={() => RegisterHistory()} />
-        {phase != "undefined" &&
-        phase != null &&
-        phase.length != null &&
-        phase.length > 0 &&
-        cookies.altatest === "true" ? (
+        {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 && cookies.altatest === "true" ? (
           <HomePhaseMenu phase={phase} />
         ) : (
           <></>
