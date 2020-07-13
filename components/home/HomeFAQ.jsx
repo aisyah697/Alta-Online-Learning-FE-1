@@ -1,7 +1,6 @@
 import React from "react";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
@@ -56,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   ornament: {
-    height: "50vh",
-    paddingTop: theme.spacing(1),
+    height: "40vh",
+    padding: theme.spacing(1),
     [theme.breakpoints.down("sm")]: {
       paddingTop: "25px",
     },
@@ -68,7 +67,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FAQList = ({ classes, open, title, content, handleClick }) => {
+// eslint-disable-next-line react/prop-types
+const FAQList = ({ open, title, content, handleClick }) => {
+  const classes = useStyles();
   return (
     <React.Fragment>
       <ListItem className={classes.text} onClick={handleClick}>
@@ -126,7 +127,7 @@ const FrequentQuestion = () => {
         <Grid container spacing={0}>
           <img
             className={classes.ornament}
-            src="/images/ornament_batik.png"
+            src={"/images/ornament_batik.png"}
             alt="Ornament"
           />
           <Grid item xs={12} className={classes.container}>

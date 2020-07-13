@@ -1,26 +1,22 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
-import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+
+import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
-import { useCookies } from "react-cookie";
 import Typography from "@material-ui/core/Typography";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import ClearIcon from "@material-ui/icons/Clear";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import LockIcon from "@material-ui/icons/Lock";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
-import axios from "axios";
-import { useRouter } from "next/router";
-import UserContext from "../../store/userContext";
-import ClearIcon from "@material-ui/icons/Clear";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -156,23 +152,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CourseHistory = (props) => {
+const CourseHistory = () => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
   const [cookies] = useCookies();
-
   const router = useRouter();
-  const { id, mentee_name } = router.query;
-
-  const { mentee_, token_ } = useContext(UserContext);
-  const [mentee, setMentee] = mentee_;
-  const [tokenMentee, setTokenMentee] = token_;
+  const { id } = router.query;
 
   const [subject, setSubject] = React.useState();
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + `/mentee/score/${id}`;
     const fetchData = async function (token) {
       try {
@@ -186,6 +177,7 @@ const CourseHistory = (props) => {
         if (response.status === 200) {
           setSubject(response.data);
         }
+        // eslint-disable-next-line no-useless-catch
       } catch (error) {
         throw error;
       } finally {
@@ -208,13 +200,13 @@ const CourseHistory = (props) => {
       <h1 className={classes.h1}>Course History</h1>
       {subject
         ? subject.phase.map((item, index) => (
-            <div>
+            <div key={index}>
               {item.lock_key ? (
                 <div>
                   <h2 className={classes.h2}>Phase {index + 1}</h2>
                   {item.module
                     ? item.module.map((item, index) => (
-                        <div>
+                        <div key={index}>
                           {item.lock_key ? (
                             <div>
                               <h3 className={classes.h3}>
@@ -222,7 +214,7 @@ const CourseHistory = (props) => {
                               </h3>
                               {item.subject
                                 ? item.subject.map((item, index) => (
-                                    <div>
+                                    <div key={index}>
                                       {item.lock_key ? (
                                         <div className={classes.root}>
                                           <Accordion
@@ -314,7 +306,7 @@ const CourseHistory = (props) => {
                                                       <div>
                                                         {item.score_exam.map(
                                                           (score, index) => (
-                                                            <div
+                                                            <div key={index}
                                                               className={
                                                                 classes.icon
                                                               }
