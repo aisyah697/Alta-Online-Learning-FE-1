@@ -4,9 +4,15 @@ import Head from "next/head";
 import ErrorPage from "next/error";
 import { makeStyles } from "@material-ui/core/styles";
 
-const NavigationAdminBar = dynamic(() => import("../../../components/admin/NavigationBarAdmin"));
-const FilterAdmin = dynamic(() => import("../../../components/admin/FilterAdmin"));
-const TableAdmin = dynamic(() => import("../../../components/admin/TableAdmin"));
+const NavigationAdminBar = dynamic(() =>
+  import("../../../components/admin/NavigationBarAdmin")
+);
+const FilterAdmin = dynamic(() =>
+  import("../../../components/admin/FilterAdmin")
+);
+const TableAdmin = dynamic(() =>
+  import("../../../components/admin/TableAdmin")
+);
 const AddAdmin = dynamic(() => import("../../../components/admin/AddAdmin"));
 const Footer = dynamic(() => import("../../../components/FooterBar"));
 
@@ -16,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2, 0, 2, 0),
     backgroundColor: "#F4F7FC",
-    minHeight: `calc(100vh - 179px)`
+    minHeight: `calc(100vh - 179px)`,
   },
   main: {
     margin: theme.spacing(4, 8),
@@ -28,22 +34,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ManageAdmin() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <React.Fragment>
-            <Head>
-                <title>Admin | Data Admin</title>
-            </Head>
-            <NavigationAdminBar/>
-            <main className={classes.root}>
-                <div className={classes.main}>
-                    <FilterAdmin/>
-                    <AddAdmin/>
-                    <TableAdmin/>
-                </div>
-            </main>
-            <Footer/>
-        </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <Head>
+        <title>Admin | Data Admin</title>
+      </Head>
+      <NavigationAdminBar />
+      <main className={classes.root}>
+        <div className={classes.main}>
+          <FilterAdmin />
+          <AddAdmin />
+          <TableAdmin />
+        </div>
+      </main>
+      <Footer />
+    </React.Fragment>
+  );
 }

@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
+import { useCookies } from "react-cookie";
 import Head from "next/head";
-import Link from 'next/link'
+import Link from "next/link";
 import Router from "next/router";
 import dynamic from "next/dynamic";
-import { useCookies } from "react-cookie";
-
 
 import PeopleAltSharpIcon from "@material-ui/icons/PeopleAltSharp";
 import GroupWorkSharpIcon from "@material-ui/icons/GroupWorkSharp";
@@ -22,7 +21,9 @@ import FooterBar from "../../components/FooterBar";
 
 import AdminContext from "../../store/adminContext";
 
-const NavigationBarAdmin = dynamic(() => import('../../components/admin/NavigationBarAdmin'))
+const NavigationBarAdmin = dynamic(() =>
+  import("../../components/admin/NavigationBarAdmin")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,9 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
   cardMenu: {
     background: "#F4F7FC",
-    marginTop: theme.spacing(2),
+    // marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(5),
-    minHeight: `calc(100vh - 200px)`
+    minHeight: `calc(100vh - 179px)`,
   },
   media: {
     height: 390,
@@ -74,16 +75,16 @@ export default function Home() {
   const classes = useStyles();
   const [cookies] = useCookies();
 
-  const {admin_, token_} = useContext(AdminContext);
-  const [admin, setAdmin] = admin_
-  const [token, setToken] = token_
+  const { admin_, token_ } = useContext(AdminContext);
+  const [admin, setAdmin] = admin_;
+  const [token, setToken] = token_;
 
   React.useEffect(() => {
     const token_admin = cookies.token_admin;
     if (!token_admin) {
       Router.push("/admin/login");
     }
-  }, [])
+  }, []);
 
   return (
     <React.Fragment>
@@ -128,7 +129,7 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  <Link href={'/admin/academy'}>
+                  <Link href={"/admin/academy"}>
                     <Button
                       variant="outlined"
                       color="primary"
@@ -152,30 +153,32 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Grid container justify="center">
-                  {admin ?
-                      (admin.role === 'super' ?
-                          <Link href={"/admin/manage/admin"}>
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                size="medium"
-                                className={classes.button}
-                                startIcon={<PeopleAltSharpIcon/>}
-                            >
-                              Our Admin
-                            </Button>
-                          </Link> :
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                size="medium"
-                                disabled
-                                className={classes.button}
-                                startIcon={<PeopleAltSharpIcon/>}
-                            >
-                              Our Admin
-                            </Button>
-                          ): null }
+                  {admin ? (
+                    admin.role === "super" ? (
+                      <Link href={"/admin/manage/admin"}>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          size="medium"
+                          className={classes.button}
+                          startIcon={<PeopleAltSharpIcon />}
+                        >
+                          Our Admin
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="medium"
+                        disabled
+                        className={classes.button}
+                        startIcon={<PeopleAltSharpIcon />}
+                      >
+                        Our Admin
+                      </Button>
+                    )
+                  ) : null}
                 </Grid>
               </CardActions>
             </Card>
