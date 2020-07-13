@@ -3,12 +3,12 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 
+// import style
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
-
 import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
@@ -171,7 +171,7 @@ const CourseHistory = () => {
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
+            "Authorization": "Bearer " + token,
           },
         });
         if (response.status === 200) {
