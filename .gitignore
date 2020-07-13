@@ -39,7 +39,6 @@ yarn-error.log*
 
 # Next.js
 /.next
-
 learn-npm/
 # C extensions
 *.so
