@@ -10,7 +10,8 @@ import Card from "@material-ui/core/Card";
 import ReactPlayer from "react-player";
 import UserContext from "../../store/userContext";
 import axios from "axios";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
+import Loading from "../Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,82 +94,88 @@ const SubjectContent = (props) => {
     }
   }, [id_module]);
 
-  return (
-    <main className={classes.content}>
-      <Toolbar />
-      <div>
-        {course
-          ? course.filter(mod => mod.subject_id == id_subject).map((value, index) => (
-              <div key={index}>
-                {value.lock_key ? (
+  if (loading) {
+    return <Loading />;
+  } else {
+    return (
+      <main className={classes.content}>
+        <Toolbar />
+        <div>
+          {course
+            ? course
+                .filter((mod) => mod.subject_id == id_subject)
+                .map((value, index) => (
                   <div key={index}>
-                    <h1 className={classes.title}>{value.subject.name}</h1>
-                    <h2 className={classes.intro}>Introduction</h2>
-                    <Typography paragraph className={classes.description}>
-                      {value.subject.description}
-                    </Typography>
-                    <div>
-                      {value.file_subject.map((item, index) => (
-                        <div key={index}>
-                          {item.category_file === "presentation" ? (
-                            <div>
-                              <iframe
-                                src={`https://view.officeapps.live.com/op/embed.aspx?src=${item.content_file}`}
-                                width="100%"
-                                height="520px"
-                                frameBorder="0"
-                                className={classes.frame}
-                              />
-                              <Typography
-                                variant="body2"
-                                color="textSecondary"
-                                component="p"
-                                className={classes.vidCaption}
-                              >
-                                PPT: {item.name}
-                              </Typography>
+                    {value.lock_key ? (
+                      <div key={index}>
+                        <h1 className={classes.title}>{value.subject.name}</h1>
+                        <h2 className={classes.intro}>Introduction</h2>
+                        <Typography paragraph className={classes.description}>
+                          {value.subject.description}
+                        </Typography>
+                        <div>
+                          {value.file_subject.map((item, index) => (
+                            <div key={index}>
+                              {item.category_file === "presentation" ? (
+                                <div>
+                                  <iframe
+                                    src={`https://view.officeapps.live.com/op/embed.aspx?src=${item.content_file}`}
+                                    width="100%"
+                                    height="520px"
+                                    frameBorder="0"
+                                    className={classes.frame}
+                                  />
+                                  <Typography
+                                    variant="body2"
+                                    color="textSecondary"
+                                    component="p"
+                                    className={classes.vidCaption}
+                                  >
+                                    PPT: {item.name}
+                                  </Typography>
+                                </div>
+                              ) : (
+                                <div>
+                                  <div className={classes.video}>
+                                    <ReactPlayer
+                                      playing={false}
+                                      width={800}
+                                      height={400}
+                                      config={{
+                                        file: {
+                                          attributes: {
+                                            onContextMenu: (e) =>
+                                              e.preventDefault(),
+                                          },
+                                        },
+                                      }}
+                                      controls={true}
+                                      url={item.content_file}
+                                    />
+                                  </div>
+                                  <div className={classes.vidCaption}>
+                                    <Typography
+                                      variant="body2"
+                                      color="textSecondary"
+                                      component="p"
+                                    >
+                                      Video: {item.name}
+                                    </Typography>
+                                  </div>
+                                </div>
+                              )}
                             </div>
-                          ) : (
-                            <div>
-                              <div className={classes.video}>
-                                <ReactPlayer
-                                  playing={false}
-                                  width={800}
-                                  height={400}
-                                  config={{
-                                    file: {
-                                      attributes: {
-                                        onContextMenu: (e) =>
-                                          e.preventDefault(),
-                                      },
-                                    },
-                                  }}
-                                  controls={true}
-                                  url={item.content_file}
-                                />
-                              </div>
-                              <div className={classes.vidCaption}>
-                                <Typography
-                                  variant="body2"
-                                  color="textSecondary"
-                                  component="p"
-                                >
-                                  Video: {item.name}
-                                </Typography>
-                              </div>
-                            </div>
-                          )}
+                          ))}
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
-            ))
-          : null}
-      </div>
-    </main>
-  );
+                ))
+            : null}
+        </div>
+      </main>
+    );
+  }
 };
 
 export default SubjectContent;
