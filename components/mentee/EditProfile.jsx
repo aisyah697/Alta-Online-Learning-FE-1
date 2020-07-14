@@ -275,7 +275,6 @@ const FormProfile = () => {
               label="Birth Date"
               placeholder="01 Januari 2000"
               size="medium"
-              // type="date"
               name="birthDate"
               defaultValue={user.date_birth}
               onChange={handleChange("birthDate")}

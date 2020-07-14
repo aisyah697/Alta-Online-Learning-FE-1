@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 import ErrorPage from "next/error";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -10,8 +10,12 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 
-const NavigationAdminBar = dynamic(() => import("../../../components/admin/NavigationBarAdmin"));
-const AltaTestFilter = dynamic(() => import('../../../components/admin/AltaTestFilter'))
+const NavigationAdminBar = dynamic(() =>
+  import("../../../components/admin/NavigationBarAdmin")
+);
+const AltaTestFilter = dynamic(() =>
+  import("../../../components/admin/AltaTestFilter")
+);
 const AltaTest = dynamic(() => import("../../../components/admin/AltaTest"));
 const SideBarr = dynamic(() => import("../../../components/admin/SideBarr"));
 const Footer = dynamic(() => import("../../../components/FooterBar"));
@@ -44,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: `calc(100vh - 147px)`,
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
-    flexGrow: 1
+    flexGrow: 1,
   },
   titleInPage: {
     color: theme.palette.secondary.secondary,
@@ -56,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     position: "relative",
-    marginTop: theme.spacing(20)
+    marginTop: theme.spacing(20),
   },
 }));
 
@@ -64,26 +68,26 @@ export default function Module() {
   const classes = useStyles();
   const [open] = React.useState(false);
 
-  const [cookies, setCookie] = useCookies()
-  const {admin_, load_, token_, trigger_} = useContext(AdminContext);
-  const [admin, setAdmin] = admin_
-  const [load, setLoad] = load_
-  const [trigger] = trigger_
-  const [token, setToken] = token_
+  const [cookies, setCookie] = useCookies();
+  const { admin_, load_, token_, trigger_ } = useContext(AdminContext);
+  const [admin, setAdmin] = admin_;
+  const [load, setLoad] = load_;
+  const [trigger] = trigger_;
+  const [token, setToken] = token_;
 
   const [loading, setLoading] = useState(true);
-  const [question, setQuestion] = useState('')
+  const [question, setQuestion] = useState("");
 
   React.useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/questionaltatest'
-    const auth = cookies.token_admin
-    const fetchData = async function() {
+    const url = process.env.NEXT_PUBLIC_BASE_URL + "/questionaltatest";
+    const auth = cookies.token_admin;
+    const fetchData = async function () {
       try {
         setLoading(true);
-        const response = await axios.get(url,{
+        const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            'Authorization':'Bearer ' + auth
+            Authorization: "Bearer " + auth,
           },
         });
         if (response.status === 200) {
@@ -93,39 +97,39 @@ export default function Module() {
         throw error;
       } finally {
         setLoading(false);
-        setLoad(false)
+        setLoad(false);
       }
     };
     fetchData();
   }, [load, trigger]);
 
   return (
-      <React.Fragment>
-        <Head>
-          <title>Alta Test Academy | Admin</title>
-        </Head>
-        <div className={classes.page}>
-          <div className={classes.root}>
-            <CssBaseline />
-            <AppBar className={classes.appBar}>
-              <NavigationAdminBar />
-            </AppBar>
-            <SideBarr />
-            <main className={classes.content}>
-              <div className={classes.toolbar} />
-              <Typography className={classes.titleInPage}>
-                Alterra Academy Test
-              </Typography>
-              <div>
-                <AltaTestFilter questions={question} />
-                <AltaTest questions={question}/>
-              </div>
-            </main>
-          </div>
-          <div className={classes.footer}>
-            <Footer />
-          </div>
+    <React.Fragment>
+      <Head>
+        <title>Alta Test Academy | Admin</title>
+      </Head>
+      <div className={classes.page}>
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar className={classes.appBar}>
+            <NavigationAdminBar />
+          </AppBar>
+          <SideBarr />
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Typography className={classes.titleInPage}>
+              Alterra Academy Test
+            </Typography>
+            <div>
+              <AltaTestFilter questions={question} />
+              <AltaTest questions={question} />
+            </div>
+          </main>
         </div>
-      </React.Fragment>
+        <div className={classes.footer}>
+          <Footer />
+        </div>
+      </div>
+    </React.Fragment>
   );
 }
