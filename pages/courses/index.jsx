@@ -123,7 +123,7 @@ const CoursePage = () => {
 
   const [module, setModule] = React.useState();
   const [pastModule, setPastModule] = React.useState();
-  const [cookies] = React.useCookies();
+  const [cookies] = useCookies();
   const [loading, setLoading] = React.useState(true);
   const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
