@@ -1,24 +1,30 @@
-import React, { useEffect, useState, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import MateriContext from "../store/materiContext";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import { useCookies } from "react-cookie";
-import Loading from "./Loading";
+import Router from "next/router";
 import dynamic from "next/dynamic";
-import Timer from "./Timer";
-import Button from "@material-ui/core/Button";
-import AdminContext from "../store/adminContext";
-import Dialog from "@material-ui/core/Dialog";
+import { useCookies } from "react-cookie";
+import ErrorPage from "next/error";
+
+// import style
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Router from "next/router";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Toolbar from "@material-ui/core/Toolbar";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
 
-// const Scores = dynamic(() => import("./Score"));
-const EndAltatest = dynamic(() => import("./EndAltatest"));
-const Question = dynamic(() => import("./AtestQuestion"));
+// import component
+const Timer = dynamic(() => import('./Timer'))
+const Loading = dynamic(() => import('../Loading'));
+const Question = dynamic(() => import("../AtestQuestion"));
+const EndAltatest = dynamic(() => import("../EndAltatest"));
+
+// import context
+import AdminContext from "../../store/adminContext";
+import MateriContext from "../../store/materiContext";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "&:hover": {
@@ -93,8 +99,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QuizContent(props) {
+export default function QuizContent() {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
   const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
@@ -111,6 +118,7 @@ export default function QuizContent(props) {
   };
 
   const changeStatusTest = async (status) => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
     const auth = cookies.mentee.token;
     const MyJOSN = JSON.stringify({
@@ -136,9 +144,9 @@ export default function QuizContent(props) {
       setLoad(false);
     }
   };
-  const [open, setOpen] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const urlTest = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
     const fetchData = async function () {
       try {
@@ -146,7 +154,7 @@ export default function QuizContent(props) {
         const response = await axios.get(urlTest, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + cookies.mentee.token,
+            "Authorization": "Bearer " + cookies.mentee.token,
           },
         });
         if (response.status === 200) {
@@ -155,6 +163,7 @@ export default function QuizContent(props) {
           }
           setTest(response.data);
         }
+        // eslint-disable-next-line no-useless-catch
       } catch (error) {
         throw error;
       } finally {
@@ -164,80 +173,81 @@ export default function QuizContent(props) {
     fetchData();
   }, [load]);
 
-  if (!test) {
-    return <ErrorPage statusCode={404} />;
+  if (!test){
+    return <ErrorPage statusCode={404}/>
   } else {
     return (
-      <main className={classes.content}>
-        <Toolbar />
-        <Typography variant="h4" className={classes.title}>
-          Alta Test
-        </Typography>
-        {test.is_complete === null ? (
-          <Button
-            onClick={() => changeStatusTest("start")}
-            variant="outlined"
-            className={classes.button}
-          >
-            Start
-          </Button>
-        ) : (
-          <div>
-            <EndAltatest
-              endTest={(status) => changeStatusTest(status)}
-              score={test.score}
-              statusTest={test.is_complete}
-            />
-            <Timer
-              endTest={(status) => changeStatusTest(status)}
-              statusTest={test.is_complete}
-              timeStart={test.time_start}
-            />
-            {test.is_complete === "end" ? null : (
+        <main className={classes.content}>
+          <Toolbar />
+          <Typography variant="h4" className={classes.title}>
+            Alta Test
+          </Typography>
+          {test.is_complete === null ? (
+              <Button
+                  onClick={() => changeStatusTest("start")}
+                  variant="outlined"
+                  className={classes.button}
+              >
+                Start
+              </Button>
+          ) : (
               <div>
-                {test.altatest ? (
-                  <div>
-                    {test.altatest.question.map((item, idx) => (
-                      <Question
-                        key={idx}
-                        no={idx}
-                        id={test.id}
-                        question={item}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <Loading />
+                <EndAltatest
+                    endTest={(status) => changeStatusTest(status)}
+                    score={test.score}
+                    statusTest={test.is_complete}
+                />
+                <Timer
+                    endTest={(status) => changeStatusTest(status)}
+                    statusTest={test.is_complete}
+                    timeStart={test.time_start}
+                />
+                {test.is_complete === "end" ? null : (
+                    <div>
+                      {test.altatest ? (
+                          <div>
+                            {test.altatest.question.map((item, idx) => (
+                                <Question
+                                    key={idx}
+                                    no={idx}
+                                    id={test.id}
+                                    question={item}
+                                />
+                            ))}
+                          </div>
+                      ) : (
+                          <Loading />
+                      )}
+                    </div>
                 )}
               </div>
-            )}
-          </div>
-        )}
-        <Dialog
-          fullWidth
-          maxWidth={"xs"}
-          open={open}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
-            Your Score
-          </DialogTitle>
-          <DialogContent>
-            <Typography className={classes.score}>{test.score}</Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={redirectToProgress}
-              variant="outlined"
-              size="medium"
-              className={classes.buttonInPop}
-            >
-              Next
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </main>
+          )}
+          <Dialog
+              fullWidth
+              maxWidth={"xs"}
+              open={open}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
+              Your Score
+            </DialogTitle>
+            <DialogContent>
+              <Typography className={classes.score}>{test.score}</Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                  onClick={redirectToProgress}
+                  variant="outlined"
+                  size="medium"
+                  className={classes.buttonInPop}
+              >
+                Next
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </main>
     );
   }
+
 }

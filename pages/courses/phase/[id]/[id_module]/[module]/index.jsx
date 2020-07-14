@@ -258,7 +258,7 @@ export default function Detail() {
                   <div key={index} className={classes.root}>
                     <div className={classes.textPengantar}>
                       <Typography className={classes.judulModule}>
-                        Module {index + 1}: {item.module.name}
+                        Module : {item.module.name}
                       </Typography>
                       <Typography className={classes.keteranganModule}>
                         Introduction of {item.module.name}

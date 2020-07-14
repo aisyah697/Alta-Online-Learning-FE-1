@@ -1,28 +1,31 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useCookies } from "react-cookie";
-import AdminContext from "../../store/adminContext";
-import axios from "axios";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { Done } from "@material-ui/icons";
-import withStyles from "@material-ui/core/styles/withStyles";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
+import dynamic from "next/dynamic";
+import Link from 'next/link';
+import axios from "axios";
+
+// import style
+import CircularProgress from "@material-ui/core/CircularProgress";
 import TableContainer from "@material-ui/core/TableContainer";
-import Table from "@material-ui/core/Table";
+import withStyles from "@material-ui/core/styles/withStyles";
+import ListItemText from "@material-ui/core/ListItemText";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
-import { makeStyles } from "@material-ui/core/styles";
-import dynamic from "next/dynamic";
-import Link from 'next/link'
+import ListItem from "@material-ui/core/ListItem";
+import TableRow from "@material-ui/core/TableRow";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import { Done } from "@material-ui/icons";
+import Box from "@material-ui/core/Box";
+
+import AdminContext from "../../store/adminContext";
 
 const Loading = dynamic(() => import("./../Loading"));
 
@@ -162,6 +165,7 @@ CircularProgressWithLabel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
+// eslint-disable-next-line react/prop-types
 const ListItemBase = ({ subject, done }) => {
   return (
     <React.Fragment>
@@ -191,15 +195,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, quiz1, quiz2, quiz3) {
-  return { name, quiz1, quiz2, quiz3 };
-}
-
-const rows = [
-  createData("What is Python", "1", "2", "3"),
-  createData("What is Python", "4", "5", "6"),
-];
-
+// eslint-disable-next-line react/prop-types
 function CustomizedTables({ sub }) {
   const classes = useStyles();
 
@@ -213,6 +209,7 @@ function CustomizedTables({ sub }) {
           </TableRow>
         </TableHead>
         <TableBody>
+          {/* eslint-disable-next-line react/prop-types */}
           {sub.map((row, idx) => (
             <StyledTableRow key={idx}>
               <StyledTableCell component="th" scope="row">
@@ -241,8 +238,10 @@ const CurrentCourse = ({ currentModule, no }) => {
   const [modules, setModule] = React.useState();
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/mentee`;
     const fetchData = async function () {
+      // eslint-disable-next-line no-useless-catch
       try {
         const response = await axios.get(url, {
           headers: {
@@ -263,8 +262,10 @@ const CurrentCourse = ({ currentModule, no }) => {
   }, []);
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + `/historymodule/mentee`;
     const fetchData = async function () {
+      // eslint-disable-next-line no-useless-catch
       try {
         const response = await axios.get(url, {
           headers: {
@@ -285,8 +286,10 @@ const CurrentCourse = ({ currentModule, no }) => {
   }, []);
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
     const fetchData = async function () {
+      // eslint-disable-next-line no-useless-catch
       try {
         const response = await axios.get(url, {
           headers: {
@@ -311,8 +314,8 @@ const CurrentCourse = ({ currentModule, no }) => {
     var lastPhase = lastArray[lastArray.length - 1];
   }
   if (subjects) {
-    const lastArr = subjects.filter(res => res.is_complete == false);
-    var lastSubject = lastArr[0];
+    const lastArr = subjects.filter(res => res.is_complete == true);
+    var lastSubject = lastArr[lastArr.length - 1];
   }
   if (modules) {
     const lasyArs = modules.filter(mod => mod.lock_key == true);
@@ -320,6 +323,7 @@ const CurrentCourse = ({ currentModule, no }) => {
   }
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/subject/" + currentModule.module_id;
     const auth = cookies.mentee.token;
     const fetchData = async function () {
@@ -334,6 +338,7 @@ const CurrentCourse = ({ currentModule, no }) => {
         if (response.status === 200) {
           setSubject(response.data);
         }
+        // eslint-disable-next-line no-useless-catch
       } catch (error) {
         throw error;
       } finally {
@@ -392,12 +397,12 @@ const CurrentCourse = ({ currentModule, no }) => {
                     </List>
                   </Grid>
                   <Grid item xs={12} lg={6} className={classes.box3}>
-                    {/*<Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}*/}
-                    {/*      as={`/courses/phase/${lastPhase? lastPhase.phase_id : null}/${lastSubject? lastSubject.subject.module_id : 'empty'}/${lastModule? lastModule.module.name.split(" ").join("-") : null}/subject`}>*/}
+                    <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
+                          as={`/courses/phase/${lastPhase? lastPhase.phase_id : null}/${lastSubject? lastSubject.subject.module_id : null}/${lastModule? lastModule.module.name.split(" ").join("-") : null}/subject`}>
                     <Button className={classes.button} variant={"outlined"}>
                       Go to course
                     </Button>
-                    {/*</Link>*/}
+                    </Link>
                   </Grid>
                 </Grid>
               </div>

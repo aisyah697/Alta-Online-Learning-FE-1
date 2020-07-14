@@ -1,18 +1,13 @@
 import React from "react";
-import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
-import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
+
+// import style
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import Box from "@material-ui/core/Box";
-import { Done } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   bannerBox: {
@@ -44,16 +39,20 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
   },
   root: {
-    width: "90%",
+    width: "100%",
     padding: theme.spacing(2),
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(5),
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       paddingTop: "5px",
+      padding: theme.spacing(1),
     },
   },
   avatar: {
     width: "100px",
     height: "100px",
+    border: '3px solid #f4752e',
     [theme.breakpoints.down("sm")]: {
       width: "60px",
       height: "60px",
@@ -78,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
   ornament: {
     height: "50vh",
+    padding: theme.spacing(1),
     [theme.breakpoints.down("sm")]: {
       paddingTop: "25px",
     },
@@ -119,14 +119,16 @@ const Testimony = {
   ],
 };
 
-const CustomPaper = ({ classes }) => {
+// eslint-disable-next-line react/prop-types
+const CustomPaper = () => {
+  const classes = useStyles();
   return (
     <div>
       {Testimony
         ? Testimony.list.map((item, index) => (
             <Card key={index} elevation={0} className={classes.root}>
               <CardContent className={classes.content}>
-                <Avatar className={classes.avatar} src={item.avatar} />
+                <Avatar src={item.avatar} className={classes.avatar} />
                 <div className={classes.text}>
                   <Typography style={{ fontWeight: 700 }}>
                     {item.mentor}
@@ -157,13 +159,13 @@ const HomeTestimony = () => {
       </div>
       <img
         className={classes.ornament}
-        src="/images/ornament_batik.png"
+        src={"/images/ornament_batik.png"}
         alt="Ornament"
       />
       <Box width={"100%"} padding={0} className={classes.bannerBox}>
         <Grid container spacing={0}>
           <Grid item xs={12} className={classes.container}>
-            <CustomPaper classes={classes} />
+            <CustomPaper/>
           </Grid>
         </Grid>
       </Box>

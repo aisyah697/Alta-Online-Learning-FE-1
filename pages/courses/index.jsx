@@ -7,22 +7,18 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
 
-const CurrentCourse = dynamic(() =>
-  import("../../components/course/CurrentCourse")
-);
+// import style
+const CurrentCourse = dynamic(() => import("../../components/course/CurrentCourse"));
+const Certificate = dynamic(() => import("../../components/course/Certificate"));
+const PastCourses = dynamic(() => import("../../components/course/PastCourse"));
 const NavigationBar = dynamic(() => import("../../components/NavigationBar"));
-const Certificate = dynamic(() =>
-  import("../../components/course/Certificate")
-);
 const FooterBar = dynamic(() => import("../../components/FooterBar"));
 const Loading = dynamic(() => import("../../components/Loading"));
-
-const PastCourses = dynamic(() => import("../../components/course/PastCourse"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
     overflowX: "hidden",
+    minHeight: `calc(70vh)`
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -128,11 +125,12 @@ const CoursePage = () => {
   const [module, setModule] = React.useState();
   const [pastModule, setPastModule] = React.useState();
   const [cookies] = useCookies();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = React.useState(true);
   const { load_ } = useContext(AdminContext);
   const [load, setLoad] = load_;
 
   useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/mentee";
     const auth = cookies.mentee.token;
     const fetchData = async function () {
@@ -146,10 +144,9 @@ const CoursePage = () => {
         });
         if (response.status === 200) {
           setModule(response.data.filter((item) => item.lock_key === true));
-          setPastModule(
-            response.data.filter((item) => item.is_complete === true)
-          );
+          setPastModule(response.data.filter((item) => item.is_complete === true));
         }
+        // eslint-disable-next-line no-useless-catch
       } catch (error) {
         throw error;
       } finally {

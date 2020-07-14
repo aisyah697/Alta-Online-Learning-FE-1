@@ -1,5 +1,7 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+
+// import style
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import theme from '../utils/theme';
 

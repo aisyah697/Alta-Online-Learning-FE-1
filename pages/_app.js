@@ -1,26 +1,28 @@
-import React, { useState } from "react";
-import theme from "../utils/theme";
-import PropTypes from "prop-types";
-import Router from "next/router";
+import React from "react";
 import Head from "next/head";
-import "../public/index.css";
+import PropTypes from "prop-types";
 import { CookiesProvider, useCookies } from "react-cookie";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 
+// import style
+import "../public/index.css";
+import theme from "../utils/theme";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/core/styles";
+
+// import context
 import UserContext from "../store/userContext";
 import AdminContext from "../store/adminContext";
 import MateriContext from "../store/materiContext";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
-  const [cookies, setCookies, removeCookie] = useCookies();
+  const [cookies] = useCookies();
 
   //Mentee
-  const [loginMentee, setLoginMentee] = useState([]);
-  const [tokenMentee, setTokenMentee] = useState([]);
-  const [mentee, setMentee] = useState([]);
-  const [regist, setRegist] = useState(false);
+  const [loginMentee, setLoginMentee] = React.useState([]);
+  const [tokenMentee, setTokenMentee] = React.useState([]);
+  const [mentee, setMentee] = React.useState([]);
+  const [regist, setRegist] = React.useState(false);
 
   const store_mentee = {
     login_: [loginMentee, setLoginMentee],
@@ -54,13 +56,13 @@ export default function MyApp(props) {
   }, []);
 
   //Admin
-  const [login, setLogin] = useState([]);
-  const [token, setToken] = useState([]);
-  const [admin, setAdmin] = useState([]);
-  const [list, setList] = useState([]);
-  const [listMentee, setListMentee] = useState([]);
-  const [load, setLoad] = useState(false);
-  const [trigger, setTrigger] = useState(false)
+  const [login, setLogin] = React.useState([]);
+  const [token, setToken] = React.useState([]);
+  const [admin, setAdmin] = React.useState([]);
+  const [list, setList] = React.useState([]);
+  const [listMentee, setListMentee] = React.useState([]);
+  const [load, setLoad] = React.useState(false);
+  const [trigger, setTrigger] = React.useState(false)
 
   const store_admin = {
     login_: [login, setLogin],
@@ -90,7 +92,7 @@ export default function MyApp(props) {
   }, []);
 
   //Materi
-  const [test, setTest] = useState([]);
+  const [test, setTest] = React.useState([]);
 
   const store_materi = {
     test_: [test, setTest],
