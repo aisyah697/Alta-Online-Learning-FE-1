@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
     overflowX: "hidden",
+    minHeight: `calc(44vh)`
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -143,9 +144,7 @@ const CoursePage = () => {
         });
         if (response.status === 200) {
           setModule(response.data.filter((item) => item.lock_key === true));
-          setPastModule(
-            response.data.filter((item) => item.is_complete === true)
-          );
+          setPastModule(response.data.filter((item) => item.is_complete === true));
         }
         // eslint-disable-next-line no-useless-catch
       } catch (error) {
@@ -157,6 +156,8 @@ const CoursePage = () => {
     };
     fetchData();
   }, [load]);
+
+  console.log('AAA', module)
 
   if (module === undefined) {
     return <Loading />;
