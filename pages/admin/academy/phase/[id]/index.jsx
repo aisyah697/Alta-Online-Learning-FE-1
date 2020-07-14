@@ -8,10 +8,18 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 
-const NavigationAdminBar = dynamic(() => import("../../../../../components/admin/NavigationBarAdmin"));
-const AddModule = dynamic(() => import("../../../../../components/admin/AddModule"));
-const ModuleAdmin = dynamic(() => import("../../../../../components/admin/Module"));
-const SideBarr = dynamic(() => import("../../../../../components/admin/SideBarr"));
+const NavigationAdminBar = dynamic(() =>
+  import("../../../../../components/admin/NavigationBarAdmin")
+);
+const AddModule = dynamic(() =>
+  import("../../../../../components/admin/AddModule")
+);
+const ModuleAdmin = dynamic(() =>
+  import("../../../../../components/admin/Module")
+);
+const SideBarr = dynamic(() =>
+  import("../../../../../components/admin/SideBarr")
+);
 const Footer = dynamic(() => import("../../../../../components/FooterBar"));
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
     minHeight: `calc(100vh - 147px)`,
-    flexGrow: 1
+    flexGrow: 1,
   },
   titleInPage: {
     color: theme.palette.secondary.secondary,
@@ -52,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     position: "relative",
-    marginTop: theme.spacing(20)
+    marginTop: theme.spacing(20),
   },
 }));
 

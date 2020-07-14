@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import axios from "axios";
@@ -11,13 +11,27 @@ import AppBar from "@material-ui/core/AppBar";
 import { useCookies } from "react-cookie";
 import Grid from "@material-ui/core/Grid";
 
-const NavigationAdminBar = dynamic(() => import("../../../../../../../../components/admin/NavigationBarAdmin"));
-const DeleteSubject = dynamic(() => import("../../../../../../../../components/admin/DeleteSubject"));
-const EditSubject = dynamic(() => import("../../../../../../../../components/admin/EditSubject"));
-const SubjectAdmin = dynamic(() => import("../../../../../../../../components/admin/Subject"));
-const SideBarr = dynamic(() => import("../../../../../../../../components/admin/SideBarr"));
-const Footer = dynamic(() => import("../../../../../../../../components/FooterBar"));
-const Loading = dynamic(() => import("../../../../../../../../components/Loading"));
+const NavigationAdminBar = dynamic(() =>
+  import("../../../../../../../../components/admin/NavigationBarAdmin")
+);
+const DeleteSubject = dynamic(() =>
+  import("../../../../../../../../components/admin/DeleteSubject")
+);
+const EditSubject = dynamic(() =>
+  import("../../../../../../../../components/admin/EditSubject")
+);
+const SubjectAdmin = dynamic(() =>
+  import("../../../../../../../../components/admin/Subject")
+);
+const SideBarr = dynamic(() =>
+  import("../../../../../../../../components/admin/SideBarr")
+);
+const Footer = dynamic(() =>
+  import("../../../../../../../../components/FooterBar")
+);
+const Loading = dynamic(() =>
+  import("../../../../../../../../components/Loading")
+);
 
 import AdminContext from "../../../../../../../../store/adminContext";
 
@@ -47,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
-    minHeight: `calc(100vh - 147px)`
+    minHeight: `calc(100vh - 147px)`,
   },
   titleInPage: {
     textAlign: "center",
@@ -59,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     position: "relative",
-    marginTop: theme.spacing(20)
+    marginTop: theme.spacing(20),
   },
 }));
 
@@ -75,7 +89,7 @@ export default function Subject() {
   const [cookies] = useCookies();
   const { load_, trigger_ } = React.useContext(AdminContext);
   const [load, setLoad] = load_;
-  const [trigger, setTrigger] = trigger_
+  const [trigger, setTrigger] = trigger_;
 
   React.useEffect(() => {
     const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/subject/nested";
@@ -85,7 +99,7 @@ export default function Subject() {
         const response = await axios.get(urlSubject, {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + cookies.admin.token,
+            Authorization: "Bearer " + cookies.admin.token,
           },
         });
         if (response.status === 200) {
@@ -101,30 +115,32 @@ export default function Subject() {
   }, [load, trigger, id_subject]);
 
   return (
-      <React.Fragment>
-        <Head>
-          <title>Admin | Academy</title>
-        </Head>
-        <div className={classes.page}>
-          <div className={classes.root}>
-            <CssBaseline/>
-            <AppBar className={classes.appBar}>
-              <NavigationAdminBar/>
-            </AppBar>
-            <SideBarr/>
-            <main className={classes.content}>
-              {subject ?
-                  subject.filter(map => map.id == id_subject).map((item, index) => (
+    <React.Fragment>
+      <Head>
+        <title>Admin | Academy</title>
+      </Head>
+      <div className={classes.page}>
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar className={classes.appBar}>
+            <NavigationAdminBar />
+          </AppBar>
+          <SideBarr />
+          <main className={classes.content}>
+            {subject ? (
+              subject
+                .filter((map) => map.id == id_subject)
+                .map((item, index) => (
                   <React.Fragment key={index}>
-                    <div className={classes.toolbar}/>
+                    <div className={classes.toolbar} />
                     <Typography className={classes.titleInPage}>
                       {item.name}
                     </Typography>
                     <Grid
-                        container
-                        direction="row"
-                        justify="flex-start"
-                        alignItems="flex-start"
+                      container
+                      direction="row"
+                      justify="flex-start"
+                      alignItems="flex-start"
                     >
                       <EditSubject subject={item} />
                       <DeleteSubject ID={item.id} />
@@ -134,14 +150,15 @@ export default function Subject() {
                     </div>
                   </React.Fragment>
                 ))
-                  : <Typography> No Data </Typography>
-              }
-            </main>
-          </div>
-          <div className={classes.footer}>
-            <Footer/>
-          </div>
+            ) : (
+              <Typography> No Data </Typography>
+            )}
+          </main>
         </div>
-      </React.Fragment>
+        <div className={classes.footer}>
+          <Footer />
+        </div>
+      </div>
+    </React.Fragment>
   );
 }
