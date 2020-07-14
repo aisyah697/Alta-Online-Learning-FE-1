@@ -19,11 +19,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     fontFamily: "Roboto, sans-serif",
   },
-  table: {
-    maxWidth: "100%",
-    border: "none",
-    fontSize: "14px",
-  },
   tableBody: {
     borderBottom: "none",
     fontSize: "16px",
@@ -105,6 +100,7 @@ const ProfileMentee = () => {
     createData("GitHub", `: ${user.github}`),
     createData("About", `: ${user.description}`),
   ];
+
   return (
     <div>
       <Grid container spacing={3}>

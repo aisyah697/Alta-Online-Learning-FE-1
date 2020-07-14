@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(3),
     backgroundColor: "#F4F7FC",
-    minHeight: `calc(100vh - 155px)`,
+    minHeight: `calc(100vh - 145px)`,
     flexGrow: 1,
   },
   titleInPage: {

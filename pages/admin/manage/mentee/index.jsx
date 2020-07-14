@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2, 0, 2, 0),
     backgroundColor: "#F4F7FC",
-    minHeight: `calc(100vh - 185px)`,
+    minHeight: `calc(100vh - 179px)`,
   },
   main: {
     margin: theme.spacing(4, 8),

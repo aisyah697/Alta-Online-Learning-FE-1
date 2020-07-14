@@ -7,10 +7,18 @@ import dynamic from "next/dynamic";
 import Typography from "@material-ui/core/Typography";
 import { useRouter } from "next/router";
 
-const Footer = dynamic(() => import("../../../../../../../components/FooterBar"));
-const NavigationAdminBar = dynamic(() => import("../../../../../../../components/admin/NavigationBarAdmin"));
-const AllSubject = dynamic(() => import("../../../../../../../components/admin/AllSubject"));
-const SideBarr = dynamic(() => import("../../../../../../../components/admin/SideBarr"));
+const Footer = dynamic(() =>
+  import("../../../../../../../components/FooterBar")
+);
+const NavigationAdminBar = dynamic(() =>
+  import("../../../../../../../components/admin/NavigationBarAdmin")
+);
+const AllSubject = dynamic(() =>
+  import("../../../../../../../components/admin/AllSubject")
+);
+const SideBarr = dynamic(() =>
+  import("../../../../../../../components/admin/SideBarr")
+);
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -50,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   footer: {
     position: "relative",
-    marginTop: theme.spacing(20)
+    marginTop: theme.spacing(20),
   },
 }));
 
@@ -75,9 +83,7 @@ export default function Index() {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Typography className={classes.titleInPage}>
-              {module ?
-              `Subject In ${module.split("-").join(" ")}`
-              : null }
+              {module ? `Subject In ${module.split("-").join(" ")}` : null}
             </Typography>
 
             <div>
