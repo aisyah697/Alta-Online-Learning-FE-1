@@ -109,7 +109,7 @@ const SubjectDrawer = (props) => {
   const [course, setCourse] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const url =
       process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
     const fetchData = async function () {
@@ -175,7 +175,7 @@ const SubjectDrawer = (props) => {
                             as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}`}
                           >
                             <Typography className={classes.allText}>
-                              Materi
+                              Subject Matter
                             </Typography>
                           </Link>
                         </AccordionDetails>

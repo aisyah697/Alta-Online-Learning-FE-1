@@ -38,11 +38,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(4),
-    fontSize: `calc(1em + 1vw)`,
+    fontSize: `calc(0.6em + 0.7vw)`,
     fontFamily: "Muli, sans-serif",
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 0),
-    minWidth: theme.spacing(35),
+    minWidth: theme.spacing(25),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
