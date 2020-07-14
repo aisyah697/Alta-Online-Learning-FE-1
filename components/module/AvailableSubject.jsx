@@ -144,7 +144,7 @@ export default function AvailableSubjects({ subject }) {
             setReview("undefined");
           } else {
             // setReview(response.data.filter(rev => rev.module_id == id_module));
-            setReview(response.data.filter(item => item.mentee_id == mentee.id && item.module_id == id_module));
+            setReview(response.data.filter(item => item.module_id == id_module && item.mentee_id == mentee.id));
           }
         }
       } catch (error) {
@@ -153,7 +153,7 @@ export default function AvailableSubjects({ subject }) {
         setLoading(false);
       }
     };
-    if (id_module) {
+    if (id_module && mentee) {
       fetchData();
     }
   }, [id_module]);

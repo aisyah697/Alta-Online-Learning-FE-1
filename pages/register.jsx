@@ -1,8 +1,11 @@
 import React from "react";
-import Head from "next/head";
-import dynamic from "next/dynamic";
 import clsx from "clsx";
+import axios from "axios";
+import Head from "next/head";
+import Router from "next/router";
+import dynamic from "next/dynamic";
 
+// import style
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -19,11 +22,10 @@ import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import axios from "axios";
-import Router from "next/router";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
-const NavigationBar = dynamic(() => import('../components/NavigationBar'))
-const Footer = dynamic(() => import('../components/FooterBar'))
+// import component
 const Link = dynamic(() => import('../utils/link'))
 
 const useStyles = makeStyles((theme) => ({
@@ -113,14 +115,37 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
   },
+  inputUpload: {
+    display: 'none',
+  },
+  uploadButton : {
+    marginLeft: '45px',
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: '35px',
+    },
+  }
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const RegisterPage = () => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
   const [values, setValues] = React.useState({
-    password: "",
-    showPassword: false,
+      password: "",
+      showPassword: false,
+      username: "",
+      email: "",
+      fullName: "",
+      phoneNumber: ""
   });
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleChange = () => (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
@@ -142,6 +167,40 @@ const RegisterPage = () => {
   };
 
   const postRegister = async () => {
+      const username = values.username
+      const password = values.password
+      const email = values.email
+      const fullName = values.fullName
+      const phoneNumber = values.phoneNumber
+
+    if (username != '' && password != '' && email != '' && fullName != '' && phoneNumber != "") {
+      Register();
+    } else {
+      if (fullName == '') {
+        setMessage('Please enter your name');
+        setOpen(true);
+      }
+      if (email == '') {
+        setMessage('Please enter your email');
+        setOpen(true);
+      }
+      if (username == '') {
+        setMessage('Please enter your username');
+        setOpen(true);
+      }
+      if (password == '') {
+        setMessage('Please enter your password');
+        setOpen(true);
+      }
+      if (phoneNumber == ''){
+        setMessage('Please enter your phone number');
+        setOpen(true);
+      }
+    }
+  }
+
+  const Register = async () => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee'
     const formRegis = new FormData()
     formRegis.append('full_name', values.fullName)
@@ -154,6 +213,9 @@ const RegisterPage = () => {
     formRegis.append('github', values.github)
     formRegis.append('description', values.about)
     formRegis.append('avatar', images)
+    formRegis.append('background_education', '-')
+    formRegis.append('description', '-')
+    formRegis.append('address', '-')
 
     try {
       const response = await axios.post(url, formRegis,{
@@ -177,7 +239,6 @@ const RegisterPage = () => {
         <title>Register | Alta Online Learning</title>
       </Head>
       <main>
-        <NavigationBar />
         <Grid className={classes.page} container justify="center">
           <Grid container justify="center">
             <Card elevation={0} className={classes.root}>
@@ -205,9 +266,10 @@ const RegisterPage = () => {
                         variant="outlined"
                         color="secondary"
                         label="Full Name"
-                        placeholder="Ahmad Aji P"
                         size="small"
                         name="fullName"
+                        placeholder="Full name"
+                        required
                         onChange={handleChange("fullName")}
                       />
                       <TextField
@@ -216,20 +278,22 @@ const RegisterPage = () => {
                         color="secondary"
                         label="Email"
                         type="email"
-                        placeholder="example@alterra.id"
                         size="small"
                         name="email"
+                        required
+                        placeholder="example@alterra.id"
                         onChange={handleChange("email")}
                       />
                       <TextField
                         className={classes.formAll}
                         variant="outlined"
                         color="secondary"
-                        label="User Name"
+                        label="Username"
                         type="username"
-                        placeholder="Ahmad Aji P"
                         size="small"
                         name="username"
+                        required
+                        placeholder="johndoe"
                         onChange={handleChange("username")}
                       />
                       <FormControl
@@ -238,7 +302,7 @@ const RegisterPage = () => {
                         size="small"
                         color="secondary"
                       >
-                        <InputLabel htmlFor="outlined-adornment-password">
+                        <InputLabel htmlFor="outlined-adornment-password" required>
                           Password
                         </InputLabel>
                         <OutlinedInput
@@ -247,6 +311,7 @@ const RegisterPage = () => {
                           type={values.showPassword ? "text" : "password"}
                           value={values.password}
                           name="password"
+                          required
                           onChange={handleChange("password")}
                           endAdornment={
                             <InputAdornment position="end">
@@ -279,11 +344,22 @@ const RegisterPage = () => {
                       alignItems="center"
                     >
                       <TextField
+                          variant="outlined"
+                          color="secondary"
+                          label="Phone Number"
+                          placeholder="085xxxxxxxxx"
+                          size="small"
+                          className={classes.formAll}
+                          name="phoneNumber"
+                          required
+                          onChange={handleChange("phoneNumber")}
+                      />
+                      <TextField
                         variant="outlined"
                         color="secondary"
                         id="date"
-                        label="Birthday"
-                        type="text"
+                        label="Birth Day"
+                        type="date"
                         size="small"
                         name="birthDate"
                         onChange={handleChange("birthDate")}
@@ -306,33 +382,41 @@ const RegisterPage = () => {
                       <TextField
                         variant="outlined"
                         color="secondary"
-                        label="Phone Number"
-                        placeholder="08XXXXXXXXXX"
-                        size="small"
-                        className={classes.formAll}
-                        name="phoneNumber"
-                        onChange={handleChange("phoneNumber")}
-                      />
-                      <TextField
-                        variant="outlined"
-                        color="secondary"
                         label="GitHub Link"
-                        placeholder="github.com/....."
+                        placeholder="github.com/johndoe"
                         size="small"
                         className={classes.formAll}
                         name="github"
                         onChange={handleChange("github")}
                       />
                       <Grid container alignItems="flex-start">
+                        {/*<input*/}
+                        {/*  accept="image/*"*/}
+                        {/*  className={classes.input}*/}
+                        {/*  id="icon-button-file"*/}
+                        {/*  type="file"*/}
+                        {/*  size="large"*/}
+                        {/*  name="imageUrl"*/}
+                        {/*  onChange={handleImage}*/}
+                        {/*/>*/}
                         <input
-                          accept="image/*"
-                          className={classes.input}
-                          id="icon-button-file"
-                          type="file"
-                          size="large"
-                          name="imageUrl"
-                          onChange={handleImage}
+                            accept="image/*"
+                            className={classes.input}
+                            id="contained-button-file"
+                            multiple
+                            style={{display: 'none'}}
+                            type="file"
+                            size="large"
+                            name="imageUrl"
+                            onChange={handleImage}
+
                         />
+                        <label htmlFor="contained-button-file">
+                          <Button className={classes.uploadButton} variant="contained" color="primary" component="span">
+                            Upload
+                          </Button>
+                          {" "}{images.name}{" "}
+                        </label>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -357,15 +441,27 @@ const RegisterPage = () => {
                     className={classes.textAlreadyHaveAccount}
                     href={"/login"}
                   >
-                    <Typography>Already have account? Login!</Typography>
+                    {`Already have account? Login!`}
                   </Link>
                 </Grid>
               </CardActions>
             </Card>
           </Grid>
         </Grid>
-        <Footer />
       </main>
+      <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

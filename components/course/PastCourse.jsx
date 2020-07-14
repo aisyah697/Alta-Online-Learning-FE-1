@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
 import { useCookies } from "react-cookie";
 import { makeStyles } from "@material-ui/core/styles";
-import UserContext from "../../store/userContext";
 import axios from "axios";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -54,18 +53,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PastCourses() {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
 
   const [cookies] = useCookies();
 
-  const { mentee_, token_ } = useContext(UserContext);
-  const [mentee, setMentee] = mentee_;
-  const [tokenMentee, setTokenMentee] = token_;
-
   const [course, setCourse] = React.useState();
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/mentee";
     const fetchData = async function () {
       try {
@@ -79,6 +75,7 @@ export default function PastCourses() {
         if (response.status === 200) {
           setCourse(response.data);
         }
+        // eslint-disable-next-line no-useless-catch
       } catch (error) {
         throw error;
       } finally {
@@ -124,7 +121,7 @@ export default function PastCourses() {
                       <Grid item xs={5}>
                         {item.subject
                           ? item.subject.map((item, index) => (
-                              <Typography className={classes.content}>
+                              <Typography key={index} className={classes.content}>
                                 {item.name}
                               </Typography>
                             ))
@@ -133,7 +130,7 @@ export default function PastCourses() {
                       <Grid item xs={3}>
                         {item.subject
                           ? item.subject.map((item, index) => (
-                              <Typography className={classes.content}>
+                              <Typography key={index} className={classes.content}>
                                 {index + 1}
                               </Typography>
                             ))
@@ -142,7 +139,7 @@ export default function PastCourses() {
                       <Grid item xs={4}>
                         {item.subject
                           ? item.subject.map((item, index) => (
-                              <Typography
+                              <Typography key={index}
                                 className={classes.feedbackForm}
                                 align="center"
                               >

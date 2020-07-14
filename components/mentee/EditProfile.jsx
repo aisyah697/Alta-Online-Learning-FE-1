@@ -1,18 +1,20 @@
 import React, { useContext } from "react";
+import axios from "axios";
+import dynamic from "next/dynamic";
+import { useCookies } from "react-cookie";
+
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
 import Snackbar from "@material-ui/core/Snackbar";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
 import MuiAlert from "@material-ui/lab/Alert";
-import dynamic from "next/dynamic";
-import Router, { useRouter } from "next/router";
-import { useCookies } from "react-cookie";
-import axios from "axios";
+import Grid from "@material-ui/core/Grid";
+
 import UserContext from "../../store/userContext";
 
 const Link = dynamic(() => import("../../utils/link"));
+const Loading = dynamic(() => import('../Loading'))
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,14 +117,11 @@ function Alert(props) {
 
 const FormProfile = () => {
   const classes = useStyles();
-  const router = useRouter();
-  const { profile } = router.query;
 
   const [open, setOpen] = React.useState(false);
   const [cookies, setCookie] = useCookies();
-  const { mentee_, login_, token_ } = useContext(UserContext);
+  const { mentee_ } = useContext(UserContext);
   const [user, setUser] = mentee_;
-  const [tokenMentee, setTokenMentee] = token_;
 
   const [values, setValues] = React.useState({
     fullName: user.full_name,
@@ -153,6 +152,7 @@ const FormProfile = () => {
   };
 
   const postEditProfile = async () => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/mentee/" + user.id;
     const auth = cookies.token_mentee;
 
@@ -186,183 +186,183 @@ const FormProfile = () => {
   };
 
   return (
-    <div>
-      <Grid container spacing={3}>
-        <Grid item xs={6}>
-          <h1 className={classes.h1}>Edit Profile</h1>
-        </Grid>
-        <Grid item xs={6} className={classes.viewProfile}>
-          <Link
-            href={"/mentee/[id]/[profile]"}
-            as={`/mentee/${user.id}/${user.username}`}
-          >
-            <Button
-              className={classes.buttonProfile}
-              variant="contained"
-              color="primary"
+      <div>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <h1 className={classes.h1}>Edit Profile</h1>
+          </Grid>
+          <Grid item xs={6} className={classes.viewProfile}>
+            <Link
+                href={"/mentee/[id]/[profile]"}
+                as={`/mentee/${user.id}/${user.username}`}
             >
-              My Profile
+              <Button
+                  className={classes.buttonProfile}
+                  variant="contained"
+                  color="primary"
+              >
+                My Profile
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
+        <div className={classes.avatar}>
+          <Avatar
+              alt="Mentee Picture"
+              src={user.avatar}
+              className={classes.large}
+          />
+        </div>
+        <div className={classes.divButton}>
+          <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              name="image"
+              onChange={handleImage}
+          />
+          <label htmlFor="contained-button-file">
+            <Button
+                className={classes.uploadPhoto}
+                variant="contained"
+                color="primary"
+                component="span"
+            >
+              Upload Photo
             </Button>
-          </Link>
+          </label>
+        </div>
+        <Grid container spacing={3}>
+          <Grid item xs={1} md={2}/>
+          <Grid item xs={10} md={8} style={{textAlign: "center"}}>
+            <form className={classes.form} noValidate autoComplete="off">
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="Full Name"
+                  size="medium"
+                  name="fullName"
+                  defaultValue={user.full_name}
+                  onChange={handleChange("fullName")}
+              />
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="Email"
+                  size="medium"
+                  name="email"
+                  defaultValue={user.email}
+                  onChange={handleChange("email")}
+              />
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="Birth Place"
+                  size="medium"
+                  name="birthPlace"
+                  defaultValue={user.place_birth}
+                  onChange={handleChange("birthPlace")}
+              />
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="Birth Date"
+                  placeholder="01 Januari 2000"
+                  size="medium"
+                  type="date"
+                  name="birthDate"
+                  defaultValue={user.date_birth}
+                  onChange={handleChange("birthDate")}
+              />
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="Phone Number"
+                  placeholder="08xxxxxxxxxx"
+                  size="medium"
+                  name="phoneNumber"
+                  defaultValue={user.phone}
+                  onChange={handleChange("phoneNumber")}
+              />
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="Address"
+                  placeholder="Jl. Tidar No. 123, Malang"
+                  size="medium"
+                  name="address"
+                  defaultValue={user.address}
+                  onChange={handleChange("address")}
+              />
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="Education"
+                  placeholder="S1 Teknik Informatika"
+                  size="medium"
+                  name="background_education"
+                  defaultValue={user.background_education}
+                  onChange={handleChange("background_education")}
+              />
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="GitHub"
+                  placeholder="github.com/johndoe"
+                  size="medium"
+                  name="github"
+                  defaultValue={user.github}
+                  onChange={handleChange("github")}
+              />
+              <TextField
+                  className={classes.textField}
+                  variant="outlined"
+                  color="secondary"
+                  label="About Me"
+                  size="medium"
+                  multiline
+                  rows={3}
+                  rowsMax={4}
+                  name="about"
+                  defaultValue={user.description}
+                  onChange={handleChange("about")}
+              />
+            </form>
+            <Button
+                className={classes.buttonProfile}
+                variant="contained"
+                color="primary"
+                onClick={postEditProfile}
+            >
+              Save Changes
+            </Button>
+          </Grid>
+          <Grid item xs={1} md={2}/>
         </Grid>
-      </Grid>
-      <div className={classes.avatar}>
-        <Avatar
-          alt="Mentee Picture"
-          src={user.avatar}
-          className={classes.large}
-        />
+        <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+        >
+          <Alert onClose={handleClose} severity="success">
+            Your profile was successfully updated!
+          </Alert>
+        </Snackbar>
       </div>
-      <div className={classes.divButton}>
-        <input
-          accept="image/*"
-          className={classes.input}
-          id="contained-button-file"
-          multiple
-          type="file"
-          name="image"
-          onChange={handleImage}
-        />
-        <label htmlFor="contained-button-file">
-          <Button
-            className={classes.uploadPhoto}
-            variant="contained"
-            color="primary"
-            component="span"
-          >
-            Upload Photo
-          </Button>
-        </label>
-      </div>
-      <Grid container spacing={3}>
-        <Grid item xs={1} md={2} />
-        <Grid item xs={10} md={8} style={{ textAlign: "center" }}>
-          <form className={classes.form} noValidate autoComplete="off">
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="Full Name"
-              size="medium"
-              name="fullName"
-              defaultValue={user.full_name}
-              onChange={handleChange("fullName")}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="Email"
-              size="medium"
-              name="email"
-              defaultValue={user.email}
-              onChange={handleChange("email")}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="Birth Place"
-              size="medium"
-              name="birthPlace"
-              defaultValue={user.place_birth}
-              onChange={handleChange("birthPlace")}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="Birth Date"
-              placeholder="01 Januari 2000"
-              size="medium"
-              // type="date"
-              name="birthDate"
-              defaultValue={user.date_birth}
-              onChange={handleChange("birthDate")}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="Phone Number"
-              placeholder="08xxxxxxxxxx"
-              size="medium"
-              name="phoneNumber"
-              defaultValue={user.phone}
-              onChange={handleChange("phoneNumber")}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="Address"
-              placeholder="Jl. Tidar No. 123, Malang"
-              size="medium"
-              name="address"
-              defaultValue={user.address}
-              onChange={handleChange("address")}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="Education"
-              placeholder="S1 Teknik Informatika"
-              size="medium"
-              name="background_education"
-              defaultValue={user.background_education}
-              onChange={handleChange("background_education")}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="GitHub"
-              placeholder="github.com/johndoe"
-              size="medium"
-              name="github"
-              defaultValue={user.github}
-              onChange={handleChange("github")}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              color="secondary"
-              label="About Me"
-              size="medium"
-              multiline
-              rows={3}
-              rowsMax={4}
-              name="about"
-              defaultValue={user.description}
-              onChange={handleChange("about")}
-            />
-          </form>
-          <Button
-            className={classes.buttonProfile}
-            variant="contained"
-            color="primary"
-            onClick={postEditProfile}
-          >
-            Save Changes
-          </Button>
-        </Grid>
-        <Grid item xs={1} md={2} />
-      </Grid>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <Alert onClose={handleClose} severity="success">
-          Your profile was successfully updated!
-        </Alert>
-      </Snackbar>
-    </div>
   );
 };
 

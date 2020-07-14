@@ -1,10 +1,11 @@
-import React, {useContext} from "react";
-import Head from "next/head";
+import React from "react";
 import clsx from "clsx";
+import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useCookies } from 'react-cookie';
 import Router from 'next/router'
 
+// import style
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -17,16 +18,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
-import SvgIcon from "@material-ui/core/SvgIcon";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import UserContext from "../store/userContext";
-import AdminContext from "../store/adminContext";
 import axios from "axios";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
-const NavigationBar = dynamic(() => import('../components/NavigationBar'))
-const Footer = dynamic(() => import('../components/FooterBar'))
 const Link = dynamic(() => import('../utils/link'))
 const GoogleIcon = dynamic(() => import('../utils/customIcon'))
 
@@ -103,32 +102,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = (data) => {
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const Login = () => {
   const classes = useStyles();
-  const { signIn } = useContext(UserContext);
   const [cookie, setCookie] = useCookies();
   const [message, setMessage] = React.useState('')
+  const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState({
     username: "", password: "", showPassword: false, token: ""
   });
 
-  const {login_, mentee_} = useContext(UserContext);
+  const {login_, mentee_} = React.useContext(UserContext);
   const [mentee, setMentee] = mentee_
   const [login, setLogin] = login_
 
-  const onLoginClick = async () => {
-    const username = values.username
-    const password = values.password
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    if (username != '' || password != '') {
-      Login(username, password);
-    } else {
-      setMessage('Please enter your username and password');
-    }
-  }
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const fetchData = async function (auth) {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
+    // eslint-disable-next-line no-useless-catch
     try {
       const response = await axios.get(url, {
         headers: {
@@ -148,6 +158,7 @@ const Login = (data) => {
   };
 
   const Login = async (username, password) => {
+    // eslint-disable-next-line no-undef
     const signInUrl = process.env.NEXT_PUBLIC_BASE_URL + '/auth/mentee';
     try {
       const response = await fetch(signInUrl, {
@@ -166,27 +177,28 @@ const Login = (data) => {
         setLogin(true);
         await fetchData(data.token);
         Router.replace('/');
+
       } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        return Promise.reject(error);
+        setMessage('Wrong password or username');
+        setOpen(true);
       }
     } catch (error) {
-      console.error("Something Wrong, Please Try Again!", error);
+      setMessage("Something Wrong, Please Try Again Later!");
+      setOpen(true);
     }
   }
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  const onLoginClick = async () => {
+    const username = values.username
+    const password = values.password
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+    if (username != '' && password != '') {
+      Login(username, password);
+    } else {
+      setMessage('Please enter your username and password');
+      setOpen(true);
+    }
+  }
 
   return (
     <div>
@@ -282,18 +294,9 @@ const Login = (data) => {
                     </Button>
 
                     <Link href={"/register"} className={classes.dontHaveAccount} >
-                      Don't have an account? Register!
+                      {`Don't have an account? Register!`}
                     </Link>
 
-                    <Button
-                      className={classes.button}
-                      variant={"outlined"}
-                      size="large"
-                      startIcon={<GoogleIcon />}
-                    >
-                      <Typography>Login using google account</Typography>
-
-                    </Button>
                   </Grid>
                 </CardActions>
               </Grid>
@@ -302,6 +305,19 @@ const Login = (data) => {
         </Grid>
         </div>
       </main>
+      <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
