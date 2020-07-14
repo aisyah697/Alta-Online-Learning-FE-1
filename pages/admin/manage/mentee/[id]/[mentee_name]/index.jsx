@@ -20,7 +20,8 @@ import AdminContext from "../../../../../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    margin: theme.spacing(3, 8, 20, 8),
+    margin: theme.spacing(3, 8, 0, 8),
+    minHeight: `calc(100vh - 179px)`,
     [theme.breakpoints.down("xs")]: {
       margin: theme.spacing(2.5, 2),
       fontSize: "14px",
