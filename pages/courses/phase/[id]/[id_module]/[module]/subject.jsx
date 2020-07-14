@@ -1,11 +1,10 @@
-import React, {useContext} from "react";
+import React from "react";
+import axios from "axios";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
 import {useCookies} from "react-cookie";
-import UserContext from "../../../../../../store/userContext";
 import {useRouter} from "next/router";
+import { makeStyles } from "@material-ui/core/styles";
 
 const AvailableSubjects = dynamic(() => import('../../../../../../components/module/AvailableSubject'))
 const ModuleOverview = dynamic(() => import('../../../../../../components/module/ModuleOverview'))
@@ -20,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(2.5, 2),
             fontSize: "14px",
         },
+        minHeight: `calc(55vh)`
     },
     h1: {
         color: theme.palette.secondary.secondary,
@@ -37,6 +37,7 @@ export default function ModuleDetailOverview() {
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
+        // eslint-disable-next-line no-undef
         const url = process.env.NEXT_PUBLIC_BASE_URL + `/historymodule/subject/${id}`;
         const fetchData = async function () {
             try {

@@ -157,8 +157,6 @@ const CoursePage = () => {
     fetchData();
   }, [load]);
 
-  console.log('AAA', module)
-
   if (module === undefined) {
     return <Loading />;
   } else {
