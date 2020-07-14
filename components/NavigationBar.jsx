@@ -1,4 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useCookies } from "react-cookie";
+import dynamic from "next/dynamic";
+import NextLink from "next/link";
+import Router from "next/router";
+import axios from "axios";
+
+//import style
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -20,17 +27,15 @@ import Card from "@material-ui/core/Card";
 import Menu from "@material-ui/core/Menu";
 import Grow from "@material-ui/core/Grow";
 import Fab from "@material-ui/core/Fab";
-import dynamic from "next/dynamic";
-import NextLink from "next/link";
-import Router from "next/router";
-import UserContext from "../store/userContext";
-import { useCookies } from "react-cookie";
-import AdminContext from "../store/adminContext";
-import axios from "axios";
 
+// import context
+import UserContext from "../store/userContext";
+
+// import component
 const ScrollTop = dynamic(() => import("../utils/scrollTop"));
 const Link = dynamic(() => import("../utils/link"));
 
+// define style
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "fixed",
@@ -123,19 +128,25 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.main,
     },
   },
+  buttonLink: {
+    textDecoration: 'none',
+    "&:hover": {
+      textDecoration: "none",
+    },
+  }
 }));
 
 const NavigationBar = (props) => {
   const classes = useStyles();
-  const [cookies, setCookies, removeCookie] = useCookies("");
+
+  const [cookies] = useCookies();
   const [phase, setPhase] = React.useState();
-
-  const { mentee_, login_ } = useContext(UserContext);
-  const [user, setUser] = mentee_;
-  const [login, setLogin] = login_;
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const { mentee_, login_ } = React.useContext(UserContext);
+  const [user] = mentee_;
+  const [login, setLogin] = login_;
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -153,19 +164,16 @@ const NavigationBar = (props) => {
     handleMobileMenuClose();
   };
 
-  const doSignOut = async () => {
-    handleMenuClose();
-    signOutMentee();
-  };
-
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const signOutMentee = async () => {
-    handleMenuClose();
-    setLogin(false);
+    await setAnchorEl(null);
     Router.push("/login");
+    setLogin(false);
+
+    // clear all cookies
     document.cookie.split(";").forEach(function (c) {
       document.cookie = c
         .replace(/^ +/, "")
@@ -174,9 +182,11 @@ const NavigationBar = (props) => {
   };
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
     const auth = cookies.token_mentee;
     const fetchData = async function () {
+      // eslint-disable-next-line no-useless-catch
       try {
         const response = await axios.get(url, {
           headers: {
@@ -238,17 +248,17 @@ const NavigationBar = (props) => {
                   aria-haspopup="true"
                   color="primary"
                 >
-                  <Avatar src={user.avatar} />
+                  <Avatar src={user.avatar? user.avatar : "/images/default-avatar.jpg"} />
                 </IconButton>
               </div>
               <div className={classes.infoName}>
                 <Typography style={{ fontSize: "18px" }}>
                   {" "}
-                  {user.full_name}{" "}
+                  {user.full_name? user.full_name : "Your Name"}{" "}
                 </Typography>
                 <Typography style={{ fontSize: "14px" }}>
                   {" "}
-                  {user.email}{" "}
+                  {user.email? user.email : "Your Email"}{" "}
                 </Typography>
               </div>
             </div>
@@ -268,7 +278,7 @@ const NavigationBar = (props) => {
                     <p>Manage Your Account</p>
                   </MenuItem>
                 </Link>
-                <MenuItem onClick={doSignOut} className={classes.popMenu}>
+                <MenuItem onClick={signOutMentee} className={classes.popMenu}>
                   <IconButton aria-label="show 4 new mails" color="inherit">
                     <ExitToAppIcon />
                   </IconButton>
@@ -316,7 +326,7 @@ const NavigationBar = (props) => {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {cookies.altatest === "true" ? (
-              <>
+              <React.Fragment>
                 <NextLink href={"/courses"}>
                   <Typography className={classes.menu} variant="h6" noWrap>
                     {`My Progress`}
@@ -324,9 +334,7 @@ const NavigationBar = (props) => {
                 </NextLink>
                 <NextLink
                   href={"/courses/phase/[id]"}
-                  as={`/courses/phase/${
-                    lastPhase ? lastPhase.phase_id : "empty"
-                  }`}
+                  as={`/courses/phase/${lastPhase ? lastPhase.phase_id : null}`}
                 >
                   <Typography className={classes.menu} variant="h6" noWrap>
                     {`All Courses`}
@@ -335,12 +343,14 @@ const NavigationBar = (props) => {
                 <Typography className={classes.menu} variant="h6" noWrap>
                   {`Help`}
                 </Typography>{" "}
-              </>
-            ) : (
-              <Typography className={classes.menu} variant="h6" noWrap>
-                {`Help`}
-              </Typography>
-            )}
+              </React.Fragment>
+            ) :
+                <Typography className={classes.menu} variant="h6" noWrap>
+                  {`Help`}
+                </Typography>
+            }
+
+
             <div className={"menuButton"}>
               {login ? (
                 <IconButton
@@ -351,7 +361,7 @@ const NavigationBar = (props) => {
                   onClick={handleProfileMenuOpen}
                   color="secondary"
                 >
-                  <Avatar className={classes.avatar} src={user.avatar} />
+                  <Avatar className={classes.avatar} src={user.avatar? user.avatar : "/images/default-avatar.jpg"} />
                 </IconButton>
               ) : (
                 <>

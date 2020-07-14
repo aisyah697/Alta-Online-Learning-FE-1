@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link"
 
+// import style
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import UserContext from "../store/userContext";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import { useCookies } from "react-cookie";
-
-const Link = dynamic(() => import("../utils/link"));
 
 const useStyles = makeStyles((theme) => ({
   bannerBox: {
@@ -47,9 +46,6 @@ const useStyles = makeStyles((theme) => ({
 const SubFooter = () => {
   const classes = useStyles();
   const [cookies] = useCookies("");
-
-  const { register_ } = useContext(UserContext);
-  const [regist, setRegist] = register_;
 
   return (
     <div>

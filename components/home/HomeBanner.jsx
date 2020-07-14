@@ -1,17 +1,17 @@
-import React, { useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
+import React from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import AdminContext from "../../store/adminContext";
-import { Remove } from "@material-ui/icons";
+import Link from "next/link"
 
-const Link = dynamic(() => import("../../utils/link"));
+// import style
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+
+// import context
+import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   bannerBox: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
     [theme.breakpoints.up("lg")]: {
       paddingLeft: theme.spacing(17),
-      paddingRight: theme.spacing(15),
+      paddingRight: theme.spacing(5),
     },
     zIndex: 1,
   },
@@ -54,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
   },
   bannerTitle: {
     fontSize: `calc(2rem + 0.5vw)`,
+    lineHeight: "1.2",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: `calc(1rem + 1vw)`,
+    },
+    padding: 0
   },
   bannerImageSmall: {
     display: "none",
@@ -61,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
       width: theme.spacing(30),
       paddingLeft: theme.spacing(5),
+      marginBottom: '20px'
     },
   },
   button: {
@@ -72,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     borderRadius: theme.spacing(10),
     minWidth: theme.spacing(12),
+    textDecoration: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.main,
@@ -81,18 +88,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// eslint-disable-next-line react/prop-types
 const HomeBanner = ({ phase, register }) => {
   const classes = useStyles();
   const [cookies, setCookies, removeCookies] = useCookies();
   const [history, setHistory] = React.useState("");
 
-  const { load_ } = useContext(AdminContext);
-  const [load, setLoad] = load_;
+  const { load_ } = React.useContext(AdminContext);
+  const [load] = load_;
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
     const auth = cookies.token_mentee;
     const fetchData = async function () {
+      // eslint-disable-next-line no-useless-catch
       try {
         const response = await axios.get(url, {
           headers: {
@@ -136,27 +146,18 @@ const HomeBanner = ({ phase, register }) => {
                 className={classes.bannerTitle}
                 style={{ fontWeight: "bold" }}
               >
-                {" "}
-                What is Alterra Academy{" "}
+                What is Alterra Academy Online Learning ?
               </Typography>
-              <Typography
-                className={classes.bannerTitle}
-                style={{ fontWeight: "bold" }}
-              >
-                {" "}
-                Online Learning?{" "}
-              </Typography>
+              <br/>
               <Typography>
                 {" "}
-                Alterra Academy Online Learning is an online tech talent
+                <b>Alterra Academy Online Learning</b> is an online tech talent
                 learning that gives everyone (even non-IT background) a chance
                 to be a professional Tech Talent.{" "}
               </Typography>
               <React.Fragment>
-                {phase != "undefined" &&
-                phase != null &&
-                phase.length != null &&
-                phase.length > 0 ? (
+                {/* eslint-disable-next-line react/prop-types */}
+                {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 ? (
                   history ? (
                     history.is_complete === "end" ? (
                       <Link

@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import axios from "axios";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useCookies } from "react-cookie";
-import AdminContext from "../store/adminContext";
 
-// Import Dynamic Component
+// import component
 const HomePhaseMenu = dynamic(() => import("../components/home/HomePhaseMenu"));
 const HomeTestimony = dynamic(() => import("../components/home/HomeTestimony"));
 const FrequentQuestion = dynamic(() => import("../components/home/HomeFAQ"));
@@ -14,9 +13,12 @@ const HomeBanner = dynamic(() => import("../components/home/HomeBanner"));
 const SubFooter = dynamic(() => import("../components/SubFooter"));
 const Footer = dynamic(() => import("../components/FooterBar"));
 
+// import style
+import AdminContext from "../store/adminContext";
+
 const Home = () => {
-  // Import Context
-  const {load_} = useContext(AdminContext);
+
+  const { load_ } = React.useContext(AdminContext);
   const [load, setLoad] = load_;
 
   // Set State
@@ -24,9 +26,11 @@ const Home = () => {
   const [cookies, setCookies] = useCookies();
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
     const auth = cookies.token_mentee;
     const fetchData = async function () {
+      // eslint-disable-next-line no-useless-catch
       try {
         const response = await axios.get(url, {
           headers: {
@@ -49,9 +53,14 @@ const Home = () => {
   const RegisterHistory = async () => {
     // Const
     const token = cookies.token_mentee;
+
+    // eslint-disable-next-line no-undef
     const urlPhase = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
+    // eslint-disable-next-line no-undef
     const urlModule = process.env.NEXT_PUBLIC_BASE_URL + "/historymodule/mentee";
+    // eslint-disable-next-line no-undef
     const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/mentee";
+    // eslint-disable-next-line no-undef
     const urlAltatest = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
 
     try {
@@ -134,15 +143,16 @@ const Home = () => {
       </Head>
       <main>
         <NavigationBar />
+        <div style={{minHeight: `calc(100vh - 179px)`}}>
         <HomeBanner phase={phase} register={() => RegisterHistory()} />
-        {phase != "undefined" && phase != null && phase.length != null && phase.length > 0 && cookies.altatest === "true" ? (
+        { phase != "undefined" && phase != null && phase.length != null &&
+        phase.length > 0 && cookies.altatest === "true" ? (
           <HomePhaseMenu phase={phase} />
-        ) : (
-          <></>
-        )}
+        ) : null }
         <HomeTestimony />
         <FrequentQuestion />
         <SubFooter />
+        </div>
         <Footer />
       </main>
     </div>
