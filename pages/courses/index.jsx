@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
     },
     overflowX: "hidden",
-    minHeight: `calc(44vh)`
+    minHeight: `calc(70vh)`
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
