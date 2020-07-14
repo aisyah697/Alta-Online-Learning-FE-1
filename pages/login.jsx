@@ -2,8 +2,8 @@ import React from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import dynamic from "next/dynamic";
-import { useCookies } from 'react-cookie';
-import Router from 'next/router'
+import { useCookies } from "react-cookie";
+import Router from "next/router";
 
 // import style
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
@@ -26,8 +26,9 @@ import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
-const Link = dynamic(() => import('../utils/link'))
-const GoogleIcon = dynamic(() => import('../utils/customIcon'))
+const Link = dynamic(() => import("../utils/link"));
+const Loading = dynamic(() => import("../components/Loading"));
+const GoogleIcon = dynamic(() => import("../utils/customIcon"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     minHeight: `calc(100vh)`,
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
   },
   margin: {
     margin: theme.spacing(1),
@@ -109,15 +110,18 @@ function Alert(props) {
 const Login = () => {
   const classes = useStyles();
   const [cookie, setCookie] = useCookies();
-  const [message, setMessage] = React.useState('')
+  const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState({
-    username: "", password: "", showPassword: false, token: ""
+    username: "",
+    password: "",
+    showPassword: false,
+    token: "",
   });
-
-  const {login_, mentee_} = React.useContext(UserContext);
-  const [mentee, setMentee] = mentee_
-  const [login, setLogin] = login_
+  const [loading, setLoading] = React.useState(false);
+  const { login_, mentee_ } = React.useContext(UserContext);
+  const [mentee, setMentee] = mentee_;
+  const [login, setLogin] = login_;
 
   const handleClose = () => {
     setOpen(false);
@@ -143,14 +147,19 @@ const Login = () => {
       const response = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + auth,
+          Authorization: "Bearer " + auth,
         },
       });
-      const phase = response.data
-      if (phase != "undefined" && phase != null && phase.length != null && phase.length > 0) {
-        setCookie('registered', true);
+      const phase = response.data;
+      if (
+        phase != "undefined" &&
+        phase != null &&
+        phase.length != null &&
+        phase.length > 0
+      ) {
+        setCookie("registered", true);
       } else {
-        setCookie('registered', false)
+        setCookie("registered", false);
       }
     } catch (error) {
       throw error;
@@ -158,154 +167,160 @@ const Login = () => {
   };
 
   const Login = async (username, password) => {
+    setLoading(true);
     // eslint-disable-next-line no-undef
-    const signInUrl = process.env.NEXT_PUBLIC_BASE_URL + '/auth/mentee';
+    const signInUrl = process.env.NEXT_PUBLIC_BASE_URL + "/auth/mentee";
     try {
       const response = await fetch(signInUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           username: username,
-          password: password
-        })
+          password: password,
+        }),
       });
       if (response.ok) {
         const data = await response.json();
         setMentee(data);
-        setCookie('mentee', data);
-        setCookie('token_mentee', data.token);
+        setCookie("mentee", data);
+        setCookie("token_mentee", data.token);
         setLogin(true);
         await fetchData(data.token);
-        Router.replace('/');
-
+        Router.replace("/");
       } else {
-        setMessage('Wrong password or username');
+        setMessage("Wrong password or username");
         setOpen(true);
       }
     } catch (error) {
       setMessage("Something Wrong, Please Try Again Later!");
       setOpen(true);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   const onLoginClick = async () => {
-    const username = values.username
-    const password = values.password
+    const username = values.username;
+    const password = values.password;
 
-    if (username != '' && password != '') {
+    if (username != "" && password != "") {
       Login(username, password);
     } else {
-      setMessage('Please enter your username and password');
+      setMessage("Please enter your username and password");
       setOpen(true);
     }
-  }
-
-  return (
-    <div>
-      <Head>
-        <title>Login | Alta Online Learning</title>
-      </Head>
-      <main>
-        <div className={classes.container}>
-          <Grid container justify="center">
-          <Card className={classes.root} variant="outlined">
-            <Grid container>
-              <Grid item lg={5} xs={12}>
-                <Card className={classes.loginImage}>
-                  <img
-                    width="90%"
-                    src={"/images/logo-alterra-academy-white.png"}
-                    alt="login-picture"
-                  />
-                </Card>
-              </Grid>
-              <Grid item xs={12} lg={7} style={{ background: "#F4F7FC" }}>
-                <CardContent>
-                  <Typography
-                    className={classes.textLogin}
-                    align="center"
-                    variant="h5"
-                    gutterBottom
-                  >
-                    Sign In
-                  </Typography>
-                  <TextField
-                    className={classes.margin}
-                    label="Username"
-                    size="small"
-                    variant="outlined"
-                    color="secondary"
-                    id="mui-theme-provider-outlined-input"
-                    onChange={handleChange('username')}
-                    name="username"
-                    value={values.username}
-                  />
-                  <FormControl
-                    className={clsx(classes.margin, classes.textField)}
-                    variant="outlined"
-                    color="secondary"
-                    size="small"
-                  >
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      color="secondary"
-                      name="password"
-                      id="outlined-adornment-password"
-                      type={values.showPassword ? "text" : "password"}
-                      value={values.password}
-                      onChange={handleChange("password")}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {values.showPassword ? (
-                              <Visibility />
-                            ) : (
-                              <VisibilityOff />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      labelWidth={70}
-                    />
-                  </FormControl>
-                </CardContent>
-                <CardActions>
-                  <Grid
-                    container
-                    direction="column"
-                    justify="flex-start"
-                    alignItems="center"
-                    style={{ padding: "40px 0 40px 0" }}
-                  >
-                    <Button
-                      className={classes.button}
-                      variant={"outlined"}
-                      size="large"
-                      onClick={onLoginClick}
-                    >
-                      Login
-                    </Button>
-
-                    <Link href={"/register"} className={classes.dontHaveAccount} >
-                      {`Don't have an account? Register!`}
-                    </Link>
-
+  };
+  if (loading) {
+    return <Loading />;
+  } else {
+    return (
+      <div>
+        <Head>
+          <title>Login | Alta Online Learning</title>
+        </Head>
+        <main>
+          <div className={classes.container}>
+            <Grid container justify="center">
+              <Card className={classes.root} variant="outlined">
+                <Grid container>
+                  <Grid item lg={5} xs={12}>
+                    <Card className={classes.loginImage}>
+                      <img
+                        width="90%"
+                        src={"/images/logo-alterra-academy-white.png"}
+                        alt="login-picture"
+                      />
+                    </Card>
                   </Grid>
-                </CardActions>
-              </Grid>
+                  <Grid item xs={12} lg={7} style={{ background: "#F4F7FC" }}>
+                    <CardContent>
+                      <Typography
+                        className={classes.textLogin}
+                        align="center"
+                        variant="h5"
+                        gutterBottom
+                      >
+                        Sign In
+                      </Typography>
+                      <TextField
+                        className={classes.margin}
+                        label="Username"
+                        size="small"
+                        variant="outlined"
+                        color="secondary"
+                        id="mui-theme-provider-outlined-input"
+                        onChange={handleChange("username")}
+                        name="username"
+                        value={values.username}
+                      />
+                      <FormControl
+                        className={clsx(classes.margin, classes.textField)}
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                      >
+                        <InputLabel htmlFor="outlined-adornment-password">
+                          Password
+                        </InputLabel>
+                        <OutlinedInput
+                          color="secondary"
+                          name="password"
+                          id="outlined-adornment-password"
+                          type={values.showPassword ? "text" : "password"}
+                          value={values.password}
+                          onChange={handleChange("password")}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {values.showPassword ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          labelWidth={70}
+                        />
+                      </FormControl>
+                    </CardContent>
+                    <CardActions>
+                      <Grid
+                        container
+                        direction="column"
+                        justify="flex-start"
+                        alignItems="center"
+                        style={{ padding: "40px 0 40px 0" }}
+                      >
+                        <Button
+                          className={classes.button}
+                          variant={"outlined"}
+                          size="large"
+                          onClick={onLoginClick}
+                        >
+                          Login
+                        </Button>
+
+                        <Link
+                          href={"/register"}
+                          className={classes.dontHaveAccount}
+                        >
+                          {`Don't have an account? Register!`}
+                        </Link>
+                      </Grid>
+                    </CardActions>
+                  </Grid>
+                </Grid>
+              </Card>
             </Grid>
-          </Card>
-        </Grid>
-        </div>
-      </main>
-      <Snackbar
+          </div>
+        </main>
+        <Snackbar
           open={open}
           autoHideDuration={6000}
           onClose={handleClose}
@@ -313,13 +328,14 @@ const Login = () => {
             vertical: "top",
             horizontal: "center",
           }}
-      >
-        <Alert onClose={handleClose} severity="error">
-          {message}
-        </Alert>
-      </Snackbar>
-    </div>
-  );
-}
+        >
+          <Alert onClose={handleClose} severity="error">
+            {message}
+          </Alert>
+        </Snackbar>
+      </div>
+    );
+  }
+};
 
 export default Login;
