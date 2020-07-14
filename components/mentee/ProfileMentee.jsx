@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import Link from "next/link";
+
+// import style
 import TableContainer from "@material-ui/core/TableContainer";
 import { makeStyles } from "@material-ui/core/styles";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,8 +12,7 @@ import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import Grid from "@material-ui/core/Grid";
 import { useRouter } from "next/router";
-import { Cookies, useCookies } from "react-cookie";
-import axios from "axios";
+
 import UserContext from "../../store/userContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -78,14 +79,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileMentee = ({ mentee }) => {
+const ProfileMentee = () => {
   const classes = useStyles();
-  const router = useRouter();
-  const { profile } = router.query;
 
-  const { mentee_, login_ } = useContext(UserContext);
-  const [user, setUser] = mentee_;
-  const [login, setLogin] = login_;
+  const { mentee_ } = useContext(UserContext);
+  const [user] = mentee_;
 
   function createData(key, data) {
     return { key, data };
