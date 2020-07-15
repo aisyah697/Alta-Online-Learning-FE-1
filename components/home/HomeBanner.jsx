@@ -151,8 +151,8 @@ const HomeBanner = ({ phase, register }) => {
               <br/>
               <Typography>
                 {" "}
-                <b>Alterra Academy Online Learning</b> is an online tech talent
-                learning that gives everyone (even non-IT background) a chance
+                <b>Alterra Academy Online Learning</b> is an online tech-learning platform
+                that gives everyone (even non-IT background) a chance
                 to be a professional Tech Talent.{" "}
               </Typography>
               <React.Fragment>

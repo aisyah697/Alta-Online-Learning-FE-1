@@ -11,43 +11,47 @@ const FrequentQuestion = dynamic(() => import("../components/home/HomeFAQ"));
 const NavigationBar = dynamic(() => import("../components/NavigationBar"));
 const HomeBanner = dynamic(() => import("../components/home/HomeBanner"));
 const SubFooter = dynamic(() => import("../components/SubFooter"));
+const Loading = dynamic(() => import("../components/Loading"));
 const Footer = dynamic(() => import("../components/FooterBar"));
 
 // import style
 import AdminContext from "../store/adminContext";
 
 const Home = () => {
-
+  const [cookies, setCookies] = useCookies();
+  const [phase, setPhase] = React.useState();
+  const [loading, setLoading] = React.useState(false);
   const { load_ } = React.useContext(AdminContext);
   const [load, setLoad] = load_;
-
-  // Set State
-  const [phase, setPhase] = React.useState();
-  const [cookies, setCookies] = useCookies();
 
   React.useEffect(() => {
     // eslint-disable-next-line no-undef
     const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyphase/mentee";
     const auth = cookies.token_mentee;
+    setLoading(true);
     const fetchData = async function () {
       // eslint-disable-next-line no-useless-catch
       try {
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth,
+            "Authorization": "Bearer " + auth,
           },
         });
         if (response.status === 200) {
           setPhase(response.data);
         }
+      // eslint-disable-next-line no-useless-catch
       } catch (error) {
         throw error;
+      } finally {
+        setLoading(false);
       }
     };
     if (auth) {
       fetchData();
     }
+    setLoading(false);
   }, [load]);
 
   const RegisterHistory = async () => {
@@ -62,6 +66,7 @@ const Home = () => {
     const urlSubject = process.env.NEXT_PUBLIC_BASE_URL + "/historysubject/mentee";
     // eslint-disable-next-line no-undef
     const urlAltatest = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest";
+    setLoading(true);
 
     try {
       const responsePhase = await axios.post(urlPhase,
@@ -133,6 +138,7 @@ const Home = () => {
       console.log("Error Register Phase", e);
     } finally {
       setLoad(false);
+      setLoading(false);
     }
   };
 
@@ -143,17 +149,23 @@ const Home = () => {
       </Head>
       <main>
         <NavigationBar />
-        <div style={{minHeight: `calc(100vh - 179px)`}}>
-        <HomeBanner phase={phase} register={() => RegisterHistory()} />
-        { phase != "undefined" && phase != null && phase.length != null &&
-        phase.length > 0 && cookies.altatest === "true" ? (
-          <HomePhaseMenu phase={phase} />
-        ) : null }
-        <HomeTestimony />
-        <FrequentQuestion />
-        <SubFooter />
+        {loading ? <Loading /> : null}
+        <div>
+          <div style={{ minHeight: `calc(100vh - 179px)` }}>
+            <HomeBanner phase={phase} register={() => RegisterHistory()} />
+            {phase != "undefined" &&
+            phase != null &&
+            phase.length != null &&
+            phase.length > 0 &&
+            cookies.altatest === "true" ? (
+              <HomePhaseMenu phase={phase} />
+            ) : null}
+            <HomeTestimony />
+            <FrequentQuestion />
+            <SubFooter />
+          </div>
+          <Footer />
         </div>
-        <Footer />
       </main>
     </div>
   );
