@@ -19,6 +19,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import Link from "next/link";
 import Card from "@material-ui/core/Card";
+import LoadingSmall from "./LoadingSmall";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -522,7 +523,7 @@ export default function QuizContent({ quiz, examID }) {
             <Typography variant="h4" className={classes.title}>
               {quiz.name}
             </Typography>
-
+            {/* <LoadingSmall /> */}
             {examDone ? (
               <div>
                 <Dialog
@@ -541,37 +542,49 @@ export default function QuizContent({ quiz, examID }) {
                   <DialogContent>
                     {examDone[examDone.length - 1] != undefined ? (
                       examDone[examDone.length - 1].score >= 80 ? (
-                        <div>
-                          <Typography className={classes.ketscore}>
-                            Congratulation! Your Score is :
-                          </Typography>
-                          <Typography className={classes.score}>
-                            {examDone[examDone.length - 1].score}
-                          </Typography>
-                        </div>
+                        loading ? (
+                          <LoadingSmall />
+                        ) : (
+                          <div>
+                            <Typography className={classes.ketscore}>
+                              Congratulation! Your Score is :
+                            </Typography>
+                            <Typography className={classes.score}>
+                              {examDone[examDone.length - 1].score}
+                            </Typography>
+                          </div>
+                        )
                       ) : examDone.length === 2 ? (
-                        <div>
-                          <Typography className={classes.ketscore}>
-                            You have one chance again to get score more than 80,
-                            if you can't get score 80 or more, you will go back
-                            to first leason again
-                          </Typography>
-                          <Typography className={classes.score}>
-                            {examDone[examDone.length - 1].score}
-                          </Typography>
-                        </div>
+                        loading ? (
+                          <LoadingSmall />
+                        ) : (
+                          <div>
+                            <Typography className={classes.ketscore}>
+                              You have one chance again to get score more than
+                              80, if you can't get score 80 or more, you will go
+                              back to first leason again
+                            </Typography>
+                            <Typography className={classes.score}>
+                              {examDone[examDone.length - 1].score}
+                            </Typography>
+                          </div>
+                        )
                       ) : (
                         <div>
-                          {examDone.map((item, key) => (
-                            <div key={key}>
-                              <Typography className={classes.ketscore}>
-                                Your score in quiz {key + 1} :
-                              </Typography>
-                              <Typography className={classes.score}>
-                                {item.score}
-                              </Typography>
-                            </div>
-                          ))}
+                          {examDone.map((item, key) =>
+                            loading ? (
+                              <LoadingSmall />
+                            ) : (
+                              <div key={key}>
+                                <Typography className={classes.ketscore}>
+                                  Your score in quiz {key + 1} :
+                                </Typography>
+                                <Typography className={classes.score}>
+                                  {item.score}
+                                </Typography>
+                              </div>
+                            )
+                          )}
                         </div>
                       )
                     ) : null}
@@ -686,13 +699,6 @@ export default function QuizContent({ quiz, examID }) {
                         historyID={historyExam[historyExam.length - 1].id}
                         endExamQuiz={(historyID) => postEndExam(historyID)}
                       />
-                      {/* <Timers
-                        timeStart={
-                          historyExam[historyExam.length - 1].created_at
-                        }
-                        historyExam={historyExam[historyExam.length - 1]}
-                        endExamQuiz={(historyID) => postEndExam(historyID)}
-                      /> */}
                       {quiz.question.map((item, key) => (
                         <Question
                           key={key}
