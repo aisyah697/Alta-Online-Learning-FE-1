@@ -18,6 +18,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import Link from "next/link";
+import Card from "@material-ui/core/Card";
+import LoadingSmall from "./LoadingSmall";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,11 +41,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   allText: {
-    color: theme.palette.secondary.secondary,
+    color: "#F4F7FC",
     fontFamily: "Muli, sans-serif",
     fontWeight: "bolder",
-    marginBottom: theme.spacing(7),
-    fontSize: `calc(3.6em + 0.5vw)`,
+    fontSize: `calc(0.8em + 0.5vw)`,
+    zIndex: "1",
+    padding: "5px",
   },
   buttonInPop: {
     background: "#3364ff",
@@ -70,11 +73,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(4),
-    fontSize: `calc(1em + 1vw)`,
+    fontSize: `calc(0.6em + 0.7vw)`,
     fontFamily: "Muli, sans-serif",
     color: theme.palette.common.white,
-    margin: theme.spacing(2, 2, 0, 0),
-    minWidth: theme.spacing(30),
+    margin: theme.spacing(2, 2, 2, 0),
+    minWidth: theme.spacing(25),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -86,16 +89,15 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     paddingLeft: 0,
-    paddingRight: theme.spacing(5),
     paddingTop: 0,
   },
   title: {
     textAlign: "center",
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(2),
     color: theme.palette.secondary.secondary,
     fontFamily: "muli",
     fontWeight: "bold",
-    fontSize: `calc(1.5em + 2vw)`,
+    fontSize: `calc(1.0em + 1.5vw)`,
   },
   media: {
     height: theme.spacing(30),
@@ -135,6 +137,23 @@ const useStyles = makeStyles((theme) => ({
     "input:hover ~ &": {
       backgroundColor: "#106ba3",
     },
+  },
+  gambar: {
+    width: `calc(18em + 17.8vw)`,
+    marginTop: "-50px",
+  },
+  textReady: {
+    textAlign: "center",
+    fontSize: `calc(0.8em + 0.8vw)`,
+    fontWeight: "bolder",
+    margin: "-90px 0 100px",
+    color: theme.palette.secondary.secondary,
+  },
+  cardTime: {
+    margin: theme.spacing(0, 0, 0, -3),
+    position: "fixed",
+    backgroundColor: theme.palette.secondary.secondary,
+    borderRadius: "10px",
   },
 }));
 
@@ -227,13 +246,15 @@ function Timers(props) {
   }
   return (
     <div>
-      {props.historyExam.is_complete ? (
-        <Typography className={classes.allText}>00:00:00</Typography>
-      ) : (
-        <Typography className={classes.allText}>
-          {hourShow}:{minuteShow}:{secondShow}
-        </Typography>
-      )}
+      <Card className={classes.cardTime}>
+        {props.historyExam.is_complete ? (
+          <Typography className={classes.allText}>00:00:00</Typography>
+        ) : (
+          <Typography className={classes.allText}>
+            {hourShow}:{minuteShow}:{secondShow}
+          </Typography>
+        )}
+      </Card>
     </div>
   );
 }
@@ -496,157 +517,214 @@ export default function QuizContent({ quiz, examID }) {
   } else {
     return (
       <main className={classes.content}>
-        <Toolbar />
-        <Typography variant="h4" className={classes.title}>
-          {quiz.name}
-        </Typography>
-
-        {examDone ? (
-          <div>
-            <Dialog
-              fullWidth
-              maxWidth={"xs"}
-              open={open}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title" style={{ color: "#19355f" }}>
-                Your Score
-              </DialogTitle>
-              <DialogContent>
-                {examDone[examDone.length - 1] != undefined ? (
-                  examDone[examDone.length - 1].score >= 80 ? (
-                    <div>
-                      <Typography className={classes.ketscore}>
-                        Congratulation! Your Score is :
-                      </Typography>
-                      <Typography className={classes.score}>
-                        {examDone[examDone.length - 1].score}
-                      </Typography>
-                    </div>
-                  ) : examDone.length === 2 ? (
-                    <div>
-                      <Typography className={classes.ketscore}>
-                        You have one chance again to get score more than 80, if
-                        you can't get score 80 or more, you will go back to
-                        first leason again
-                      </Typography>
-                      <Typography className={classes.score}>
-                        {examDone[examDone.length - 1].score}
-                      </Typography>
-                    </div>
-                  ) : (
-                    <div>
-                      {examDone.map((item, key) => (
-                        <div key={key}>
-                          <Typography className={classes.ketscore}>
-                            Your score in quiz {key + 1} :
-                          </Typography>
-                          <Typography className={classes.score}>
-                            {item.score}
-                          </Typography>
+        <Grid container>
+          <Grid xs={1}></Grid>
+          <Grid xs={10}>
+            <Typography variant="h4" className={classes.title}>
+              {quiz.name}
+            </Typography>
+            {/* <LoadingSmall /> */}
+            {examDone ? (
+              <div>
+                <Dialog
+                  fullWidth
+                  maxWidth={"xs"}
+                  open={open}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle
+                    id="alert-dialog-title"
+                    style={{ color: "#19355f" }}
+                  >
+                    Your Score
+                  </DialogTitle>
+                  <DialogContent>
+                    {examDone[examDone.length - 1] != undefined ? (
+                      examDone[examDone.length - 1].score >= 80 ? (
+                        loading ? (
+                          <LoadingSmall />
+                        ) : (
+                          <div>
+                            <Typography className={classes.ketscore}>
+                              Congratulation! Your Score is :
+                            </Typography>
+                            <Typography className={classes.score}>
+                              {examDone[examDone.length - 1].score}
+                            </Typography>
+                          </div>
+                        )
+                      ) : examDone.length === 2 ? (
+                        loading ? (
+                          <LoadingSmall />
+                        ) : (
+                          <div>
+                            <Typography className={classes.ketscore}>
+                              You have one chance again to get score more than
+                              80, if you can't get score 80 or more, you will go
+                              back to first leason again
+                            </Typography>
+                            <Typography className={classes.score}>
+                              {examDone[examDone.length - 1].score}
+                            </Typography>
+                          </div>
+                        )
+                      ) : (
+                        <div>
+                          {examDone.map((item, key) =>
+                            loading ? (
+                              <LoadingSmall />
+                            ) : (
+                              <div key={key}>
+                                <Typography className={classes.ketscore}>
+                                  Your score in quiz {key + 1} :
+                                </Typography>
+                                <Typography className={classes.score}>
+                                  {item.score}
+                                </Typography>
+                              </div>
+                            )
+                          )}
                         </div>
-                      ))}
-                    </div>
-                  )
-                ) : null}
-              </DialogContent>
-              <DialogActions>
-                {examDone[examDone.length - 1] != undefined ? (
-                  examDone[examDone.length - 1].score < 80 ? (
-                    examDone.length === 2 ? (
-                      <Button
-                        onClick={goToHome}
-                        variant="outlined"
-                        size="medium"
-                        className={classes.buttonInPop}
-                      >
-                        OK
-                      </Button>
-                    ) : (
-                      <div>
-                        <Button
-                          onClick={handleClose}
-                          variant="outlined"
-                          size="medium"
-                          className={classes.buttonInPop}
-                        >
-                          Try Again?
-                        </Button>
-                        <Link
-                          href={`/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]`}
-                          as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}`}
-                        >
+                      )
+                    ) : null}
+                  </DialogContent>
+                  <DialogActions>
+                    {examDone[examDone.length - 1] != undefined ? (
+                      examDone[examDone.length - 1].score < 80 ? (
+                        examDone.length === 2 ? (
                           <Button
+                            onClick={goToHome}
                             variant="outlined"
                             size="medium"
                             className={classes.buttonInPop}
                           >
-                            Go to class
+                            OK
                           </Button>
-                        </Link>
-                      </div>
-                    )
+                        ) : (
+                          <div>
+                            <Button
+                              onClick={handleClose}
+                              variant="outlined"
+                              size="medium"
+                              className={classes.buttonInPop}
+                            >
+                              Try Again?
+                            </Button>
+                            <Link
+                              href={`/courses/phase/[id]/[id_module]/[module]/[id_subject]/[subject_name]`}
+                              as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}`}
+                            >
+                              <Button
+                                variant="outlined"
+                                size="medium"
+                                className={classes.buttonInPop}
+                              >
+                                Go to class
+                              </Button>
+                            </Link>
+                          </div>
+                        )
+                      ) : (
+                        <Button
+                          onClick={goToMyCourses}
+                          variant="outlined"
+                          size="medium"
+                          className={classes.buttonInPop}
+                        >
+                          Next
+                        </Button>
+                      )
+                    ) : null}
+                  </DialogActions>
+                </Dialog>
+              </div>
+            ) : null}
+            {historyExam === null ? (
+              <div>
+                <Button
+                  onClick={() => posthistoryExam(examID)}
+                  variant="outlined"
+                  className={classes.button}
+                >
+                  Start
+                </Button>
+                <Grid
+                  container
+                  direction="column"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <img
+                    alt="test"
+                    className={classes.gambar}
+                    src={"/images/test.jpg"}
+                  />
+                  <Typography className={classes.textReady}>
+                    Are you ready for Quiz?
+                  </Typography>
+                </Grid>
+              </div>
+            ) : (
+              <div>
+                {historyExam ? (
+                  historyExam.length === 0 ? (
+                    <div>
+                      <Button
+                        onClick={() => posthistoryExam(examID)}
+                        variant="outlined"
+                        className={classes.button}
+                      >
+                        Start
+                      </Button>
+                      <Grid
+                        container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                      >
+                        <img
+                          alt="test"
+                          className={classes.gambar}
+                          src={"/images/test.jpg"}
+                        />
+                        <Typography className={classes.textReady}>
+                          Are you ready for Quiz?
+                        </Typography>
+                      </Grid>
+                    </div>
                   ) : (
-                    <Button
-                      onClick={goToMyCourses}
-                      variant="outlined"
-                      size="medium"
-                      className={classes.buttonInPop}
-                    >
-                      Next
-                    </Button>
+                    <div>
+                      <EndQuiz
+                        historyID={historyExam[historyExam.length - 1].id}
+                        endExamQuiz={(historyID) => postEndExam(historyID)}
+                      />
+                      {quiz.question.map((item, key) => (
+                        <Question
+                          key={key}
+                          historyID={historyExam[historyExam.length - 1].id}
+                          no={key}
+                          question={item}
+                        />
+                      ))}
+                    </div>
                   )
                 ) : null}
-              </DialogActions>
-            </Dialog>
-          </div>
-        ) : null}
-        {historyExam === null ? (
-          <Button
-            onClick={() => posthistoryExam(examID)}
-            variant="outlined"
-            className={classes.button}
-          >
-            Start
-          </Button>
-        ) : (
-          <div>
-            {historyExam ? (
-              historyExam.length === 0 ? (
-                <div>
-                  <Button
-                    onClick={() => posthistoryExam(examID)}
-                    variant="outlined"
-                    className={classes.button}
-                  >
-                    Start
-                  </Button>
-                </div>
-              ) : (
-                <div>
-                  <EndQuiz
-                    historyID={historyExam[historyExam.length - 1].id}
-                    endExamQuiz={(historyID) => postEndExam(historyID)}
-                  />
-                  <Timers
-                    timeStart={historyExam[historyExam.length - 1].created_at}
-                    historyExam={historyExam[historyExam.length - 1]}
-                    endExamQuiz={(historyID) => postEndExam(historyID)}
-                  />
-                  {quiz.question.map((item, key) => (
-                    <Question
-                      key={key}
-                      historyID={historyExam[historyExam.length - 1].id}
-                      no={key}
-                      question={item}
-                    />
-                  ))}
-                </div>
+              </div>
+            )}
+          </Grid>
+          <Grid xs={1}>
+            {historyExam === null ? null : historyExam ? (
+              historyExam.length === 0 ? null : (
+                <Timers
+                  timeStart={historyExam[historyExam.length - 1].created_at}
+                  historyExam={historyExam[historyExam.length - 1]}
+                  endExamQuiz={(historyID) => postEndExam(historyID)}
+                />
               )
             ) : null}
-          </div>
-        )}
+          </Grid>
+        </Grid>
       </main>
     );
   }
