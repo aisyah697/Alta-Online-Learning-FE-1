@@ -17,6 +17,7 @@ import DoneAllIcon from "@material-ui/icons/DoneAll";
 import ClearIcon from "@material-ui/icons/Clear";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Loading from "../Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -171,7 +172,7 @@ const CourseHistory = () => {
         const response = await axios.get(url, {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token,
+            Authorization: "Bearer " + token,
           },
         });
         if (response.status === 200) {
@@ -188,18 +189,21 @@ const CourseHistory = () => {
       if (cookies.token_admin) {
         fetchData(cookies.token_admin);
       } else {
-        if (cookies.registered === "true"){
+        if (cookies.registered === "true") {
           fetchData(cookies.token_mentee);
         }
       }
     }
   }, [id]);
 
-  return (
-    <div>
-      <h1 className={classes.h1}>Course History</h1>
-      {subject
-        ? subject.phase.map((item, index) => (
+  if (loading) {
+    return <Loading />;
+  } else {
+    return (
+      <div>
+        <h1 className={classes.h1}>Course History</h1>
+        {subject ? (
+          subject.phase.map((item, index) => (
             <div key={index}>
               {item.lock_key ? (
                 <div>
@@ -270,7 +274,8 @@ const CourseHistory = () => {
                                                     <br />
                                                     {item.score_exam.map(
                                                       (score, index) => (
-                                                        <div key={index}
+                                                        <div
+                                                          key={index}
                                                           className={
                                                             classes.icon
                                                           }
@@ -306,7 +311,8 @@ const CourseHistory = () => {
                                                       <div>
                                                         {item.score_exam.map(
                                                           (score, index) => (
-                                                            <div key={index}
+                                                            <div
+                                                              key={index}
                                                               className={
                                                                 classes.icon
                                                               }
@@ -355,9 +361,12 @@ const CourseHistory = () => {
               ) : null}
             </div>
           ))
-          : <p>No Data</p>}
-    </div>
-  );
+        ) : (
+          <p>No Data</p>
+        )}
+      </div>
+    );
+  }
 };
 
 export default CourseHistory;

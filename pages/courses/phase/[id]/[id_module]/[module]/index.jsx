@@ -22,6 +22,7 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 const ModuleDetailTable = dynamic(() =>
   import("../../../../../../components/module/ModuleDetailTable")
 );
+const Loading = dynamic(() => import("../../../../../../components/Loading"));
 const NavigationBar = dynamic(() =>
   import("../../../../../../components/NavigationBar")
 );
@@ -33,10 +34,12 @@ const FooterBar = dynamic(() =>
 );
 
 import UserContext from "../../../../../../store/userContext";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(5),
   },
   main: {
     minHeight: `calc(80vh - 5px)`,
@@ -62,11 +65,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     color: theme.palette.secondary.secondary,
   },
-  keteranganModule: {
+  moduleDescription: {
     fontFamily: "Muli, sans-serif",
     color: "gray",
     fontSize: `calc(0.7em + 0.4vw)`,
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(2),
   },
   leftContent: {
     backgroundColor: "#F4F7FC",
@@ -151,6 +154,19 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     marginRight: "20px",
   },
+  breadcrumb: {
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+    marginLeft: theme.spacing(8)
+  },
+  link: {
+    textDecoration: 'none',
+    "&:link": {
+      textDecoration: 'none',
+    },
+    cursor: 'pointer'
+  }
 }));
 
 const StyledTableCell = withStyles((theme) => ({
@@ -241,7 +257,6 @@ export default function Detail() {
       fetchData();
     }
   }, [id]);
-  
 
   return (
     <React.Fragment>
@@ -250,175 +265,191 @@ export default function Detail() {
       </Head>
       <main>
         <NavigationBar />
-        <div className={classes.main}>
-          {subject
-            ? subject
-                .filter((mod) => mod.module_id == id_module)
-                .map((item, index) => (
-                  <div key={index} className={classes.root}>
-                    <div className={classes.textPengantar}>
-                      <Typography className={classes.judulModule}>
-                        Module : {item.module.name}
-                      </Typography>
-                      <Typography className={classes.keteranganModule}>
-                        Introduction of {item.module.name}
-                      </Typography>
-                    </div>
-                    <Grid container className={classes.leftContent}>
-                      <Grid
-                        item
-                        md={3}
-                        xs={12}
-                        container
-                        direction="column"
-                        justify="flex-start"
-                        alignItems="flex-start"
-                      >
-                        <Link
-                          href={
-                            "/courses/phase/[id]/[id_module]/[module]/subject"
-                          }
-                          as={`/courses/phase/${id}/${id_module}/${module}/subject`}
-                        >
-                          <Button
-                            variant="outlined"
-                            size="medium"
-                            className={classes.button}
-                          >
-                            Start Course
-                          </Button>
-                        </Link>
-                        <img
-                          alt="mentor-avatar"
-                          className={classes.avatar}
-                          src={item.module.admin.avatar}
-                        />
-                        <Typography className={classes.mentorName}>
-                          Mentor: {item.module.admin.full_name}
-                        </Typography>
-                        <Typography className={classes.mentorDescribe}>
-                          {item.module.admin.description}{" "}
-                        </Typography>
-                        <Grid
-                          container
-                          direction="row"
-                          justify="flex-start"
-                          alignItems="center"
-                        >
-                          <GitHubIcon className={classes.giticon} />
-                          <Typography className={classes.github}>
-                            {item.module.admin.github}
+        {loading ? (
+          <Loading />
+        ) : (
+            <div>
+              <div className={classes.main}>
+                {subject
+                  ? subject
+                    .filter((mod) => mod.module_id == id_module)
+                    .map((item, index) => (
+                      <div key={index} className={classes.root}>
+                        <div className={classes.textPengantar}>
+                          <Typography className={classes.judulModule}>
+                            Module : {item.module.name}
                           </Typography>
-                        </Grid>
-                      </Grid>
-                      <Grid item md={9} xs={12}>
-                        <div className={classes.divTableInPage}>
-                          <TableContainer>
-                            <Table className={classes.tables}>
-                              <TableHead>
-                                <TableRow>
-                                  <StyledTableCell
-                                    align="left"
-                                    className={classes.head}
-                                  >
-                                    What will you learn?
-                                  </StyledTableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                <TableRow>
-                                  <StyledTableCell className={classes.bottom}>
-                                    {item.module.description}
-                                  </StyledTableCell>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                            <Table className={classes.tables}>
-                              <TableHead style={{ borderRadius: "8px" }}>
-                                <TableRow>
-                                  <StyledTableCell
-                                    align="left"
-                                    className={classes.head}
-                                  >
-                                    Course Rules
-                                  </StyledTableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                <TableRow>
-                                  <StyledTableCell className={classes.bottom}>
-                                    <div className={classes.listItem2}>
-                                      {CourseRule.map((content, idx) => (
-                                        <ModuleDetailRequirement
-                                          key={idx}
-                                          require={content}
-                                        />
-                                      ))}
-                                    </div>
-                                  </StyledTableCell>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                            <Table className={classes.tables}>
-                              <TableHead>
-                                <TableRow>
-                                  <StyledTableCell
-                                    align="left"
-                                    className={classes.head}
-                                  >
-                                    Subject in Module
-                                  </StyledTableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                <TableRow>
-                                  <StyledTableCell className={classes.bottom}>
-                                    {/* maping subjek nanti mulai dari sini */}
-                                    {item.subject.map((value, index) => (
-                                      <ModuleDetailTable
-                                        key={index}
-                                        subject={value}
-                                      />
-                                    ))}
-                                  </StyledTableCell>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                            <Table className={classes.tables}>
-                              <TableHead>
-                                <TableRow>
-                                  <StyledTableCell
-                                    align="left"
-                                    className={classes.head}
-                                  >
-                                    System Requirements
-                                  </StyledTableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                <TableRow>
-                                  <StyledTableCell className={classes.bottom}>
-                                    {/* maping requirement nanti mulai dari sini */}
-                                    {item.requirement.map((require, idx) => (
-                                      <ModuleDetailRequirement
-                                        key={idx}
-                                        require={require}
-                                      />
-                                    ))}
-                                  </StyledTableCell>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
+                          <Typography className={classes.keteranganModule}>
+                            Introduction of {item.module.name}
+                          </Typography>
                         </div>
-                      </Grid>
-                    </Grid>
-                    <SubFooter />
-                  </div>
-                ))
-            : null}
-        </div>
-        <FooterBar />
+                        <Grid container className={classes.leftContent}>
+                          <Grid
+                            item
+                            md={3}
+                            xs={12}
+                            container
+                            direction="column"
+                            justify="flex-start"
+                            alignItems="flex-start"
+                          >
+                            <Link
+                              href={
+                                "/courses/phase/[id]/[id_module]/[module]/subject"
+                              }
+                              as={`/courses/phase/${id}/${id_module}/${module}/subject`}
+                            >
+                              <Button
+                                variant="outlined"
+                                size="medium"
+                                className={classes.button}
+                              >
+                                Start Course
+                              </Button>
+                            </Link>
+                            <img
+                              alt="mentor-avatar"
+                              className={classes.avatar}
+                              src={item.module.admin.avatar}
+                            />
+                            <Typography className={classes.mentorName}>
+                              Mentor: {item.module.admin.full_name}
+                            </Typography>
+                            <Typography className={classes.mentorDescribe}>
+                              {item.module.admin.description}{" "}
+                            </Typography>
+                            <Grid
+                              container
+                              direction="row"
+                              justify="flex-start"
+                              alignItems="center"
+                            >
+                              <GitHubIcon className={classes.giticon} />
+                              <Typography className={classes.github}>
+                                {item.module.admin.github}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                          <Grid item md={9} xs={12}>
+                            <div className={classes.divTableInPage}>
+                              <TableContainer>
+                                <Table className={classes.tables}>
+                                  <TableHead>
+                                    <TableRow>
+                                      <StyledTableCell
+                                        align="left"
+                                        className={classes.head}
+                                      >
+                                        What will you learn?
+                                      </StyledTableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow>
+                                      <StyledTableCell
+                                        className={classes.bottom}
+                                      >
+                                        {item.module.description}
+                                      </StyledTableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                                <Table className={classes.tables}>
+                                  <TableHead style={{ borderRadius: "8px" }}>
+                                    <TableRow>
+                                      <StyledTableCell
+                                        align="left"
+                                        className={classes.head}
+                                      >
+                                        Course Rules
+                                      </StyledTableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow>
+                                      <StyledTableCell
+                                        className={classes.bottom}
+                                      >
+                                        <div className={classes.listItem2}>
+                                          {CourseRule.map((content, idx) => (
+                                            <ModuleDetailRequirement
+                                              key={idx}
+                                              require={content}
+                                            />
+                                          ))}
+                                        </div>
+                                      </StyledTableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                                <Table className={classes.tables}>
+                                  <TableHead>
+                                    <TableRow>
+                                      <StyledTableCell
+                                        align="left"
+                                        className={classes.head}
+                                      >
+                                        Subject in Module
+                                      </StyledTableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow>
+                                      <StyledTableCell
+                                        className={classes.bottom}
+                                      >
+                                        {/* maping subjek nanti mulai dari sini */}
+                                        {item.subject.map((value, index) => (
+                                          <ModuleDetailTable
+                                            key={index}
+                                            subject={value}
+                                          />
+                                        ))}
+                                      </StyledTableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                                <Table className={classes.tables}>
+                                  <TableHead>
+                                    <TableRow>
+                                      <StyledTableCell
+                                        align="left"
+                                        className={classes.head}
+                                      >
+                                        System Requirements
+                                      </StyledTableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    <TableRow>
+                                      <StyledTableCell
+                                        className={classes.bottom}
+                                      >
+                                        {/* maping requirement nanti mulai dari sini */}
+                                        {item.requirement.map(
+                                          (require, idx) => (
+                                            <ModuleDetailRequirement
+                                              key={idx}
+                                              require={require}
+                                            />
+                                          )
+                                        )}
+                                      </StyledTableCell>
+                                    </TableRow>
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
+                            </div>
+                          </Grid>
+                        </Grid>
+                        <SubFooter />
+                      </div>
+                    ))
+                  : null}
+              </div>
+              <FooterBar />
+            </div>
+          )}
       </main>
     </React.Fragment>
   );

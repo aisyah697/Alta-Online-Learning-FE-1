@@ -1,14 +1,22 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles((theme) => ({
   allText: {
-    color: theme.palette.secondary.secondary,
+    color: "#F4F7FC",
     fontFamily: "Muli, sans-serif",
     fontWeight: "bolder",
-    marginBottom: theme.spacing(7),
-    fontSize: `calc(3.6em + 0.5vw)`,
+    fontSize: `calc(0.8em + 0.5vw)`,
+    zIndex: "1",
+    padding: "5px",
+  },
+  cardTime: {
+    margin: theme.spacing(3, 0, 0, -2),
+    position: "fixed",
+    backgroundColor: theme.palette.secondary.secondary,
+    borderRadius: "10px",
   },
 }));
 
@@ -16,7 +24,8 @@ export default function Timers(props) {
   const classes = useStyles();
   const [second, setSecond] = React.useState(0);
 
-  const countDownDate = new Date(props.timeStart).getTime() + new Date("9999 09:00:00").getTime();
+  const countDownDate =
+    new Date(props.timeStart).getTime() + new Date("9999 09:00:00").getTime();
   const now = Date.now();
   const distance = countDownDate - now;
   const hours = Math.floor((distance % (3600000 * 24)) / 3600000);
@@ -37,13 +46,15 @@ export default function Timers(props) {
 
   return (
     <div>
-      {props.statusTest === "start" ? (
-        <Typography className={classes.allText}>
-          {hourShow}:{minuteShow}:{secondShow}
-        </Typography>
-      ) : (
-        <Typography className={classes.allText}>00:00:00</Typography>
-      )}
+      <Card className={classes.cardTime}>
+        {props.statusTest === "start" ? (
+          <Typography className={classes.allText}>
+            {hourShow}:{minuteShow}:{secondShow}
+          </Typography>
+        ) : (
+          <Typography className={classes.allText}>00:00:00</Typography>
+        )}
+      </Card>
     </div>
   );
 }

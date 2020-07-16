@@ -13,7 +13,7 @@ import SubjectDrawer from "../../../../../../../../components/subject/SubjectDra
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: "30px 24px",
+    margin: theme.spacing(5, 0),
   },
   allText: {
     color: theme.palette.secondary.secondary,
