@@ -126,6 +126,11 @@ const HomeBanner = ({ phase, register }) => {
     }
   }, [load]);
 
+  if (phase) {
+    const lastArray = phase.filter((phase) => phase.lock_key == true);
+    var lastPhase = lastArray[lastArray.length - 1];
+  }
+
   return (
     <div>
       <Box width={"100%"} padding={0} className={classes.bannerBox}>
@@ -151,8 +156,8 @@ const HomeBanner = ({ phase, register }) => {
               <br/>
               <Typography>
                 {" "}
-                <b>Alterra Academy Online Learning</b> is an online tech talent
-                learning that gives everyone (even non-IT background) a chance
+                <b>Alterra Academy Online Learning</b> is an online tech-learning platform
+                that gives everyone (even non-IT background) a chance
                 to be a professional Tech Talent.{" "}
               </Typography>
               <React.Fragment>
@@ -162,7 +167,7 @@ const HomeBanner = ({ phase, register }) => {
                     history.is_complete === "end" ? (
                       <Link
                         href={"/courses/phase/[id]"}
-                        as={`/courses/phase/1`}
+                        as={`/courses/phase/${lastPhase ? lastPhase.phase_id === 1 ? 1 : 2 : 1}`}
                       >
                         <Button variant={"outlined"} className={classes.button}>
                           View Course

@@ -33,10 +33,12 @@ const FooterBar = dynamic(() =>
 );
 
 import UserContext from "../../../../../../store/userContext";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(5),
   },
   main: {
     minHeight: `calc(80vh - 5px)`,
@@ -62,11 +64,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     color: theme.palette.secondary.secondary,
   },
-  keteranganModule: {
+  moduleDescription: {
     fontFamily: "Muli, sans-serif",
     color: "gray",
     fontSize: `calc(0.7em + 0.4vw)`,
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(2),
   },
   leftContent: {
     backgroundColor: "#F4F7FC",
@@ -151,6 +153,19 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     marginRight: "20px",
   },
+  breadcrumb: {
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+    marginLeft: theme.spacing(8)
+  },
+  link: {
+    textDecoration: 'none',
+    "&:link": {
+      textDecoration: 'none',
+    },
+    cursor: 'pointer'
+  }
 }));
 
 const StyledTableCell = withStyles((theme) => ({
@@ -256,11 +271,22 @@ export default function Detail() {
                 .filter((mod) => mod.module_id == id_module)
                 .map((item, index) => (
                   <div key={index} className={classes.root}>
+                    <div className={classes.breadcrumb}>
+                      <Breadcrumbs separator="›" aria-label="breadcrumb">
+                        <Link color="inherit" href="/">
+                          <Typography className={classes.link}>Home</Typography>
+                        </Link>
+                        <Link color="inherit" href={"/courses/phase/[id]"} as={`/courses/phase/${id}`}>
+                          <Typography className={classes.link}>Phase {id}</Typography>
+                        </Link>
+                        <Typography color="textPrimary">{module.split('-').join(" ")}</Typography>
+                      </Breadcrumbs>
+                    </div>
                     <div className={classes.textPengantar}>
                       <Typography className={classes.judulModule}>
                         Module : {item.module.name}
                       </Typography>
-                      <Typography className={classes.keteranganModule}>
+                      <Typography className={classes.moduleDescription}>
                         Introduction of {item.module.name}
                       </Typography>
                     </div>

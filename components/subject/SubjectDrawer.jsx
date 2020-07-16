@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   module: {
     textTransform: "uppercase",
     fontSize: `calc(1em + 0.5vw)`,
+    color: theme.palette.secondary.secondary
   },
   subject: {
     fontSize: `calc(0.8em + 0.5vw)`,
@@ -109,7 +110,7 @@ const SubjectDrawer = (props) => {
   const [course, setCourse] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const url =
       process.env.NEXT_PUBLIC_BASE_URL + `/historysubject/subject/${id_module}`;
     const fetchData = async function () {
@@ -145,9 +146,13 @@ const SubjectDrawer = (props) => {
       <Toolbar />
       <div className={classes.drawerContainer}>
         <div className={classes.title}>
+          <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
+                as={`/courses/phase/${id}/${id_module}/${module}/subject`}
+          >
           <h1 className={classes.module}>
             {module ? module.split("-").join(" ") : null}
           </h1>
+          </Link>
         </div>
         <div>
           {course
@@ -175,7 +180,7 @@ const SubjectDrawer = (props) => {
                             as={`/courses/phase/${id}/${id_module}/${module}/${id_subject}/${subject_name}`}
                           >
                             <Typography className={classes.allText}>
-                              Materi
+                              Subject Matter
                             </Typography>
                           </Link>
                         </AccordionDetails>
