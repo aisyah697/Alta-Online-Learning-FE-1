@@ -149,7 +149,6 @@ const Home = () => {
       </Head>
       <main>
         <NavigationBar />
-        {loading ? <Loading /> : null}
         <div>
           <div style={{ minHeight: `calc(100vh - 179px)` }}>
             <HomeBanner phase={phase} register={() => RegisterHistory()} />
@@ -158,7 +157,11 @@ const Home = () => {
             phase.length != null &&
             phase.length > 0 &&
             cookies.altatest === "true" ? (
-              <HomePhaseMenu phase={phase} />
+              loading ? (
+                <Loading />
+              ) : (
+                <HomePhaseMenu phase={phase} />
+              )
             ) : null}
             <HomeTestimony />
             <FrequentQuestion />
