@@ -65,8 +65,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: `calc(0.6em + 0.7vw)`,
     fontFamily: "Muli, sans-serif",
     color: theme.palette.common.white,
-    margin: theme.spacing(2, 2, 2, 0),
-    minWidth: theme.spacing(25),
+    margin: theme.spacing(2, 2, 2, 4),
+    minWidth: theme.spacing(10),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -106,8 +106,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     fontSize: `calc(0.8em + 0.8vw)`,
     fontWeight: "bolder",
-    margin: "-90px 0 100px",
+    margin: "-70px 0 100px",
     color: theme.palette.secondary.secondary,
+  },
+  timer: {
+    // marginTop: theme.spacing(2),
+    // marginRight: theme.spacing(2),
   },
 }));
 
@@ -191,8 +195,8 @@ export default function QuizContent() {
     return (
       <main className={classes.content}>
         <Grid container>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={10}>
+          {/* <Grid item xs={1}></Grid> */}
+          <Grid item xs={11}>
             <Toolbar />
             <Typography variant="h4" className={classes.title}>
               Alta Test
@@ -275,15 +279,17 @@ export default function QuizContent() {
               </DialogActions>
             </Dialog>
           </Grid>
-          <Grid item xs={1}>
-            {test.is_complete === null ? null : (
+          {/* <Grid item xs={1}> */}
+          {test.is_complete === null ? null : (
+            <div className={classes.timer}>
               <Timer
                 endTest={(status) => changeStatusTest(status)}
                 statusTest={test.is_complete}
                 timeStart={test.time_start}
               />
-            )}
-          </Grid>
+            </div>
+          )}
+          {/* </Grid> */}
         </Grid>
       </main>
     );
