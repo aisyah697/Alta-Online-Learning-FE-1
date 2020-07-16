@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SubFooter = () => {
   const classes = useStyles();
-  const [cookies] = useCookies("");
+  const [cookies] = useCookies();
 
   return (
     <div>

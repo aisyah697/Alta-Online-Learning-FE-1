@@ -85,7 +85,6 @@ export default function Index() {
             <Typography className={classes.titleInPage}>
               {module ? `Subject In ${module.split("-").join(" ")}` : null}
             </Typography>
-
             <div>
               <AllSubject />
             </div>

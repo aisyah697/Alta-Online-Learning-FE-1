@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   module: {
     textTransform: "uppercase",
     fontSize: `calc(1em + 0.5vw)`,
+    color: theme.palette.secondary.secondary
   },
   subject: {
     fontSize: `calc(0.8em + 0.5vw)`,
@@ -145,9 +146,13 @@ const SubjectDrawer = (props) => {
       <Toolbar />
       <div className={classes.drawerContainer}>
         <div className={classes.title}>
+          <Link href={'/courses/phase/[id]/[id_module]/[module]/subject'}
+                as={`/courses/phase/${id}/${id_module}/${module}/subject`}
+          >
           <h1 className={classes.module}>
             {module ? module.split("-").join(" ") : null}
           </h1>
+          </Link>
         </div>
         <div>
           {course

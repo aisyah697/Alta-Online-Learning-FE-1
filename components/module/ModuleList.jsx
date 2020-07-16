@@ -3,7 +3,6 @@ import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import axios from "axios";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -11,9 +10,10 @@ import Divider from "@material-ui/core/Divider";
 import LockIcon from "@material-ui/icons/Lock";
 import Paper from "@material-ui/core/Paper";
 
-import UserContext from "../../store/userContext";
 import ProgressData from "../Progress";
 import Loading from "../Loading";
+
+import UserContext from "../../store/userContext";
 
 const Link = dynamic(() => import("../../utils/link"));
 
@@ -36,6 +36,8 @@ const useStyle = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       marginBottom: theme.spacing(2),
     },
+    border: '2px solid #19355f',
+    borderRadius: theme.spacing(1)
   },
   modulePictureLock: {
     width: `calc(8vw + 8vw)`,
