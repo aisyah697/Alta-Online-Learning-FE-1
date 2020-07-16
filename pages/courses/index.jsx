@@ -11,6 +11,8 @@ import React, { useEffect, useContext } from "react";
 import { useCookies } from "react-cookie";
 import AdminContext from "../../store/adminContext";
 import axios from "axios";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "next/link";
 
 // import style
 const CurrentCourse = dynamic(() => import("../../components/course/CurrentCourse"));
@@ -29,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.secondary,
   },
   bodyContent: {
-    marginTop: theme.spacing(2),
     paddingTop: theme.spacing(5),
     paddingBottom: theme.spacing(5),
     backgroundColor: "#F4F7FC",
@@ -58,6 +59,34 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "justify",
     [theme.breakpoints.down("sm")]: {
       width: "auto",
+    },
+  },
+  breadcrumb: {
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+    marginLeft: theme.spacing(8),
+    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(5),
+  },
+  link: {
+    textDecoration: 'none',
+    "&:link": {
+      textDecoration: 'none',
+    },
+    cursor: 'pointer'
+  },
+  titlePage: {
+    fontFamily: "Muli, sans-serif",
+    fontSize: `calc(1.1em + 1.5vw)`,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: theme.palette.secondary.secondary,
+    marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(3),
+    [theme.breakpoints.up("lg")]: {
+      marginBottom: theme.spacing(3),
+      marginTop: theme.spacing(1),
     },
   },
 }));
@@ -167,6 +196,17 @@ const CoursePage = () => {
         </Head>
         <main className={classes.root}>
           <NavigationBar />
+          <div className={classes.breadcrumb}>
+            <Breadcrumbs separator="›" aria-label="breadcrumb">
+              <Link color="inherit" href="/">
+                <Typography className={classes.link}>Home</Typography>
+              </Link>
+              <Typography color="textPrimary">My Progress</Typography>
+            </Breadcrumbs>
+          </div>
+          <Typography className={classes.titlePage}>
+            My Progress
+          </Typography>
           <div className={classes.bodyContent}>
             <Tabs
               orientation="vertical"

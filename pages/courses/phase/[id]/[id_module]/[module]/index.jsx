@@ -34,10 +34,12 @@ const FooterBar = dynamic(() =>
 );
 
 import UserContext from "../../../../../../store/userContext";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(5),
   },
   main: {
     minHeight: `calc(80vh - 5px)`,
@@ -63,11 +65,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     color: theme.palette.secondary.secondary,
   },
-  keteranganModule: {
+  moduleDescription: {
     fontFamily: "Muli, sans-serif",
     color: "gray",
     fontSize: `calc(0.7em + 0.4vw)`,
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(2),
   },
   leftContent: {
     backgroundColor: "#F4F7FC",
@@ -152,6 +154,19 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     marginRight: "20px",
   },
+  breadcrumb: {
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+    marginLeft: theme.spacing(8)
+  },
+  link: {
+    textDecoration: 'none',
+    "&:link": {
+      textDecoration: 'none',
+    },
+    cursor: 'pointer'
+  }
 }));
 
 const StyledTableCell = withStyles((theme) => ({

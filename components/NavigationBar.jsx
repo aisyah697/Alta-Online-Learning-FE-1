@@ -334,7 +334,7 @@ const NavigationBar = (props) => {
                 </NextLink>
                 <NextLink
                   href={"/courses/phase/[id]"}
-                  as={`/courses/phase/${lastPhase ? lastPhase.phase_id : null}`}
+                  as={`/courses/phase/${lastPhase ? lastPhase.phase_id === 1 ? 1 : 2 : 1}`}
                 >
                   <Typography className={classes.menu} variant="h6" noWrap>
                     {`All Courses`}
