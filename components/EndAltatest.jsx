@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: `calc(0.6em + 0.7vw)`,
     fontFamily: "Muli, sans-serif",
     color: theme.palette.common.white,
-    margin: theme.spacing(2, 2, 2, 0),
-    minWidth: theme.spacing(25),
+    margin: theme.spacing(2, 2, 2, 4),
+    minWidth: theme.spacing(20),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
