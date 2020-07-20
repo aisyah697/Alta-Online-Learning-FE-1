@@ -26,7 +26,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
 // import component
-const Link = dynamic(() => import('../utils/link'))
+const Link = dynamic(() => import("../utils/link"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -116,31 +116,32 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Muli, sans-serif",
   },
   inputUpload: {
-    display: 'none',
+    display: "none",
   },
-  uploadButton : {
-    marginLeft: '45px',
+  uploadButton: {
+    marginLeft: "45px",
     [theme.breakpoints.down("sm")]: {
-      marginLeft: '35px',
+      marginLeft: "35px",
     },
-  }
+  },
 }));
 
 function Alert(props) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const RegisterPage = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [message, setMessage] = React.useState('');
+  const [message, setMessage] = React.useState("");
   const [values, setValues] = React.useState({
-      password: "",
-      showPassword: false,
-      username: "",
-      email: "",
-      fullName: "",
-      phoneNumber: ""
+    password: "",
+    showPassword: false,
+    username: "",
+    email: "",
+    fullName: "",
+    phoneNumber: "",
   });
 
   const handleClose = () => {
@@ -151,9 +152,9 @@ const RegisterPage = () => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
 
-  const [images, setImages] = React.useState('')
+  const [images, setImages] = React.useState("");
 
-  const handleImage = e => {
+  const handleImage = (e) => {
     if (e.target.files.length) {
       setImages(e.target.files[0]);
     }
@@ -166,72 +167,74 @@ const RegisterPage = () => {
     event.preventDefault();
   };
 
-  const postRegister = async () => {
-      const username = values.username
-      const password = values.password
-      const email = values.email
-      const fullName = values.fullName
-      const phoneNumber = values.phoneNumber
-
-    if (username != '' && password != '' && email != '' && fullName != '' && phoneNumber != "") {
-      Register();
-    } else {
-      if (fullName == '') {
-        setMessage('Please enter your name');
-        setOpen(true);
-      }
-      if (email == '') {
-        setMessage('Please enter your email');
-        setOpen(true);
-      }
-      if (username == '') {
-        setMessage('Please enter your username');
-        setOpen(true);
-      }
-      if (password == '') {
-        setMessage('Please enter your password');
-        setOpen(true);
-      }
-      if (phoneNumber == ''){
-        setMessage('Please enter your phone number');
-        setOpen(true);
-      }
-    }
-  }
-
+  // eslint-disable-next-line consistent-return
   const Register = async () => {
     // eslint-disable-next-line no-undef
-    const url = process.env.NEXT_PUBLIC_BASE_URL + '/mentee'
-    const formRegis = new FormData()
-    formRegis.append('full_name', values.fullName)
-    formRegis.append('username', values.username)
-    formRegis.append('password', values.password)
-    formRegis.append('email', values.email)
-    formRegis.append('place_birth', values.birthPlace)
-    formRegis.append('date_birth', values.birthDate)
-    formRegis.append('phone', values.phoneNumber)
-    formRegis.append('github', values.github)
-    formRegis.append('description', values.about)
-    formRegis.append('avatar', images)
-    formRegis.append('background_education', '-')
-    formRegis.append('description', '-')
-    formRegis.append('address', '-')
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/mentee`;
+    const formRegis = new FormData();
+    formRegis.append("full_name", values.fullName);
+    formRegis.append("username", values.username);
+    formRegis.append("password", values.password);
+    formRegis.append("email", values.email);
+    formRegis.append("place_birth", values.birthPlace);
+    formRegis.append("date_birth", values.birthDate);
+    formRegis.append("phone", values.phoneNumber);
+    formRegis.append("github", values.github);
+    formRegis.append("description", values.about);
+    formRegis.append("avatar", images);
+    formRegis.append("background_education", "-");
+    formRegis.append("description", "-");
+    formRegis.append("address", "-");
 
+    // eslint-disable-next-line no-useless-catch
     try {
-      const response = await axios.post(url, formRegis,{
+      const response = await axios.post(url, formRegis, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       if (response.status === 200) {
-        Router.replace('/login');
+        Router.replace("/login");
       } else {
-        let error = new Error(response.statusText);
+        const error = new Error(response.statusText);
         error.response = response;
         return Promise.reject(error);
       }
     } catch (error) {
-      console.error("Please Try Again!", error);
+      throw error;
     }
-  }
+  };
+
+  const postRegister = async () => {
+    const { username } = values;
+    const { password } = values;
+    const { email } = values;
+    const { fullName } = values;
+    const { phoneNumber } = values;
+
+    if (username !== "" && password !== "" && email !== "" && fullName !== "" && phoneNumber !== "") {
+      Register();
+    } else {
+      if (fullName === "") {
+        setMessage("Please enter your name");
+        setOpen(true);
+      }
+      if (email === "") {
+        setMessage("Please enter your email");
+        setOpen(true);
+      }
+      if (username === "") {
+        setMessage("Please enter your username");
+        setOpen(true);
+      }
+      if (password === "") {
+        setMessage("Please enter your password");
+        setOpen(true);
+      }
+      if (phoneNumber === "") {
+        setMessage("Please enter your phone number");
+        setOpen(true);
+      }
+    }
+  };
 
   return (
     <div>
@@ -313,7 +316,7 @@ const RegisterPage = () => {
                           name="password"
                           required
                           onChange={handleChange("password")}
-                          endAdornment={
+                          endAdornment={(
                             <InputAdornment position="end">
                               <IconButton
                                 aria-label="toggle password visibility"
@@ -328,7 +331,7 @@ const RegisterPage = () => {
                                 )}
                               </IconButton>
                             </InputAdornment>
-                          }
+                          )}
                           labelWidth={70}
                         />
                       </FormControl>
@@ -344,15 +347,15 @@ const RegisterPage = () => {
                       alignItems="center"
                     >
                       <TextField
-                          variant="outlined"
-                          color="secondary"
-                          label="Phone Number"
-                          placeholder="085xxxxxxxxx"
-                          size="small"
-                          className={classes.formAll}
-                          name="phoneNumber"
-                          required
-                          onChange={handleChange("phoneNumber")}
+                        variant="outlined"
+                        color="secondary"
+                        label="Phone Number"
+                        placeholder="085xxxxxxxxx"
+                        size="small"
+                        className={classes.formAll}
+                        name="phoneNumber"
+                        required
+                        onChange={handleChange("phoneNumber")}
                       />
                       <TextField
                         variant="outlined"
@@ -390,32 +393,25 @@ const RegisterPage = () => {
                         onChange={handleChange("github")}
                       />
                       <Grid container alignItems="flex-start">
-                        {/*<input*/}
-                        {/*  accept="image/*"*/}
-                        {/*  className={classes.input}*/}
-                        {/*  id="icon-button-file"*/}
-                        {/*  type="file"*/}
-                        {/*  size="large"*/}
-                        {/*  name="imageUrl"*/}
-                        {/*  onChange={handleImage}*/}
-                        {/*/>*/}
                         <input
-                            accept="image/*"
-                            className={classes.input}
-                            id="contained-button-file"
-                            multiple
-                            style={{display: 'none'}}
-                            type="file"
-                            size="large"
-                            name="imageUrl"
-                            onChange={handleImage}
+                          accept="image/*"
+                          className={classes.input}
+                          id="contained-button-file"
+                          multiple
+                          style={{ display: "none" }}
+                          type="file"
+                          size="large"
+                          name="imageUrl"
+                          onChange={handleImage}
 
                         />
                         <label htmlFor="contained-button-file">
                           <Button className={classes.uploadButton} variant="contained" color="primary" component="span">
                             Upload
                           </Button>
-                          {" "}{images.name}{" "}
+                          {" "}
+                          {images.name}
+                          {" "}
                         </label>
                       </Grid>
                     </Grid>
@@ -431,7 +427,7 @@ const RegisterPage = () => {
                 >
                   <Button
                     className={classes.button}
-                    variant={"outlined"}
+                    variant="outlined"
                     size="large"
                     onClick={postRegister}
                   >
@@ -439,9 +435,9 @@ const RegisterPage = () => {
                   </Button>
                   <Link
                     className={classes.textAlreadyHaveAccount}
-                    href={"/login"}
+                    href="/login"
                   >
-                    {`Already have account? Login!`}
+                    Already have account? Login!
                   </Link>
                 </Grid>
               </CardActions>
@@ -450,13 +446,13 @@ const RegisterPage = () => {
         </Grid>
       </main>
       <Snackbar
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
       >
         <Alert onClose={handleClose} severity="error">
           {message}
@@ -464,6 +460,6 @@ const RegisterPage = () => {
       </Snackbar>
     </div>
   );
-}
+};
 
 export default RegisterPage;
