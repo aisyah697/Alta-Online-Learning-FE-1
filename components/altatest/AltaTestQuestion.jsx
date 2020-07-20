@@ -65,8 +65,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "calc(0.6em + 0.7vw)",
     fontFamily: "Muli, sans-serif",
     color: theme.palette.common.white,
-    margin: theme.spacing(2, 2, 2, 0),
-    minWidth: theme.spacing(25),
+    margin: theme.spacing(2, 2, 2, 4),
+    minWidth: theme.spacing(10),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -106,8 +106,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     fontSize: "calc(0.8em + 0.8vw)",
     fontWeight: "bolder",
-    margin: "-90px 0 100px",
+    margin: "-70px 0 100px",
     color: theme.palette.secondary.secondary,
+  },
+  timer: {
+    // marginTop: theme.spacing(2),
+    // marginRight: theme.spacing(2),
   },
 }));
 
@@ -225,33 +229,33 @@ export default function QuizContent() {
               </Grid>
             </div>
           ) : (
-            <div>
-              <EndAltatest
-                endTest={(status) => changeStatusTest(status)}
-                score={test.score}
-                statusTest={test.is_complete}
-              />
+              <div>
+                <EndAltatest
+                  endTest={(status) => changeStatusTest(status)}
+                  score={test.score}
+                  statusTest={test.is_complete}
+                />
 
-              {test.is_complete === "end" ? null : (
-                <div>
-                  {test.altatest ? (
-                    <div>
-                      {test.altatest.question.map((item, idx) => (
-                        <Question
-                          key={idx}
-                          no={idx}
-                          id={test.id}
-                          question={item}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <Loading />
-                  )}
-                </div>
-              )}
-            </div>
-          )}
+                {test.is_complete === "end" ? null : (
+                  <div>
+                    {test.altatest ? (
+                      <div>
+                        {test.altatest.question.map((item, idx) => (
+                          <Question
+                            key={idx}
+                            no={idx}
+                            id={test.id}
+                            question={item}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                        <Loading />
+                      )}
+                  </div>
+                )}
+              </div>
+            )}
           <Dialog
             fullWidth
             maxWidth="xs"

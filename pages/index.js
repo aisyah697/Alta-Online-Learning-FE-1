@@ -8,11 +8,11 @@ import { useCookies } from "react-cookie";
 import AdminContext from "../store/adminContext";
 
 // import component
-const NavigationBar = dynamic(() => import("../components/NavigationBar"));
-const HomeBanner = dynamic(() => import("../components/home/HomeBanner"));
 const HomePhaseMenu = dynamic(() => import("../components/home/HomePhaseMenu"));
 const HomeTestimony = dynamic(() => import("../components/home/HomeTestimony"));
 const FrequentQuestion = dynamic(() => import("../components/home/HomeFAQ"));
+const NavigationBar = dynamic(() => import("../components/NavigationBar"));
+const HomeBanner = dynamic(() => import("../components/home/HomeBanner"));
 const SubFooter = dynamic(() => import("../components/SubFooter"));
 const Loading = dynamic(() => import("../components/Loading"));
 const Footer = dynamic(() => import("../components/FooterBar"));
@@ -49,12 +49,14 @@ const Home = () => {
         setLoading(false);
       }
     };
-    if (cookies.token_mentee) {
+    if (auth) {
       fetchData();
     }
+    setLoading(false);
   }, [load]);
 
   const RegisterHistory = async () => {
+    // Const
     const token = cookies.token_mentee;
 
     // eslint-disable-next-line no-undef
@@ -66,6 +68,7 @@ const Home = () => {
     // eslint-disable-next-line no-undef
     const urlAltatest = `${process.env.NEXT_PUBLIC_BASE_URL}/historyaltatest`;
     setLoading(true);
+
     try {
       const responsePhase = await axios.post(
         urlPhase,
@@ -146,7 +149,7 @@ const Home = () => {
   };
 
   return (
-  // eslint-disable-next-line react/jsx-filename-extension
+    // eslint-disable-next-line react/jsx-filename-extension
     <div>
       <Head>
         <title>Home | Alta Online Learning</title>
@@ -158,10 +161,10 @@ const Home = () => {
             <HomeBanner phase={phase} register={() => RegisterHistory()} />
             {/* eslint-disable-next-line no-nested-ternary,eqeqeq */}
             {phase != "undefined"
-            && phase != null
-            && phase.length != null
-            && phase.length > 0
-            && cookies.altatest === "true" ? (
+              && phase != null
+              && phase.length != null
+              && phase.length > 0
+              && cookies.altatest === "true" ? (
                 loading ? (
                   <Loading />
                 ) : (
