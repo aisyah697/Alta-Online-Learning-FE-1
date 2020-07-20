@@ -1,14 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { useCookies } from "react-cookie";
-import AdminContext from "../store/adminContext";
-import axios from "axios";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles } from "@material-ui/core/styles";
-import Loading from "./Loading";
 
 const useStyles = makeStyles((theme) => ({
   buttonIcon: {
@@ -38,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     borderColor: theme.palette.secondary.main,
     borderRadius: theme.spacing(4),
-    fontSize: `calc(0.6em + 0.7vw)`,
+    fontSize: "calc(0.6em + 0.7vw)",
     fontFamily: "Muli, sans-serif",
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 4),
@@ -52,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 export default function EndAltatest(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -64,6 +60,7 @@ export default function EndAltatest(props) {
     setOpen(false);
   };
   const sendEndTest = () => {
+    // eslint-disable-next-line react/prop-types
     props.endTest("end");
   };
 
@@ -85,6 +82,7 @@ export default function EndAltatest(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           "Are you sure want to end this test?"
         </DialogTitle>
         <DialogActions>

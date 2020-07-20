@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-    backgroundColor: 'rgba(255,255,255,0.56)'
+    color: "#fff",
+    backgroundColor: "rgba(255,255,255,0.56)",
   },
 }));
 
@@ -25,16 +25,16 @@ export default function Loading() {
   const [open] = React.useState(false);
 
   return (
-      <div>
-        <Backdrop className={classes.backdrop} open={!open}>
-          <CircularProgress
-              thickness={2}
-              size={70}
-              className={classes.blue}
-              variant="indeterminate"
-          />
-          <CircularProgress size={60} thickness={3} className={classes.orange} />
-        </Backdrop>
-      </div>
+    <div>
+      <Backdrop className={classes.backdrop} open={!open}>
+        <CircularProgress
+          thickness={2}
+          size={70}
+          className={classes.blue}
+          variant="indeterminate"
+        />
+        <CircularProgress size={60} thickness={3} className={classes.orange} />
+      </Backdrop>
+    </div>
   );
 }

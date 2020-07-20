@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link"
+import Link from "next/link";
 
 // import style
 import PlayCircleFilledWhiteIcon from "@material-ui/icons/PlayCircleFilledWhite";
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textAlign: "center",
-    fontSize: `calc(1rem + 0.5vw)`,
+    fontSize: "calc(1rem + 0.5vw)",
     padding: theme.spacing(1),
     fontFamily: "Muli, sans-serif",
     fontWeight: "bold",
@@ -103,48 +103,70 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   phaseFont: {
-    fontSize: `calc(2em + 0.5vw)`,
+    fontSize: "calc(2em + 0.5vw)",
     color: theme.palette.secondary.secondary,
-    fontWeight: 600
-  }
+    fontWeight: 600,
+  },
 
-}))
+}));
 
 // eslint-disable-next-line react/prop-types
 const CustomCard = ({ phase, lock, style }) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-      <Typography className={classes.title}> Phase {phase} </Typography>
+      <Typography className={classes.title}>
+        {" "}
+        Phase
+        {phase}
+      </Typography>
       <CardContent className={classes.content}>
-        {lock ?
-          <PlayCircleFilledWhiteIcon style={{ fontSize: '40px' }} /> :
-          <LockIcon />
-        }
+        {lock
+          ? <PlayCircleFilledWhiteIcon style={{ fontSize: "40px" }} />
+          : <LockIcon />}
       </CardContent>
       <CardActions className={classes.action}>
-        {phase == 3 ?
-          <Button disabled={!lock} size="small" variant={'outlined'} className={style}
-            startIcon={<LockIcon />}
-            style={{ backgroundColor: '#788896', color: '#fff', borderColor: '#788896' }}
-          >
-            Offline Class
-                    </Button>
-          :
-          (lock ?
-            <Link href={'/courses/phase/[id]'} as={`/courses/phase/${phase}`}>
-              <Button disabled={!lock} size="small" variant={'outlined'} className={style}
-                startIcon={<PlayCircleOutlineIcon />}>
-                Start
-              </Button>
-            </Link> :
-            <Button disabled={!lock} size="small" variant={'outlined'} className={style}
+        {/* eslint-disable-next-line no-nested-ternary */}
+        {phase === 3
+          ? (
+            <Button
+              disabled={!lock}
+              size="small"
+              variant="outlined"
+              className={style}
               startIcon={<LockIcon />}
-              style={{ backgroundColor: '#788896', color: '#fff' }} >
-              Start
+              style={{ backgroundColor: "#788896", color: "#fff", borderColor: "#788896" }}
+            >
+              Offline Class
             </Button>
           )
-        }
+          : (lock
+            ? (
+              <Link href="/courses/phase/[id]" as={`/courses/phase/${phase}`}>
+                <Button
+                  disabled={!lock}
+                  size="small"
+                  variant="outlined"
+                  className={style}
+                  startIcon={<PlayCircleOutlineIcon />}
+                >
+                  Start
+                </Button>
+              </Link>
+            )
+            : (
+              <Button
+                disabled={!lock}
+                size="small"
+                variant="outlined"
+                className={style}
+                startIcon={<LockIcon />}
+                style={{ backgroundColor: "#788896", color: "#fff" }}
+              >
+                Start
+              </Button>
+            )
+          )}
       </CardActions>
     </Card>
   );
@@ -160,9 +182,10 @@ const HomePhaseMenu = ({ phase }) => {
         <Typography className={classes.phaseFont}> Track Your Progress </Typography>
       </div>
       <Grid container className={classes.root}>
-        {phase ?
-            // eslint-disable-next-line react/prop-types
-          (phase.map((items, index) => (
+        {phase
+        // eslint-disable-next-line react/prop-types
+          ? (phase.map((items, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <Grid key={index} item xs={12} lg={3}>
               <CustomCard
                 classes={classes}
@@ -175,7 +198,7 @@ const HomePhaseMenu = ({ phase }) => {
           ))) : <Typography> Loading... </Typography>}
       </Grid>
     </div>
-  )
-}
+  );
+};
 
 export default HomePhaseMenu;

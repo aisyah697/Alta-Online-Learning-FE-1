@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#F4F7FC",
     fontFamily: "Muli, sans-serif",
     fontWeight: "bolder",
-    fontSize: `calc(0.8em + 0.5vw)`,
+    fontSize: "calc(0.8em + 0.5vw)",
     zIndex: "1",
     padding: "5px",
   },
@@ -24,16 +24,16 @@ export default function Timers(props) {
   const classes = useStyles();
   const [second, setSecond] = React.useState(0);
 
-  const countDownDate =
-    new Date(props.timeStart).getTime() + new Date("9999 09:00:00").getTime();
+  // eslint-disable-next-line react/prop-types,react/destructuring-assignment
+  const countDownDate = new Date(props.timeStart).getTime() + new Date("9999 09:00:00").getTime();
   const now = Date.now();
   const distance = countDownDate - now;
   const hours = Math.floor((distance % (3600000 * 24)) / 3600000);
   const minutes = Math.floor((distance % 3600000) / 60000);
   const seconds = Math.floor((distance % 60000) / 1000);
-  const secondShow = ("00" + seconds).substr(-2);
-  const minuteShow = ("00" + minutes).substr(-2);
-  const hourShow = ("00" + hours).substr(-2);
+  const secondShow = (`00${seconds}`).substr(-2);
+  const minuteShow = (`00${minutes}`).substr(-2);
+  const hourShow = (`00${hours}`).substr(-2);
 
   React.useEffect(() => {
     const timer = setInterval(() => setSecond(second - 1), 1000);
@@ -41,15 +41,21 @@ export default function Timers(props) {
   }, [second]);
 
   if (hours === 0 && minutes === 0 && seconds === 0) {
+    // eslint-disable-next-line react/prop-types
     props.endTest("end");
   }
 
   return (
     <div>
       <Card className={classes.cardTime}>
+        {/* eslint-disable-next-line react/destructuring-assignment,react/prop-types */}
         {props.statusTest === "start" ? (
           <Typography className={classes.allText}>
-            {hourShow}:{minuteShow}:{secondShow}
+            {hourShow}
+            :
+            {minuteShow}
+            :
+            {secondShow}
           </Typography>
         ) : (
           <Typography className={classes.allText}>00:00:00</Typography>

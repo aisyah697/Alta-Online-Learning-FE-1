@@ -268,13 +268,24 @@ export default function Detail() {
         {loading ? (
           <Loading />
         ) : (
-          <div>
-            <div className={classes.main}>
-              {subject
-                ? subject
+            <div>
+              <div className={classes.main}>
+                {subject
+                  ? subject
                     .filter((mod) => mod.module_id == id_module)
                     .map((item, index) => (
                       <div key={index} className={classes.root}>
+                        <div className={classes.breadcrumb}>
+                          <Breadcrumbs separator="›" aria-label="breadcrumb">
+                            <Link color="inherit" href="/">
+                              <Typography className={classes.link}>Home</Typography>
+                            </Link>
+                            <Link color="inherit" href={"/courses/phase/[id]"} as={`/courses/phase/${id}`}>
+                              <Typography className={classes.link}>Phase {id}</Typography>
+                            </Link>
+                            <Typography color="textPrimary">{module.split('-').join(" ")}</Typography>
+                          </Breadcrumbs>
+                        </div>
                         <div className={classes.textPengantar}>
                           <Typography className={classes.judulModule}>
                             Module : {item.module.name}
@@ -445,11 +456,11 @@ export default function Detail() {
                         <SubFooter />
                       </div>
                     ))
-                : null}
+                  : null}
+              </div>
+              <FooterBar />
             </div>
-            <FooterBar />
-          </div>
-        )}
+          )}
       </main>
     </React.Fragment>
   );

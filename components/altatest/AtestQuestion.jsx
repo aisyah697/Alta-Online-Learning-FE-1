@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -9,7 +9,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-import AdminContext from "../store/adminContext";
+import AdminContext from "../../store/adminContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
       width: 16,
       height: 16,
       backgroundImage: "radial-gradient(#fff,#fff 28%,transparent 32%)",
-      content: '""',
+      content: "\"\"",
     },
     "input:hover ~ &": {
       backgroundColor: "#106ba3",
@@ -96,13 +96,12 @@ function StyledRadio(props) {
 export default function Question(props) {
   const classes = useStyles();
   const { load_ } = useContext(AdminContext);
+  // eslint-disable-next-line no-unused-vars
   const [load, setLoad] = load_;
-  const [cookies, setCookie] = useCookies();
-  const handleChange = () => (event) => {
-    postAnswer(event.target.value);
-  };
+  const [cookies] = useCookies();
+
   const postAnswer = async (myAnswer) => {
-    const url = process.env.NEXT_PUBLIC_BASE_URL + "/historyaltatest/question";
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/historyaltatest/question`;
     const auth = cookies.token_mentee;
     const MyJOSN = JSON.stringify({
       history_altatest_id: props.id,
@@ -114,7 +113,7 @@ export default function Question(props) {
       const response = await axios.post(url, MyJOSN, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
+          Authorization: `Bearer ${auth}`,
         },
       });
 
@@ -127,6 +126,10 @@ export default function Question(props) {
     } finally {
       setLoad(false);
     }
+  };
+
+  const handleChange = () => (event) => {
+    postAnswer(event.target.value);
   };
 
   return (
@@ -147,7 +150,7 @@ export default function Question(props) {
           </Grid>
 
           <Grid container spacing={0}>
-            <Grid item xs={1} className={classes.spacing}></Grid>
+            <Grid item xs={1} className={classes.spacing} />
             <Grid item xs={11}>
               <FormControl component="fieldset">
                 <RadioGroup
