@@ -59,7 +59,6 @@ export default function EndAltatest(props) {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -69,15 +68,17 @@ export default function EndAltatest(props) {
 
   return (
     <div>
-      <Button
-        onClick={handleClickOpen}
-        variant="outlined"
-        color="primary"
-        size="medium"
-        className={classes.button}
-      >
-        End Test
-      </Button>
+      <div className={classes.sticky}>
+        <Button
+          onClick={handleClickOpen}
+          variant="outlined"
+          color="primary"
+          size="medium"
+          className={classes.button}
+        >
+          End Test
+        </Button>
+      </div>
       <Dialog
         open={open}
         onClose={handleClose}

@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 0,
     paddingRight: theme.spacing(5),
     paddingTop: 0,
+    marginBottom: theme.spacing(20),
   },
   title: {
     textAlign: "center",
@@ -66,7 +67,8 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Muli, sans-serif",
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 4),
-    minWidth: theme.spacing(10),
+    marginTop: "-80px",
+    minWidth: theme.spacing(25),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -100,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gambar: {
     width: `calc(18em + 17.8vw)`,
-    marginTop: "-50px",
+    marginTop: "-10px",
   },
   textReady: {
     textAlign: "center",
@@ -108,10 +110,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bolder",
     margin: "-70px 0 100px",
     color: theme.palette.secondary.secondary,
-  },
-  timer: {
-    // marginTop: theme.spacing(2),
-    // marginRight: theme.spacing(2),
   },
 }));
 
@@ -195,21 +193,14 @@ export default function QuizContent() {
     return (
       <main className={classes.content}>
         <Grid container>
-          {/* <Grid item xs={1}></Grid> */}
-          <Grid item xs={11}>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={10}>
             <Toolbar />
             <Typography variant="h4" className={classes.title}>
               Alta Test
             </Typography>
             {test.is_complete === null ? (
               <div>
-                <Button
-                  onClick={() => changeStatusTest("start")}
-                  variant="outlined"
-                  className={classes.button}
-                >
-                  Start
-                </Button>
                 <Grid
                   container
                   direction="column"
@@ -222,17 +213,26 @@ export default function QuizContent() {
                     src={"/images/test.jpg"}
                   />
                   <Typography className={classes.textReady}>
-                    Are you ready for Alta Test?
+                    Are you ready for the Alta Test?
                   </Typography>
+                  <Button
+                    onClick={() => changeStatusTest("start")}
+                    variant="outlined"
+                    className={classes.button}
+                  >
+                    Start
+                  </Button>
                 </Grid>
               </div>
             ) : (
               <div>
-                <EndAltatest
-                  endTest={(status) => changeStatusTest(status)}
-                  score={test.score}
-                  statusTest={test.is_complete}
-                />
+                <div className={classes.sticky}>
+                  <EndAltatest
+                    endTest={(status) => changeStatusTest(status)}
+                    score={test.score}
+                    statusTest={test.is_complete}
+                  />
+                </div>
 
                 {test.is_complete === "end" ? null : (
                   <div>
@@ -279,17 +279,17 @@ export default function QuizContent() {
               </DialogActions>
             </Dialog>
           </Grid>
-          {/* <Grid item xs={1}> */}
-          {test.is_complete === null ? null : (
-            <div className={classes.timer}>
-              <Timer
-                endTest={(status) => changeStatusTest(status)}
-                statusTest={test.is_complete}
-                timeStart={test.time_start}
-              />
-            </div>
-          )}
-          {/* </Grid> */}
+          <Grid item xs={1}>
+            {test.is_complete === null ? null : (
+              <div>
+                <Timer
+                  endTest={(status) => changeStatusTest(status)}
+                  statusTest={test.is_complete}
+                  timeStart={test.time_start}
+                />
+              </div>
+            )}
+          </Grid>
         </Grid>
       </main>
     );
