@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import NavigationBar from "../../../../../../../../components/NavigationBar";
@@ -10,6 +11,9 @@ import { useCookies } from "react-cookie";
 import Loading from "../../../../../../../../components/Loading";
 import Typography from "@material-ui/core/Typography";
 import SubjectDrawer from "../../../../../../../../components/subject/SubjectDrawer";
+const Footer = dynamic(() =>
+  import("../../../../../../../../components/FooterBar")
+);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 export default function Quiz() {
   const classes = useStyles();
   const router = useRouter();
@@ -120,6 +125,7 @@ export default function Quiz() {
             ) : null
           ) : null}
         </div>
+        <Footer />
       </React.Fragment>
     );
   }
