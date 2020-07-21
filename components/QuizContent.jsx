@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   ketscore: {
     color: theme.palette.secondary.secondary,
     fontFamily: "Muli, sans-serif",
-    fontSize: "1vw",
+    fontSize: "1.5vw",
     textAlign: "center",
   },
   allText: {
@@ -77,7 +77,26 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Muli, sans-serif",
     color: theme.palette.common.white,
     margin: theme.spacing(2, 2, 2, 0),
+    marginTop: "-80px",
     minWidth: theme.spacing(25),
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.secondary.secondary,
+      textDecoration: "none",
+      borderColor: theme.palette.secondary.secondary,
+    },
+  },
+  btnEndTest: {
+    background: "#3364ff",
+    backgroundColor: theme.palette.secondary.main,
+    borderColor: theme.palette.secondary.main,
+    borderRadius: theme.spacing(4),
+    fontSize: `calc(0.6em + 0.7vw)`,
+    fontFamily: "Muli, sans-serif",
+    color: theme.palette.common.white,
+    margin: theme.spacing(2, 2, 2, 0),
+    minWidth: theme.spacing(20),
     textTransform: "none",
     "&:hover": {
       backgroundColor: theme.palette.primary.main,
@@ -90,12 +109,13 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     paddingLeft: 0,
     paddingTop: 0,
+    marginBottom: theme.spacing(20),
   },
   title: {
     textAlign: "center",
     marginBottom: theme.spacing(2),
     color: theme.palette.secondary.secondary,
-    fontFamily: "muli",
+    fontFamily: "Muli, sans-serif",
     fontWeight: "bold",
     fontSize: `calc(1.0em + 1.5vw)`,
   },
@@ -140,13 +160,12 @@ const useStyles = makeStyles((theme) => ({
   },
   gambar: {
     width: `calc(18em + 17.8vw)`,
-    marginTop: "-50px",
   },
   textReady: {
     textAlign: "center",
     fontSize: `calc(0.8em + 0.8vw)`,
     fontWeight: "bolder",
-    margin: "-90px 0 100px",
+    margin: "-80px 0 100px",
     color: theme.palette.secondary.secondary,
   },
   cardTime: {
@@ -293,7 +312,7 @@ function EndQuiz(props) {
         variant="outlined"
         color="primary"
         size="medium"
-        className={classes.button}
+        className={classes.btnEndTest}
       >
         End Quiz
       </Button>
@@ -523,7 +542,6 @@ export default function QuizContent({ quiz, examID }) {
             <Typography variant="h4" className={classes.title}>
               {quiz.name}
             </Typography>
-            {/* <LoadingSmall /> */}
             {examDone ? (
               <div>
                 <Dialog
@@ -642,13 +660,6 @@ export default function QuizContent({ quiz, examID }) {
             ) : null}
             {historyExam === null ? (
               <div>
-                <Button
-                  onClick={() => posthistoryExam(examID)}
-                  variant="outlined"
-                  className={classes.button}
-                >
-                  Start
-                </Button>
                 <Grid
                   container
                   direction="column"
@@ -661,8 +672,15 @@ export default function QuizContent({ quiz, examID }) {
                     src={"/images/test.jpg"}
                   />
                   <Typography className={classes.textReady}>
-                    Are you ready for Quiz?
+                    Are you ready for the Quiz?
                   </Typography>
+                  <Button
+                    onClick={() => posthistoryExam(examID)}
+                    variant="outlined"
+                    className={classes.button}
+                  >
+                    Start
+                  </Button>
                 </Grid>
               </div>
             ) : (
@@ -670,13 +688,6 @@ export default function QuizContent({ quiz, examID }) {
                 {historyExam ? (
                   historyExam.length === 0 ? (
                     <div>
-                      <Button
-                        onClick={() => posthistoryExam(examID)}
-                        variant="outlined"
-                        className={classes.button}
-                      >
-                        Start
-                      </Button>
                       <Grid
                         container
                         direction="column"
@@ -691,6 +702,13 @@ export default function QuizContent({ quiz, examID }) {
                         <Typography className={classes.textReady}>
                           Are you ready for Quiz?
                         </Typography>
+                        <Button
+                          onClick={() => posthistoryExam(examID)}
+                          variant="outlined"
+                          className={classes.button}
+                        >
+                          Start
+                        </Button>
                       </Grid>
                     </div>
                   ) : (
