@@ -125,7 +125,7 @@ export default function Quiz() {
             ) : null
           ) : null}
         </div>
-        <Footer />
+        {/*<Footer />*/}
       </React.Fragment>
     );
   }
